@@ -1,0 +1,49 @@
+{
+  "name": "worthitbasapilipinas",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "oxlint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "validate:data": "tsx scripts/validate-data.ts",
+    "data:inflation": "tsx scripts/fetch-inflation.ts",
+    "data:fuel": "tsx scripts/fetch-fuel-prices.ts",
+    "data:mp2": "tsx scripts/fetch-mp2-rates.ts",
+    "data:banks": "tsx scripts/fetch-bank-rates.ts",
+    "data:update": "npm run data:inflation && npm run data:fuel && npm run data:mp2 && npm run data:banks && npm run validate:data"
+  },
+  "dependencies": {
+    "decimal.js": "^10.6.0",
+    "lucide-react": "^1.68.0",
+    "motion": "^14.9.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "recharts": "^3.10.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@tailwindcss/vite": "^4.3.4",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "oxlint": "^1.89.0",
+    "pdfjs-dist": "^6.5.438",
+    "tailwindcss": "^4.3.4",
+    "tsx": "^4.23.15",
+    "typescript": "~7.0.2",
+    "vite": "^8.3.5",
+    "vitest": "^5.1.0"
+  },
+  "description": "Free Philippine savings, MP2 and inflation calculator using official PSA, DOE and Pag-IBIG data.",
+  "engines": {
+    "node": ">=22"
+  }
+}

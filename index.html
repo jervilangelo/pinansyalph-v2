@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en-PH">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Worth It Ba Sa Pilipinas? — MP2, savings and inflation calculator</title>
+    <meta
+      name="description"
+      content="Free Philippine savings calculator. Compare Pag-IBIG MP2 and digital bank savings against official PSA inflation and see whether your money keeps its buying power."
+    />
+    <meta name="theme-color" content="#f3f3f1" />
+    <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
+    <link rel="apple-touch-icon" href="%BASE_URL%apple-touch-icon.png" />
+    <link rel="manifest" href="%BASE_URL%site.webmanifest" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Worth It Ba Sa Pilipinas?" />
+    <meta property="og:title" content="Worth It Ba Sa Pilipinas?" />
+    <meta property="og:description" content="Your money is growing. But is its value growing too? Compare MP2 and digital bank savings against official Philippine inflation." />
+    <meta property="og:image" content="%VITE_SITE_URL%og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_PH" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preload" as="image" href="%BASE_URL%images/jeepney-800.webp" type="image/webp" fetchpriority="high" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <p style="padding: 24px; font-family: Georgia, serif">
+        Worth It Ba Sa Pilipinas? needs JavaScript for its calculators. The data sources are the Philippine
+        Statistics Authority (inflation), the Department of Energy Oil Monitor (fuel), Pag-IBIG Fund (MP2) and each
+        bank's official rate page.
+      </p>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

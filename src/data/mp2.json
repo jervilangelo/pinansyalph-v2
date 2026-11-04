@@ -1,0 +1,37 @@
+{
+  "source": "Pag-IBIG Fund — declared MP2 dividend rates",
+  "sourceUrl": "https://www.pagibigfund.gov.ph/mp2.html",
+  "retrievedAt": "2026-11-04T16:00:00.000Z",
+  "status": "verified-secondary",
+  "unit": "percent per annum",
+  "rates": [
+    { "year": 2011, "rate": 4.63, "declaredOn": null, "sourceUrl": "https://www.pagibigfund.gov.ph/mp2.html", "status": "verified-secondary" },
+    { "year": 2012, "rate": 4.67, "declaredOn": null, "sourceUrl": "https://www.pagibigfund.gov.ph/mp2.html", "status": "verified-secondary" },
+    { "year": 2013, "rate": 4.58, "declaredOn": null, "sourceUrl": "https://www.pagibigfund.gov.ph/mp2.html", "status": "verified-secondary" },
+    { "year": 2014, "rate": 4.69, "declaredOn": null, "sourceUrl": "https://www.pagibigfund.gov.ph/mp2.html", "status": "verified-secondary" },
+    { "year": 2015, "rate": 5.34, "declaredOn": null, "sourceUrl": "https://www.pagibigfund.gov.ph/mp2.html", "status": "verified-secondary" },
+    { "year": 2016, "rate": 7.43, "declaredOn": null, "sourceUrl": "https://www.pagibigfund.gov.ph/mp2.html", "status": "verified-secondary" },
+    { "year": 2017, "rate": 8.11, "declaredOn": null, "sourceUrl": "https://www.pagibigfund.gov.ph/mp2.html", "status": "verified-secondary" },
+    { "year": 2018, "rate": 7.41, "declaredOn": null, "sourceUrl": "https://www.pagibigfund.gov.ph/mp2.html", "status": "verified-secondary" },
+    { "year": 2019, "rate": 7.23, "declaredOn": null, "sourceUrl": "https://www.pagibigfund.gov.ph/mp2.html", "status": "verified-secondary" },
+    { "year": 2020, "rate": 6.12, "declaredOn": null, "sourceUrl": "https://www.pagibigfund.gov.ph/mp2.html", "status": "verified-secondary" },
+    { "year": 2021, "rate": 6.0, "declaredOn": null, "sourceUrl": "https://www.pagibigfund.gov.ph/mp2.html", "status": "verified-secondary" },
+    { "year": 2022, "rate": 7.03, "declaredOn": null, "sourceUrl": "https://www.pagibigfund.gov.ph/mp2.html", "status": "verified-secondary" },
+    { "year": 2023, "rate": 7.05, "declaredOn": null, "sourceUrl": "https://www.pagibigfund.gov.ph/mp2.html", "status": "verified-secondary" },
+    { "year": 2024, "rate": 7.1, "declaredOn": null, "sourceUrl": "https://www.pagibigfund.gov.ph/mp2.html", "status": "verified-secondary" },
+    { "year": 2025, "rate": 7.12, "declaredOn": "2026-02-27", "sourceUrl": "https://mb.com.ph/2026/02/27/pag-ibig-fund-declares-record-p6434-b-dividends-for-2025", "status": "verified-secondary" }
+  ],
+  "program": {
+    "maturityYears": 5,
+    "minimumRemittance": 500,
+    "taxExempt": true,
+    "earlyWithdrawalDividendForfeiturePct": 50,
+    "notes": [
+      "Dividend rates are declared after each calendar year closes, based on the Fund's net income. Past rates do not guarantee future rates.",
+      "Members choose at enrollment between annual dividend payout and compounding (dividends reinvested, paid at maturity).",
+      "MP2 dividends are tax-exempt. Final withholding tax on bank interest does not apply.",
+      "Pre-termination is allowed only for specific reasons and forfeits 50% of the dividends earned.",
+      "pagibigfund.gov.ph sits behind a browser challenge, so rates are recorded from Pag-IBIG's published declarations as reported by multiple national outlets and cross-checked."
+    ]
+  }
+}
