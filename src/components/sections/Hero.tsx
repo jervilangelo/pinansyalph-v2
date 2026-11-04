@@ -8,6 +8,7 @@ import { StatusTag } from '../ui/Status'
 const BASE = import.meta.env.BASE_URL
 
 export const NAV = [
+  { href: '#sweldo', label: 'Sweldo' },
   { href: '#mp2', label: 'MP2' },
   { href: '#banks', label: 'Digital banks' },
   { href: '#compare', label: 'Compare' },
@@ -24,8 +25,8 @@ function TopBar() {
           ₱?
         </a>
         <div className="ui hidden flex-1 items-center bg-surface md:flex">
-          <span className="w-[42%] truncate pl-5 text-[0.9375rem] font-semibold">Worth It Ba Sa Pilipinas?</span>
-          <ul className="m-0 flex list-none gap-1 p-0">
+          <span className="hidden w-[42%] truncate pl-5 text-[0.9375rem] font-semibold lg:block">Worth It Ba Sa Pilipinas?</span>
+          <ul className="m-0 flex list-none gap-1 p-0 pl-3 lg:pl-0">
             {NAV.map((n) => (
               <li key={n.href}>
                 <a href={n.href} className="block px-3 py-2 text-[0.9375rem] font-medium transition-colors hover:bg-surface-2">
@@ -48,7 +49,7 @@ function TopBar() {
           {open ? <X aria-hidden="true" size={22} /> : <Menu aria-hidden="true" size={22} />}
           <span className="sr-only">{open ? 'Close menu' : 'Open menu'}</span>
         </button>
-        <a href="#mp2" className="btn btn-ink hidden h-full md:inline-flex">
+        <a href="#mp2" className="btn btn-ink hidden h-full lg:inline-flex">
           Calculate my savings
         </a>
       </nav>

@@ -3,6 +3,7 @@
  * build and in the scheduled data workflow before committing.
  */
 import { BankDataset, FuelDataset, InflationDataset, Mp2Dataset } from '../src/types/data.ts'
+import { PayrollRules } from '../src/types/payroll.ts'
 import { dataPath, readJson } from './lib/io.ts'
 import type { ZodType } from 'zod'
 
@@ -11,6 +12,7 @@ const files: [string, ZodType][] = [
   ['fuel.json', FuelDataset],
   ['mp2.json', Mp2Dataset],
   ['banks.json', BankDataset],
+  ['payroll.json', PayrollRules],
 ]
 
 let failed = false

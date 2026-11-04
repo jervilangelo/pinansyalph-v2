@@ -15,6 +15,10 @@ the Philippine Statistics Authority, the Department of Energy, Pag-IBIG Fund and
 
 ## Features
 
+- **Saan napupunta ang sweldo ko?** A salary and expenses calculator. Enter your pay, see SSS, PhilHealth, Pag-IBIG and
+  BIR withholding estimated automatically from versioned official rules, add your monthly bills and savings, and see
+  what is left, monthly or per payday. Includes a fuel estimator, custom expenses, three charts, and a link to project
+  your leftover money in MP2 or digital banks. Inputs stay in your browser.
 - **Pag-IBIG MP2 calculator.** Monthly, quarterly or yearly contributions, start month, payment timing, annual payout or
   compounding, and a choice of the latest declared rate, the five-year average or your own. It flags the standard
   five-year term and labels longer horizons as hypothetical.
@@ -32,6 +36,8 @@ the Philippine Statistics Authority, the Department of Energy, Pag-IBIG Fund and
 - Live-data indicators that always show the reference period, source, retrieval date and status. Nothing is labelled
   "live".
 
+![Salary calculator](docs/screenshots/salary.webp)
+
 | MP2 calculator | Real value |
 | --- | --- |
 | ![MP2 calculator](docs/screenshots/mp2.webp) | ![Real value](docs/screenshots/real-value.webp) |
@@ -48,7 +54,7 @@ the Philippine Statistics Authority, the Department of Energy, Pag-IBIG Fund and
 | Money | decimal.js, centavo rounding only at credit and tax time |
 | Data contracts | zod schemas shared by the site and the ingestion scripts |
 | Ingestion | Node scripts run by GitHub Actions; pdf.js for DOE PDFs |
-| Tests | Vitest (52 unit tests), Playwright (18 browser tests) |
+| Tests | Vitest (91 unit tests), Playwright (30 browser tests) |
 | Hosting | GitHub Pages via GitHub Actions |
 
 Architecture and the reasons for it: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
@@ -63,6 +69,9 @@ Full detail with formulas: **[docs/METHODOLOGY.md](docs/METHODOLOGY.md)**. In sh
 - **Banks**: interest = balance × rate × days ÷ the bank's day-count basis, credited daily or monthly, minus 20% final
   withholding tax (RA 12214). Promos apply only up to their cap and until their end date.
 - **Real value**: `Real = Nominal ÷ (1 + inflation)^years`, built month by month from cumulative inflation factors.
+- **Salary**: employee shares only (SSS 5% of the salary credit, PhilHealth 2.5% within its floor and ceiling, Pag-IBIG
+  up to ₱200), then the BIR withholding table for your pay frequency on pay net of those contributions. Savings are
+  kept apart from expenses.
 
 ## Data sources and refresh schedule
 
@@ -72,6 +81,7 @@ Full detail with formulas: **[docs/METHODOLOGY.md](docs/METHODOLOGY.md)**. In sh
 | Fuel price adjustments and YTD net change | [DOE Oil Monitor](https://doe.gov.ph/data-and-prices/liquid-fuels/oil-monitor) | Week of 27 October 2026 | Daily check |
 | MP2 dividend rates (2011–2025) | Pag-IBIG Fund declarations | 2025: 7.12%, declared 27 Feb 2026 | Daily watch; added by hand |
 | Bank savings rates | Each bank's official page or product disclosure | Verified 4 November 2026 | Daily evidence check; changed by hand |
+| Payroll rules (SSS, PhilHealth, Pag-IBIG, BIR) | SSS Circular 2024-006, PhilHealth Circular 2020-0005, HDMF Circular 460, BIR RR 11-2018 | In force since 2025-01-01 / 2024-01-01 / 2024-02-01 / 2023-01-01 | Versioned by hand in `src/data/payroll.json` |
 
 ### How official data and bank rates are updated
 
@@ -93,6 +103,10 @@ the product is marked *under review*; after 45 days without re-verification it i
 verified rate stays in use and the interface shows the status. To update a rate, edit
 [`src/data/banks.json`](src/data/banks.json) (rate, `evidence`, `verifiedOn`, `status`) after checking the official
 page.
+
+**Payroll rules**: when SSS, PhilHealth, Pag-IBIG or BIR issue a new schedule, add a new version with its
+`effectiveFrom` date, issuance and source URL to [`src/data/payroll.json`](src/data/payroll.json). The calculator picks
+the version in force on the pay date; no code changes are needed.
 
 **MP2**: when a new year's rate is due (from April onward), the job flags it. Add the declared rate to
 [`src/data/mp2.json`](src/data/mp2.json).
@@ -137,6 +151,9 @@ later. No custom domain is configured.
 - Bank projections assume today's base rate continues. Banks can change rates at any time.
 - DOE reports adjustments, not one national pump price, so no fuel percentage change is shown.
 - Inflation assumptions are applied uniformly to future years.
+- Salary results are estimates for regular employees. Actual payroll depends on how an employer classifies
+  compensation, which payday contributions are taken, and year-end annualisation. PhilHealth and Pag-IBIG rules were
+  cross-checked because their official documents could not be read by script.
 - The Pag-IBIG website blocks automated access, so MP2 rates are recorded from reported declarations
   (`verified-secondary`).
 - MariBank, UNO and OwnBank rates could not be confirmed on their official pages at the time of verification.

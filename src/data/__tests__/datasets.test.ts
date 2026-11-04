@@ -4,6 +4,8 @@ import inflation from '../inflation.json'
 import fuel from '../fuel.json'
 import mp2 from '../mp2.json'
 import banks from '../banks.json'
+import payroll from '../payroll.json'
+import { PayrollRules } from '../../types/payroll'
 
 describe('published datasets', () => {
   it('match their schemas', () => {
@@ -11,6 +13,7 @@ describe('published datasets', () => {
     expect(FuelDataset.safeParse(fuel).success).toBe(true)
     expect(Mp2Dataset.safeParse(mp2).success).toBe(true)
     expect(BankDataset.safeParse(banks).success).toBe(true)
+    expect(PayrollRules.safeParse(payroll).success).toBe(true)
   })
 
   it('keep the statistical period separate from the retrieval date', () => {

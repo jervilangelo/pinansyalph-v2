@@ -63,7 +63,7 @@ export function AmountField({
         />
       </div>
       {(error || hint) && (
-        <p id={`${id}-desc`} className={`mt-1.5 text-sm ${error ? 'field-error' : 'opacity-80'}`} role={error ? 'alert' : undefined}>
+        <p id={`${id}-desc`} className={`mt-1.5 text-[0.9375rem] leading-snug ${error ? 'field-error' : 'opacity-80'}`} role={error ? 'alert' : undefined}>
           {error ?? hint}
         </p>
       )}
@@ -131,7 +131,7 @@ export function NumberField({
         )}
       </div>
       {(error || hint) && (
-        <p id={`${id}-desc`} className={`mt-1.5 text-sm ${error ? 'field-error' : 'opacity-80'}`} role={error ? 'alert' : undefined}>
+        <p id={`${id}-desc`} className={`mt-1.5 text-[0.9375rem] leading-snug ${error ? 'field-error' : 'opacity-80'}`} role={error ? 'alert' : undefined}>
           {error ?? hint}
         </p>
       )}
@@ -166,7 +166,7 @@ export function SelectField<T extends string>({
         ))}
       </select>
       {hint && (
-        <p id={`${id}-desc`} className="mt-1.5 text-sm opacity-80">
+        <p id={`${id}-desc`} className="mt-1.5 text-[0.9375rem] leading-snug opacity-80">
           {hint}
         </p>
       )}
@@ -185,6 +185,7 @@ export function Segmented<T extends string>({
   options,
   tone = 'light',
   hideLabel = false,
+  wrap = false,
 }: {
   label: string
   value: T
@@ -192,6 +193,8 @@ export function Segmented<T extends string>({
   options: { value: T; label: string }[]
   tone?: 'light' | 'dark'
   hideLabel?: boolean
+  /** Two rows on small screens when there are many options. */
+  wrap?: boolean
 }) {
   const name = useId()
   const track = tone === 'dark' ? 'bg-night-2' : 'bg-surface'
@@ -201,7 +204,7 @@ export function Segmented<T extends string>({
   return (
     <fieldset className="ui m-0 min-w-0 border-0 p-0">
       <legend className={hideLabel ? 'sr-only' : 'mb-2 block p-0 text-[0.9375rem] font-medium'}>{label}</legend>
-      <div className={`relative flex ${track} p-1`}>
+      <div className={`relative ${wrap ? 'grid grid-cols-2 sm:flex' : 'flex'} ${track} p-1`}>
         {options.map((o) => {
           const active = o.value === value
           return (
@@ -230,7 +233,7 @@ export function Toggle({ label, checked, onChange, description }: { label: strin
           {label}
         </label>
         {description && (
-          <p id={`${id}-d`} className="mt-0.5 text-sm opacity-80">
+          <p id={`${id}-d`} className="mt-0.5 text-[0.9375rem] leading-snug opacity-80">
             {description}
           </p>
         )}

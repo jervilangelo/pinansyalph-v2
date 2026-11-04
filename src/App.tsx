@@ -2,6 +2,7 @@ import { MotionConfig } from 'motion/react'
 import { useScenario } from './hooks/useScenario'
 import { Hero } from './components/sections/Hero'
 import { Intro } from './components/sections/Intro'
+import { SalarySection } from './components/sections/SalarySection'
 import { Mp2Section } from './components/sections/Mp2Section'
 import { RealValueSection } from './components/sections/RealValueSection'
 import { BanksSection } from './components/sections/BanksSection'
@@ -21,6 +22,7 @@ export default function App() {
       <Hero />
       <main id="main">
         <Intro />
+        <SalarySection s={s} />
         <Mp2Section s={s} />
         <RealValueSection s={s} />
         <BanksSection s={s} />

@@ -1,0 +1,113 @@
+{
+  "retrievedAt": "2026-11-05T02:00:00.000Z",
+  "sss": [
+    {
+      "effectiveFrom": "2025-01-01",
+      "issuance": "SSS Circular No. 2024-006, Schedule of SSS Contributions effective January 2025 (RA 11199)",
+      "sourceUrl": "https://www.sss.gov.ph/wp-content/uploads/2024/12/Cir-2024-006-Employers-scaled.jpg",
+      "status": "verified-manual",
+      "employeeRatePct": 5,
+      "employerRatePct": 10,
+      "mscMin": 5000,
+      "mscMax": 35000,
+      "mscStep": 500,
+      "regularSsCap": 20000,
+      "notes": [
+        "Compensation below ₱5,250 uses the ₱5,000 minimum Monthly Salary Credit; ₱34,750 and over uses the ₱35,000 maximum.",
+        "The employee pays 5% of the MSC: Regular SS on the first ₱20,000 and the Mandatory Provident Fund on the rest.",
+        "Employer share (10%) and Employees' Compensation (₱10/₱30) are paid by the employer and are not deducted from pay.",
+        "2025 was the last scheduled increase under RA 11199; the SSS page lists this schedule as current."
+      ]
+    }
+  ],
+  "philhealth": [
+    {
+      "effectiveFrom": "2024-01-01",
+      "issuance": "PhilHealth Circular No. 2020-0005 premium schedule (RA 11223, Universal Health Care Act): 5% from 2024",
+      "sourceUrl": "https://www.philhealth.gov.ph/circulars/2020/circ2020-0005.pdf",
+      "status": "verified-secondary",
+      "premiumRatePct": 5,
+      "employeeSharePct": 50,
+      "incomeFloor": 10000,
+      "incomeCeiling": 100000,
+      "notes": [
+        "Premium is 5% of monthly basic salary, floored at ₱10,000 and capped at ₱100,000, shared equally by employer and employee.",
+        "The official circular is a scanned document; figures were cross-checked against multiple payroll references."
+      ]
+    }
+  ],
+  "pagibig": [
+    {
+      "effectiveFrom": "2024-02-01",
+      "issuance": "HDMF Circular No. 460: maximum Monthly Fund Salary raised to ₱10,000",
+      "sourceUrl": "https://www.pagibigfund.gov.ph/",
+      "status": "verified-secondary",
+      "lowBracketMax": 1500,
+      "lowRatePct": 1,
+      "ratePct": 2,
+      "maxFundSalary": 10000,
+      "notes": [
+        "Employee share: 1% of monthly compensation up to ₱1,500, 2% above that, computed on at most ₱10,000 (₱200 maximum).",
+        "Members may voluntarily contribute more; only the mandatory share is excluded from taxable income here.",
+        "pagibigfund.gov.ph blocks automated access; figures were cross-checked against multiple payroll references."
+      ]
+    }
+  ],
+  "tax": [
+    {
+      "effectiveFrom": "2023-01-01",
+      "issuance": "RR No. 11-2018 (TRAIN, RA 10963): graduated rates for 2023 onwards and Annex E withholding tables",
+      "sourceUrl": "https://bir-cdn.bir.gov.ph/local/pdf/RR%20No.%2011-2018.pdf",
+      "status": "verified-manual",
+      "annual": [
+        { "over": 0, "base": 0, "ratePct": 0 },
+        { "over": 250000, "base": 0, "ratePct": 15 },
+        { "over": 400000, "base": 22500, "ratePct": 20 },
+        { "over": 800000, "base": 102500, "ratePct": 25 },
+        { "over": 2000000, "base": 402500, "ratePct": 30 },
+        { "over": 8000000, "base": 2202500, "ratePct": 35 }
+      ],
+      "withholding": {
+        "monthly": [
+          { "over": 0, "base": 0, "ratePct": 0 },
+          { "over": 20833, "base": 0, "ratePct": 15 },
+          { "over": 33333, "base": 1875, "ratePct": 20 },
+          { "over": 66667, "base": 8541.8, "ratePct": 25 },
+          { "over": 166667, "base": 33541.8, "ratePct": 30 },
+          { "over": 666667, "base": 183541.8, "ratePct": 35 }
+        ],
+        "semiMonthly": [
+          { "over": 0, "base": 0, "ratePct": 0 },
+          { "over": 10417, "base": 0, "ratePct": 15 },
+          { "over": 16667, "base": 937.5, "ratePct": 20 },
+          { "over": 33333, "base": 4270.7, "ratePct": 25 },
+          { "over": 83333, "base": 16770.7, "ratePct": 30 },
+          { "over": 333333, "base": 91770.7, "ratePct": 35 }
+        ],
+        "weekly": [
+          { "over": 0, "base": 0, "ratePct": 0 },
+          { "over": 4808, "base": 0, "ratePct": 15 },
+          { "over": 7692, "base": 432.6, "ratePct": 20 },
+          { "over": 15385, "base": 1971.2, "ratePct": 25 },
+          { "over": 38462, "base": 7740.45, "ratePct": 30 },
+          { "over": 153846, "base": 42355.65, "ratePct": 35 }
+        ],
+        "daily": [
+          { "over": 0, "base": 0, "ratePct": 0 },
+          { "over": 685, "base": 0, "ratePct": 15 },
+          { "over": 1096, "base": 61.65, "ratePct": 20 },
+          { "over": 2192, "base": 280.85, "ratePct": 25 },
+          { "over": 5479, "base": 1102.6, "ratePct": 30 },
+          { "over": 21918, "base": 6034.3, "ratePct": 35 }
+        ]
+      },
+      "otherBenefitsExemption": 90000,
+      "notes": [
+        "Taxable compensation excludes mandatory employee SSS, PhilHealth and Pag-IBIG contributions and union dues.",
+        "13th month pay and other benefits are exempt up to ₱90,000 a year; the excess is taxable.",
+        "Statutory minimum wage earners are exempt on their minimum wage, holiday, overtime, night differential and hazard pay.",
+        "Biweekly pay is not covered by Annex E; this calculator applies the weekly table to each week (half the biweekly pay)."
+      ]
+    }
+  ]
+}

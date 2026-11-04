@@ -33,6 +33,7 @@ A static site with versioned data. No server, no database, no accounts.
 | Fuel | DOE Oil Monitor (weekly PDF) | PDF text via pdf.js, clause parser, YTD cross-check | Auto-publish after validation |
 | MP2 rates | Pag-IBIG declarations | Site is behind a browser challenge | Watch only: flags when a new year's rate is due |
 | Bank rates | Each bank's official page or disclosure PDF | Evidence text check | Never auto-publishes rates; flags `needs-review` or `stale` |
+| Payroll rules | SSS, PhilHealth, HDMF circulars; BIR RR 11-2018 | Versioned config with `effectiveFrom` dates | Updated by hand when an agency issues a new schedule |
 
 ### Validation rules
 

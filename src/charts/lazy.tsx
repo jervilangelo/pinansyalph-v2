@@ -22,3 +22,4 @@ export const MoneyVsInflationChart = withSuspense(() => import('./MoneyVsInflati
 export const ComparisonChart = withSuspense(() => import('./ComparisonChart'), 360)
 export const InflationHistoryChart = withSuspense(() => import('./InflationHistoryChart'), 360)
 export const FuelChart = withSuspense(() => import('./FuelChart'), 560)
+export const SalaryCharts = withSuspense(() => import('./SalaryCharts'), 620)

@@ -174,3 +174,72 @@ companies, and the **year-to-date net change**. The site shows exactly those.
 - Dividends, interest and tax: rounded to centavos at each credit (half-up).
 - Displayed headline figures: rounded to whole pesos; tables show centavos.
 - Inputs up to ₱1 trillion are accepted; tests confirm results stay exact at that size.
+
+---
+
+## 6. Salary and take-home pay ("Saan napupunta ang sweldo ko?")
+
+Rules live in [`src/data/payroll.json`](../src/data/payroll.json), validated by
+[`src/types/payroll.ts`](../src/types/payroll.ts). Each component keeps a list of versions with an `effectiveFrom`
+date, the issuance, its source URL and a verification status. The calculator in
+[`src/calculators/payroll.ts`](../src/calculators/payroll.ts) picks the version in force on the payroll date, so a new
+rate is added as a new version without touching code.
+
+| Deduction | Rule used (version in force since) | Source | Status |
+| --- | --- | --- | --- |
+| SSS | Employee 5% of the Monthly Salary Credit; MSC ₱5,000 to ₱35,000 in ₱500 steps; MSC above ₱20,000 goes to the Mandatory Provident Fund (2025-01-01) | SSS Circular No. 2024-006 (official table read directly) | verified-manual |
+| PhilHealth | Employee pays half of 5% of basic monthly salary, floored at ₱10,000 and capped at ₱100,000 (2024-01-01) | PhilHealth Circular 2020-0005 / RA 11223 (scanned circular; cross-checked) | verified-secondary |
+| Pag-IBIG | Employee 1% up to ₱1,500 and 2% above, on at most ₱10,000 (₱200 maximum) (2024-02-01) | HDMF Circular No. 460 (site blocks automated access; cross-checked) | verified-secondary |
+| Withholding tax | BIR Annex E tables for 2023 onwards; annual graduated rates 0% to ₱250,000 then 15/20/25/30/35% (2023-01-01) | RR No. 11-2018 (official PDF text) | verified-manual |
+
+The withholding tables are checked in the unit tests against the annual graduated rates: every table's bracket bases
+must follow from its rates, and monthly withholding × 12 must match the annual tax.
+
+### Computation
+
+```
+taxable compensation = basic + taxable allowances + other taxable income + overtime
+SSS (employee)       = 5% × MSC(taxable compensation)
+PhilHealth (employee)= 2.5% × clamp(basic, ₱10,000, ₱100,000)
+Pag-IBIG (employee)  = 1% or 2% × min(basic, ₱10,000)
+taxable income       = taxable compensation − SSS − PhilHealth − Pag-IBIG
+withholding per pay  = BIR table for the pay frequency on (taxable income ÷ paydays per month)
+take-home (monthly)  = gross (incl. non-taxable allowances) − contributions − withholding − other payroll deductions
+```
+
+- **Pay frequency**: monthly, semi-monthly and weekly use their own BIR tables. Biweekly is not in Annex E; the weekly
+  table is applied to each week (half the biweekly pay). Contributions are monthly and are split evenly across paydays
+  in the per-payday view; some employers deduct them on one payday instead.
+- **Non-taxable allowances** are assumed to be de minimis benefits within BIR limits. Amounts above the limits are
+  taxable and should be entered as taxable allowances.
+- **Minimum wage earners** are exempt from income tax on the statutory minimum wage and on overtime, holiday, night
+  differential and hazard pay. Other taxable income is still taxed. Contributions still apply.
+- **13th month pay and bonuses** are entered per year and shown separately: up to ₱90,000 is exempt; the tax on the
+  excess is the difference in annual graduated tax with and without it.
+- **Other payroll deductions** (salary loans, co-op dues) are taken after tax.
+- **No pay, no contributions**: a zero salary produces zero deductions.
+
+These are estimates. Actual payroll depends on how your employer classifies compensation, timing of adjustments, and
+annualisation at year end.
+
+## 7. Monthly budget
+
+[`src/calculators/budget.ts`](../src/calculators/budget.ts):
+
+- Expenses are grouped (housing and utilities, transportation, food, personal, debt and commitments, other). Debt
+  payments are tracked as debt; **savings and investments are kept separate** and never counted as spending.
+- `remaining = take-home − expenses − savings`.
+- Status: **positive** when more than 5% of take-home pay is left, **tight** from 0% to 5%, **negative** below zero.
+- Groups can be switched off; switched-off groups are ignored entirely.
+- **Fuel estimate**: `km per day × travel days per week × 52 ÷ 12 ÷ km per liter × price per liter`. DOE does not
+  publish one national pump price, so the visitor enters the price they pay; DOE's latest weekly adjustment is shown as
+  context.
+- **Salary breakdown chart**: government deductions + other payroll deductions + each spending group + savings +
+  remaining equals gross pay exactly; the code throws if it does not. When spending exceeds take-home pay, the shortfall
+  is shown separately instead of a negative slice.
+
+### Privacy
+
+All salary and expense figures stay in the browser. Nothing is sent to analytics or third parties (a browser test
+checks that no outside request is made while editing). Entries are saved to `localStorage` only if the visitor turns on
+"Remember on this device"; turning it off or pressing "Clear saved data" deletes them.

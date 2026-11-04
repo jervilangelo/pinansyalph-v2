@@ -9,11 +9,14 @@ import inflationJson from './inflation.json'
 import fuelJson from './fuel.json'
 import mp2Json from './mp2.json'
 import banksJson from './banks.json'
+import payrollJson from './payroll.json'
+import type { PayrollRules } from '../types/payroll'
 
 export const inflation = inflationJson as InflationDataset
 export const fuel = fuelJson as FuelDataset
 export const mp2 = mp2Json as Mp2Dataset
 export const banks = banksJson as BankDataset
+export const payrollRules = payrollJson as PayrollRules
 
 /* ---------------- derived figures (never hardcoded) ---------------- */
 
