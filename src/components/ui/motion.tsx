@@ -1,5 +1,5 @@
 import { animate, motion, useInView, useReducedMotion } from 'motion/react'
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react'
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
@@ -97,6 +97,35 @@ export function Shutter({ children, className }: { children: ReactNode; classNam
         {children}
       </motion.div>
     </motion.div>
+  )
+}
+
+/** Headline that rises in word by word from behind a mask. Screen readers get the plain text. */
+export function SplitWords({ text, delay = 0, stagger = 0.06 }: { text: string; delay?: number; stagger?: number }) {
+  const reduce = useReducedMotion()
+  if (reduce) return <>{text}</>
+  const words = text.split(' ')
+  return (
+    <>
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true">
+        {words.map((w, i) => (
+          <Fragment key={i}>
+            <span className="-mb-[0.12em] inline-block overflow-hidden pb-[0.12em] align-bottom">
+              <motion.span
+                className="inline-block"
+                initial={{ y: '105%' }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.9, delay: delay + i * stagger, ease: EASE }}
+              >
+                {w}
+              </motion.span>
+            </span>
+            {i < words.length - 1 && ' '}
+          </Fragment>
+        ))}
+      </span>
+    </>
   )
 }
 

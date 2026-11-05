@@ -1,72 +1,11 @@
-import { Menu, X } from 'lucide-react'
-import { useState } from 'react'
+import { ArrowRight } from 'lucide-react'
 import { banks, fuel, inflation, latestFuel, latestHeadline, latestMp2, savingsBaseRange } from '../../data'
 import { dateLabel, monthLabel, perLiter } from '../../utils/format'
-import { AnimatedNumber, Reveal, Shutter, motion, useReducedMotion, EASE } from '../ui/motion'
+import { AnimatedNumber, Reveal, Shutter, SplitWords, motion, useReducedMotion, EASE } from '../ui/motion'
 import { StatusTag } from '../ui/Status'
+import { Link } from '../../router'
 
 const BASE = import.meta.env.BASE_URL
-
-export const NAV = [
-  { href: '#sweldo', label: 'Sweldo' },
-  { href: '#mp2', label: 'MP2' },
-  { href: '#banks', label: 'Digital banks' },
-  { href: '#compare', label: 'Compare' },
-  { href: '#inflation', label: 'Inflation' },
-  { href: '#gas', label: 'Gas' },
-]
-
-function TopBar() {
-  const [open, setOpen] = useState(false)
-  return (
-    <div className="sticky top-0 z-40 bg-ground px-[var(--gutter)] pt-2">
-      <nav aria-label="Main" className="flex h-[60px] gap-2">
-        <a href="#top" className="ui flex aspect-square h-full items-center justify-center bg-ink text-[1.15rem] font-semibold text-ground transition-transform hover:scale-[0.97]" aria-label="Worth It Ba Sa Pilipinas? — back to top">
-          ₱?
-        </a>
-        <div className="ui hidden flex-1 items-center bg-surface md:flex">
-          <span className="hidden w-[42%] truncate pl-5 text-[0.9375rem] font-semibold lg:block">Worth It Ba Sa Pilipinas?</span>
-          <ul className="m-0 flex list-none gap-1 p-0 pl-3 lg:pl-0">
-            {NAV.map((n) => (
-              <li key={n.href}>
-                <a href={n.href} className="block px-3 py-2 text-[0.9375rem] font-medium transition-colors hover:bg-surface-2">
-                  {n.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="flex flex-1 items-center bg-surface md:hidden">
-          <span className="ui truncate pl-4 text-[0.9375rem] font-semibold">Worth It Ba Sa Pilipinas?</span>
-        </div>
-        <button
-          type="button"
-          className="ui flex aspect-square h-full items-center justify-center bg-surface md:hidden"
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X aria-hidden="true" size={22} /> : <Menu aria-hidden="true" size={22} />}
-          <span className="sr-only">{open ? 'Close menu' : 'Open menu'}</span>
-        </button>
-        <a href="#mp2" className="btn btn-ink hidden h-full lg:inline-flex">
-          Calculate my savings
-        </a>
-      </nav>
-      {open && (
-        <ul id="mobile-menu" className="ui m-0 mt-2 grid list-none grid-cols-2 gap-2 p-0 md:hidden">
-          {NAV.map((n) => (
-            <li key={n.href}>
-              <a href={n.href} onClick={() => setOpen(false)} className="block bg-surface px-4 py-3 font-medium">
-                {n.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
-  )
-}
 
 function Indicator({
   label,
@@ -97,9 +36,15 @@ function Indicator({
       </div>
       <div className="ui mt-auto pt-3 text-[0.8125rem] leading-relaxed text-muted">
         <p>
-          <a className="link" href={sourceUrl} target={sourceUrl.startsWith('#') ? undefined : '_blank'} rel="noreferrer">
-            {source}
-          </a>{' '}
+          {sourceUrl.startsWith('/') ? (
+            <Link className="link" to={sourceUrl}>
+              {source}
+            </Link>
+          ) : (
+            <a className="link" href={sourceUrl} target="_blank" rel="noreferrer">
+              {source}
+            </a>
+          )}{' '}
           · {updated}
         </p>
         <div className="mt-1">{status}</div>
@@ -115,13 +60,16 @@ export function Hero() {
 
   return (
     <header id="top">
-      <TopBar />
-      <div className="grid gap-2 px-[var(--gutter)] py-2 md:h-[max(520px,calc(100svh-282px))] md:max-h-[880px] md:grid-cols-2 md:grid-rows-2">
+      <div className="grid gap-2 px-[var(--gutter)] py-2 md:min-h-[min(880px,max(520px,calc(100svh-230px)))] md:grid-cols-2 md:grid-rows-2">
         {/* Name */}
         <div className="flex min-h-[34svh] flex-col justify-end bg-paper p-5 md:min-h-0 md:p-7 lg:p-10">
-          <motion.h1 {...fade(0.05)} className="text-[clamp(2.6rem,10.5vw,3.6rem)] leading-[0.98] tracking-[-0.035em] md:text-[clamp(3rem,6vw,7rem)]">
-            Worth it ba sa Pilipinas?
-          </motion.h1>
+          <motion.p {...fade(0)} className="ui mb-5 inline-flex items-center gap-2 text-[0.875rem] font-semibold tracking-[0.02em] text-accent">
+            <span aria-hidden="true" className="inline-block h-2 w-2 bg-accent" />
+            PinansyalPH · free financial literacy tools
+          </motion.p>
+          <h1 className="text-[clamp(2.6rem,10.5vw,3.6rem)] leading-[0.98] tracking-[-0.035em] md:text-[clamp(3rem,6vw,7rem)]">
+            <SplitWords text="Worth it ba sa Pilipinas?" delay={0.05} />
+          </h1>
           <motion.p {...fade(0.2)} className="mt-8 max-w-[36ch] text-[1.25rem] leading-snug text-ink-2 lg:text-[1.5rem]">
             A free calculator for Pag-IBIG MP2 and digital bank savings, measured against official Philippine inflation.
           </motion.p>
@@ -145,7 +93,7 @@ export function Hero() {
         </figure>
 
         {/* Photograph: the peso */}
-        <figure className="relative m-0 hidden overflow-hidden bg-surface-2 md:block">
+        <figure className="group relative m-0 hidden overflow-hidden bg-surface-2 md:block">
           <img
             loading="lazy"
             src={`${BASE}images/peso-1400.webp`}
@@ -154,7 +102,7 @@ export function Hero() {
             width={1400}
             height={933}
             alt="Philippine peso banknotes and coins spread on a table"
-            className="photo-mono absolute inset-0 h-full w-full object-cover"
+            className="photo-mono absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-[var(--ease-out-quint)] group-hover:scale-[1.04]"
           />
           <figcaption className="ui absolute top-0 left-0 bg-ground/90 px-3 py-1.5 text-[0.8125rem]">The same bills buy less each year</figcaption>
         </figure>
@@ -163,15 +111,17 @@ export function Hero() {
         <div className="grid gap-2 sm:grid-cols-2">
           <motion.div {...fade(0.3)} className="on-dark flex flex-col justify-between gap-6 bg-night p-5 text-night-ink md:p-7">
             <p className="text-[1.5rem] leading-[1.25] tracking-[-0.01em]">Your money is growing. But is its value growing too?</p>
-            <a href="#inflation" className="btn btn-quiet self-start px-0 text-night-ink">
+            <Link to="/inflation" className="btn btn-quiet group self-start px-0 text-night-ink">
               Explore PH inflation
-            </a>
+              <ArrowRight aria-hidden="true" size={18} className="transition-transform duration-300 ease-[var(--ease-out-quint)] group-hover:translate-x-1" />
+            </Link>
           </motion.div>
           <motion.div {...fade(0.4)} className="on-accent flex flex-col justify-between gap-6 bg-accent p-5 text-accent-ink md:p-7">
             <p className="text-[1.25rem] leading-[1.35]">Compare your savings, dividends and investments against Philippine inflation, using real economic data.</p>
-            <a href="#mp2" className="btn btn-paper self-start">
+            <Link to="/mp2" className="btn btn-paper group self-start">
               Calculate my savings
-            </a>
+              <ArrowRight aria-hidden="true" size={18} className="transition-transform duration-300 ease-[var(--ease-out-quint)] group-hover:translate-x-1" />
+            </Link>
           </motion.div>
         </div>
       </div>
@@ -223,7 +173,7 @@ export function Hero() {
             label="Digital bank base rates"
             period={`${banks.products.filter((p) => p.kind !== 'time-deposit').length} verified savings products, before tax`}
             source="Official bank pages"
-            sourceUrl="#banks"
+            sourceUrl="/banks"
             updated={`Checked ${dateLabel(banks.products[0].verifiedOn)}`}
             status={<StatusTag status="verified-manual" extra="promos excluded" />}
           >

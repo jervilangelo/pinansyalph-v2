@@ -45,7 +45,7 @@ test.describe('home page', () => {
 
   test('has SEO and social metadata', async ({ page }) => {
     await page.goto('/')
-    await expect(page).toHaveTitle(/Worth It Ba Sa Pilipinas\?/)
+    await expect(page).toHaveTitle(/PinansyalPH/)
     await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /MP2/)
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', /og-image\.png$/)
     await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', /favicon\.svg$/)
@@ -55,7 +55,7 @@ test.describe('home page', () => {
 test.describe('MP2 calculator', () => {
   test('shows the projection the calculator library computes for ₱5,000 a month', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
-    await page.goto('/#mp2')
+    await page.goto('/mp2')
     const startMonth = new Date().getMonth() + 1
     const expected = calculateMp2({
       initial: 0,
@@ -76,7 +76,7 @@ test.describe('MP2 calculator', () => {
 
   test('updates when the contribution changes and rejects invalid input', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
-    await page.goto('/#mp2')
+    await page.goto('/mp2')
     const monthly = page.getByLabel('Monthly contribution')
     await monthly.fill('10,000')
     await expect(page.locator('#mp2 dl')).toContainText('₱600,000')
@@ -88,7 +88,7 @@ test.describe('MP2 calculator', () => {
 
   test('switches payout, rate source and flags hypothetical terms', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
-    await page.goto('/#mp2')
+    await page.goto('/mp2')
     await page.locator('#mp2').getByText('Annual payout', { exact: true }).click()
     await expect(page.locator('#mp2')).toContainText('paid out yearly')
     await page.locator('#mp2').getByText('Custom', { exact: true }).click()
@@ -100,7 +100,7 @@ test.describe('MP2 calculator', () => {
 
   test('real-value insight follows the numbers, not the title', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
-    await page.goto('/#mp2')
+    await page.goto('/mp2')
     const section = page.locator('#real-value')
     await page.getByLabel('Inflation assumption').first().selectOption('custom')
     await page.getByLabel('Your inflation estimate').first().fill('1')
@@ -113,7 +113,7 @@ test.describe('MP2 calculator', () => {
 test.describe('digital banks', () => {
   test('applies 20% tax and lets the user override the rate', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
-    await page.goto('/#banks')
+    await page.goto('/banks')
     const banks = page.locator('#banks')
     await banks.getByLabel('Bank and product').selectOption('cimb-upsave')
     await expect(banks).toContainText('Withholding tax')
@@ -123,7 +123,7 @@ test.describe('digital banks', () => {
   })
 
   test('shows promo conditions only when a promo exists', async ({ page }) => {
-    await page.goto('/#banks')
+    await page.goto('/banks')
     const banks = page.locator('#banks')
     await banks.getByLabel('Bank and product').selectOption('maya-savings')
     await expect(banks.getByRole('checkbox', { name: /Apply/ })).toBeVisible()
@@ -134,7 +134,7 @@ test.describe('digital banks', () => {
 
 test.describe('comparison, inflation and fuel', () => {
   test('comparison toggles products on and off', async ({ page }) => {
-    await page.goto('/#compare')
+    await page.goto('/compare')
     const section = page.locator('#compare')
     const gotyme = section.getByRole('checkbox', { name: /GoTyme Bank GoalSave/ })
     await expect(gotyme).not.toBeChecked()
@@ -144,13 +144,13 @@ test.describe('comparison, inflation and fuel', () => {
   })
 
   test('inflation section shows the latest PSA reference month', async ({ page }) => {
-    await page.goto('/#inflation')
+    await page.goto('/inflation')
     await expect(page.locator('#inflation-title')).toContainText(String(latestHeadline.period.slice(0, 4)))
     await expect(page.locator('#inflation .recharts-line-curve').first()).toBeAttached({ timeout: 10_000 })
   })
 
   test('fuel tabs work with the keyboard', async ({ page }) => {
-    await page.goto('/#gas')
+    await page.goto('/gas')
     const diesel = page.getByRole('tab', { name: /Diesel/ })
     await expect(diesel).toHaveAttribute('aria-selected', 'true')
     await diesel.focus()
@@ -181,30 +181,80 @@ test.describe('accessibility basics', () => {
   })
 })
 
-for (const width of [360, 390, 768, 1366, 1920]) {
-  test(`no horizontal overflow at ${width}px`, async ({ page }) => {
+const ROUTES = ['/', '/sweldo', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/about']
+
+test.describe('pages and navigation', () => {
+  test('every route loads directly with its own heading and title', async ({ page }) => {
+    const errors = trackErrors(page)
+    for (const r of ROUTES) {
+      await page.goto(r)
+      await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1)
+      if (r !== '/') await expect(page).toHaveTitle(/· PinansyalPH$/)
+    }
+    expect(errors).toEqual([])
+  })
+
+  test('the main menu moves between pages without a reload', async ({ page }) => {
+    await page.goto('/')
+    await page.evaluate(() => ((window as unknown as { __spa: boolean }).__spa = true))
+    const nav = page.getByRole('navigation', { name: 'Main' })
+    await nav.getByRole('link', { name: 'MP2', exact: true }).click()
+    await expect(page).toHaveURL(/\/mp2$/)
+    await expect(page.locator('#mp2-title')).toBeVisible()
+    await expect(nav.getByRole('link', { name: 'MP2', exact: true })).toHaveAttribute('aria-current', 'page')
+    await nav.getByRole('link', { name: 'About', exact: true }).click()
+    await expect(page.getByRole('heading', { level: 1 })).toContainText('Financial literacy')
+    await page.goBack()
+    await expect(page.locator('#mp2-title')).toBeVisible()
+    expect(await page.evaluate(() => (window as unknown as { __spa?: boolean }).__spa)).toBe(true)
+  })
+
+  test('mobile menu opens, navigates and closes', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/')
+    await page.getByRole('button', { name: 'Open menu' }).click()
+    await page.locator('#mobile-menu').getByRole('link', { name: 'Gas' }).click()
+    await expect(page).toHaveURL(/\/gas$/)
+    await expect(page.locator('#mobile-menu')).toHaveCount(0)
+    await expect(page.locator('#gas-title')).toBeVisible()
+  })
+
+  test('the about page explains the project and links to the source', async ({ page }) => {
+    await page.goto('/about')
+    await expect(page.locator('main')).toContainText('open source')
+    await expect(page.locator('main')).toContainText('financial literacy')
+    await expect(page.getByRole('link', { name: 'View the source on GitHub' })).toHaveAttribute('href', 'https://github.com/jervilangelo/pinansyalph')
+    await expect(page.locator('#faq')).toBeVisible()
+  })
+})
+
+for (const width of [360, 390, 768, 1024, 1366, 1920]) {
+  test(`no horizontal overflow at ${width}px on any page`, async ({ page }) => {
+    test.setTimeout(90_000)
     const errors = trackErrors(page)
     await page.setViewportSize({ width, height: 900 })
-    await page.goto('/')
-    const height = await page.evaluate(() => document.body.scrollHeight)
-    for (let y = 0; y < height; y += 700) {
-      await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), y)
-      await page.waitForTimeout(40)
+    for (const route of ROUTES) {
+      await page.goto(route)
+      const height = await page.evaluate(() => document.body.scrollHeight)
+      for (let y = 0; y < height; y += 700) {
+        await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), y)
+        await page.waitForTimeout(40)
+      }
+      await settle(page)
+      const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
+      expect(overflow, route).toBeLessThanOrEqual(0)
+      // Nothing wider than the viewport except intentionally clipped display type
+      const wide = await page.evaluate(() =>
+        [...document.querySelectorAll('main *, body > div > div:first-of-type *')]
+          .filter((el) => {
+            const r = el.getBoundingClientRect()
+            return r.width > 0 && (r.right > window.innerWidth + 1 || r.left < -1) && !el.closest('[aria-hidden="true"]') && getComputedStyle(el).position !== 'absolute'
+          })
+          .slice(0, 5)
+          .map((el) => `${el.tagName}.${String(el.className).slice(0, 60)}`),
+      )
+      expect(wide, route).toEqual([])
     }
-    await settle(page)
-    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
-    expect(overflow).toBeLessThanOrEqual(0)
-    // Nothing wider than the viewport except intentionally clipped display type
-    const wide = await page.evaluate(() =>
-      [...document.querySelectorAll('main *')]
-        .filter((el) => {
-          const r = el.getBoundingClientRect()
-          return r.width > 0 && (r.right > window.innerWidth + 1 || r.left < -1) && !el.closest('[aria-hidden="true"]') && getComputedStyle(el).position !== 'absolute'
-        })
-        .slice(0, 5)
-        .map((el) => `${el.tagName}.${String(el.className).slice(0, 60)}`),
-    )
-    expect(wide).toEqual([])
     expect(errors).toEqual([])
   })
 }

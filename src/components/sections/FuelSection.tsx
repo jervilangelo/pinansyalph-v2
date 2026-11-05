@@ -26,14 +26,14 @@ export function FuelSection() {
   }
 
   return (
-    <section id="gas" aria-labelledby="gas-title" className="mt-[clamp(120px,14vw,240px)]">
+    <section id="gas" aria-labelledby="gas-title" className="pt-[clamp(24px,4vw,56px)]">
       <div className="wrap">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <Reveal>
-            <h2 id="gas-title" className="text-[clamp(2rem,4vw,3.75rem)] leading-[1.05]">
+            <h1 id="gas-title" className="text-[clamp(2rem,4vw,3.75rem)] leading-[1.05]">
               <span className="block text-muted">Magkano na ang gas?</span>
               <span className="block">Fuel prices, {latestFuel.effectiveDate.slice(0, 4)}</span>
-            </h2>
+            </h1>
           </Reveal>
           <Reveal delay={0.06} className="max-w-[26rem]">
             <StatusTag status={fuel.status} extra={`DOE Oil Monitor, latest ${dateLabel(latestFuel.effectiveDate)}`} />

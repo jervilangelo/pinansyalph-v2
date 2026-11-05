@@ -47,9 +47,11 @@ A static site with versioned data. No server, no database, no accounts.
 ## Front end
 
 - React 19 + TypeScript, Vite, Tailwind CSS v4, Motion, Recharts (lazy-loaded), Lucide icons.
-- One page with anchored sections: no client router, so GitHub Pages needs no 404 fallback.
-- One shared scenario (amounts, duration, inflation assumption) drives the MP2, bank and comparison calculators so they
-  are always compared on the same inputs.
+- One page per tool (`/sweldo`, `/mp2`, `/banks`, `/compare`, `/inflation`, `/gas`, `/about`) with a small
+  History-API router in `src/router.tsx` (no dependency). The build copies `index.html` into a folder per route so
+  GitHub Pages serves deep links with a 200, plus a `404.html` fallback.
+- One shared scenario (amounts, duration, inflation assumption) lives above the router and drives the MP2, bank and
+  comparison pages, so they are always compared on the same inputs as you move between them.
 - Charts load after first paint; reduced-motion preferences remove all travel and count-ups.
 
 ## Folders
@@ -58,7 +60,9 @@ A static site with versioned data. No server, no database, no accounts.
 src/
   calculators/   pure, decimal-safe financial logic + unit tests
   charts/        Recharts components (lazy) and shared chart styling
-  components/    page sections and UI primitives
+  components/    page sections, layout (header, page shell) and UI primitives
+  pages/         one component per route
+  router.tsx     routes, links and navigation
   data/          versioned datasets (JSON) and typed accessors
   hooks/         shared scenario state
   types/         zod schemas = the data contracts

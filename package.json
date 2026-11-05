@@ -1,5 +1,5 @@
 {
-  "name": "worthitbasapilipinas",
+  "name": "pinansyalph",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -42,7 +42,7 @@
     "vite": "^8.3.5",
     "vitest": "^5.1.0"
   },
-  "description": "Free Philippine savings, MP2 and inflation calculator using official PSA, DOE and Pag-IBIG data.",
+  "description": "PinansyalPH: free, open-source Philippine sweldo, MP2, savings and inflation calculators using official PSA, DOE and Pag-IBIG data.",
   "engines": {
     "node": ">=22"
   }

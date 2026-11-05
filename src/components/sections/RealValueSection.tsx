@@ -13,7 +13,7 @@ const TONE = {
 
 /**
  * "Lumago nga ba talaga?" — the difference between growing in pesos and
- * growing in what those pesos can buy. Reads the MP2 scenario above.
+ * growing in what those pesos can buy. Reads the MP2 scenario.
  */
 export function RealValueSection({ s }: { s: ScenarioState }) {
   const r = s.mp2Result
@@ -27,7 +27,7 @@ export function RealValueSection({ s }: { s: ScenarioState }) {
             </h2>
             <p className="mt-5 max-w-[40ch]">
               Did your money really grow? Pesos earned and buying power gained are different numbers. Here is your MP2
-              projection from above, under {s.inflation.label}.
+              projection, under {s.inflation.label}.
             </p>
           </Reveal>
 

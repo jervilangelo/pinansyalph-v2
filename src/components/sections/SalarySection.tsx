@@ -14,6 +14,7 @@ import { dateLabel, peso, perLiter } from '../../utils/format'
 import { AmountField, NumberField, Segmented, Toggle } from '../ui/fields'
 import { AnimatedNumber, Reveal, motion, useReducedMotion, EASE } from '../ui/motion'
 import { StatusTag } from '../ui/Status'
+import { useRouter } from '../../router'
 
 /** Fixed colour per category; colour follows the entity, never its rank. */
 export const GROUP_COLORS: Record<GroupKey | 'government' | 'payroll' | 'remaining', string> = {
@@ -356,9 +357,10 @@ function Projection({ remaining, s }: { remaining: number; s: ScenarioState }) {
     return out
   }, [monthly, inflationRate])
 
+  const { navigate } = useRouter()
   function useInMp2() {
     s.setScenario((x) => ({ ...x, monthly, initial: 0, years }))
-    document.getElementById('mp2')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    navigate('/mp2')
   }
 
   if (remaining <= 0) return null
@@ -432,13 +434,13 @@ export function SalarySection({ s }: { s: ScenarioState }) {
   }, [p, b])
 
   return (
-    <section id="sweldo" aria-labelledby="sweldo-title" className="mt-[clamp(96px,12vw,200px)]">
+    <section id="sweldo" aria-labelledby="sweldo-title" className="pt-[clamp(24px,4vw,56px)]">
       <div className="wrap">
         <div className="grid gap-6 lg:grid-cols-12">
           <Reveal className="lg:col-span-7">
-            <h2 id="sweldo-title" className="text-step-head">
+            <h1 id="sweldo-title" className="text-step-head">
               Saan napupunta ang sweldo ko?
-            </h2>
+            </h1>
           </Reveal>
           <Reveal delay={0.08} className="lg:col-span-5 lg:pt-3">
             <p className="text-[1.1875rem] leading-relaxed">

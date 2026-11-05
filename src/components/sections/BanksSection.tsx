@@ -65,15 +65,15 @@ export function BanksSection({ s }: { s: ScenarioState }) {
   const r = s.bankResult
 
   return (
-    <section id="banks" aria-labelledby="banks-title" className="mt-[clamp(120px,14vw,240px)]">
+    <section id="banks" aria-labelledby="banks-title" className="pt-[clamp(24px,4vw,56px)]">
       <div className="wrap">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
           {/* Left notes + heading */}
           <div className="grid content-start gap-10 lg:col-span-3 lg:pt-2">
             <Reveal className="lg:text-right">
-              <h2 id="banks-title" className="text-[clamp(2rem,1.4rem+2vw,3rem)]">
+              <h1 id="banks-title" className="text-[clamp(2rem,1.4rem+2vw,3rem)]">
                 Saan mas sulit mag-ipon?
-              </h2>
+              </h1>
               <p className="mt-3 text-ink-2">Where do your savings earn more? Digital bank savings, after tax and inflation.</p>
             </Reveal>
             <div className="hidden gap-10 lg:grid">

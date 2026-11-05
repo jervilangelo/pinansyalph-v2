@@ -6,6 +6,7 @@ import { MONTH_NAMES, peso, pesoExact, pesoSigned, pct } from '../../utils/forma
 import { AmountField, NumberField, Segmented, SelectField } from '../ui/fields'
 import { AnimatedNumber, Reveal, motion } from '../ui/motion'
 import { StatusTag } from '../ui/Status'
+import { Link } from '../../router'
 
 export function InflationControl({ s }: { s: ScenarioState }) {
   const choices = inflationChoices()
@@ -57,14 +58,14 @@ export function Mp2Section({ s }: { s: ScenarioState }) {
   const r = s.mp2Result
 
   return (
-    <section id="mp2" aria-labelledby="mp2-title" className="mt-[clamp(96px,12vw,200px)] px-[var(--gutter)]">
+    <section id="mp2" aria-labelledby="mp2-title" className="pt-[clamp(24px,4vw,56px)] px-[var(--gutter)]">
       <div className="grid gap-0 lg:grid-cols-2">
         {/* Input field */}
         <div className="on-dark bg-night px-5 py-10 text-night-ink sm:px-8 lg:min-h-[90svh] lg:px-[8%] lg:py-16">
           <Reveal>
-            <h2 id="mp2-title" className="text-step-head">
+            <h1 id="mp2-title" className="text-step-head">
               Pag-IBIG MP2 calculator
-            </h2>
+            </h1>
             <p className="mt-4 max-w-[46ch] text-night-muted">
               MP2 is Pag-IBIG's voluntary savings with a {mp2.program.maturityYears}-year term and tax-free dividends. Enter what
               you plan to save.
@@ -252,9 +253,9 @@ export function Mp2Section({ s }: { s: ScenarioState }) {
                 This is a projection, not an official Pag-IBIG computation. Actual dividends depend on the rates Pag-IBIG
                 declares each year and on when your payments are posted. The model accrues dividends monthly on your balance
                 and credits them every December and at maturity.{' '}
-                <a className="link" href="#faq">
+                <Link className="link" to="/about#faq">
                   How this is calculated
-                </a>
+                </Link>
               </p>
             </>
           )}

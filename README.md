@@ -1,12 +1,13 @@
-# Worth It Ba Sa Pilipinas?
+# PinansyalPH
 
-**Your money is growing. But is its value growing too?**
+**Worth it ba sa Pilipinas? Your money is growing. But is its value growing too?**
 
-A free, no-sign-up calculator that shows Filipinos whether their savings actually keep their buying power. It compares
+PinansyalPH is a free, open-source, no-sign-up set of money tools built to promote **financial literacy** for
+Filipinos. It shows whether their savings actually keep their buying power. It compares
 Pag-IBIG MP2 and digital bank savings against **official Philippine inflation**, after tax, using published data from
 the Philippine Statistics Authority, the Department of Energy, Pag-IBIG Fund and each bank's own rate page.
 
-**Live site:** https://jervilangelo.github.io/worthitbasapilipinas.site/
+**Live site:** https://jervilangelo.github.io/pinansyalph/
 
 > Educational tool, not financial advice. Results are projections from published data and your assumptions, not actual
 > earnings.
@@ -14,6 +15,8 @@ the Philippine Statistics Authority, the Department of Energy, Pag-IBIG Fund and
 ![Home page](docs/screenshots/hero.webp)
 
 ## Features
+
+Each tool has its own page: `/sweldo`, `/mp2`, `/banks`, `/compare`, `/inflation`, `/gas`, plus `/about`.
 
 - **Saan napupunta ang sweldo ko?** A salary and expenses calculator. Enter your pay, see SSS, PhilHealth, Pag-IBIG and
   BIR withholding estimated automatically from versioned official rules, add your monthly bills and savings, and see
@@ -33,7 +36,8 @@ the Philippine Statistics Authority, the Department of Energy, Pag-IBIG Fund and
   history since 2019 and the BSP target band.
 - **Magkano na ang gas?** Weekly DOE pump price adjustments for gasoline, diesel and kerosene, and DOE's year-to-date
   net change, kept separate from the inflation rate.
-- Live-data indicators that always show the reference period, source, retrieval date and status. Nothing is labelled
+- **About.** Why the project exists (financial literacy), its principles, and how to contribute.
+- Data indicators that always show the reference period, source, retrieval date and status. Nothing is labelled
   "live".
 
 ![Salary calculator](docs/screenshots/salary.webp)
@@ -141,7 +145,7 @@ Pushing to `main` runs [`deploy.yml`](.github/workflows/deploy.yml): dataset val
 tests, build, then deployment to GitHub Pages.
 
 One-time setup: in the repository's **Settings → Pages**, set **Source** to **GitHub Actions**. The build reads the
-base path from GitHub Pages, so it works at `/worthitbasapilipinas.site/` today and at `/` if a custom domain is added
+base path from GitHub Pages, so it works at `/pinansyalph/` today and at `/` if a custom domain is added
 later. No custom domain is configured.
 
 ## Limitations
@@ -157,6 +161,11 @@ later. No custom domain is configured.
 - The Pag-IBIG website blocks automated access, so MP2 rates are recorded from reported declarations
   (`verified-secondary`).
 - MariBank, UNO and OwnBank rates could not be confirmed on their official pages at the time of verification.
+
+## Contributing
+
+PinansyalPH is open source. Issues and pull requests are welcome: data corrections, new tools, copy fixes in Filipino
+or English, and accessibility improvements.
 
 ## Credits
 

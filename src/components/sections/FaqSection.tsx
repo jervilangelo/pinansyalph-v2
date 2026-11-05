@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 import { banks, fuel, inflation, latestMp2, mp2 } from '../../data'
 import { dateLabel, monthLabel } from '../../utils/format'
 
-const REPO = 'https://github.com/jervilangelo/worthitbasapilipinas.site'
+import { REPO } from '../../site'
 
 const QA: { q: string; a: ReactNode }[] = [
   {
@@ -80,7 +80,7 @@ const QA: { q: string; a: ReactNode }[] = [
 
 export function FaqSection() {
   return (
-    <section id="faq" aria-labelledby="faq-title" className="mt-[clamp(120px,14vw,240px)]">
+    <section id="faq" aria-labelledby="faq-title" className="mt-[clamp(96px,10vw,180px)]">
       <div className="wrap">
         <div className="grid gap-y-[clamp(48px,6vw,84px)]">
           <div className="grid md:grid-cols-12">

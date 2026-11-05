@@ -7,6 +7,7 @@ import { safe, type ScenarioState } from '../../hooks/useScenario'
 import { peso, pesoSigned } from '../../utils/format'
 import { Segmented } from '../ui/fields'
 import { Reveal } from '../ui/motion'
+import { Link } from '../../router'
 
 /** Projection start date, fixed for the session. */
 const today = new Date().toISOString().slice(0, 10)
@@ -65,20 +66,28 @@ export function CompareSection({ s }: { s: ScenarioState }) {
   ]
 
   return (
-    <section id="compare" aria-labelledby="compare-title" className="mt-[clamp(120px,14vw,240px)] px-[var(--gutter)]">
+    <section id="compare" aria-labelledby="compare-title" className="pt-[clamp(24px,4vw,56px)] px-[var(--gutter)]">
       <div className="bg-surface px-5 py-14 sm:px-8 lg:px-[6%] lg:py-24">
         <div className="grid gap-8 lg:grid-cols-12">
           <Reveal className="lg:col-span-5">
-            <h2 id="compare-title" className="text-step-head">
+            <h1 id="compare-title" className="text-step-head">
               MP2 vs digital banks
-            </h2>
+            </h1>
           </Reveal>
           <Reveal delay={0.08} className="lg:col-span-7">
             <p className="max-w-[56ch]">
               The same {peso(s.scenario.monthly)} a month{s.scenario.initial > 0 ? ` and ${peso(s.scenario.initial)} upfront` : ''} for{' '}
               {s.scenario.years} years, under {s.inflation.label}. Banks use their base rates after the {banks.tax.ratePct}% tax;
-              MP2 uses the dividend rate you chose above, tax-free. The highest line is not automatically the best choice: read
-              the notes below.
+              MP2 uses the dividend rate you chose in the MP2 calculator, tax-free. The highest line is not automatically the best
+              choice: read the notes below.
+            </p>
+            <p className="ui mt-4 flex flex-wrap gap-x-5 gap-y-2 text-[0.9375rem]">
+              <Link className="link" to="/mp2">
+                Change the amounts or MP2 rate
+              </Link>
+              <Link className="link" to="/banks">
+                Pick a bank product
+              </Link>
             </p>
           </Reveal>
         </div>

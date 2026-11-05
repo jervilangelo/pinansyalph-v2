@@ -28,7 +28,7 @@ export function Intro() {
             </span>
           </p>
         </Reveal>
-        <Reveal delay={0.16} as="figure" className="relative m-0 min-h-[240px] overflow-hidden bg-surface-2 md:col-span-4">
+        <Reveal delay={0.16} as="figure" className="group relative m-0 min-h-[240px] overflow-hidden bg-surface-2 md:col-span-4">
           <img
             src={`${BASE}images/palengke-800.webp`}
             srcSet={`${BASE}images/palengke-800.webp 800w, ${BASE}images/palengke-1400.webp 1400w`}
@@ -37,7 +37,7 @@ export function Intro() {
             height={611}
             loading="lazy"
             alt="Vegetables and bananas piled high at a public market stall"
-            className="photo-mono absolute inset-0 h-full w-full object-cover"
+            className="photo-mono absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-[var(--ease-out-quint)] group-hover:scale-[1.04]"
           />
           <figcaption className="ui absolute bottom-0 left-0 bg-ground/90 px-3 py-1.5 text-[0.8125rem]">Palengke, Danao City</figcaption>
         </Reveal>

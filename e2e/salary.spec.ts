@@ -7,7 +7,7 @@ const remaining = (page: Page) => page.getByTestId('remaining')
 
 test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/#sweldo')
+  await page.goto('/sweldo')
 })
 
 test('₱30,000 semi-monthly: deductions and take-home pay', async ({ page }) => {
@@ -105,6 +105,7 @@ test('remaining money can be projected and sent to the MP2 calculator', async ({
   await expect(s).toContainText('Paano kung i-invest mo ang natitira?')
   await expect(s.getByLabel('Amount to invest each month')).toHaveValue('1,800')
   await s.getByRole('button', { name: 'Use in the MP2 calculator' }).click()
+  await expect(page).toHaveURL(/\/mp2$/)
   await expect(page.locator('#mp2').getByLabel('Monthly contribution')).toHaveValue('1,800')
 })
 

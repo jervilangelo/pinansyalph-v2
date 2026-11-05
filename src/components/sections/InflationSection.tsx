@@ -102,7 +102,7 @@ export function InflationSection() {
   const toggle = (k: InflationSeriesKey) => setVisible((v) => (v.includes(k) ? (v.length > 1 ? v.filter((x) => x !== k) : v) : [...v, k]))
 
   return (
-    <section id="inflation" aria-labelledby="inflation-title" className="mt-[clamp(120px,14vw,240px)]">
+    <section id="inflation" aria-labelledby="inflation-title" className="pt-[clamp(24px,4vw,56px)]">
       {/* Full-bleed field with the bars */}
       <div className="bg-ground pt-4">
         <div className="wrap">
@@ -110,9 +110,9 @@ export function InflationSection() {
             <p className="tabular text-[clamp(5.5rem,13vw,10.5rem)] leading-[0.85] font-medium tracking-[-0.045em]" aria-hidden="true">
               <AnimatedNumber value={latest.value} format={(n) => pct(n)} duration={1.2} />
             </p>
-            <h2 id="inflation-title" className="mt-4 text-[clamp(1.75rem,1.2rem+1.6vw,2.75rem)] leading-[1.1]">
+            <h1 id="inflation-title" className="mt-4 text-[clamp(1.75rem,1.2rem+1.6vw,2.75rem)] leading-[1.1]">
               Philippine inflation, {monthLabel(latest.period)}
-            </h2>
+            </h1>
             <p className="mt-3 max-w-[48ch] text-ink-2">
               Prices were {pct(latest.value)} higher than a year earlier
               {(() => {

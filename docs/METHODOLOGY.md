@@ -1,6 +1,6 @@
 # Methodology
 
-How **Worth It Ba Sa Pilipinas?** turns published data into projections. Every rule below is implemented in
+How **PinansyalPH** turns published data into projections. Every rule below is implemented in
 [`src/calculators/`](../src/calculators) and covered by the unit tests in
 [`src/calculators/__tests__/`](../src/calculators/__tests__).
 
