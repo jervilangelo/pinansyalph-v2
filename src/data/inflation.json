@@ -1,11 +1,11 @@
 {
   "source": "Philippine Statistics Authority (PSA) — OpenSTAT",
   "sourceUrl": "https://openstat.psa.gov.ph/",
-  "retrievedAt": "2026-11-04T15:58:28.540Z",
+  "retrievedAt": "2026-11-05T13:10:02.687Z",
   "status": "verified",
   "unit": "percent, year-on-year",
   "baseYear": 2018,
-  "latestPeriod": "2026-09",
+  "latestPeriod": "2026-10",
   "series": {
     "headline": [
       {
@@ -379,6 +379,10 @@
       {
         "period": "2026-09",
         "value": 7.2
+      },
+      {
+        "period": "2026-10",
+        "value": 7.8
       }
     ],
     "core": [
@@ -752,7 +756,11 @@
       },
       {
         "period": "2026-09",
-        "value": 4.7
+        "value": 4.8
+      },
+      {
+        "period": "2026-10",
+        "value": 5.4
       }
     ],
     "food": [
@@ -1127,6 +1135,10 @@
       {
         "period": "2026-09",
         "value": 6.8
+      },
+      {
+        "period": "2026-10",
+        "value": 6.4
       }
     ],
     "transport": [
@@ -1501,6 +1513,10 @@
       {
         "period": "2026-09",
         "value": 14.6
+      },
+      {
+        "period": "2026-10",
+        "value": 20.1
       }
     ]
   },
@@ -1954,6 +1970,10 @@
     {
       "period": "2026-09",
       "value": 0.73
+    },
+    {
+      "period": "2026-10",
+      "value": 0.72
     }
   ],
   "tables": {
