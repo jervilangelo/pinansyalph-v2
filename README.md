@@ -1,130 +1,101 @@
 # PinansyalPH
 
-**Worth it ba sa Pilipinas? Your money is growing. But is its value growing too?**
+**Worth it ba sa Pilipinas? Free, open-source money tools for Filipinos, built on official Philippine data.**
 
-PinansyalPH is a free, open-source, no-sign-up set of money tools built to promote **financial literacy** for
-Filipinos. It shows whether their savings actually keep their buying power. It compares
-Pag-IBIG MP2 and digital bank savings against **official Philippine inflation**, after tax, using published data from
-the Philippine Statistics Authority, the Department of Energy, Pag-IBIG Fund and each bank's own rate page.
+PinansyalPH helps you understand where your sweldo goes and what your savings are really worth. It computes your
+take-home pay and 13th month pay, projects Pag-IBIG MP2 and digital bank savings after tax, and measures all of it
+against official inflation from the Philippine Statistics Authority. Free, no sign-up, no ads, no tracking.
 
 **Live site:** https://jervilangelo.github.io/pinansyalph-v2/
 
-> Educational tool, not financial advice. Results are projections from published data and your assumptions, not actual
-> earnings.
+> Educational tool, not financial advice. Results are estimates from published data and your assumptions, not actual
+> earnings or official computations.
 
-![Home page](docs/screenshots/hero.webp)
+![PinansyalPH home page](docs/screenshots/home.jpg)
 
-## Features
+## Why this exists
 
-Each tool has its own page: `/sweldo`, `/13th-month`, `/mp2`, `/banks`, `/compare`, `/inflation`, `/gas`, plus `/about`.
+I built PinansyalPH to promote **financial literacy**. Many of us learn about money the hard way: a payslip with
+deductions we cannot explain, savings that look bigger every year but buy less, or a "high interest" promo with a cap
+and an end date. Instead of telling you what to do with your money, PinansyalPH shows the arithmetic, using the same
+numbers the PSA, DOE, Pag-IBIG, BIR and the banks publish, so you can see the trade-offs and decide for yourself.
 
-- **Saan napupunta ang sweldo ko?** A salary and expenses calculator. Enter your pay, see SSS, PhilHealth, Pag-IBIG and
-  BIR withholding estimated automatically from versioned official rules, add your monthly bills and savings, and see
-  what is left, monthly or per payday. Includes a fuel estimator, custom expenses, three charts, and a link to project
-  your leftover money in MP2 or digital banks. Inputs stay in your browser.
-- **Magkano Ang 13th Month Pay Mo?** A 13th month pay calculator under PD 851 and DOLE Labor Advisory No. 16, s. 2025:
-  total eligible basic salary ÷ 12, prorated for midyear hires and resignations, with salary changes, unpaid absences,
-  adjustments, the RA 11210 maternity salary differential, earlier installments, an earned-to-date vs projected split,
-  a month-by-month table, the ₱90,000 combined tax exemption check, a plain-Taglish explainer with official sources,
-  and an optional plan for spending or saving it.
-- **Pag-IBIG MP2 calculator.** Monthly, quarterly or yearly contributions, start month, payment timing, annual payout or
-  compounding, and a choice of the latest declared rate, the five-year average or your own. It flags the standard
-  five-year term and labels longer horizons as hypothetical.
-- **Lumago nga ba talaga?** Nominal peso earnings, what the ending amount buys in today's pesos, and the
-  inflation-adjusted gain, with each contribution valued at the month it was made. The message follows the numbers:
-  positive, negative or neutral.
-- **Digital bank savings.** Verified base rates, optional promos with caps and end dates, 20% final withholding tax,
-  daily or monthly crediting, time deposits, and manual rate overrides.
-- **MP2 vs banks.** Same contributions, same horizon, in pesos or in today's pesos, with notes on liquidity, tax and rate
-  certainty. Products can be toggled; nothing is ranked by headline rate.
-- **Philippine inflation tracker.** Latest headline, core, food and transport inflation from PSA with month-by-month
-  history since 2019 and the BSP target band.
-- **Magkano na ang gas?** Weekly DOE pump price adjustments for gasoline, diesel and kerosene, and DOE's year-to-date
-  net change, kept separate from the inflation rate.
-- **About.** Why the project exists (financial literacy), its principles, and how to contribute.
-- Data indicators that always show the reference period, source, retrieval date and status. Nothing is labelled
-  "live".
+It is open source because a tool about trust should be open to inspection. Anyone can check how a number is computed,
+point out a mistake, or build on it.
 
-![Salary calculator](docs/screenshots/salary.webp)
+## Tools
 
-| MP2 calculator | Real value |
+Each tool has its own page.
+
+| Page | What it does |
 | --- | --- |
-| ![MP2 calculator](docs/screenshots/mp2.webp) | ![Real value](docs/screenshots/real-value.webp) |
-| **Inflation** | **Fuel** |
-| ![Inflation](docs/screenshots/inflation.webp) | ![Fuel](docs/screenshots/gas.webp) |
+| [**Sweldo**](https://jervilangelo.github.io/pinansyalph-v2/sweldo) · *Saan napupunta ang sweldo ko?* | Take-home pay after SSS, PhilHealth, Pag-IBIG and BIR withholding, then your bills, savings and what is left, monthly or per payday. Includes a fuel estimator and charts. Inputs stay in your browser. |
+| [**13th Month Pay**](https://jervilangelo.github.io/pinansyalph-v2/13th-month) · *Magkano Ang 13th Month Pay Mo?* | 13th month pay under PD 851: prorated for midyear hires and resignations, with salary changes, unpaid absences, the maternity salary differential and earlier installments. Separates earned from projected months, checks the ₱90,000 tax exemption, and explains the rules in plain Taglish. |
+| [**MP2**](https://jervilangelo.github.io/pinansyalph-v2/mp2) · *Lumago nga ba talaga?* | Pag-IBIG MP2 projections with the latest declared rate, the five-year average or your own, then what the result is worth in today's pesos. |
+| [**Digital banks**](https://jervilangelo.github.io/pinansyalph-v2/banks) · *Saan mas sulit mag-ipon?* | Digital bank savings with verified base rates, promos with caps and end dates, and the 20% final withholding tax. |
+| [**Compare**](https://jervilangelo.github.io/pinansyalph-v2/compare) | MP2 and bank products side by side on the same plan, in pesos or in today's pesos. Nothing is ranked by headline rate. |
+| [**Inflation**](https://jervilangelo.github.io/pinansyalph-v2/inflation) | Headline, core, food and transport inflation from PSA since 2019, with the BSP target band. |
+| [**Gas**](https://jervilangelo.github.io/pinansyalph-v2/gas) · *Magkano na ang gas?* | Weekly DOE pump price adjustments for gasoline, diesel and kerosene, and the year-to-date net change. |
+| [**About**](https://jervilangelo.github.io/pinansyalph-v2/about) | Why the project exists, its principles, how to contribute, and the FAQ. |
 
-## Technology
+Amounts you enter in MP2 carry over to Digital banks and Compare, so every comparison uses the same inputs. Every
+figure shows its source, reference period and retrieval date; nothing is labelled "live".
 
-| Layer | Choice |
+| 13th month pay | Sweldo |
 | --- | --- |
-| App | React 19, TypeScript, Vite |
-| Styling and motion | Tailwind CSS v4, Motion (respects reduced motion) |
-| Charts | Recharts, lazy-loaded |
-| Money | decimal.js, centavo rounding only at credit and tax time |
-| Data contracts | zod schemas shared by the site and the ingestion scripts |
-| Ingestion | Node scripts run by GitHub Actions; pdf.js for DOE PDFs |
-| Tests | Vitest (111 unit tests), Playwright (52 browser tests) |
-| Hosting | GitHub Pages via GitHub Actions |
+| ![13th month pay calculator](docs/screenshots/thirteenth.jpg) | ![Salary calculator](docs/screenshots/salary.jpg) |
+| **MP2** | **Real value** |
+| ![MP2 calculator](docs/screenshots/mp2.jpg) | ![Real value after inflation](docs/screenshots/real-value.jpg) |
+| **Inflation** | **Gas** |
+| ![Inflation tracker](docs/screenshots/inflation.jpg) | ![Fuel price adjustments](docs/screenshots/gas.jpg) |
 
-Architecture and the reasons for it: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+Works on phones, tablets and desktops; tested at widths from 360px to 1920px.
+
+<img src="docs/screenshots/mobile.jpg" alt="13th month pay calculator on a phone" width="260" />
 
 ## How the numbers are calculated
 
-Full detail with formulas: **[docs/METHODOLOGY.md](docs/METHODOLOGY.md)**. In short:
+Full detail with formulas and legal references: **[docs/METHODOLOGY.md](docs/METHODOLOGY.md)**. In short:
 
-- **MP2**: dividends accrue monthly at the declared annual rate ÷ 12 on your balance (equal to rate × average monthly
-  balance), are credited every December and at maturity, and are tax-free. Payment timing within the month is
-  adjustable.
-- **Banks**: interest = balance × rate × days ÷ the bank's day-count basis, credited daily or monthly, minus 20% final
-  withholding tax (RA 12214). Promos apply only up to their cap and until their end date.
-- **Real value**: `Real = Nominal ÷ (1 + inflation)^years`, built month by month from cumulative inflation factors.
-- **13th month pay**: eligible basic salary earned in the calendar year ÷ 12, with partial months estimated by
-  calendar days unless the actual payslip figure is entered; 13th month pay plus other benefits are tax-exempt up to
-  ₱90,000 combined, and only the excess is treated as taxable compensation.
-- **Salary**: employee shares only (SSS 5% of the salary credit, PhilHealth 2.5% within its floor and ceiling, Pag-IBIG
+- **Sweldo**: employee shares only (SSS 5% of the salary credit, PhilHealth 2.5% within its floor and ceiling, Pag-IBIG
   up to ₱200), then the BIR withholding table for your pay frequency on pay net of those contributions. Savings are
   kept apart from expenses.
+- **13th month pay**: total eligible basic salary earned in the calendar year ÷ 12 (PD 851; DOLE Labor Advisory No. 16,
+  s. 2025). Partial months are estimated by calendar days unless you enter the actual payslip figure. 13th month pay
+  and other benefits are tax-exempt up to ₱90,000 combined (NIRC Sec. 32(B)(7)(e), as amended by TRAIN); only the
+  excess becomes taxable compensation, taxed at the graduated rates.
+- **MP2**: dividends accrue monthly at the declared annual rate ÷ 12 on your balance, are credited every December and at
+  maturity, and are tax-free.
+- **Banks**: interest = balance × rate × days ÷ the bank's day-count basis, credited daily or monthly, minus 20% final
+  withholding tax (RA 12214). Promos apply only up to their cap and until their end date.
+- **Real value**: `real = nominal ÷ (1 + inflation)^years`, built month by month, with each contribution valued at the
+  month it was made.
 
-## Data sources and refresh schedule
+Money is computed with decimal.js and rounded to centavos only where a real institution would round.
+
+## Data sources and updates
 
 | Data | Source | Latest in this repo | Refresh |
 | --- | --- | --- | --- |
-| Inflation (headline, core, food, transport, purchasing power of the peso) | [PSA OpenSTAT](https://openstat.psa.gov.ph/) PxWeb API, 2018-based CPI | September 2026 | Daily check, plus a second pass on days 1–10 of each month |
-| Fuel price adjustments and YTD net change | [DOE Oil Monitor](https://doe.gov.ph/data-and-prices/liquid-fuels/oil-monitor) | Week of 27 October 2026 | Daily check |
+| Inflation and purchasing power of the peso | [PSA OpenSTAT](https://openstat.psa.gov.ph/), 2018-based CPI | September 2026 | Daily check, plus a second pass on days 1–10 of each month |
+| Fuel price adjustments | [DOE Oil Monitor](https://doe.gov.ph/data-and-prices/liquid-fuels/oil-monitor) | Week of 27 October 2026 | Daily check |
 | MP2 dividend rates (2011–2025) | Pag-IBIG Fund declarations | 2025: 7.12%, declared 27 Feb 2026 | Daily watch; added by hand |
 | Bank savings rates | Each bank's official page or product disclosure | Verified 4 November 2026 | Daily evidence check; changed by hand |
-| Payroll rules (SSS, PhilHealth, Pag-IBIG, BIR) | SSS Circular 2024-006, PhilHealth Circular 2020-0005, HDMF Circular 460, BIR RR 11-2018 | In force since 2025-01-01 / 2024-01-01 / 2024-02-01 / 2023-01-01 | Versioned by hand in `src/data/payroll.json` |
+| Payroll and tax rules (SSS, PhilHealth, Pag-IBIG, BIR, ₱90,000 benefits ceiling) | SSS Circular 2024-006, PhilHealth Circular 2020-0005, HDMF Circular 460, BIR RR 11-2018, RA 10963 | In force since 2025-01-01 / 2024-01-01 / 2024-02-01 / 2023-01-01 | Versioned by hand in `src/data/payroll.json` |
 
-### How official data and bank rates are updated
+The [`Update economic data`](.github/workflows/update-economic-data.yml) workflow runs daily. It retrieves each source,
+validates it against the schemas in [`src/types/data.ts`](src/types/data.ts), keeps the previous file if anything
+fails, and commits only real changes; the deploy workflow then rebuilds the site.
 
-The [`Update economic data`](.github/workflows/update-economic-data.yml) workflow runs every day:
-
-1. **Retrieve** each source.
-2. **Validate** against the schemas in [`src/types/data.ts`](src/types/data.ts): no gaps, no future months, plausible
-   values, every fuel read, and DOE's year-to-date totals reconciling week to week.
-3. **Compare** with the stored dataset, ignoring the retrieval timestamp.
-4. **Keep the previous file** if a source fails or validation fails, and report why in the job summary.
-5. **Commit** only real changes; the deploy workflow then rebuilds the site.
-
-The statistical **reference period** (e.g. "September 2026") and the **retrieval date** are stored separately and never
-confused.
-
-**Bank rates are never published automatically.** Marketing pages change wording and run time-limited promos, so the
-job only checks that the exact text recorded at manual verification is still on the official page. If it disappears,
-the product is marked *under review*; after 45 days without re-verification it is marked *may be outdated*. The last
-verified rate stays in use and the interface shows the status. To update a rate, edit
-[`src/data/banks.json`](src/data/banks.json) (rate, `evidence`, `verifiedOn`, `status`) after checking the official
-page.
-
-**Payroll rules**: when SSS, PhilHealth, Pag-IBIG or BIR issue a new schedule, add a new version with its
-`effectiveFrom` date, issuance and source URL to [`src/data/payroll.json`](src/data/payroll.json). The calculator picks
-the version in force on the pay date; no code changes are needed.
-
-**MP2**: when a new year's rate is due (from April onward), the job flags it. Add the declared rate to
-[`src/data/mp2.json`](src/data/mp2.json).
-
-Banks not shown, and why, are listed in `banks.json` under `excluded` and on the site (MariBank, UNO Digital Bank,
-OwnBank, Maya Personal Goals).
+- **Bank rates are never published automatically.** The job only checks that the text recorded at manual verification
+  is still on the bank's page. If it disappears, the product is marked *under review*; after 45 days without
+  re-verification, *may be outdated*. To update a rate, edit [`src/data/banks.json`](src/data/banks.json) after checking
+  the official page.
+- **Payroll and tax rules**: when an agency issues a new schedule, or the ₱90,000 ceiling changes by law, add a new
+  version with its `effectiveFrom` date and source to [`src/data/payroll.json`](src/data/payroll.json). No code changes
+  are needed.
+- **MP2**: when a new year's rate is due (from April onward), the job flags it. Add it to
+  [`src/data/mp2.json`](src/data/mp2.json).
 
 ## Run it locally
 
@@ -138,44 +109,76 @@ npm run dev            # http://localhost:5173
 Other commands:
 
 ```bash
-npm test               # unit tests: calculators and ingestion parsers
+npm test               # unit tests: calculators and data parsers
 npm run test:e2e       # browser tests against the production build
 PW_CHANNEL=chrome npm run test:e2e   # use an installed Chrome instead of Playwright's Chromium
 npm run validate:data  # schema-check every dataset
-npm run data:update    # fetch PSA, DOE, MP2 watch and bank checks, then validate
+npm run data:update    # fetch PSA, DOE, MP2 and bank checks, then validate
 npm run build          # production build in dist/
 npm run lint
 ```
 
+## Technology
+
+| Layer | Choice |
+| --- | --- |
+| App | React 19, TypeScript, Vite; one page per tool with a small built-in router |
+| Styling and motion | Tailwind CSS v4, Motion (respects reduced-motion settings) |
+| Charts | Recharts, lazy-loaded |
+| Money | decimal.js |
+| Data contracts | zod schemas shared by the site and the data scripts |
+| Data ingestion | Node scripts run by GitHub Actions; pdf.js for DOE PDFs |
+| Tests | Vitest (111 unit tests), Playwright (52 browser tests) |
+| Hosting | GitHub Pages via GitHub Actions |
+
+Architecture and the reasons for it: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
 ## Deploy
 
-Pushing to `main` runs [`deploy.yml`](.github/workflows/deploy.yml): dataset validation, lint, unit tests, browser
-tests, build, then deployment to GitHub Pages.
+Pushing to `main` runs [`deploy.yml`](.github/workflows/deploy.yml): data validation, lint, unit tests, browser tests,
+build, then deployment to GitHub Pages. The build writes a copy of the page for every route, so links like
+`/pinansyalph-v2/mp2` open directly.
 
-One-time setup: in the repository's **Settings → Pages**, set **Source** to **GitHub Actions**. The build reads the
-base path from GitHub Pages, so it works at `/pinansyalph-v2/` today and at `/` if a custom domain is added
-later. No custom domain is configured.
+One-time setup for a fork or a new copy:
+
+1. **Settings → Pages → Source**: choose **GitHub Actions**.
+2. **Settings → Actions → General → Workflow permissions**: choose **Read and write permissions**, so the daily data
+   job can commit updates.
+
+The base path comes from GitHub Pages, so the site works under any repository name and at `/` with a custom domain.
 
 ## Limitations
 
+- 13th month pay results are estimates for private-sector rank-and-file employees. Managerial and government employees
+  follow different rules. Employers may compute partial months differently; enter your payslip figures for those
+  months.
+- The ₱90,000 exemption is the ceiling in force as of November 2026. Bills to raise it had not been enacted.
 - MP2 projections follow the average-balance method Pag-IBIG describes publicly. They are not Pag-IBIG's official
   computation, and future dividend rates are unknown.
 - Bank projections assume today's base rate continues. Banks can change rates at any time.
+- Salary results are estimates. Actual payroll depends on how an employer classifies compensation, which payday
+  contributions are taken, and year-end annualisation.
 - DOE reports adjustments, not one national pump price, so no fuel percentage change is shown.
 - Inflation assumptions are applied uniformly to future years.
-- Salary results are estimates for regular employees. Actual payroll depends on how an employer classifies
-  compensation, which payday contributions are taken, and year-end annualisation. PhilHealth and Pag-IBIG rules were
-  cross-checked because their official documents could not be read by script.
-- The Pag-IBIG website blocks automated access, so MP2 rates are recorded from reported declarations
-  (`verified-secondary`).
-- MariBank, UNO and OwnBank rates could not be confirmed on their official pages at the time of verification.
+- The Pag-IBIG website blocks automated access, so MP2 rates are recorded from reported declarations.
+- MariBank, UNO and OwnBank rates could not be confirmed on their official pages and are listed as excluded.
 
 ## Contributing
 
-PinansyalPH is open source. Issues and pull requests are welcome: data corrections, new tools, copy fixes in Filipino
-or English, and accessibility improvements.
+Issues and pull requests are welcome:
+
+- Data corrections, such as a changed bank rate or a new MP2 declaration (please link the official source)
+- Bug reports and fixes
+- Copy fixes in Filipino or English
+- Accessibility improvements
+- Ideas for new financial literacy tools
+
+[Open an issue](https://github.com/jervilangelo/pinansyalph-v2/issues) to start.
 
 ## Credits
 
+Built by **Jervil Angelo De Leon**.
+
 Photographs from Wikimedia Commons, credited on the site and listed in
-[docs/image-credits.json](docs/image-credits.json). Not affiliated with PSA, DOE, Pag-IBIG Fund or any bank.
+[docs/image-credits.json](docs/image-credits.json). Not affiliated with PSA, DOE, Pag-IBIG Fund, BIR, SSS, PhilHealth
+or any bank.
