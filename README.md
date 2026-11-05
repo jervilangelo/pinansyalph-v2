@@ -7,7 +7,7 @@ Filipinos. It shows whether their savings actually keep their buying power. It c
 Pag-IBIG MP2 and digital bank savings against **official Philippine inflation**, after tax, using published data from
 the Philippine Statistics Authority, the Department of Energy, Pag-IBIG Fund and each bank's own rate page.
 
-**Live site:** https://jervilangelo.github.io/pinansyalph/
+**Live site:** https://jervilangelo.github.io/pinansyalph-v2/
 
 > Educational tool, not financial advice. Results are projections from published data and your assumptions, not actual
 > earnings.
@@ -153,7 +153,7 @@ Pushing to `main` runs [`deploy.yml`](.github/workflows/deploy.yml): dataset val
 tests, build, then deployment to GitHub Pages.
 
 One-time setup: in the repository's **Settings → Pages**, set **Source** to **GitHub Actions**. The build reads the
-base path from GitHub Pages, so it works at `/pinansyalph/` today and at `/` if a custom domain is added
+base path from GitHub Pages, so it works at `/pinansyalph-v2/` today and at `/` if a custom domain is added
 later. No custom domain is configured.
 
 ## Limitations

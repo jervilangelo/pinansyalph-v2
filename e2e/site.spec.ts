@@ -223,7 +223,7 @@ test.describe('pages and navigation', () => {
     await page.goto('/about')
     await expect(page.locator('main')).toContainText('open source')
     await expect(page.locator('main')).toContainText('financial literacy')
-    await expect(page.getByRole('link', { name: 'View the source on GitHub' })).toHaveAttribute('href', 'https://github.com/jervilangelo/pinansyalph')
+    await expect(page.getByRole('link', { name: 'View the source on GitHub' })).toHaveAttribute('href', 'https://github.com/jervilangelo/pinansyalph-v2')
     await expect(page.locator('#faq')).toBeVisible()
   })
 })

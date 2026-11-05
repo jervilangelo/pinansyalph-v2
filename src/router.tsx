@@ -29,7 +29,7 @@ function currentPath(): Route {
   return (ROUTES as readonly string[]).includes(p) ? (p as Route) : '/'
 }
 
-/** App path ("/mp2#faq") → URL under the deploy base ("/pinansyalph/mp2#faq"). */
+/** App path ("/mp2#faq") → URL under the deploy base ("/pinansyalph-v2/mp2#faq"). */
 export function href(to: string): string {
   if (/^(https?:|mailto:)/.test(to) || to.startsWith('#')) return to
   const [pathname, hash] = to.split('#')

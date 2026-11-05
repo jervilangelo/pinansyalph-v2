@@ -7,7 +7,7 @@ export const DATA_DIR = resolve(ROOT, 'src', 'data')
 
 /** Identify the client honestly without personal contact details. */
 export const USER_AGENT =
-  'PinansyalPH-DataBot/1.0 (+https://github.com/jervilangelo/pinansyalph)'
+  'PinansyalPH-DataBot/1.0 (+https://github.com/jervilangelo/pinansyalph-v2)'
 
 export function dataPath(name: string): string {
   return resolve(DATA_DIR, name)
