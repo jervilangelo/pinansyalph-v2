@@ -1,4 +1,4 @@
-import { ArrowUpRight, Fuel, Landmark, PiggyBank, Scale, TrendingUp, Wallet, type LucideIcon } from 'lucide-react'
+import { ArrowUpRight, Fuel, Gift, Landmark, PiggyBank, Scale, TrendingUp, Wallet, type LucideIcon } from 'lucide-react'
 import { Page } from '../components/layout/Page'
 import { Hero } from '../components/sections/Hero'
 import { Intro } from '../components/sections/Intro'
@@ -7,6 +7,7 @@ import { Link, PAGES } from '../router'
 
 const ICONS: Record<string, LucideIcon> = {
   '/sweldo': Wallet,
+  '/13th-month': Gift,
   '/mp2': PiggyBank,
   '/banks': Landmark,
   '/compare': Scale,
@@ -28,7 +29,7 @@ function Tools() {
           <p className="text-ink-2">Each calculator has its own page. Your amounts carry over between MP2, digital banks and the comparison.</p>
         </Reveal>
       </div>
-      <ul className="m-0 mt-10 grid list-none gap-2 p-0 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="m-0 mt-10 grid list-none gap-2 p-0 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 [&>li:first-child]:xl:col-span-2">
         {tools.map((t, i) => {
           const Icon = ICONS[t.path]
           return (

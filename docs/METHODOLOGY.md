@@ -243,3 +243,65 @@ annualisation at year end.
 All salary and expense figures stay in the browser. Nothing is sent to analytics or third parties (a browser test
 checks that no outside request is made while editing). Entries are saved to `localStorage` only if the visitor turns on
 "Remember on this device"; turning it off or pressing "Clear saved data" deletes them.
+
+## 8. 13th month pay ("Magkano Ang 13th Month Pay Mo?")
+
+[`src/calculators/thirteenth.ts`](../src/calculators/thirteenth.ts), tested in
+[`thirteenth.test.ts`](../src/calculators/__tests__/thirteenth.test.ts).
+
+### Legal basis
+
+| Rule | Source |
+| --- | --- |
+| Entitlement and formula | Presidential Decree No. 851 and its Revised Guidelines; restated in DOLE Labor Advisory No. 16, Series of 2025 |
+| Coverage | Rank-and-file employees in the private sector who worked at least one month in the calendar year, regardless of status (regular, probationary, contractual, casual) or how they are paid; kasambahay under RA 10361 |
+| Not covered here | Government employees (separate year-end bonus rules), managerial employees (not covered by PD 851; check the contract or company policy), and workers paid purely on commission, boundary or task basis |
+| Deadline | On or before December 24; separated employees receive the prorated amount with their final pay |
+| Maternity | The employer-paid salary differential under RA 11210 counts as basic salary; the SSS maternity benefit does not |
+| Tax | NIRC Sec. 32(B)(7)(e) as amended by RA 10963 (TRAIN): 13th month pay and other benefits are exempt up to **₱90,000 combined** per year. The excess is ordinary taxable compensation at the graduated rates. Verified for 2026: House bills to raise the ceiling to ₱120,000 or ₱150,000 had not been enacted. |
+
+### Formula
+
+```
+13th month pay = Σ (eligible basic salary earned in each month of the calendar year) ÷ 12
+```
+
+For each month, `eligible = basic salary for the days employed − unpaid absences + eligible adjustments + maternity
+salary differential`.
+
+- **Basic salary** follows the salary in force that month (an initial salary plus dated increases or decreases). It
+  excludes overtime, premium and holiday pay, night differential, COLA and other allowances, profit sharing and the cash
+  conversion of unused leave, unless a contract, CBA or company practice integrates them into basic pay.
+- **Paid leave** is not deducted: the employee was paid. **Unpaid absences** (leave without pay, tardiness, undertime)
+  are entered as the amount deducted from pay.
+- **Hire and separation months.** When employment covers only part of a month and no payroll figure is entered, the
+  month is estimated by calendar days (`monthly salary × days employed ÷ days in the month`, leap years included) and
+  marked *partial est.* Payroll practice differs (working days, daily rate factors), so the visitor can replace any
+  month with the **actual eligible basic salary** from their payslip, which is then used as is.
+- **Earned vs projected.** A month counts as earned once it has ended on or before today (or employment ended within
+  it). Later months are labelled *projected* and assume the salary continues; they are never shown as earned.
+  *Earned-to-date 13th month pay* uses earned months only; the headline and *projected full-year* figure use all months.
+- **Remaining entitlement** = full-year amount − 13th month pay already received (never below zero; an overpayment is
+  flagged).
+- **Coverage check.** If the employee worked less than one month in the year (no full calendar month and under 30
+  days), the result carries a warning that PD 851 may not apply.
+- **Rounding.** Amounts are summed with full decimal precision and rounded to centavos (half-up) only after dividing
+  by 12.
+
+### Tax check
+
+`combined = 13th month pay + other qualifying benefits` (Christmas or productivity bonuses, de minimis above limits).
+`exempt = min(combined, ceiling)`; `potentially taxable = combined − exempt`. The ceiling is read from the tax rule in
+force on December 31 of the calculation year in [`payroll.json`](../src/data/payroll.json), so a future change is a
+data edit.
+
+No flat tax is applied to the excess. Only when the visitor enters their other annual taxable compensation does the
+site estimate the additional tax, as `tax(compensation + excess) − tax(compensation)` using the BIR annual graduated
+table already used by the salary calculator. Minimum wage earners are exempt on their statutory pay, so only the excess
+is taxed for them. The site does not compute a net payout: final tax depends on year-end adjustment.
+
+### Allocation ("Anong Gagawin Mo Sa 13th Month Pay Mo?")
+
+An optional split of the projected amount into six buckets. The MP2 and digital bank projections call the existing
+`calculateMp2` and `calculateSavings` engines (one-time deposit, five years, latest declared MP2 rate, the selected bank
+product, five-year average inflation); no separate financial maths is written for this section.

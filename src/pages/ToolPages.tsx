@@ -7,6 +7,8 @@ import { Mp2Section } from '../components/sections/Mp2Section'
 import { RealValueSection } from '../components/sections/RealValueSection'
 import { SalarySection } from '../components/sections/SalarySection'
 import type { ScenarioState } from '../hooks/useScenario'
+import { ThirteenthSection, useThirteenth } from '../components/sections/ThirteenthSection'
+import { ThirteenthAllocation, ThirteenthLiteracy } from '../components/sections/ThirteenthGuide'
 
 type P = { s: ScenarioState }
 
@@ -15,6 +17,17 @@ export const SweldoPage = ({ s }: P) => (
     <SalarySection s={s} />
   </Page>
 )
+
+export const ThirteenthPage = ({ s }: P) => {
+  const h = useThirteenth()
+  return (
+    <Page path="/13th-month" title="13th month pay calculator" description="Calculate your estimated 13th month pay under PD 851: prorated for new hires and resignations, with the ₱90,000 BIR tax exemption check.">
+      <ThirteenthSection h={h} />
+      <ThirteenthLiteracy />
+      <ThirteenthAllocation amount={h.result.ok ? h.result.value.fullYear.toNumber() : 0} s={s} />
+    </Page>
+  )
+}
 
 export const Mp2Page = ({ s }: P) => (
   <Page path="/mp2" title="Pag-IBIG MP2 calculator" description="Project Pag-IBIG MP2 dividends and see what your savings are worth after official Philippine inflation.">

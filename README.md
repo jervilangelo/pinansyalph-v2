@@ -16,12 +16,17 @@ the Philippine Statistics Authority, the Department of Energy, Pag-IBIG Fund and
 
 ## Features
 
-Each tool has its own page: `/sweldo`, `/mp2`, `/banks`, `/compare`, `/inflation`, `/gas`, plus `/about`.
+Each tool has its own page: `/sweldo`, `/13th-month`, `/mp2`, `/banks`, `/compare`, `/inflation`, `/gas`, plus `/about`.
 
 - **Saan napupunta ang sweldo ko?** A salary and expenses calculator. Enter your pay, see SSS, PhilHealth, Pag-IBIG and
   BIR withholding estimated automatically from versioned official rules, add your monthly bills and savings, and see
   what is left, monthly or per payday. Includes a fuel estimator, custom expenses, three charts, and a link to project
   your leftover money in MP2 or digital banks. Inputs stay in your browser.
+- **Magkano Ang 13th Month Pay Mo?** A 13th month pay calculator under PD 851 and DOLE Labor Advisory No. 16, s. 2025:
+  total eligible basic salary ÷ 12, prorated for midyear hires and resignations, with salary changes, unpaid absences,
+  adjustments, the RA 11210 maternity salary differential, earlier installments, an earned-to-date vs projected split,
+  a month-by-month table, the ₱90,000 combined tax exemption check, a plain-Taglish explainer with official sources,
+  and an optional plan for spending or saving it.
 - **Pag-IBIG MP2 calculator.** Monthly, quarterly or yearly contributions, start month, payment timing, annual payout or
   compounding, and a choice of the latest declared rate, the five-year average or your own. It flags the standard
   five-year term and labels longer horizons as hypothetical.
@@ -58,7 +63,7 @@ Each tool has its own page: `/sweldo`, `/mp2`, `/banks`, `/compare`, `/inflation
 | Money | decimal.js, centavo rounding only at credit and tax time |
 | Data contracts | zod schemas shared by the site and the ingestion scripts |
 | Ingestion | Node scripts run by GitHub Actions; pdf.js for DOE PDFs |
-| Tests | Vitest (91 unit tests), Playwright (30 browser tests) |
+| Tests | Vitest (111 unit tests), Playwright (52 browser tests) |
 | Hosting | GitHub Pages via GitHub Actions |
 
 Architecture and the reasons for it: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
@@ -73,6 +78,9 @@ Full detail with formulas: **[docs/METHODOLOGY.md](docs/METHODOLOGY.md)**. In sh
 - **Banks**: interest = balance × rate × days ÷ the bank's day-count basis, credited daily or monthly, minus 20% final
   withholding tax (RA 12214). Promos apply only up to their cap and until their end date.
 - **Real value**: `Real = Nominal ÷ (1 + inflation)^years`, built month by month from cumulative inflation factors.
+- **13th month pay**: eligible basic salary earned in the calendar year ÷ 12, with partial months estimated by
+  calendar days unless the actual payslip figure is entered; 13th month pay plus other benefits are tax-exempt up to
+  ₱90,000 combined, and only the excess is treated as taxable compensation.
 - **Salary**: employee shares only (SSS 5% of the salary credit, PhilHealth 2.5% within its floor and ceiling, Pag-IBIG
   up to ₱200), then the BIR withholding table for your pay frequency on pay net of those contributions. Savings are
   kept apart from expenses.

@@ -181,7 +181,7 @@ test.describe('accessibility basics', () => {
   })
 })
 
-const ROUTES = ['/', '/sweldo', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/about']
+const ROUTES = ['/', '/sweldo', '/13th-month', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/about']
 
 test.describe('pages and navigation', () => {
   test('every route loads directly with its own heading and title', async ({ page }) => {

@@ -8,11 +8,12 @@ import { createContext, useCallback, useContext, useEffect, useState, type Ancho
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, '')
 
-export const ROUTES = ['/', '/sweldo', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/about'] as const
+export const ROUTES = ['/', '/sweldo', '/13th-month', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/about'] as const
 export type Route = (typeof ROUTES)[number]
 
 export const PAGES: { path: Exclude<Route, '/'>; label: string; title: string; blurb: string }[] = [
   { path: '/sweldo', label: 'Sweldo', title: 'Saan napupunta ang sweldo ko?', blurb: 'Take-home pay after SSS, PhilHealth, Pag-IBIG and tax, then your bills.' },
+  { path: '/13th-month', label: '13th Month Pay', title: 'Magkano Ang 13th Month Pay Mo?', blurb: 'Your 13th month pay under PD 851, prorated, with the ₱90,000 tax check.' },
   { path: '/mp2', label: 'MP2', title: 'Pag-IBIG MP2 calculator', blurb: 'Project MP2 dividends and see what they are worth after inflation.' },
   { path: '/banks', label: 'Digital banks', title: 'Saan mas sulit mag-ipon?', blurb: 'Digital bank savings with verified base rates, after the 20% tax.' },
   { path: '/compare', label: 'Compare', title: 'MP2 vs digital banks', blurb: 'The same savings plan side by side, in pesos or in today’s pesos.' },

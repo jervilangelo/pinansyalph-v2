@@ -181,6 +181,15 @@ select.field-input {
   color: var(--color-night-ink);
   border-color: #55544e;
 }
+/* Date pickers follow the panel: light icon on dark fields. */
+.on-dark input[type='date'].field-input {
+  color-scheme: dark;
+}
+input[type='date'].field-input {
+  min-width: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
 .on-dark .field-input:hover {
   border-color: #8d8b83;
 }

@@ -11,6 +11,7 @@ import { Router, useRouter, type Route } from './router'
 const loadTools = () => import('./pages/ToolPages')
 const loadAbout = () => import('./pages/AboutPage')
 const SweldoPage = lazy(() => loadTools().then((m) => ({ default: m.SweldoPage })))
+const ThirteenthPage = lazy(() => loadTools().then((m) => ({ default: m.ThirteenthPage })))
 const Mp2Page = lazy(() => loadTools().then((m) => ({ default: m.Mp2Page })))
 const BanksPage = lazy(() => loadTools().then((m) => ({ default: m.BanksPage })))
 const ComparePage = lazy(() => loadTools().then((m) => ({ default: m.ComparePage })))
@@ -41,6 +42,7 @@ function Pages() {
   const pages: Record<Route, ReactNode> = {
     '/': <HomePage />,
     '/sweldo': <SweldoPage s={s} />,
+    '/13th-month': <ThirteenthPage s={s} />,
     '/mp2': <Mp2Page s={s} />,
     '/banks': <BanksPage s={s} />,
     '/compare': <ComparePage s={s} />,

@@ -241,3 +241,98 @@ export function Toggle({ label, checked, onChange, description }: { label: strin
     </div>
   )
 }
+
+/**
+ * Optional peso amount: empty means "not entered" (null), which is different
+ * from ₱0. The placeholder shows what is used when it is left empty.
+ */
+export function OptionalAmountField({
+  label,
+  value,
+  onChange,
+  placeholder,
+  hint,
+  compact = false,
+}: {
+  label: string
+  value: number | null
+  onChange: (v: number | null) => void
+  placeholder?: string
+  hint?: string
+  compact?: boolean
+}) {
+  const id = useId()
+  const [text, setText] = useState(value == null ? '' : value.toLocaleString('en-PH'))
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const cleaned = text.replace(/[₱,\s]/g, '')
+    const current = cleaned === '' ? null : Number(cleaned)
+    if (current !== value) setText(value == null ? '' : value.toLocaleString('en-PH'))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value])
+
+  function commit(raw: string) {
+    setText(raw)
+    const cleaned = raw.replace(/[₱,\s]/g, '')
+    if (cleaned === '') {
+      setError(null)
+      return onChange(null)
+    }
+    const n = Number(cleaned)
+    if (!Number.isFinite(n)) return setError('Enter a number, like 5,000.')
+    if (n < 0) return setError('Amounts cannot be negative.')
+    if (n > 1_000_000_000_000) return setError('That is more than ₱1 trillion.')
+    setError(null)
+    onChange(Math.round(n * 100) / 100)
+  }
+
+  return (
+    <div className="ui">
+      <label htmlFor={id} className={`mb-2 block font-medium ${compact ? 'text-[0.875rem]' : 'text-[0.9375rem]'}`}>
+        {label}
+      </label>
+      <div className="relative">
+        <span aria-hidden="true" className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 opacity-70">
+          ₱
+        </span>
+        <input
+          id={id}
+          inputMode="decimal"
+          autoComplete="off"
+          className="field-input pl-8"
+          value={text}
+          placeholder={placeholder}
+          aria-invalid={error ? 'true' : 'false'}
+          aria-describedby={error || hint ? `${id}-desc` : undefined}
+          onChange={(e) => commit(e.target.value)}
+          onBlur={() => !error && value != null && setText(value.toLocaleString('en-PH'))}
+        />
+      </div>
+      {(error || hint) && (
+        <p id={`${id}-desc`} className={`mt-1.5 text-[0.875rem] leading-snug ${error ? 'field-error' : 'opacity-80'}`} role={error ? 'alert' : undefined}>
+          {error ?? hint}
+        </p>
+      )}
+    </div>
+  )
+}
+
+/** Native date input with the same look as the other fields. */
+export function DateField({ label, value, onChange, hint, min, max, optional = false }: { label: string; value: string; onChange: (v: string) => void; hint?: ReactNode; min?: string; max?: string; optional?: boolean }) {
+  const id = useId()
+  return (
+    <div className="ui">
+      <label htmlFor={id} className="mb-2 block text-[0.9375rem] font-medium">
+        {label}
+        {optional && <span className="font-normal opacity-75"> (optional)</span>}
+      </label>
+      <input id={id} type="date" className="field-input" value={value} min={min} max={max} onChange={(e) => onChange(e.target.value)} aria-describedby={hint ? `${id}-desc` : undefined} />
+      {hint && (
+        <p id={`${id}-desc`} className="mt-1.5 text-[0.9375rem] leading-snug opacity-80">
+          {hint}
+        </p>
+      )}
+    </div>
+  )
+}

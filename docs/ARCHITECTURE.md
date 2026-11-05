@@ -47,7 +47,7 @@ A static site with versioned data. No server, no database, no accounts.
 ## Front end
 
 - React 19 + TypeScript, Vite, Tailwind CSS v4, Motion, Recharts (lazy-loaded), Lucide icons.
-- One page per tool (`/sweldo`, `/mp2`, `/banks`, `/compare`, `/inflation`, `/gas`, `/about`) with a small
+- One page per tool (`/sweldo`, `/13th-month`, `/mp2`, `/banks`, `/compare`, `/inflation`, `/gas`, `/about`) with a small
   History-API router in `src/router.tsx` (no dependency). The build copies `index.html` into a folder per route so
   GitHub Pages serves deep links with a 200, plus a `404.html` fallback.
 - One shared scenario (amounts, duration, inflation assumption) lives above the router and drives the MP2, bank and
