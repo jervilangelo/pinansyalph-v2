@@ -1,7 +1,7 @@
 {
   "source": "Department of Energy (DOE) — Oil Monitor",
   "sourceUrl": "https://doe.gov.ph/data-and-prices/liquid-fuels/oil-monitor",
-  "retrievedAt": "2026-11-04T16:00:54.734Z",
+  "retrievedAt": "2026-11-06T12:55:19.328Z",
   "status": "verified",
   "unit": "PHP per liter",
   "coverage": "Weekly pump price adjustments implemented by oil companies, as summarised by DOE. Ranges reflect differences between companies. Not a nationwide pump price.",
@@ -341,6 +341,27 @@
         "kerosene": 63.26
       },
       "sourceUrl": "https://d24qbtp4vooyzi.cloudfront.net/api/media/file/Oil%20Monitor%2027%20October.pdf"
+    },
+    {
+      "effectiveDate": "2026-11-03",
+      "gasoline": {
+        "min": 3.5,
+        "max": 3.5
+      },
+      "diesel": {
+        "min": -1,
+        "max": -1
+      },
+      "kerosene": {
+        "min": -1.9,
+        "max": -1.9
+      },
+      "ytdNet": {
+        "gasoline": 72.05,
+        "diesel": 64.63,
+        "kerosene": 61.36
+      },
+      "sourceUrl": "https://d24qbtp4vooyzi.cloudfront.net/api/media/file/Oil%20Monitor%2003%20November.pdf"
     }
   ],
   "notes": [
