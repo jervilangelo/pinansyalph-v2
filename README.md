@@ -1,17 +1,27 @@
-# PinansyalPH
+<div align="center">
 
-**Worth it ba sa Pilipinas? Free, open-source money tools for Filipinos, built on official Philippine data.**
+<img src="docs/pinansyalph-readme-hero.svg" alt="PinansyalPH — Mas malinaw ang pera mo. Free financial literacy tools for Filipinos." width="100%" />
 
-PinansyalPH helps you understand where your sweldo goes and what your savings are really worth. It computes your
-take-home pay and 13th month pay, projects Pag-IBIG MP2 and digital bank savings after tax, and measures all of it
-against official inflation from the Philippine Statistics Authority. Free, no sign-up, no ads, no tracking.
+<br />
 
-**Live site:** https://jervilangelo.github.io/pinansyalph-v2/
+**Worth it ba sa Pilipinas? Understand your money with numbers you can check.**
 
-> Educational tool, not financial advice. Results are estimates from published data and your assumptions, not actual
-> earnings or official computations.
+Free, open-source tools to explore your salary, 13th month pay, savings, and the impact of inflation — designed for everyday financial decisions in the Philippines.
 
-![PinansyalPH home page](docs/screenshots/home.jpg)
+**[Explore PinansyalPH](https://jervilangelo.github.io/pinansyalph-v2/)** · [See the calculators](#tools) · [How the numbers work](#how-the-numbers-are-calculated) · [Run locally](#run-it-locally)
+
+<br />
+
+![Free](https://img.shields.io/badge/Free-no%20sign--up-151514?style=flat-square)
+![Open source](https://img.shields.io/badge/Open%20source-transparency-1D4E89?style=flat-square)
+![React](https://img.shields.io/badge/React%2019-TypeScript-151514?style=flat-square)
+![Data](https://img.shields.io/badge/Data-sourced%20%26%20dated-2E6A46?style=flat-square)
+
+</div>
+
+> **Educational use only.** This is not financial advice. Results are estimates based on published data and the assumptions you enter, not guaranteed returns or official payroll computations.
+
+---
 
 ## Why this exists
 
@@ -25,7 +35,7 @@ point out a mistake, or build on it.
 
 ## Tools
 
-Each tool has its own page.
+Every tool has its own focused page, uses sourced figures, and explains its calculations. Start with the question that matters to you.
 
 | Page | What it does |
 | --- | --- |
@@ -40,6 +50,10 @@ Each tool has its own page.
 
 Amounts you enter in MP2 carry over to Digital banks and Compare, so every comparison uses the same inputs. Every
 figure shows its source, reference period and retrieval date; nothing is labelled "live".
+
+## See it in action
+
+Explore the actual application screens — from payroll to purchasing power.
 
 | 13th month pay | Sweldo |
 | --- | --- |
@@ -177,7 +191,9 @@ Issues and pull requests are welcome:
 
 ## Credits
 
-Built by **Jervil Angelo De Leon**.
+Built by **[Jervil Angelo De Leon](https://github.com/jervilangelo)** to make financial literacy easier to explore, verify and understand in the Philippines.
+
+If you find these tools useful, consider [starring PinansyalPH on GitHub](https://github.com/jervilangelo/pinansyalph-v2).
 
 Photographs from Wikimedia Commons, credited on the site and listed in
 [docs/image-credits.json](docs/image-credits.json). Not affiliated with PSA, DOE, Pag-IBIG Fund, BIR, SSS, PhilHealth
