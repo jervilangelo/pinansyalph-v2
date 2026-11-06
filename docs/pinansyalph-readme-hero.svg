@@ -1,53 +1,88 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="470" viewBox="0 0 1200 470" role="img" aria-labelledby="title desc">
-<title id="title">PinansyalPH — Mas malinaw ang pera mo.</title>
-<desc id="desc">Financial literacy tools for the Philippines. Animated illustrative savings and purchasing-power chart with blue and green elements.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="500" viewBox="0 0 1200 500" role="img" aria-labelledby="title desc">
+<title id="title">PinansyalPH — Worth it ba sa Pilipinas?</title>
+<desc id="desc">Editorial finance-themed banner inspired by the PinansyalPH homepage: large serif headline, monochrome peso illustration, black and blue statement panels, and subdued animated data elements.</desc>
 <style>
-@keyframes grow { 0%,8% { transform:scaleY(.05); opacity:.2 } 35%,86%,100% { transform:scaleY(1); opacity:1 } }
-@keyframes linein { 0%,8% { stroke-dashoffset:490; opacity:.35 } 38%,89%,100% { stroke-dashoffset:0; opacity:1 } }
-@keyframes glow { 0%,65%,100% { opacity:.12; transform:scale(.75) } 80% { opacity:.32; transform:scale(1.6) } }
-@keyframes softly { 0%,58%,100% { opacity:1 } 76% { opacity:.68 } }
-.chart-bar { transform-box:fill-box; transform-origin:center bottom; animation:grow 8s cubic-bezier(.22,1,.36,1) infinite; }
-.bar-b { animation-delay:.18s }.bar-c { animation-delay:.36s }.bar-d { animation-delay:.54s }.bar-e { animation-delay:.72s }
-.chart-line { stroke-dasharray:490; stroke-dashoffset:0; animation:linein 8s cubic-bezier(.22,1,.36,1) infinite; }
-.focus-halo { transform-box:fill-box; transform-origin:center; animation:glow 8s ease-in-out infinite; }
-.focus-value { animation:softly 8s ease-in-out infinite; }
-@media (prefers-reduced-motion:reduce) { .chart-bar,.chart-line,.focus-halo,.focus-value { animation:none!important } }
+@keyframes lift {0%,8%{opacity:.4;transform:translateY(11px)} 30%,86%,100%{opacity:1;transform:translateY(0)}}
+@keyframes trace {0%,9%{stroke-dashoffset:280;opacity:.3} 39%,90%,100%{stroke-dashoffset:0;opacity:1}}
+@keyframes bars {0%,7%{transform:scaleY(.09);opacity:.3} 35%,90%,100%{transform:scaleY(1);opacity:1}}
+@keyframes dotpulse {0%,64%,100%{opacity:.18;transform:scale(.55)} 80%{opacity:.5;transform:scale(1.8)}}
+.enter { animation:lift 8s cubic-bezier(.22,1,.36,1) infinite }
+.enter2 { animation-delay:.2s }
+.enter3 { animation-delay:.4s }
+.spark { stroke-dasharray:280;animation:trace 8s cubic-bezier(.22,1,.36,1) infinite }
+.bar { transform-box:fill-box;transform-origin:center bottom;animation:bars 8s cubic-bezier(.22,1,.36,1) infinite }
+.b2 {animation-delay:.12s}.b3 {animation-delay:.24s}.b4 {animation-delay:.36s}.b5 {animation-delay:.48s}
+.halo {transform-box:fill-box;transform-origin:center;animation:dotpulse 8s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.enter,.spark,.bar,.halo{animation:none!important}}
 </style>
-<rect width="1200" height="470" rx="20" fill="#F3F3F1"/>
-<rect x="0" y="0" width="12" height="470" fill="#1D4E89"/>
-<g font-family="Arial,Helvetica,sans-serif">
-<rect x="65" y="53" width="38" height="38" fill="#151514"/><text x="84" y="80" text-anchor="middle" fill="#F3F3F1" font-size="21" font-weight="700">₱</text>
-<text x="117" y="81" font-size="33" font-weight="700" letter-spacing="-1.3" fill="#151514">PinansyalPH</text>
-<text x="66" y="170" font-size="48" font-weight="700" letter-spacing="-2" fill="#151514">Mas malinaw</text>
-<text x="66" y="224" font-size="48" font-weight="700" letter-spacing="-2" fill="#1D4E89">ang pera mo.</text>
-<text x="67" y="274" font-size="19" fill="#3D3C38">Sweldo, ipon, 13th month, at inflation.</text>
-<text x="67" y="302" font-size="19" fill="#3D3C38">Understand the numbers. Decide for yourself.</text>
-<rect x="65" y="341" width="144" height="35" fill="#151514"/><text x="137" y="363" fill="#F3F3F1" font-size="12" font-weight="700" text-anchor="middle" letter-spacing=".9">OPEN SOURCE</text>
-<rect x="219" y="341" width="163" height="35" fill="#D7E3F1"/><text x="301" y="363" fill="#1D4E89" font-size="12" font-weight="700" text-anchor="middle" letter-spacing=".9">NO SIGN-UP</text>
+<rect width="1200" height="500" fill="#F3F3F1"/>
+<!-- Website-inspired 8px gutters / flat editorial tiles -->
+<rect x="24" y="24" width="578" height="296" fill="#FBFBFA"/>
+<rect x="610" y="24" width="566" height="296" fill="#E7E7E4"/>
+<rect x="24" y="328" width="578" height="148" fill="#151514"/>
+<rect x="610" y="328" width="566" height="148" fill="#1D4E89"/>
+<!-- Editorial intro tile -->
+<g font-family="'Instrument Sans',Arial,sans-serif">
+<rect x="54" y="54" width="9" height="9" fill="#1D4E89"/>
+<text x="72" y="64" font-size="14" font-weight="700" fill="#1D4E89" letter-spacing=".25">PinansyalPH · free financial literacy tools</text>
 </g>
-<g transform="translate(613 59)" font-family="Arial,Helvetica,sans-serif">
-<rect width="520" height="351" fill="#FBFBFA" stroke="#D9D9D5" stroke-width="2"/>
-<rect width="520" height="51" fill="#E7E7E4"/>
-<text x="23" y="32" font-weight="700" font-size="13" fill="#151514" letter-spacing=".6">YOUR MONEY, IN PERSPECTIVE</text>
-<circle cx="481" cy="25" r="4" fill="#1D4E89"/><circle cx="496" cy="25" r="4" fill="#D9D9D5"/>
-<text x="24" y="89" font-size="12" font-weight="700" fill="#5C5A54" letter-spacing=".8">ILLUSTRATIVE SAVINGS VIEW</text>
-<text x="25" y="123" font-size="28" font-weight="700" fill="#151514">See the difference</text>
-<text x="25" y="147" font-size="12" fill="#5C5A54">Future value vs. purchasing power</text>
-<g stroke="#E7E7E4"><path d="M54 188H489M54 229H489M54 270H489M54 311H489"/></g>
+<g font-family="'Literata',Georgia,'Times New Roman',serif" fill="#151514">
+<text x="54" y="133" font-size="52" letter-spacing="-1.9">Worth it ba</text>
+<text x="54" y="193" font-size="52" letter-spacing="-1.9">sa Pilipinas?</text>
+</g>
+<path d="M54 215H560" stroke="#D9D9D5"/>
+<g font-family="'Instrument Sans',Arial,sans-serif" fill="#3D3C38">
+<text x="55" y="246" font-size="19">Understand your sweldo, savings,</text>
+<text x="55" y="273" font-size="19">and what your money can really buy.</text>
+</g>
+<!-- Monochrome currency-style art, flat and editorial rather than a software mockup -->
+<g transform="translate(610 24)">
+<rect x="0" y="0" width="566" height="296" fill="#D9D9D5"/>
+<path d="M0 216L114 140L235 190L364 91L566 149V296H0Z" fill="#C5C5BF"/>
+<path d="M0 254L143 190L292 240L409 159L566 213V296H0Z" fill="#B5B5AE"/>
+<g opacity=".45" stroke="#F3F3F1" stroke-width="2">
+<path d="M24 34H542M24 74H542M24 114H542M24 154H542M24 194H542M24 234H542M24 274H542"/>
+<path d="M74 14V282M154 14V282M234 14V282M314 14V282M394 14V282M474 14V282"/>
+</g>
+<g transform="translate(144 24) rotate(-8 144 120)">
+<rect x="0" y="0" width="304" height="224" fill="#F3F3F1" stroke="#777872" stroke-width="3"/>
+<rect x="15" y="15" width="274" height="194" fill="none" stroke="#A5A59D" stroke-width="2"/>
+<path d="M55 44H249M55 178H249" stroke="#B5B5AE" stroke-width="2"/>
+<circle cx="152" cy="112" r="74" fill="none" stroke="#898983" stroke-width="3"/>
+<circle cx="152" cy="112" r="62" fill="#E7E7E4"/>
+<text x="152" y="145" font-family="Georgia,serif" font-size="104" font-weight="700" text-anchor="middle" fill="#6F706A">₱</text>
+<text x="24" y="198" font-family="Arial,sans-serif" font-size="13" fill="#777872" letter-spacing="1.4">PHILIPPINE PESO</text>
+</g>
+<rect x="18" y="16" width="183" height="31" fill="#F3F3F1" opacity=".93"/>
+<text x="31" y="37" font-family="'Instrument Sans',Arial,sans-serif" font-size="13" fill="#3D3C38">Your money, in context</text>
+</g>
+<!-- Dark tile: the central question from the live website -->
+<g class="enter" font-family="'Literata',Georgia,'Times New Roman',serif">
+<text x="53" y="378" font-size="27" fill="#F3F3F1">Your money is growing.</text>
+<text x="53" y="414" font-size="27" fill="#F3F3F1">But is its value growing too?</text>
+</g>
+<g font-family="'Instrument Sans',Arial,sans-serif">
+<text x="54" y="452" font-size="14" font-weight="600" fill="#D9D9D5">EXPLORE PH INFLATION</text>
+<path d="M239 447H263L255 439M263 447L255 455" fill="none" stroke="#D9D9D5" stroke-width="1.7" stroke-linecap="square"/>
+</g>
+<!-- Blue tile: functional comparison geometry -->
+<g font-family="'Literata',Georgia,'Times New Roman',serif" fill="#FFFFFF">
+<text x="639" y="374" font-size="25">See the numbers.</text>
+<text x="639" y="405" font-size="25">Decide for yourself.</text>
+</g>
+<g transform="translate(953 351)">
 <g fill="#D7E3F1">
-<rect class="chart-bar" x="81" y="261" width="44" height="50"/>
-<rect class="chart-bar bar-b" x="160" y="239" width="44" height="72"/>
-<rect class="chart-bar bar-c" x="239" y="216" width="44" height="95"/>
-<rect class="chart-bar bar-d" x="318" y="192" width="44" height="119"/>
-<rect class="chart-bar bar-e" x="397" y="168" width="44" height="143"/>
+<rect class="bar" x="0" y="66" width="27" height="52"/>
+<rect class="bar b2" x="38" y="48" width="27" height="70"/>
+<rect class="bar b3" x="76" y="28" width="27" height="90"/>
+<rect class="bar b4" x="114" y="12" width="27" height="106"/>
+<rect class="bar b5" x="152" y="0" width="27" height="118"/>
 </g>
-<path class="chart-line" d="M103 279L182 263L261 248L340 237L419 227" fill="none" stroke="#2E6A46" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-<circle class="focus-halo" cx="419" cy="227" r="14" fill="#2E6A46"/><circle cx="419" cy="227" r="5" fill="#2E6A46"/>
-<g font-size="11" fill="#5C5A54"><text x="103" y="331" text-anchor="middle">1</text><text x="182" y="331" text-anchor="middle">2</text><text x="261" y="331" text-anchor="middle">3</text><text x="340" y="331" text-anchor="middle">4</text><text x="419" y="331" text-anchor="middle">5</text></g>
-<g class="focus-value"><rect x="365" y="94" width="128" height="36" fill="#DCEBE0"/><text x="429" y="109" text-anchor="middle" font-weight="700" font-size="11" fill="#2E6A46">REAL VALUE</text><text x="429" y="122" text-anchor="middle" font-size="9" fill="#2E6A46">matters, too</text></g>
+<path class="spark" d="M13 90L51 83L89 68L127 62L165 54" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+<circle class="halo" cx="165" cy="54" r="12" fill="#FFFFFF"/>
+<circle cx="165" cy="54" r="4.5" fill="#FFFFFF"/>
 </g>
-<g font-family="Arial,Helvetica,sans-serif" font-size="12" fill="#5C5A54">
-<text x="66" y="438" font-weight="700" letter-spacing="1.2">CALCULATE  /  COMPARE  /  UNDERSTAND</text>
-<text x="1133" y="438" text-anchor="end">Free financial literacy tools for Filipinos</text>
+<g font-family="'Instrument Sans',Arial,sans-serif">
+<text x="639" y="451" font-size="14" font-weight="600" fill="#F3F3F1">FREE  /  OPEN SOURCE  /  NO SIGN-UP</text>
 </g>
 </svg>
