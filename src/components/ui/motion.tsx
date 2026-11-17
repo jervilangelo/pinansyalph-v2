@@ -1,17 +1,31 @@
-import { animate, motion, useInView, useReducedMotion } from 'motion/react'
+import { animate, motion, useInView, useReducedMotion, type Transition } from 'motion/react'
 import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react'
 
-const EASE = [0.22, 1, 0.36, 1] as const
+/**
+ * Motion tokens. One easing family, three durations. Everything moves with
+ * transform and opacity only, and every move has a reduced-motion fallback
+ * that keeps the content and drops the travel.
+ */
+export const EASE = [0.22, 1, 0.36, 1] as const
+export const EASE_IN_OUT = [0.65, 0, 0.35, 1] as const
+export const DUR = { fast: 0.18, base: 0.32, slow: 0.6 } as const
+export const SPRING = { type: 'spring', stiffness: 420, damping: 38, mass: 0.9 } as const satisfies Transition
+
+/** Height + opacity for disclosures and accordions. */
+export const collapse = {
+  initial: { height: 0, opacity: 0 },
+  animate: { height: 'auto', opacity: 1, transition: { height: { duration: DUR.base, ease: EASE }, opacity: { duration: DUR.base, delay: 0.05 } } },
+  exit: { height: 0, opacity: 0, transition: { height: { duration: 0.24, ease: EASE_IN_OUT }, opacity: { duration: 0.12 } } },
+}
 
 /**
- * Staggered entrance for a section's parts. Content is visible without
- * script (initial render is opaque on the server-less first paint only
- * after hydration), and reduced motion drops the travel.
+ * Staggered entrance for a section's parts. Never fully hidden: if the
+ * observer never fires, the content is still there.
  */
 export function Reveal({
   children,
   delay = 0,
-  y = 24,
+  y = 20,
   className,
   as = 'div',
 }: {
@@ -19,22 +33,28 @@ export function Reveal({
   delay?: number
   y?: number
   className?: string
-  as?: 'div' | 'section' | 'li' | 'header' | 'figure'
+  as?: 'div' | 'section' | 'li' | 'header' | 'figure' | 'p'
 }) {
   const reduce = useReducedMotion()
   const Tag = motion[as]
   return (
     <Tag
       className={className}
-      // Never fully hidden: if the observer never fires, the content is still there.
-      initial={reduce ? { opacity: 1 } : { opacity: 0.15, y }}
+      initial={reduce ? { opacity: 1 } : { opacity: 0.001, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '0px 0px -10% 0px' }}
-      transition={{ duration: 0.7, delay, ease: EASE }}
+      viewport={{ once: true, margin: '0px 0px -8% 0px' }}
+      transition={{ duration: DUR.slow, delay, ease: EASE }}
     >
       {children}
     </Tag>
   )
+}
+
+/** Fade-up on mount, for the first screen of a page. */
+export function useEnter() {
+  const reduce = useReducedMotion()
+  return (delay: number) =>
+    reduce ? {} : { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { duration: DUR.slow, delay, ease: EASE } }
 }
 
 /** Animated number: counts from the previous value to the new one. */
@@ -42,7 +62,7 @@ export function AnimatedNumber({
   value,
   format,
   className,
-  duration = 0.8,
+  duration = 0.7,
 }: {
   value: number
   format: (n: number) => string
@@ -65,38 +85,20 @@ export function AnimatedNumber({
     const controls = animate(from.current, value, {
       duration,
       ease: EASE,
-      onUpdate: (v) => setShown(v),
+      onUpdate: (v) => {
+        from.current = v
+        setShown(v)
+      },
     })
-    from.current = value
     return () => controls.stop()
   }, [value, inView, reduce, duration])
 
   return (
     <span ref={ref} className={className}>
-      {format(shown)}
+      {/* Screen readers and tests read the settled value; the animation is decoration. */}
+      <span aria-hidden="true">{format(shown)}</span>
+      <span className="sr-only">{format(value)}</span>
     </span>
-  )
-}
-
-/** Clip-path shutter for the one image that matters most. */
-export function Shutter({ children, className }: { children: ReactNode; className?: string }) {
-  const reduce = useReducedMotion()
-  return (
-    <motion.div
-      className={className}
-      initial={reduce ? false : { clipPath: 'inset(0 0 100% 0)' }}
-      animate={{ clipPath: 'inset(0 0 0% 0)' }}
-      transition={{ duration: 1.1, ease: EASE, delay: 0.15 }}
-    >
-      <motion.div
-        className="h-full w-full"
-        initial={reduce ? false : { scale: 1.12 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 1.4, ease: EASE, delay: 0.15 }}
-      >
-        {children}
-      </motion.div>
-    </motion.div>
   )
 }
 
@@ -111,12 +113,12 @@ export function SplitWords({ text, delay = 0, stagger = 0.06 }: { text: string; 
       <span aria-hidden="true">
         {words.map((w, i) => (
           <Fragment key={i}>
-            <span className="-mb-[0.12em] inline-block overflow-hidden pb-[0.12em] align-bottom">
+            <span className="-mb-[0.14em] inline-block overflow-hidden pb-[0.14em] align-bottom">
               <motion.span
                 className="inline-block"
-                initial={{ y: '105%' }}
+                initial={{ y: '108%' }}
                 animate={{ y: 0 }}
-                transition={{ duration: 0.9, delay: delay + i * stagger, ease: EASE }}
+                transition={{ duration: 0.85, delay: delay + i * stagger, ease: EASE }}
               >
                 {w}
               </motion.span>
@@ -129,4 +131,4 @@ export function SplitWords({ text, delay = 0, stagger = 0.06 }: { text: string; 
   )
 }
 
-export { motion, useReducedMotion, EASE }
+export { motion, useReducedMotion }

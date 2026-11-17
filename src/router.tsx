@@ -11,16 +11,30 @@ const BASE = import.meta.env.BASE_URL.replace(/\/$/, '')
 export const ROUTES = ['/', '/sweldo', '/13th-month', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/about'] as const
 export type Route = (typeof ROUTES)[number]
 
-export const PAGES: { path: Exclude<Route, '/'>; label: string; title: string; blurb: string }[] = [
-  { path: '/sweldo', label: 'Sweldo', title: 'Saan napupunta ang sweldo ko?', blurb: 'Take-home pay after SSS, PhilHealth, Pag-IBIG and tax, then your bills.' },
-  { path: '/13th-month', label: '13th Month Pay', title: 'Magkano Ang 13th Month Pay Mo?', blurb: 'Your 13th month pay under PD 851, prorated, with the ₱90,000 tax check.' },
-  { path: '/mp2', label: 'MP2', title: 'Pag-IBIG MP2 calculator', blurb: 'Project MP2 dividends and see what they are worth after inflation.' },
-  { path: '/banks', label: 'Digital banks', title: 'Saan mas sulit mag-ipon?', blurb: 'Digital bank savings with verified base rates, after the 20% tax.' },
-  { path: '/compare', label: 'Compare', title: 'MP2 vs digital banks', blurb: 'The same savings plan side by side, in pesos or in today’s pesos.' },
-  { path: '/inflation', label: 'Inflation', title: 'Philippine inflation', blurb: 'Headline, core, food and transport inflation from PSA since 2019.' },
-  { path: '/gas', label: 'Gas', title: 'Magkano na ang gas?', blurb: 'Weekly DOE pump price adjustments for gasoline, diesel and kerosene.' },
-  { path: '/about', label: 'About', title: 'About PinansyalPH', blurb: 'Why this open-source project exists, and how the numbers are made.' },
+export type GroupId = 'sahod' | 'ipon' | 'presyo'
+
+/** Tools are grouped by the question a visitor brings, in plain Filipino-English. */
+export const GROUPS: { id: GroupId; label: string; question: string }[] = [
+  { id: 'sahod', label: 'Sahod', question: 'Your pay, and what is left of it' },
+  { id: 'ipon', label: 'Ipon', question: 'Where your savings grow' },
+  { id: 'presyo', label: 'Presyo', question: 'What things cost now' },
 ]
+
+export type PageInfo = { path: Exclude<Route, '/'>; label: string; name: string; title: string; blurb: string; group?: GroupId }
+
+export const PAGES: PageInfo[] = [
+  { path: '/sweldo', label: 'Sweldo', name: 'Sweldo calculator', title: 'Saan napupunta ang sweldo ko?', blurb: 'Take-home pay after SSS, PhilHealth, Pag-IBIG and tax, then your monthly budget.', group: 'sahod' },
+  { path: '/13th-month', label: '13th Month Pay', name: '13th month pay', title: 'Magkano Ang 13th Month Pay Mo?', blurb: 'Your 13th month pay under PD 851, prorated, with the ₱90,000 tax check.', group: 'sahod' },
+  { path: '/mp2', label: 'MP2', name: 'Pag-IBIG MP2', title: 'Pag-IBIG MP2 calculator', blurb: 'Project MP2 dividends and see what they are worth after inflation.', group: 'ipon' },
+  { path: '/banks', label: 'Digital banks', name: 'Digital bank savings', title: 'Saan mas sulit mag-ipon?', blurb: 'Digital bank savings with verified base rates, after the 20% tax.', group: 'ipon' },
+  { path: '/compare', label: 'Compare', name: 'MP2 vs digital banks', title: 'MP2 vs digital banks', blurb: 'The same savings plan side by side, in pesos or in today’s pesos.', group: 'ipon' },
+  { path: '/inflation', label: 'Inflation', name: 'Inflation tracker', title: 'Philippine inflation', blurb: 'Headline, core, food and transport inflation from PSA since 2019.', group: 'presyo' },
+  { path: '/gas', label: 'Gas', name: 'Fuel prices', title: 'Magkano na ang gas?', blurb: 'Weekly DOE pump price adjustments for gasoline, diesel and kerosene.', group: 'presyo' },
+  { path: '/about', label: 'About', name: 'About', title: 'About PinansyalPH', blurb: 'Why this open-source project exists, and how the numbers are made.' },
+]
+
+export const TOOLS = PAGES.filter((p) => p.group)
+export const pageInfo = (path: Route) => PAGES.find((p) => p.path === path)
 
 function currentPath(): Route {
   let p = window.location.pathname
@@ -32,9 +46,10 @@ function currentPath(): Route {
 /** App path ("/mp2#faq") → URL under the deploy base ("/pinansyalph-v2/mp2#faq"). */
 export function href(to: string): string {
   if (/^(https?:|mailto:)/.test(to) || to.startsWith('#')) return to
-  const [pathname, hash] = to.split('#')
+  const [pathAndQuery, hash] = to.split('#')
+  const [pathname, query] = pathAndQuery.split('?')
   const p = !pathname || pathname === '/' ? '/' : pathname
-  return `${BASE}${p}${hash ? `#${hash}` : ''}`
+  return `${BASE}${p}${query ? `?${query}` : ''}${hash ? `#${hash}` : ''}`
 }
 
 type Nav = { path: Route; navigate: (to: string) => void }
@@ -52,8 +67,8 @@ export function Router({ children }: { children: ReactNode }) {
   const navigate = useCallback((to: string) => {
     const hash = to.split('#')[1] ?? ''
     const target = href(to)
-    const samePage = target.split('#')[0] === window.location.pathname
-    if (target !== window.location.pathname + window.location.hash) window.history.pushState(null, '', target)
+    const samePage = target.split('#')[0] === window.location.pathname + window.location.search
+    if (target !== window.location.pathname + window.location.search + window.location.hash) window.history.pushState(null, '', target)
     if (samePage) {
       // Same page: just move to the anchor (or the top).
       const el = hash ? document.getElementById(hash) : null

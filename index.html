@@ -2,24 +2,31 @@
 <html lang="en-PH">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PinansyalPH: sweldo, MP2, savings and inflation calculators</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
+    <title>PinansyalPH: Mas malinaw ang pera mo</title>
     <meta
       name="description"
-      content="Free Philippine money calculators: sweldo and expenses, Pag-IBIG MP2, digital bank savings and official PSA inflation."
+      content="Free Philippine money calculators: sweldo and take-home pay, 13th month pay, Pag-IBIG MP2, digital bank savings and official PSA inflation."
     />
-    <meta name="theme-color" content="#f3f3f1" />
+    <meta name="theme-color" content="#f6f4ef" />
+    <meta name="application-name" content="PinansyalPH" />
+    <meta name="apple-mobile-web-app-title" content="PinansyalPH" />
+    <meta name="author" content="Jervil Angelo De Leon" />
+
+    <!-- Brand kit: src/kit/web/head-snippet.html -->
+    <link rel="icon" href="%BASE_URL%favicon.ico" sizes="48x48" />
     <link rel="icon" type="image/svg+xml" href="%BASE_URL%favicon.svg" />
     <link rel="apple-touch-icon" href="%BASE_URL%apple-touch-icon.png" />
     <link rel="manifest" href="%BASE_URL%site.webmanifest" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="PinansyalPH" />
-    <meta property="og:title" content="PinansyalPH: Worth it ba sa Pilipinas?" />
-    <meta property="og:description" content="Free, open-source financial literacy tools for Filipinos. Compare MP2 and digital bank savings against official Philippine inflation, and see where your sweldo goes." />
+    <meta property="og:title" content="PinansyalPH: Mas malinaw ang pera mo" />
+    <meta property="og:description" content="Free, open-source money calculators for Filipinos: take-home pay, 13th month pay, MP2 and digital bank savings, measured against official Philippine inflation." />
     <meta property="og:image" content="%VITE_SITE_URL%og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The PinansyalPH logo: a gold sun rising under blue rays shaped like a growing bar chart." />
     <meta property="og:locale" content="en_PH" />
     <meta name="twitter:card" content="summary_large_image" />
 
@@ -29,15 +36,92 @@
       href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&display=swap"
       rel="stylesheet"
     />
-    <link rel="preload" as="image" href="%BASE_URL%images/jeepney-800.webp" type="image/webp" fetchpriority="high" />
+
+    <!--
+      Splash. Plain HTML and CSS so it paints before the app's JavaScript.
+      The app calls window.__ppReady() once a real page has mounted. First
+      visit in a tab: the logo reveal plays (about a second). Reloads in the
+      same tab: the overlay only appears if loading takes longer than 350ms.
+      Fail-safe: it hides itself after 8s whatever happens.
+    -->
+    <style>
+      html { background: #f6f4ef; }
+      #splash {
+        position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center;
+        background: #f6f4ef; transition: opacity .45s cubic-bezier(.22,1,.36,1), visibility .45s;
+        animation: sp-fail .4s 8s forwards;
+      }
+      #splash.out { opacity: 0; visibility: hidden; }
+      #splash .sp-inner { display: flex; flex-direction: column; align-items: center; gap: 22px; transition: transform .45s cubic-bezier(.22,1,.36,1); }
+      #splash.out .sp-inner { transform: translateY(-10px) scale(.98); }
+      #splash svg { display: block; overflow: visible; }
+      #splash .sp-base { transform-box: view-box; transform-origin: 128px 191px; animation: sp-base .55s cubic-bezier(.22,1,.36,1) both; }
+      #splash .sp-sun { transform-box: view-box; animation: sp-sun .7s .15s cubic-bezier(.22,1,.36,1) both; }
+      #splash .sp-ray {
+        transform-box: view-box; transform-origin: 119px 164px;
+        animation: sp-ray .6s calc(.35s + var(--i) * .07s) cubic-bezier(.22,1,.36,1) both,
+                   sp-pulse 1.1s calc(1.3s + var(--i) * .12s) cubic-bezier(.65,0,.35,1) infinite;
+      }
+      #splash .sp-word { display: block; height: 34px; width: auto; animation: sp-word .6s .6s cubic-bezier(.22,1,.36,1) both; }
+      #splash .sp-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+      .splash-quick #splash { animation: sp-in .2s .35s both, sp-fail .4s 8s forwards; }
+      .splash-quick #splash .sp-base, .splash-quick #splash .sp-sun, .splash-quick #splash .sp-word { animation: none; }
+      .splash-quick #splash .sp-ray { animation: sp-pulse 1.1s calc(var(--i) * .12s) cubic-bezier(.65,0,.35,1) infinite; }
+      @keyframes sp-base { from { transform: scaleX(0); } }
+      @keyframes sp-sun { from { transform: translateY(42px); } }
+      @keyframes sp-ray { from { opacity: 0; transform: scale(.5); } }
+      @keyframes sp-word { from { opacity: 0; transform: translateY(8px); } }
+      @keyframes sp-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+      @keyframes sp-in { from { opacity: 0; } }
+      @keyframes sp-fail { to { opacity: 0; visibility: hidden; } }
+      @media (prefers-reduced-motion: reduce) {
+        #splash .sp-base, #splash .sp-sun, #splash .sp-ray, #splash .sp-word { animation: none !important; }
+        #splash .sp-inner { transition: none; }
+      }
+    </style>
+    <script>
+      ;(function () {
+        var d = document.documentElement, t0 = Date.now(), seen = null
+        try { seen = sessionStorage.getItem('pp-intro'); sessionStorage.setItem('pp-intro', '1') } catch (e) {}
+        if (seen) d.className += ' splash-quick'
+        window.__ppReady = function () {
+          var min = seen ? 0 : 1100, wait = Math.max(0, min - (Date.now() - t0))
+          setTimeout(function () {
+            var s = document.getElementById('splash')
+            if (!s) return
+            s.className += ' out'
+            try { window.dispatchEvent(new Event('pp:splash-out')) } catch (e) {}
+            setTimeout(function () { if (s.parentNode) s.parentNode.removeChild(s) }, 600)
+          }, wait)
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <div id="splash" role="status">
+      <div class="sp-inner">
+        <svg viewBox="0 0 256 256" width="104" height="104" aria-hidden="true" focusable="false">
+          <defs><clipPath id="sp-horizon"><rect x="0" y="0" width="256" height="164.5" /></clipPath></defs>
+          <g fill="#1D4E89">
+            <path class="sp-ray" style="--i:0" d="M69.21 120.24L65.74 118.24A13 13 0 0 0 52.74 140.76L56.21 142.76A13 13 0 0 0 69.21 120.24Z" />
+            <path class="sp-ray" style="--i:1" d="M97.76 101.21L88.76 85.62A13 13 0 0 0 66.24 98.62L75.24 114.21A13 13 0 0 0 97.76 101.21Z" />
+            <path class="sp-ray" style="--i:2" d="M132 99L132 67A13 13 0 0 0 106 67L106 99A13 13 0 0 0 132 99Z" />
+            <path class="sp-ray" style="--i:3" d="M162.76 114.21L185.76 74.37A13 13 0 0 0 163.24 61.37L140.24 101.21A13 13 0 0 0 162.76 114.21Z" />
+            <path class="sp-ray" style="--i:4" d="M181.79 142.76L233.75 112.76A13 13 0 0 0 220.75 90.24L168.79 120.24A13 13 0 0 0 181.79 142.76Z" />
+          </g>
+          <g clip-path="url(#sp-horizon)"><path class="sp-sun" fill="#EDA100" d="M81 164A38 38 0 0 1 157 164Z" /></g>
+          <path class="sp-base" fill="#1D4E89" d="M30 180H226A11 11 0 0 1 226 202H30A11 11 0 0 1 30 180Z" />
+        </svg>
+        <img class="sp-word" src="%BASE_URL%brand/pinansyalph-wordmark-color.svg" alt="" width="209" height="34" />
+        <span class="sp-sr">Loading PinansyalPH</span>
+      </div>
+    </div>
     <noscript>
+      <style>#splash { display: none; }</style>
       <p style="padding: 24px; font-family: Georgia, serif">
-        PinansyalPH needs JavaScript for its calculators. The data sources are the Philippine
-        Statistics Authority (inflation), the Department of Energy Oil Monitor (fuel), Pag-IBIG Fund (MP2) and each
-        bank's official rate page.
+        PinansyalPH needs JavaScript for its calculators. The data sources are the Philippine Statistics Authority (inflation), the
+        Department of Energy Oil Monitor (fuel), Pag-IBIG Fund (MP2) and each bank's official rate page.
       </p>
     </noscript>
     <script type="module" src="/src/main.tsx"></script>

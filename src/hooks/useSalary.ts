@@ -165,7 +165,12 @@ export function itemsFrom(state: SalaryState, fuelCost: number | null): BudgetIt
 
 export function useSalary() {
   const [stored] = useState(() => (typeof window === 'undefined' ? null : readStored()))
-  const [state, setState] = useState<SalaryState>(stored ?? DEFAULT_STATE)
+  const [state, setState] = useState<SalaryState>(() => {
+    const base = stored ?? DEFAULT_STATE
+    // The homepage estimator hands over its salary as ?basic=…; nothing else is read from the URL.
+    const fromUrl = typeof window === 'undefined' ? null : Number(new URLSearchParams(window.location.search).get('basic'))
+    return fromUrl && Number.isFinite(fromUrl) && fromUrl > 0 && fromUrl <= 1e12 ? { ...base, salary: { ...base.salary, basic: Math.round(fromUrl * 100) / 100 } } : base
+  })
   const [remember, setRemember] = useState(stored !== null)
   const [view, setView] = useState<'monthly' | 'perPay'>('monthly')
 

@@ -1,110 +1,124 @@
-import { AnimatePresence, motion, useScroll, useSpring } from 'motion/react'
-import { ArrowRight, Menu, X } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { Link, PAGES, useRouter } from '../../router'
-import { EASE, useReducedMotion } from '../ui/motion'
+import { AnimatePresence } from 'motion/react'
+import { ChevronDown, Heart, Menu, X } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { Link, TOOLS, useRouter } from '../../router'
+import { LogoHorizontal } from '../brand/Logo'
+import { useSupport } from '../support/Support'
+import { DUR, EASE, motion, useReducedMotion } from '../ui/motion'
+import { ToolDirectory } from './ToolDirectory'
 
-export const NAV = PAGES
-
-function ScrollProgress() {
-  const { scrollYProgress } = useScroll()
-  const scaleX = useSpring(scrollYProgress, { stiffness: 140, damping: 30, restDelta: 0.001 })
-  return <motion.div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-[2px] origin-left bg-accent" style={{ scaleX }} />
-}
-
+/**
+ * A plain bar: the logo, one "Tools" menu, About, and one action.
+ * Desktop: the tools open as a panel under the bar. Phones: the same
+ * directory fills the screen as a sheet.
+ */
 export function SiteHeader() {
   const { path } = useRouter()
   const reduce = useReducedMotion()
-  // The menu remembers which page it was opened on, so changing page closes it.
+  const { openSupport } = useSupport()
+  // The menu remembers the page it was opened on, so changing page closes it.
   const [openOn, setOpenOn] = useState<string | null>(null)
   const open = openOn === path
-  const setOpen = (v: boolean | ((o: boolean) => boolean)) => setOpenOn((typeof v === 'function' ? v(open) : v) ? path : null)
+  const close = () => setOpenOn(null)
   const [scrolled, setScrolled] = useState(false)
+  const deskPanel = useRef<HTMLDivElement>(null)
+  const mobPanel = useRef<HTMLDivElement>(null)
+  const desktopBtn = useRef<HTMLButtonElement>(null)
+  const mobileBtn = useRef<HTMLButtonElement>(null)
+  const inTools = TOOLS.some((t) => t.path === path)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
+    const onScroll = () => setScrolled(window.scrollY > 4)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Escape closes the menu.
+  // Escape closes and returns focus; clicks outside close; the phone sheet locks page scroll.
   useEffect(() => {
     if (!open) return
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpenOn(null)
+    const wide = window.matchMedia('(min-width: 1024px)').matches
+    const trigger = wide ? desktopBtn.current : mobileBtn.current
+    const panel = wide ? deskPanel.current : mobPanel.current
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpenOn(null)
+        trigger?.focus()
+      }
+    }
+    const onDown = (e: PointerEvent) => {
+      const t = e.target as Node
+      if (panel?.contains(t) || desktopBtn.current?.contains(t) || mobileBtn.current?.contains(t)) return
+      setOpenOn(null)
+    }
+    const prev = document.body.style.overflow
+    if (!wide) document.body.style.overflow = 'hidden'
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    window.addEventListener('pointerdown', onDown)
+    const t = window.setTimeout(() => panel?.querySelector<HTMLElement>('a')?.focus({ preventScroll: true }), 60)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      window.removeEventListener('pointerdown', onDown)
+      document.body.style.overflow = prev
+      window.clearTimeout(t)
+    }
   }, [open])
 
   return (
-    <div
-      className={`sticky top-0 z-40 bg-ground/90 px-[var(--gutter)] pt-2 pb-2 backdrop-blur-md transition-shadow duration-300 supports-[not(backdrop-filter:blur(1px))]:bg-ground ${
-        scrolled ? 'shadow-[0_1px_0_rgba(21,21,20,0.08),0_8px_24px_-16px_rgba(21,21,20,0.25)]' : ''
-      }`}
-    >
-      <nav aria-label="Main" className="flex h-[56px] gap-2 sm:h-[60px]">
-        <Link
-          to="/"
-          className="ui group flex aspect-square h-full items-center justify-center bg-ink text-[1.05rem] font-semibold text-ground transition-transform duration-300 ease-[var(--ease-out-quint)] hover:scale-[0.94]"
-          aria-label="PinansyalPH home"
-        >
-          <span className="transition-transform duration-500 ease-[var(--ease-out-quint)] group-hover:rotate-[-8deg]">₱</span>
+    <header className={`sticky top-0 z-40 transition-colors duration-300 ${scrolled || open ? 'bg-paper/[0.98]' : 'bg-ground'}`}>
+      <nav aria-label="Main" className="wrap flex h-[var(--header-h)] items-center gap-2">
+        <Link to="/" className="-ml-1.5 mr-auto flex shrink-0 items-center rounded-[10px] p-1.5 transition-opacity hover:opacity-80" aria-label="PinansyalPH home">
+          <LogoHorizontal height={42} className="h-[38px] w-auto sm:h-[42px]" />
         </Link>
 
         {/* Desktop */}
-        <div className="ui hidden min-w-0 flex-1 items-center bg-surface lg:flex">
-          <Link to="/" className="hidden shrink-0 pr-4 pl-5 text-[0.9375rem] font-semibold xl:block">
-            PinansyalPH
+        <div className="ui hidden items-center gap-1 lg:flex">
+          <button
+            ref={desktopBtn}
+            type="button"
+            aria-expanded={open}
+            aria-controls="tools-menu"
+            onClick={() => setOpenOn(open ? null : path)}
+            className={`flex min-h-11 cursor-pointer items-center gap-1.5 rounded-full border-0 px-4 text-[0.9375rem] font-semibold transition-colors ${open || inTools ? 'bg-surface text-ink' : 'bg-transparent text-ink hover:bg-surface'}`}
+          >
+            Tools
+            <ChevronDown aria-hidden="true" size={16} strokeWidth={2.2} className={`transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
+          </button>
+          <Link
+            to="/about"
+            aria-current={path === '/about' ? 'page' : undefined}
+            className="flex min-h-11 items-center rounded-full px-4 text-[0.9375rem] font-semibold transition-colors hover:bg-surface aria-[current=page]:bg-surface"
+          >
+            About
           </Link>
-          <ul className="m-0 flex min-w-0 list-none gap-0.5 p-0 pl-2 xl:pl-0">
-            {NAV.map((n) => {
-              const active = path === n.path
-              return (
-                <li key={n.path} className="relative">
-                  <Link
-                    to={n.path}
-                    aria-current={active ? 'page' : undefined}
-                    className="relative z-10 block px-3 py-2 text-[0.9375rem] font-medium whitespace-nowrap transition-colors duration-200 hover:text-accent aria-[current=page]:text-ground aria-[current=page]:hover:text-ground"
-                  >
-                    {n.label}
-                  </Link>
-                  {active && (
-                    <motion.span
-                      layoutId="nav-pill"
-                      aria-hidden="true"
-                      className="absolute inset-0 bg-ink"
-                      transition={reduce ? { duration: 0 } : { type: 'spring', stiffness: 420, damping: 36 }}
-                    />
-                  )}
-                </li>
-              )
-            })}
-          </ul>
+          <button type="button" onClick={openSupport} className="flex min-h-11 cursor-pointer items-center gap-2 rounded-full border-0 bg-transparent px-4 text-[0.9375rem] font-semibold transition-colors hover:bg-surface">
+            <Heart aria-hidden="true" size={16} strokeWidth={2.2} className="text-accent" />
+            Support
+          </button>
+          <Link to="/sweldo" className="btn btn-primary btn-sm ml-2">
+            Compute my sweldo
+          </Link>
         </div>
 
-        {/* Mobile and tablet */}
-        <div className="flex min-w-0 flex-1 items-center bg-surface lg:hidden">
-          <Link to="/" className="ui truncate pl-4 text-[0.9375rem] font-semibold">
-            PinansyalPH
-          </Link>
-          {path !== '/' && (
-            <span className="ui truncate pl-2 text-[0.9375rem] text-muted">/ {NAV.find((n) => n.path === path)?.label}</span>
-          )}
-        </div>
+        {/* Phones and tablets */}
+        <Link to="/sweldo" className="btn btn-primary btn-sm hidden sm:inline-flex lg:hidden">
+          Compute my sweldo
+        </Link>
         <button
+          ref={mobileBtn}
           type="button"
-          className="ui flex aspect-square h-full items-center justify-center bg-surface transition-colors hover:bg-surface-2 lg:hidden"
+          className="ui flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border-0 bg-surface text-ink transition-colors hover:bg-surface-2 lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-menu"
-          onClick={() => setOpen((v) => !v)}
+          onClick={() => setOpenOn(open ? null : path)}
         >
           <AnimatePresence mode="wait" initial={false}>
             <motion.span
               key={open ? 'x' : 'menu'}
-              initial={reduce ? false : { rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={reduce ? undefined : { rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.18 }}
+              initial={reduce ? false : { rotate: -60, opacity: 0, scale: 0.8 }}
+              animate={{ rotate: 0, opacity: 1, scale: 1 }}
+              exit={reduce ? undefined : { rotate: 60, opacity: 0, scale: 0.8 }}
+              transition={{ duration: DUR.fast }}
               className="flex"
             >
               {open ? <X aria-hidden="true" size={22} /> : <Menu aria-hidden="true" size={22} />}
@@ -112,44 +126,63 @@ export function SiteHeader() {
           </AnimatePresence>
           <span className="sr-only">{open ? 'Close menu' : 'Open menu'}</span>
         </button>
-        <Link to="/mp2" className="btn btn-ink group hidden h-full shrink-0 xl:inline-flex">
-          Calculate my savings
-          <ArrowRight aria-hidden="true" size={18} className="transition-transform duration-300 ease-[var(--ease-out-quint)] group-hover:translate-x-1" />
-        </Link>
       </nav>
 
-      <AnimatePresence initial={false}>
+      <AnimatePresence>
         {open && (
-          <motion.div
-            key="menu"
-            initial={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
-            animate={reduce ? { opacity: 1 } : { height: 'auto', opacity: 1 }}
-            exit={reduce ? { opacity: 0 } : { height: 0, opacity: 0 }}
-            transition={{ duration: 0.35, ease: EASE }}
-            className="overflow-hidden lg:hidden"
-          >
-            <ul id="mobile-menu" className="ui m-0 grid list-none grid-cols-2 gap-2 p-0 pt-2 sm:grid-cols-4">
-              {NAV.map((n, i) => (
-                <motion.li
-                  key={n.path}
-                  initial={reduce ? false : { opacity: 0, y: -8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: 0.04 * i, ease: EASE }}
-                >
-                  <Link
-                    to={n.path}
-                    aria-current={path === n.path ? 'page' : undefined}
-                    className="flex min-h-[48px] items-center bg-surface px-4 py-3 font-medium transition-colors hover:bg-surface-2 aria-[current=page]:bg-ink aria-[current=page]:text-ground"
-                  >
-                    {n.label}
+          <>
+            {/* Desktop panel */}
+            <motion.div
+              key="desktop"
+              ref={deskPanel}
+              id="tools-menu"
+              initial={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0, transition: { duration: DUR.base, ease: EASE } }}
+              exit={{ opacity: 0, y: reduce ? 0 : -6, transition: { duration: 0.16 } }}
+              className="absolute inset-x-0 top-full hidden lg:block"
+            >
+              <div className="wrap">
+                <div className="ml-auto max-w-[920px] rounded-[28px] bg-paper p-5 shadow-[0_24px_60px_-20px_rgba(21,21,20,0.28),0_2px_6px_rgba(21,21,20,0.04)]">
+                  <ToolDirectory onNavigate={close} />
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Phone sheet */}
+            <motion.div
+              key="mobile"
+              id="mobile-menu"
+              ref={mobPanel}
+              initial={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0, transition: { duration: DUR.base, ease: EASE } }}
+              exit={{ opacity: 0, transition: { duration: 0.16 } }}
+              className="fixed inset-x-0 top-[var(--header-h)] bottom-0 overflow-y-auto overscroll-contain bg-paper lg:hidden"
+            >
+              <div className="wrap pt-4 pb-[max(32px,env(safe-area-inset-bottom))]">
+                <ToolDirectory onNavigate={close} compact />
+                <div className="ui mt-8 grid gap-1 rounded-[22px] bg-ground p-2">
+                  <Link to="/" onClick={close} aria-current={path === '/' ? 'page' : undefined} className="flex min-h-[52px] items-center rounded-[16px] px-3 font-semibold hover:bg-surface aria-[current=page]:text-accent">
+                    Home
                   </Link>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
+                  <Link to="/about" onClick={close} aria-current={path === '/about' ? 'page' : undefined} className="flex min-h-[52px] items-center rounded-[16px] px-3 font-semibold hover:bg-surface aria-[current=page]:text-accent">
+                    About
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      close()
+                      openSupport()
+                    }}
+                    className="flex min-h-[52px] cursor-pointer items-center gap-2 rounded-[16px] border-0 bg-transparent px-3 text-left text-base font-semibold hover:bg-surface"
+                  >
+                    <Heart aria-hidden="true" size={18} className="text-accent" /> Support PinansyalPH
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
-      <ScrollProgress />
-    </div>
+    </header>
   )
 }

@@ -1,6 +1,6 @@
 import { AnimatePresence } from 'motion/react'
-import { ChevronDown, Plus, RotateCcw, Trash2 } from 'lucide-react'
-import { useId, useMemo, useState, type ReactNode } from 'react'
+import { Plus, RotateCcw, Trash2 } from 'lucide-react'
+import { useMemo, useState, type ReactNode } from 'react'
 import { salaryBreakdown, type BudgetResult, type GroupKey } from '../../calculators/budget'
 import { calculateMp2 } from '../../calculators/mp2'
 import { D } from '../../calculators/money'
@@ -10,11 +10,14 @@ import { SalaryCharts } from '../../charts/lazy'
 import { banks, latestFuel, latestMp2, recentAverageInflation } from '../../data'
 import { safe, type ScenarioState } from '../../hooks/useScenario'
 import { CATALOGUE, GROUP_LABELS, useSalary, type SalaryHook } from '../../hooks/useSalary'
-import { dateLabel, peso, perLiter } from '../../utils/format'
-import { AmountField, NumberField, Segmented, Toggle } from '../ui/fields'
-import { AnimatedNumber, Reveal, motion, useReducedMotion, EASE } from '../ui/motion'
-import { StatusTag } from '../ui/Status'
 import { useRouter } from '../../router'
+import { dateLabel, peso, perLiter } from '../../utils/format'
+import { ToolHeader } from '../layout/Page'
+import { Disclosure } from '../ui/Disclosure'
+import { AmountField, NumberField, Segmented, Toggle } from '../ui/fields'
+import { AnimatedNumber, DUR, EASE, Reveal, motion } from '../ui/motion'
+import { CalcGrid, Panel, ResultHero, Stat } from '../ui/Result'
+import { StatusTag } from '../ui/Status'
 
 /** Fixed colour per category; colour follows the entity, never its rank. */
 export const GROUP_COLORS: Record<GroupKey | 'government' | 'payroll' | 'remaining', string> = {
@@ -43,26 +46,15 @@ const STATUS = {
   negative: { field: 'bg-loss-soft', dot: 'bg-loss', text: 'Mas mataas ang expenses mo kaysa sa available salary mo.', sub: 'Your expenses and savings are more than your take-home pay this month.' },
 } as const
 
-/* ------------------------------------------------------------------ */
+type Unit = { f: (n: number) => number; label: string }
 
-function Card({ title, children, aside, id }: { title: string; children: ReactNode; aside?: ReactNode; id?: string }) {
-  return (
-    <div className="bg-paper p-5 sm:p-7" id={id}>
-      <div className="mb-6 flex flex-wrap items-baseline justify-between gap-3">
-        <h3 className="text-[1.5rem] leading-tight">{title}</h3>
-        {aside}
-      </div>
-      {children}
-    </div>
-  )
-}
+/* ----------------------------- Step 1: pay ----------------------------- */
 
 function SalaryInputs({ h }: { h: SalaryHook }) {
-  const [more, setMore] = useState(false)
   const s = h.state.salary
   return (
-    <Card title="Sweldo">
-      <form className="grid gap-6" onSubmit={(e) => e.preventDefault()}>
+    <Panel as="form" title="Your pay" intro="Your basic salary is enough to start. Add the rest only if it is on your payslip.">
+      <div className="grid gap-6">
         <AmountField label="Basic monthly salary" value={s.basic} onChange={(v) => h.setSalary({ basic: v })} />
         <Segmented<PayFrequency>
           label="How often you are paid"
@@ -76,39 +68,34 @@ function SalaryInputs({ h }: { h: SalaryHook }) {
             { value: 'biweekly', label: 'Biweekly' },
           ]}
         />
-        <div className="grid gap-6 sm:grid-cols-2">
-          <AmountField label="Taxable allowances (monthly)" value={s.taxableAllowances} onChange={(v) => h.setSalary({ taxableAllowances: v })} hint="Allowances on your payslip that are taxed." />
-          <AmountField label="Non-taxable allowances (monthly)" value={s.nonTaxableAllowances} onChange={(v) => h.setSalary({ nonTaxableAllowances: v })} hint="De minimis benefits like rice or laundry allowance, within BIR limits." />
-        </div>
-        <AmountField label="Other taxable income (monthly)" value={s.otherTaxable} onChange={(v) => h.setSalary({ otherTaxable: v })} hint="Commissions, honoraria or taxable incentives from your employer." />
         <Toggle
           label="I earn the statutory minimum wage"
           checked={s.minimumWageEarner}
           onChange={(v) => h.setSalary({ minimumWageEarner: v })}
           description="Minimum wage, overtime and holiday pay are exempt from income tax. Contributions still apply."
         />
-        <div>
-          <button type="button" className="btn btn-quiet px-0" aria-expanded={more} aria-controls="salary-more" onClick={() => setMore((v) => !v)}>
-            {more ? 'Hide overtime, bonuses and other deductions' : 'Overtime, bonuses and other deductions'}
-          </button>
-          <AnimatePresence initial={false}>
-            {more && (
-              <motion.div id="salary-more" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3, ease: EASE }} className="overflow-hidden">
-                <div className="grid gap-6 pt-5 sm:grid-cols-2">
-                  <AmountField label="Overtime and holiday pay (monthly)" value={s.overtime} onChange={(v) => h.setSalary({ overtime: v })} />
-                  <AmountField label="Other payroll deductions (monthly)" value={s.otherDeductions} onChange={(v) => h.setSalary({ otherDeductions: v })} hint="Salary or SSS loans, co-op dues. Taken after tax." />
-                  <AmountField label="13th month pay and bonuses (per year)" value={s.annualBonus} onChange={(v) => h.setSalary({ annualBonus: v })} hint="Tax-free up to ₱90,000 a year. Shown separately, not in the monthly budget." />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </form>
-    </Card>
+        <Disclosure title="Allowances, overtime and bonuses" summary={extrasSummary(h)} tone="ground" size="sm">
+          <div className="grid gap-6 pt-2 sm:grid-cols-2">
+            <AmountField label="Taxable allowances (monthly)" value={s.taxableAllowances} onChange={(v) => h.setSalary({ taxableAllowances: v })} hint="Allowances on your payslip that are taxed." />
+            <AmountField label="Non-taxable allowances (monthly)" value={s.nonTaxableAllowances} onChange={(v) => h.setSalary({ nonTaxableAllowances: v })} hint="De minimis benefits like rice or laundry allowance, within BIR limits." />
+            <AmountField label="Other taxable income (monthly)" value={s.otherTaxable} onChange={(v) => h.setSalary({ otherTaxable: v })} hint="Commissions, honoraria or taxable incentives from your employer." />
+            <AmountField label="Overtime and holiday pay (monthly)" value={s.overtime} onChange={(v) => h.setSalary({ overtime: v })} />
+            <AmountField label="Other payroll deductions (monthly)" value={s.otherDeductions} onChange={(v) => h.setSalary({ otherDeductions: v })} hint="Salary or SSS loans, co-op dues. Taken after tax." />
+            <AmountField label="13th month pay and bonuses (per year)" value={s.annualBonus} onChange={(v) => h.setSalary({ annualBonus: v })} hint="Tax-free up to ₱90,000 a year. Shown separately, not in the monthly budget." />
+          </div>
+        </Disclosure>
+      </div>
+    </Panel>
   )
 }
 
-function Deductions({ p, view }: { p: PayrollResult; view: (n: number) => number }) {
+function extrasSummary(h: SalaryHook) {
+  const s = h.state.salary
+  const n = [s.taxableAllowances, s.nonTaxableAllowances, s.otherTaxable, s.overtime, s.otherDeductions, s.annualBonus].filter((x) => x > 0).length
+  return n ? `${n} added` : 'Optional'
+}
+
+function Deductions({ p, unit }: { p: PayrollResult; unit: Unit }) {
   const rows = [
     { label: 'SSS', value: p.sss.employee, note: `5% of your ₱${p.sss.msc.toNumber().toLocaleString('en-PH')} monthly salary credit${p.sss.mpf.gt(0) ? `, including ${peso(p.sss.mpf)} to the provident fund` : ''}`, rule: p.rules.sss },
     { label: 'PhilHealth', value: p.philhealth, note: 'Your half of the 5% premium on basic salary', rule: p.rules.philhealth },
@@ -116,24 +103,24 @@ function Deductions({ p, view }: { p: PayrollResult; view: (n: number) => number
     { label: 'Withholding tax', value: p.withholdingMonthly, note: p.withholdingMonthly.isZero() ? 'None: your taxable pay is below the BIR threshold' : `BIR table on ${peso(p.taxableIncome)} taxable pay a month`, rule: p.rules.tax },
   ]
   return (
-    <Card title="Government deductions" aside={<span className="ui text-[0.9375rem] text-ink-2">Estimated automatically</span>}>
-      <ul data-ui className="ui m-0 grid list-none gap-1 p-0">
+    <>
+      <ul data-ui className="ui m-0 grid list-none gap-1.5 p-0">
         {rows.map((r) => (
-          <li key={r.label} className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-0.5 bg-ground px-4 py-3">
+          <li key={r.label} className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-0.5 rounded-[16px] bg-ground px-4 py-3">
             <span className="font-semibold">{r.label}</span>
-            <span className="tabular text-right font-semibold">{peso(view(r.value.toNumber()))}</span>
-            <span className="col-span-2 text-[0.9375rem] text-ink-2">
+            <span className="tabular text-right font-semibold">{peso(unit.f(r.value.toNumber()))}</span>
+            <span className="col-span-2 text-[0.875rem] leading-snug text-muted">
               {r.note}.{' '}
-              <a className="link" href={r.rule.sourceUrl} target="_blank" rel="noreferrer">
+              <a className="link" href={r.rule.sourceUrl} target="_blank" rel="noopener noreferrer">
                 Source
               </a>
             </span>
           </li>
         ))}
         {p.otherDeductions.gt(0) && (
-          <li className="grid grid-cols-[1fr_auto] gap-x-4 bg-ground px-4 py-3">
+          <li className="grid grid-cols-[1fr_auto] gap-x-4 rounded-[16px] bg-ground px-4 py-3">
             <span className="font-semibold">Other payroll deductions</span>
-            <span className="tabular text-right font-semibold">{peso(view(p.otherDeductions.toNumber()))}</span>
+            <span className="tabular text-right font-semibold">{peso(unit.f(p.otherDeductions.toNumber()))}</span>
           </li>
         )}
       </ul>
@@ -143,48 +130,82 @@ function Deductions({ p, view }: { p: PayrollResult; view: (n: number) => number
         </p>
       )}
       {p.assumptions.length > 0 && (
-        <ul className="ui mt-4 grid list-disc gap-1 pl-5 text-[0.9375rem] text-ink-2">
+        <ul className="ui mt-4 grid list-disc gap-1 pl-5 text-[0.875rem] text-muted">
           {p.assumptions.map((a) => (
             <li key={a}>{a}</li>
           ))}
         </ul>
       )}
-    </Card>
+    </>
   )
 }
 
-function Group({ group, h, budget, children, defaultOpen = false }: { group: GroupKey; h: SalaryHook; budget: BudgetResult | null; children: ReactNode; defaultOpen?: boolean }) {
-  const [open, setOpen] = useState(defaultOpen)
-  const reduce = useReducedMotion()
-  const id = useId()
+function PayResult({ h, p, unit }: { h: SalaryHook; p: PayrollResult; unit: Unit }) {
+  const gov = unit.f(p.governmentTotal.toNumber())
+  return (
+    <>
+      <ResultHero
+        label="Estimated take-home pay"
+        value={unit.f(p.takeHomeMonthly.toNumber())}
+        format={peso}
+        testId="take-home"
+        caption={
+          <>
+            {unit.label.toLowerCase()}. From {peso(unit.f(p.grossMonthly.toNumber()))} gross, {peso(gov)} goes to SSS, PhilHealth, Pag-IBIG and tax
+            {p.otherDeductions.gt(0) ? `, and ${peso(unit.f(p.otherDeductions.toNumber()))} to other deductions` : ''}.
+          </>
+        }
+      >
+        {p.paysPerMonth !== 1 && (
+          <div className="mt-6 max-w-[17rem] [&_.bg-surface]:bg-white/15 [&_.text-ink-2]:text-white/85 [&_.text-ink-2:hover]:text-white">
+            <Segmented
+              label="Show amounts"
+              hideLabel
+              value={h.view}
+              onChange={h.setView}
+              options={[
+                { value: 'monthly', label: 'Per month' },
+                { value: 'perPay', label: 'Per payday' },
+              ]}
+            />
+          </div>
+        )}
+      </ResultHero>
+      <div className="card p-2">
+        <Disclosure title="Where the deductions go" summary={peso(gov)} tone="plain" id="deductions">
+          <Deductions p={p} unit={unit} />
+        </Disclosure>
+      </div>
+    </>
+  )
+}
+
+/* ---------------------------- Step 2: budget ---------------------------- */
+
+function Group({ group, h, budget, children }: { group: GroupKey; h: SalaryHook; budget: BudgetResult | null; children: ReactNode }) {
   const off = h.state.disabled.includes(group)
   const total = budget?.byGroup[group].toNumber() ?? 0
   return (
-    <div className={`bg-paper transition-opacity ${off ? 'opacity-70' : ''}`}>
-      <div className="flex items-stretch">
-        <button type="button" className="ui flex flex-1 items-center gap-3 px-5 py-4 text-left transition-colors hover:bg-ground sm:px-7" aria-expanded={open} aria-controls={id} onClick={() => setOpen((v) => !v)}>
+    <Disclosure
+      tone="paper"
+      title={
+        <span className="flex items-center gap-3">
           <span aria-hidden="true" className="inline-block h-3 w-3 shrink-0 rounded-full" style={{ background: GROUP_COLORS[group] }} />
-          <span className="flex-1 text-[1.0625rem] font-semibold">{GROUP_LABELS[group]}</span>
-          <span className="tabular text-[1.0625rem]">{off ? 'Off' : peso(total)}</span>
-          <ChevronDown aria-hidden="true" size={20} className={`shrink-0 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
-        </button>
+          {GROUP_LABELS[group]}
+        </span>
+      }
+      summary={off ? 'Off' : peso(total)}
+    >
+      <div className={`transition-opacity ${off ? 'opacity-70' : ''}`}>
+        <div className="mb-5">
+          <Toggle label={`Include ${GROUP_LABELS[group].toLowerCase()} in my budget`} checked={!off} onChange={() => h.toggleGroup(group)} />
+        </div>
+        <fieldset disabled={off} className="m-0 min-w-0 border-0 p-0">
+          <legend className="sr-only">{GROUP_LABELS[group]}</legend>
+          {children}
+        </fieldset>
       </div>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div id={id} initial={reduce ? false : { height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={reduce ? undefined : { height: 0, opacity: 0 }} transition={{ duration: 0.32, ease: EASE }} className="overflow-hidden">
-            <div className="px-5 pb-6 sm:px-7">
-              <div className="mb-5">
-                <Toggle label={`Include ${GROUP_LABELS[group].toLowerCase()} in my budget`} checked={!off} onChange={() => h.toggleGroup(group)} />
-              </div>
-              <fieldset disabled={off} className="m-0 min-w-0 border-0 p-0">
-                <legend className="sr-only">{GROUP_LABELS[group]}</legend>
-                {children}
-              </fieldset>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+    </Disclosure>
   )
 }
 
@@ -192,8 +213,7 @@ function Items({ group, h }: { group: Exclude<GroupKey, 'custom'>; h: SalaryHook
   return (
     <div className="grid gap-5 sm:grid-cols-2">
       {CATALOGUE[group].map((d) => {
-        const computed = d.id === 'carFuel' && h.state.fuel.on
-        if (computed) return null
+        if (d.id === 'carFuel' && h.state.fuel.on) return null
         return <AmountField key={d.id} label={d.label} value={h.state.amounts[d.id] ?? 0} onChange={(v) => h.setAmount(d.id, v)} hint={d.hint} />
       })}
     </div>
@@ -203,13 +223,8 @@ function Items({ group, h }: { group: Exclude<GroupKey, 'custom'>; h: SalaryHook
 function FuelEstimator({ h }: { h: SalaryHook }) {
   const f = h.state.fuel
   return (
-    <div className="mt-6 bg-ground p-5">
-      <Toggle
-        label="Estimate car gasoline from distance"
-        checked={f.on}
-        onChange={(v) => h.setFuel({ on: v })}
-        description="Uses kilometers per day, travel days, your car's fuel efficiency and the price you pay."
-      />
+    <div className="tile mt-6 p-5">
+      <Toggle label="Estimate car gasoline from distance" checked={f.on} onChange={(v) => h.setFuel({ on: v })} description="Uses kilometers per day, travel days, your car's fuel efficiency and the price you pay." />
       {f.on && (
         <div className="mt-5 grid gap-5 sm:grid-cols-2">
           <NumberField label="Kilometers a day (round trip)" min={0} max={2000} step={1} value={f.kmPerDay} onChange={(v) => h.setFuel({ kmPerDay: v })} suffix="km" />
@@ -229,8 +244,8 @@ function FuelEstimator({ h }: { h: SalaryHook }) {
             {!h.fuel ? null : h.fuel.ok ? (
               f.pricePerLiter > 0 ? (
                 <>
-                  About <strong className="tabular">{Math.round(h.fuel.value.km.toNumber()).toLocaleString('en-PH')} km</strong> and{' '}
-                  <strong className="tabular">{h.fuel.value.liters.toFixed(1)} L</strong> a month: <strong className="tabular">{peso(h.fuel.value.cost)}</strong> for car gasoline.
+                  About <strong className="tabular">{Math.round(h.fuel.value.km.toNumber()).toLocaleString('en-PH')} km</strong> and <strong className="tabular">{h.fuel.value.liters.toFixed(1)} L</strong> a month:{' '}
+                  <strong className="tabular">{peso(h.fuel.value.cost)}</strong> for car gasoline.
                 </>
               ) : (
                 'Enter the price per liter to estimate your gasoline cost.'
@@ -248,94 +263,90 @@ function FuelEstimator({ h }: { h: SalaryHook }) {
 function CustomItems({ h }: { h: SalaryHook }) {
   return (
     <div className="grid gap-4">
-      {h.state.custom.length === 0 && <p className="ui text-ink-2">Add anything that is not on the lists above.</p>}
+      {h.state.custom.length === 0 && <p className="ui text-[0.9375rem] text-muted">Add anything that is not on the lists above.</p>}
       <ul className="m-0 grid list-none gap-4 p-0">
-        {h.state.custom.map((c, i) => (
-          <li key={c.id} className="grid items-end gap-3 sm:grid-cols-[1fr_12rem_auto]">
-            <div className="ui">
-              <label htmlFor={`${c.id}-name`} className="mb-2 block text-[0.9375rem] font-medium">
-                Expense name
-              </label>
-              <input id={`${c.id}-name`} className="field-input" value={c.label} placeholder={`Custom expense ${i + 1}`} maxLength={60} onChange={(e) => h.updateCustom(c.id, { label: e.target.value })} />
-            </div>
-            <AmountField label="Amount per month" value={c.amount} onChange={(v) => h.updateCustom(c.id, { amount: v })} />
-            <button type="button" className="btn btn-quiet h-12 justify-self-start no-underline hover:text-loss" onClick={() => h.removeCustom(c.id)}>
-              <Trash2 aria-hidden="true" size={18} />
-              <span className="sr-only">Remove {c.label || `custom expense ${i + 1}`}</span>
-              <span aria-hidden="true">Remove</span>
-            </button>
-          </li>
-        ))}
+        <AnimatePresence initial={false}>
+          {h.state.custom.map((c, i) => (
+            <motion.li
+              key={c.id}
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: DUR.base, ease: EASE }}
+              className="grid items-end gap-3 sm:grid-cols-[1fr_12rem_auto]"
+            >
+              <div className="ui">
+                <label htmlFor={`${c.id}-name`} className="field-label">
+                  Expense name
+                </label>
+                <input id={`${c.id}-name`} className="field-input" value={c.label} placeholder={`Custom expense ${i + 1}`} maxLength={60} onChange={(e) => h.updateCustom(c.id, { label: e.target.value })} />
+              </div>
+              <AmountField label="Amount per month" value={c.amount} onChange={(v) => h.updateCustom(c.id, { amount: v })} />
+              <button type="button" className="btn btn-soft h-[52px] justify-self-start hover:text-loss" onClick={() => h.removeCustom(c.id)}>
+                <Trash2 aria-hidden="true" size={18} />
+                <span className="sr-only">Remove {c.label || `custom expense ${i + 1}`}</span>
+                <span aria-hidden="true">Remove</span>
+              </button>
+            </motion.li>
+          ))}
+        </AnimatePresence>
       </ul>
-      <button type="button" className="btn btn-paper justify-self-start bg-ground hover:bg-surface" onClick={h.addCustom}>
+      <button type="button" className="btn btn-soft justify-self-start" onClick={h.addCustom}>
         <Plus aria-hidden="true" size={18} /> Add an expense
       </button>
     </div>
   )
 }
 
-/* ------------------------------------------------------------------ */
-
-function Summary({ h, p, b, unit }: { h: SalaryHook; p: PayrollResult; b: BudgetResult; unit: { f: (n: number) => number; label: string } }) {
+function BudgetResult({ h, p, b, unit, empty }: { h: SalaryHook; p: PayrollResult; b: BudgetResult; unit: Unit; empty: boolean }) {
   const st = STATUS[b.status]
   const v = (n: { toNumber: () => number }) => unit.f(n.toNumber())
+  const negative = b.remaining.lt(0)
   return (
-    <div className="bg-paper p-5 sm:p-7" aria-live="polite">
-      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-        <p className="ui text-[0.9375rem] font-semibold">Natitirang sweldo mo</p>
-        {p.paysPerMonth !== 1 && (
-          <div className="w-[15rem]">
-            <Segmented
-              label="Show amounts"
-              hideLabel
-              value={h.view}
-              onChange={h.setView}
-              options={[
-                { value: 'monthly', label: 'Per month' },
-                { value: 'perPay', label: 'Per payday' },
-              ]}
-            />
-          </div>
-        )}
+    <>
+      <ResultHero
+        label="Natitirang sweldo mo"
+        tone={empty ? 'soft' : negative ? 'loss' : 'accent'}
+        value={v(b.remaining)}
+        format={(n) => (n < -0.5 ? `−${peso(Math.abs(n))}` : peso(n))}
+        testId="remaining"
+        caption={empty ? 'Nothing added yet, so this is your whole take-home pay. Open a category to add your bills.' : `${unit.label}, after deductions, expenses and savings.`}
+      />
+      <div className="card p-5 sm:p-7">
+        <AnimatePresence mode="wait" initial={false}>
+          {!empty && <motion.div key={b.status} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.25 }} className={`rounded-[18px] ${st.field} p-4`}>
+            <p className="flex items-start gap-2.5 font-semibold">
+              <span aria-hidden="true" className={`mt-2 inline-block h-2.5 w-2.5 shrink-0 rounded-full ${st.dot}`} />
+              {st.text}
+            </p>
+            <p className="ui mt-1 pl-5 text-[0.9375rem] text-ink-2">{st.sub}</p>
+          </motion.div>}
+        </AnimatePresence>
+        <dl data-ui className={`m-0 grid ${empty ? '' : 'mt-6'} grid-cols-2 gap-x-5 gap-y-5`}>
+          <Stat label="Take-home pay" value={<AnimatedNumber value={v(p.takeHomeMonthly)} format={peso} />} />
+          <Stat label="Total expenses" value={<AnimatedNumber value={v(b.expenses)} format={peso} />} />
+          <Stat label="Savings and investments" value={<AnimatedNumber value={v(b.savings)} format={peso} />} />
+          <Stat label="Government deductions" value={<AnimatedNumber value={v(p.governmentTotal)} format={peso} />} />
+        </dl>
       </div>
-      <div data-ui>
-      <p data-testid="remaining" className={`tabular text-[clamp(2.75rem,5vw,4.25rem)] leading-none font-medium tracking-[-0.03em] ${b.remaining.lt(0) ? 'text-loss' : ''}`}>
-        <AnimatedNumber value={v(b.remaining)} format={(n) => (n < 0 ? `−${peso(Math.abs(n))}` : peso(n))} />
-      </p>
-      <p className="ui mt-2 text-[0.9375rem] text-ink-2">{unit.label}, after deductions, expenses and savings</p>
+      <div className="card ui flex flex-wrap items-center gap-x-5 gap-y-3 px-5 py-4 text-[0.9375rem] sm:px-7">
+        <Toggle label="Remember on this device" checked={h.remember} onChange={h.setRemember} description="Saves your entries in this browser only. Nothing is sent anywhere. Off by default." />
+        <div className="flex gap-4">
+          <button type="button" className="btn btn-quiet" onClick={h.reset}>
+            <RotateCcw aria-hidden="true" size={16} /> Reset
+          </button>
+          {h.remember && (
+            <button type="button" className="btn btn-quiet" onClick={h.clearSaved}>
+              Clear saved data
+            </button>
+          )}
+        </div>
       </div>
-
-      <AnimatePresence mode="wait">
-        <motion.div key={b.status} data-ui initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.3 }} className={`mt-6 ${st.field} p-4`}>
-          <p className="flex items-start gap-2.5 font-medium">
-            <span aria-hidden="true" className={`mt-2 inline-block h-2.5 w-2.5 shrink-0 rounded-full ${st.dot}`} />
-            {st.text}
-          </p>
-          <p className="ui mt-1 pl-5 text-[0.9375rem] text-ink-2">{st.sub}</p>
-        </motion.div>
-      </AnimatePresence>
-
-      <dl data-ui className="mt-6 grid grid-cols-2 gap-x-5 gap-y-5">
-        {[
-          { label: 'Gross salary', value: v(p.grossMonthly) },
-          { label: 'Estimated take-home pay', value: v(p.takeHomeMonthly) },
-          { label: 'Total expenses', value: v(b.expenses) },
-          { label: 'Savings and investments', value: v(b.savings) },
-        ].map((x) => (
-          <div key={x.label} className="flex flex-col-reverse justify-end">
-            <dt className="ui mt-1 text-[0.9375rem] text-ink-2">{x.label}</dt>
-            <dd className="m-0 tabular text-[1.5rem] leading-tight font-medium">
-              <AnimatedNumber value={x.value} format={peso} />
-            </dd>
-          </div>
-        ))}
-      </dl>
-      <p className="ui mt-5 text-[0.9375rem] text-ink-2">
-        Government deductions: {peso(v(p.governmentTotal))} {unit.label.toLowerCase()}. An estimate: actual payroll can differ with your employer's practices.
-      </p>
-    </div>
+    </>
   )
 }
+
+/* ------------------------- Step 3: what if you invest ------------------------- */
 
 function Projection({ remaining, s }: { remaining: number; s: ScenarioState }) {
   const suggestion = Math.max(0, Math.floor(remaining / 100) * 100)
@@ -365,11 +376,15 @@ function Projection({ remaining, s }: { remaining: number; s: ScenarioState }) {
 
   if (remaining <= 0) return null
   return (
-    <div className="bg-surface p-5 sm:p-8">
+    <section aria-labelledby="invest-title" className="card-soft p-5 sm:p-8 lg:p-10">
       <div className="grid gap-8 lg:grid-cols-12">
-        <div className="lg:col-span-4">
-          <h3 className="text-[1.5rem] leading-tight">Paano kung i-invest mo ang natitira?</h3>
-          <p className="mt-3 text-ink-2">What if you invest part of what is left each month for {years} years? Projections use published rates and {inflationRate}% inflation.</p>
+        <div className="lg:col-span-5">
+          <h2 id="invest-title" className="text-[clamp(1.625rem,1.3rem+1.2vw,2.25rem)] leading-tight">
+            Paano kung i-invest mo ang natitira?
+          </h2>
+          <p className="mt-3 text-ink-2">
+            Set aside part of what is left each month for {years} years. Projections use published rates and {inflationRate}% inflation.
+          </p>
           <div className="mt-6">
             <AmountField label="Amount to invest each month" value={monthly} onChange={(v) => setAmount(v)} hint={`Up to ${peso(remaining)} is left this month.`} />
           </div>
@@ -377,27 +392,27 @@ function Projection({ remaining, s }: { remaining: number; s: ScenarioState }) {
             Use in the MP2 calculator
           </button>
         </div>
-        <ul data-ui className="ui m-0 grid list-none content-start gap-2 p-0 lg:col-span-8">
+        <ul data-ui className="ui m-0 grid list-none content-start gap-2 p-0 lg:col-span-7">
           {rows.map((r) => (
-            <li key={r.label} className="grid gap-1 bg-paper px-5 py-4 sm:grid-cols-[1fr_auto_auto] sm:items-baseline sm:gap-6">
+            <li key={r.label} className="grid gap-2 rounded-[20px] bg-paper px-5 py-4 sm:grid-cols-[1fr_auto_auto] sm:items-baseline sm:gap-6">
               <span>
                 <span className="block font-semibold">{r.label}</span>
-                <span className="block text-[0.9375rem] text-ink-2">{r.note}</span>
+                <span className="block text-[0.875rem] text-muted">{r.note}</span>
               </span>
               <span className="tabular sm:text-right">
-                <span className="block text-[1.25rem] font-medium">{peso(r.final)}</span>
-                <span className="block text-[0.8125rem] text-ink-2">after {years} years</span>
+                <span className="block text-[1.25rem] font-semibold">{peso(r.final)}</span>
+                <span className="block text-[0.8125rem] text-muted">after {years} years</span>
               </span>
               <span className="tabular sm:text-right">
-                <span className="block text-[1.25rem] font-medium">{peso(r.real)}</span>
-                <span className="block text-[0.8125rem] text-ink-2">in today's pesos</span>
+                <span className="block text-[1.25rem] font-semibold">{peso(r.real)}</span>
+                <span className="block text-[0.8125rem] text-muted">in today's pesos</span>
               </span>
             </li>
           ))}
-          {rows.length > 0 && <li className="px-1 pt-1 text-[0.9375rem] text-ink-2">You would put in {peso(monthly * 12 * years)}. Projections, not guaranteed returns.</li>}
+          {rows.length > 0 && <li className="px-1 pt-1 text-[0.875rem] text-muted">You would put in {peso(monthly * 12 * years)}. Projections, not guaranteed returns.</li>}
         </ul>
       </div>
-    </div>
+    </section>
   )
 }
 
@@ -409,7 +424,9 @@ export function SalarySection({ s }: { s: ScenarioState }) {
   const b = h.budget
   const freq = h.state.salary.frequency
   const perPay = h.view === 'perPay' && freq !== 'monthly'
-  const unit = perPay ? { f: (n: number) => n / PAYS_PER_MONTH[freq], label: `Per payday (${FREQ_LABEL[freq]})` } : { f: (n: number) => n, label: 'Per month' }
+  const unit: Unit = perPay ? { f: (n: number) => n / PAYS_PER_MONTH[freq], label: `Per payday (${FREQ_LABEL[freq]})` } : { f: (n: number) => n, label: 'Per month' }
+  const budgetOk = p.ok && b?.ok ? b.value : null
+  const hasBudget = !!budgetOk && (budgetOk.expenses.gt(0) || budgetOk.savings.gt(0))
 
   const charts = useMemo(() => {
     if (!p.ok || !b?.ok) return null
@@ -434,117 +451,126 @@ export function SalarySection({ s }: { s: ScenarioState }) {
   }, [p, b])
 
   return (
-    <section id="sweldo" aria-labelledby="sweldo-title" className="pt-[clamp(24px,4vw,56px)]">
-      <div className="wrap">
-        <div className="grid gap-6 lg:grid-cols-12">
-          <Reveal className="lg:col-span-7">
-            <h1 id="sweldo-title" className="text-step-head">
-              Saan napupunta ang sweldo ko?
-            </h1>
+    <section id="sweldo" aria-labelledby="sweldo-title">
+      <ToolHeader
+        path="/sweldo"
+        id="sweldo-title"
+        title="Saan napupunta ang sweldo ko?"
+        lede="Alamin kung magkano ang tunay na natitira sa sweldo mo. Start with your salary; add your bills only if you want to."
+        meta={<p className="ui text-[0.875rem] text-muted">Everything stays in your browser.</p>}
+      />
+
+      <div className="wrap grid gap-[clamp(72px,8vw,120px)]">
+        {/* Step 1 */}
+        {p.ok ? (
+          <CalcGrid inputs={<SalaryInputs h={h} />} result={<PayResult h={h} p={p.value} unit={unit} />} />
+        ) : (
+          <CalcGrid
+            inputs={<SalaryInputs h={h} />}
+            result={
+              <p role="alert" className="ui rounded-[22px] bg-loss-soft p-5 text-loss">
+                {p.error}
+              </p>
+            }
+          />
+        )}
+
+        {/* Step 2 */}
+        <section aria-labelledby="budget-title">
+          <Reveal className="grid gap-4 lg:grid-cols-12 lg:items-end">
+            <h2 id="budget-title" className="text-step-head lg:col-span-7">
+              Buwanang gastos
+            </h2>
+            <div className="lg:col-span-5">
+              <p className="text-ink-2">Add your monthly bills and savings to see what is left after everything. Open a category to edit it; leave anything that does not apply at ₱0.</p>
+              <button type="button" className="btn btn-soft btn-sm mt-4" onClick={h.fillSample}>
+                Fill a sample budget
+              </button>
+            </div>
           </Reveal>
-          <Reveal delay={0.08} className="lg:col-span-5 lg:pt-3">
-            <p className="text-[1.1875rem] leading-relaxed">
-              Alamin kung magkano ang tunay na natitira sa sweldo mo pagkatapos ng deductions, bills, at everyday expenses.
-            </p>
-            <p className="ui mt-3 text-[0.9375rem] text-ink-2">Enter your salary, check the deductions, add your expenses, see what is left. Everything stays in your browser.</p>
-          </Reveal>
+
+          <CalcGrid
+            className="mt-10"
+            inputs={
+              <>
+                <div className="grid gap-2">
+                  <Group group="housing" h={h} budget={budgetOk}>
+                    <Items group="housing" h={h} />
+                  </Group>
+                  <Group group="transport" h={h} budget={budgetOk}>
+                    <Items group="transport" h={h} />
+                    <FuelEstimator h={h} />
+                  </Group>
+                  <Group group="food" h={h} budget={budgetOk}>
+                    <Items group="food" h={h} />
+                  </Group>
+                  <Group group="personal" h={h} budget={budgetOk}>
+                    <Items group="personal" h={h} />
+                  </Group>
+                  <Group group="commitments" h={h} budget={budgetOk}>
+                    <Items group="commitments" h={h} />
+                  </Group>
+                  <Group group="custom" h={h} budget={budgetOk}>
+                    <CustomItems h={h} />
+                  </Group>
+                </div>
+                <div className="grid gap-2">
+                  <div className="px-2 pt-4">
+                    <h3 className="text-[1.5rem] leading-tight">Ipon at investments</h3>
+                    <p className="ui mt-1.5 text-[0.9375rem] text-muted">Money you set aside. It lowers what is left to spend, but it is not an expense.</p>
+                  </div>
+                  <Group group="savings" h={h} budget={budgetOk}>
+                    <Items group="savings" h={h} />
+                  </Group>
+                </div>
+              </>
+            }
+            result={
+              p.ok && budgetOk ? (
+                <BudgetResult h={h} p={p.value} b={budgetOk} unit={unit} empty={!hasBudget} />
+              ) : (
+                <p className="ui rounded-[22px] bg-loss-soft p-5 text-loss">{b && !b.ok ? b.error : 'Check the salary inputs.'}</p>
+              )
+            }
+          />
+        </section>
+
+        {/* Optional depth */}
+        <div className="grid gap-3">
+          {charts && (
+            <Disclosure title="See your sweldo as charts" summary={hasBudget ? undefined : 'Add a budget first for the full picture'} size="lg" headingLevel={2}>
+              <SalaryCharts donut={charts.donut} ranking={charts.ranking} compare={charts.compare} />
+            </Disclosure>
+          )}
+          {p.ok && (
+            <Disclosure title="How this is calculated" size="lg" headingLevel={2}>
+              <div className="grid max-w-[72ch] gap-3 text-[0.9375rem] leading-relaxed text-ink-2">
+                <p>
+                  Contributions and tax use {p.value.rules.sss.issuance}; {p.value.rules.philhealth.issuance}; {p.value.rules.pagibig.issuance}; and {p.value.rules.tax.issuance}.
+                </p>
+                <p>
+                  Withholding tax uses the BIR table for your pay frequency, applied to taxable pay after SSS, PhilHealth and Pag-IBIG. It is an estimate: your actual payroll can differ with
+                  your employer's practices, cut-off dates and year-end adjustment.
+                </p>
+                <StatusTag status={p.value.rules.philhealth.status} extra="PhilHealth and Pag-IBIG rates cross-checked" />
+              </div>
+            </Disclosure>
+          )}
         </div>
 
-        <div className="mt-12 grid gap-2 lg:grid-cols-12 lg:items-start">
-          {/* Inputs */}
-          <div className="grid gap-2 lg:col-span-7">
-            <SalaryInputs h={h} />
-            {p.ok ? <Deductions p={p.value} view={unit.f} /> : <p role="alert" className="ui bg-loss-soft p-5 text-loss">{p.error}</p>}
-
-            <div className="bg-paper px-5 pt-6 pb-4 sm:px-7">
-              <div className="flex flex-wrap items-baseline justify-between gap-3">
-                <h3 className="text-[1.5rem] leading-tight">Buwanang gastos</h3>
-                <button type="button" className="btn btn-quiet px-0 text-[0.9375rem]" onClick={h.fillSample}>
-                  Fill a sample budget
-                </button>
-              </div>
-              <p className="ui mt-2 text-[0.9375rem] text-ink-2">Monthly amounts. Leave anything that does not apply at ₱0. Open a category to edit it.</p>
-            </div>
-            <div className="grid gap-1">
-              <Group group="housing" h={h} budget={b?.ok ? b.value : null} defaultOpen>
-                <Items group="housing" h={h} />
-              </Group>
-              <Group group="transport" h={h} budget={b?.ok ? b.value : null}>
-                <Items group="transport" h={h} />
-                <FuelEstimator h={h} />
-              </Group>
-              <Group group="food" h={h} budget={b?.ok ? b.value : null}>
-                <Items group="food" h={h} />
-              </Group>
-              <Group group="personal" h={h} budget={b?.ok ? b.value : null}>
-                <Items group="personal" h={h} />
-              </Group>
-              <Group group="commitments" h={h} budget={b?.ok ? b.value : null}>
-                <Items group="commitments" h={h} />
-              </Group>
-              <Group group="custom" h={h} budget={b?.ok ? b.value : null}>
-                <CustomItems h={h} />
-              </Group>
-            </div>
-            <div className="mt-1 grid gap-1">
-              <div className="bg-paper px-5 pt-6 pb-2 sm:px-7">
-                <h3 className="text-[1.5rem] leading-tight">Ipon at investments</h3>
-                <p className="ui mt-2 text-[0.9375rem] text-ink-2">Money you set aside. It lowers what is left to spend, but it is not an expense.</p>
-              </div>
-              <Group group="savings" h={h} budget={b?.ok ? b.value : null} defaultOpen>
-                <Items group="savings" h={h} />
-              </Group>
-            </div>
-          </div>
-
-          {/* Results */}
-          <div className="grid gap-2 lg:sticky lg:top-[76px] lg:col-span-5">
-            {p.ok && b?.ok ? <Summary h={h} p={p.value} b={b.value} unit={unit} /> : <p className="ui bg-loss-soft p-5 text-loss">{b && !b.ok ? b.error : 'Check the salary inputs.'}</p>}
-            <div className="ui flex flex-wrap items-center gap-x-5 gap-y-3 bg-paper px-5 py-4 text-[0.9375rem] sm:px-7">
-              <Toggle
-                label="Remember on this device"
-                checked={h.remember}
-                onChange={h.setRemember}
-                description="Saves your entries in this browser only. Nothing is sent anywhere. Off by default."
-              />
-              <div className="flex gap-4">
-                <button type="button" className="btn btn-quiet px-0" onClick={h.reset}>
-                  <RotateCcw aria-hidden="true" size={16} /> Reset
-                </button>
-                {h.remember && (
-                  <button type="button" className="btn btn-quiet px-0" onClick={h.clearSaved}>
-                    Clear saved data
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {charts && (
-          <div className="mt-2 bg-paper p-5 sm:p-8">
-            <SalaryCharts donut={charts.donut} ranking={charts.ranking} compare={charts.compare} />
-          </div>
-        )}
-        {p.ok && b?.ok && (
-          <div className="mt-2">
-            <Projection remaining={b.value.remaining.toNumber()} s={s} />
-          </div>
-        )}
-        {p.ok && (
-          <p className="ui mt-6 max-w-[80ch] text-[0.9375rem] leading-relaxed text-ink-2">
-            Estimates using {p.value.rules.sss.issuance}; {p.value.rules.philhealth.issuance}; {p.value.rules.pagibig.issuance}; and {p.value.rules.tax.issuance}. <StatusTag status={p.value.rules.philhealth.status} extra="PhilHealth and Pag-IBIG rates cross-checked" />
-          </p>
-        )}
+        {p.ok && budgetOk && hasBudget && <Projection remaining={budgetOk.remaining.toNumber()} s={s} />}
       </div>
 
       {/* Phone: keep the answer in view while editing a long list */}
-      {p.ok && b?.ok && (
-        <div className="ui sticky bottom-0 z-30 mt-6 bg-surface px-[var(--gutter)] py-3 lg:hidden">
-          <div className="flex items-center justify-between gap-4">
-            <span className="text-[0.9375rem] font-medium">Natitira {perPay ? 'per payday' : 'per month'}</span>
-            <span className={`tabular text-[1.375rem] font-semibold ${b.value.remaining.lt(0) ? 'text-loss' : ''}`}>
-              {b.value.remaining.lt(0) ? `−${peso(Math.abs(unit.f(b.value.remaining.toNumber())))}` : peso(unit.f(b.value.remaining.toNumber()))}
+      {p.ok && budgetOk && (
+        <div className="ui sticky bottom-0 z-30 mt-8 px-3 pb-[max(12px,env(safe-area-inset-bottom))] lg:hidden">
+          <div className="flex items-center justify-between gap-4 rounded-[20px] bg-ink px-5 py-3.5 text-ground shadow-[0_12px_32px_-12px_rgba(0,0,0,0.45)]">
+            <span className="text-[0.9375rem] font-medium">{hasBudget ? 'Natitira' : 'Take-home'} {perPay ? 'per payday' : 'per month'}</span>
+            <span className={`figure text-[1.375rem] ${hasBudget && budgetOk.remaining.lt(0) ? 'text-[#f3aaa0]' : ''}`}>
+              {(() => {
+                const n = unit.f((hasBudget ? budgetOk.remaining : p.value.takeHomeMonthly).toNumber())
+                return n < -0.5 ? `−${peso(Math.abs(n))}` : peso(n)
+              })()}
             </span>
           </div>
         </div>

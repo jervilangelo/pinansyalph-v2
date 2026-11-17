@@ -1,7 +1,9 @@
 import { AnimatePresence, MotionConfig, motion } from 'motion/react'
-import { Suspense, lazy, useEffect, type ReactNode } from 'react'
+import { Suspense, lazy, useEffect, useState, type ReactNode } from 'react'
+import { BrandSpinner } from './components/brand/Logo'
+import { Footer } from './components/layout/Footer'
 import { SiteHeader } from './components/layout/SiteHeader'
-import { Footer } from './components/sections/Footer'
+import { SupportProvider } from './components/support/Support'
 import { EASE, useReducedMotion } from './components/ui/motion'
 import { useScenario } from './hooks/useScenario'
 import { HomePage } from './pages/HomePage'
@@ -28,8 +30,25 @@ function usePrefetch() {
   }, [])
 }
 
+/**
+ * Shown only if a page's code is still loading. Waits 200ms before
+ * appearing so fast loads never flash a loader.
+ */
 function PageFallback() {
-  return <div aria-busy="true" className="min-h-[100svh]" />
+  const [show, setShow] = useState(false)
+  useEffect(() => {
+    const t = setTimeout(() => setShow(true), 200)
+    return () => clearTimeout(t)
+  }, [])
+  return (
+    <div aria-busy="true" className="flex min-h-[70svh] items-center justify-center">
+      {show && (
+        <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, ease: EASE }}>
+          <BrandSpinner size={48} label="Loading page" />
+        </motion.div>
+      )}
+    </div>
+  )
 }
 
 function Pages() {
@@ -56,9 +75,11 @@ function Pages() {
       <motion.main
         id="main"
         key={path}
-        initial={reduce ? { opacity: 0 } : { opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE } }}
-        exit={reduce ? { opacity: 0, transition: { duration: 0.1 } } : { opacity: 0, y: -8, transition: { duration: 0.2, ease: 'easeIn' } }}
+        tabIndex={-1}
+        className="outline-none"
+        initial={reduce ? { opacity: 0 } : { opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0, transition: { duration: 0.38, ease: EASE } }}
+        exit={reduce ? { opacity: 0, transition: { duration: 0.1 } } : { opacity: 0, y: -6, transition: { duration: 0.16, ease: 'easeIn' } }}
       >
         <Suspense fallback={<PageFallback />}>{pages[path]}</Suspense>
       </motion.main>
@@ -70,12 +91,14 @@ export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <Router>
-        <a href="#main" className="skip-link">
-          Skip to content
-        </a>
-        <SiteHeader />
-        <Pages />
-        <Footer />
+        <SupportProvider>
+          <a href="#main" className="skip-link">
+            Skip to content
+          </a>
+          <SiteHeader />
+          <Pages />
+          <Footer />
+        </SupportProvider>
       </Router>
     </MotionConfig>
   )

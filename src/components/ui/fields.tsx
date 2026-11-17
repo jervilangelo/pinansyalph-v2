@@ -1,4 +1,5 @@
 import { useId, useState, useEffect, type ReactNode } from 'react'
+import { SPRING, motion, useReducedMotion } from './motion'
 
 /** Peso amount input: accepts commas, shows them back, reports errors in words. */
 export function AmountField({
@@ -43,18 +44,18 @@ export function AmountField({
 
   return (
     <div className="ui">
-      <label htmlFor={id} className="mb-2 block text-[0.9375rem] font-medium">
+      <label htmlFor={id} className="field-label">
         {label}
       </label>
       <div className="relative">
-        <span aria-hidden="true" className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 opacity-70">
+        <span aria-hidden="true" className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-muted">
           ₱
         </span>
         <input
           id={id}
           inputMode="decimal"
           autoComplete="off"
-          className="field-input pl-8"
+          className="field-input pl-9"
           value={text}
           aria-invalid={error ? 'true' : 'false'}
           aria-describedby={error || hint ? `${id}-desc` : undefined}
@@ -63,7 +64,7 @@ export function AmountField({
         />
       </div>
       {(error || hint) && (
-        <p id={`${id}-desc`} className={`mt-1.5 text-[0.9375rem] leading-snug ${error ? 'field-error' : 'opacity-80'}`} role={error ? 'alert' : undefined}>
+        <p id={`${id}-desc`} className={`field-hint ${error ? 'field-error' : ''}`} role={error ? 'alert' : undefined}>
           {error ?? hint}
         </p>
       )}
@@ -100,7 +101,7 @@ export function NumberField({
 
   return (
     <div className="ui">
-      <label htmlFor={id} className="mb-2 block text-[0.9375rem] font-medium">
+      <label htmlFor={id} className="field-label">
         {label}
       </label>
       <div className="relative">
@@ -111,7 +112,7 @@ export function NumberField({
           min={min}
           max={max}
           step={step}
-          className={`field-input ${suffix ? 'pr-14' : ''}`}
+          className={`field-input ${suffix ? 'pr-24' : ''}`}
           value={text}
           aria-invalid={error ? 'true' : 'false'}
           aria-describedby={error || hint ? `${id}-desc` : undefined}
@@ -125,13 +126,13 @@ export function NumberField({
           }}
         />
         {suffix && (
-          <span aria-hidden="true" className="pointer-events-none absolute top-1/2 right-3.5 -translate-y-1/2 opacity-70">
+          <span aria-hidden="true" className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-muted">
             {suffix}
           </span>
         )}
       </div>
       {(error || hint) && (
-        <p id={`${id}-desc`} className={`mt-1.5 text-[0.9375rem] leading-snug ${error ? 'field-error' : 'opacity-80'}`} role={error ? 'alert' : undefined}>
+        <p id={`${id}-desc`} className={`field-hint ${error ? 'field-error' : ''}`} role={error ? 'alert' : undefined}>
           {error ?? hint}
         </p>
       )}
@@ -155,7 +156,7 @@ export function SelectField<T extends string>({
   const id = useId()
   return (
     <div className="ui">
-      <label htmlFor={id} className="mb-2 block text-[0.9375rem] font-medium">
+      <label htmlFor={id} className="field-label">
         {label}
       </label>
       <select id={id} className="field-input" value={value} onChange={(e) => onChange(e.target.value as T)} aria-describedby={hint ? `${id}-desc` : undefined}>
@@ -166,7 +167,7 @@ export function SelectField<T extends string>({
         ))}
       </select>
       {hint && (
-        <p id={`${id}-desc`} className="mt-1.5 text-[0.9375rem] leading-snug opacity-80">
+        <p id={`${id}-desc`} className="field-hint">
           {hint}
         </p>
       )}
@@ -175,7 +176,7 @@ export function SelectField<T extends string>({
 }
 
 /**
- * Segmented choice (radio group) with a sliding indicator.
+ * Segmented choice (radio group) with a sliding thumb.
  * Native radios underneath, so arrow keys and screen readers work.
  */
 export function Segmented<T extends string>({
@@ -183,7 +184,6 @@ export function Segmented<T extends string>({
   value,
   onChange,
   options,
-  tone = 'light',
   hideLabel = false,
   wrap = false,
 }: {
@@ -191,27 +191,33 @@ export function Segmented<T extends string>({
   value: T
   onChange: (v: T) => void
   options: { value: T; label: string }[]
+  /** Kept for compatibility; v3 has one light tone. */
   tone?: 'light' | 'dark'
   hideLabel?: boolean
   /** Two rows on small screens when there are many options. */
   wrap?: boolean
 }) {
   const name = useId()
-  const track = tone === 'dark' ? 'bg-night-2' : 'bg-surface'
-  const thumb = tone === 'dark' ? 'bg-night-ink' : 'bg-ink'
-  const on = tone === 'dark' ? 'text-night' : 'text-ground'
-  const off = tone === 'dark' ? 'text-night-ink hover:bg-[#2e2e2a]' : 'text-ink hover:bg-surface-2'
+  const reduce = useReducedMotion()
   return (
     <fieldset className="ui m-0 min-w-0 border-0 p-0">
-      <legend className={hideLabel ? 'sr-only' : 'mb-2 block p-0 text-[0.9375rem] font-medium'}>{label}</legend>
-      <div className={`relative ${wrap ? 'grid grid-cols-2 sm:flex' : 'flex'} ${track} p-1`}>
+      <legend className={hideLabel ? 'sr-only' : 'field-label p-0'}>{label}</legend>
+      <div className={`relative ${wrap ? 'grid grid-cols-2 sm:flex' : 'flex'} gap-0.5 rounded-[16px] bg-surface p-1`}>
         {options.map((o) => {
           const active = o.value === value
           return (
             <label key={o.value} className="relative flex-1 cursor-pointer">
               <input type="radio" name={name} value={o.value} checked={active} onChange={() => onChange(o.value)} className="peer sr-only" />
+              {active && (
+                <motion.span
+                  layoutId={`seg-${name}`}
+                  aria-hidden="true"
+                  className="absolute inset-0 rounded-[12px] bg-paper shadow-[0_1px_2px_rgba(21,21,20,0.08),0_2px_8px_-2px_rgba(21,21,20,0.10)]"
+                  transition={reduce ? { duration: 0 } : SPRING}
+                />
+              )}
               <span
-                className={`relative flex min-h-11 items-center justify-center px-3 py-2 text-center text-[0.9375rem] leading-tight font-medium transition-colors duration-200 peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent ${active ? `${thumb} ${on}` : off}`}
+                className={`relative flex min-h-11 items-center justify-center rounded-[12px] px-3 py-2 text-center text-[0.9375rem] leading-tight font-medium transition-colors duration-200 peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent ${active ? 'text-ink' : 'text-ink-2 hover:text-ink'}`}
               >
                 {o.label}
               </span>
@@ -223,17 +229,18 @@ export function Segmented<T extends string>({
   )
 }
 
+/** On/off setting, drawn as a switch over a native checkbox. */
 export function Toggle({ label, checked, onChange, description }: { label: string; checked: boolean; onChange: (v: boolean) => void; description?: ReactNode }) {
   const id = useId()
   return (
-    <div className="ui flex items-start gap-3">
-      <input id={id} type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="mt-1 h-5 w-5 shrink-0 accent-accent" aria-describedby={description ? `${id}-d` : undefined} />
-      <div>
-        <label htmlFor={id} className="cursor-pointer text-[0.9375rem] font-medium">
+    <div className="ui flex items-start gap-3.5">
+      <input id={id} type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="switch mt-0.5" aria-describedby={description ? `${id}-d` : undefined} />
+      <div className="min-w-0">
+        <label htmlFor={id} className="cursor-pointer text-[0.9375rem] leading-snug font-medium">
           {label}
         </label>
         {description && (
-          <p id={`${id}-d`} className="mt-0.5 text-[0.9375rem] leading-snug opacity-80">
+          <p id={`${id}-d`} className="field-hint !mt-0.5">
             {description}
           </p>
         )}
@@ -289,18 +296,18 @@ export function OptionalAmountField({
 
   return (
     <div className="ui">
-      <label htmlFor={id} className={`mb-2 block font-medium ${compact ? 'text-[0.875rem]' : 'text-[0.9375rem]'}`}>
+      <label htmlFor={id} className={`field-label ${compact ? '!text-[0.875rem]' : ''}`}>
         {label}
       </label>
       <div className="relative">
-        <span aria-hidden="true" className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 opacity-70">
+        <span aria-hidden="true" className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-muted">
           ₱
         </span>
         <input
           id={id}
           inputMode="decimal"
           autoComplete="off"
-          className="field-input pl-8"
+          className="field-input pl-9"
           value={text}
           placeholder={placeholder}
           aria-invalid={error ? 'true' : 'false'}
@@ -310,7 +317,7 @@ export function OptionalAmountField({
         />
       </div>
       {(error || hint) && (
-        <p id={`${id}-desc`} className={`mt-1.5 text-[0.875rem] leading-snug ${error ? 'field-error' : 'opacity-80'}`} role={error ? 'alert' : undefined}>
+        <p id={`${id}-desc`} className={`field-hint ${error ? 'field-error' : ''}`} role={error ? 'alert' : undefined}>
           {error ?? hint}
         </p>
       )}
@@ -323,13 +330,13 @@ export function DateField({ label, value, onChange, hint, min, max, optional = f
   const id = useId()
   return (
     <div className="ui">
-      <label htmlFor={id} className="mb-2 block text-[0.9375rem] font-medium">
+      <label htmlFor={id} className="field-label">
         {label}
-        {optional && <span className="font-normal opacity-75"> (optional)</span>}
+        {optional && <span className="font-normal text-muted"> (optional)</span>}
       </label>
       <input id={id} type="date" className="field-input" value={value} min={min} max={max} onChange={(e) => onChange(e.target.value)} aria-describedby={hint ? `${id}-desc` : undefined} />
       {hint && (
-        <p id={`${id}-desc`} className="mt-1.5 text-[0.9375rem] leading-snug opacity-80">
+        <p id={`${id}-desc`} className="field-hint">
           {hint}
         </p>
       )}
