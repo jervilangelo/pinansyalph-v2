@@ -1,7 +1,6 @@
 import { ArrowUpRight, Star } from 'lucide-react'
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react'
 import { AUTHOR, PORTFOLIO, REPO } from '../../site'
-import { AnimatedSymbol } from '../brand/Logo'
 import { Modal } from '../ui/Modal'
 
 type Ctx = { openSupport: () => void }
@@ -38,9 +37,6 @@ export function SupportProvider({ children }: { children: ReactNode }) {
           </>
         }
       >
-        <div aria-hidden="true" className="pointer-events-none absolute top-7 right-20 hidden opacity-90 sm:block">
-          <AnimatedSymbol size={44} />
-        </div>
         <div className="mt-7 grid gap-3">
           <a href={REPO} target="_blank" rel="noopener noreferrer" className="btn btn-primary group w-full" data-autofocus>
             <Star aria-hidden="true" size={18} className="transition-transform duration-500 ease-[var(--ease-out-quint)] group-hover:rotate-[72deg] group-hover:scale-110" />

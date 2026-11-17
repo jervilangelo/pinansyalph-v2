@@ -159,7 +159,7 @@ function Tools() {
               <h3 className="text-[clamp(1.75rem,1.4rem+1.2vw,2.5rem)] leading-none">{g.label}</h3>
               <p className="ui mt-2 text-[0.9375rem] text-muted">{g.question}</p>
             </div>
-            <ul className={`m-0 grid list-none gap-2 p-0 sm:grid-cols-2 lg:col-span-8 ${TOOLS.filter((t) => t.group === g.id).length > 2 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'}`}>
+            <ul className={`m-0 grid list-none gap-2 p-0 lg:col-span-8 ${TOOLS.filter((t) => t.group === g.id).length > 2 ? 'sm:grid-cols-3' : 'sm:grid-cols-2'}`}>
               {TOOLS.filter((t) => t.group === g.id).map((t) => (
                 <li key={t.path} className="flex">
                   <Link

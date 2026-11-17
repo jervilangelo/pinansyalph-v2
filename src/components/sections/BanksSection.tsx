@@ -304,7 +304,7 @@ function RatesTable() {
         {rows.map((r) => (
           <li key={r.id} className="card p-5">
             <h3 className="font-sans text-[1.0625rem] font-semibold tracking-normal">{r.plain}</h3>
-            <dl className="m-0 mt-3 grid grid-cols-[minmax(0,9rem)_1fr] gap-x-4 gap-y-2.5 text-[0.9375rem]">
+            <dl className="m-0 mt-3 grid grid-cols-[minmax(0,7rem)_1fr] gap-x-4 gap-y-2.5 text-[0.9375rem] sm:grid-cols-[minmax(0,9rem)_1fr]">
               <div className="contents">
                 <dt className="text-muted">Source</dt>
                 <dd className="m-0">

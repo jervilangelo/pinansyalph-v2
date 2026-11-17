@@ -4,7 +4,7 @@
 
 <br />
 
-**Worth it ba sa Pilipinas? Understand your money with numbers you can check.**
+**Mas malinaw ang pera mo.** Understand your money with numbers you can check.
 
 Free, open-source tools to explore your salary, 13th month pay, savings, and the impact of inflation — designed for everyday financial decisions in the Philippines.
 
@@ -16,6 +16,7 @@ Free, open-source tools to explore your salary, 13th month pay, savings, and the
 ![Open source](https://img.shields.io/badge/Open%20source-transparency-1D4E89?style=flat-square)
 ![React](https://img.shields.io/badge/React%2019-TypeScript-151514?style=flat-square)
 ![Data](https://img.shields.io/badge/Data-sourced%20%26%20dated-2E6A46?style=flat-square)
+![Version](https://img.shields.io/badge/Version-3.0-EDA100?style=flat-square)
 
 </div>
 
@@ -32,6 +33,19 @@ numbers the PSA, DOE, Pag-IBIG, BIR and the banks publish, so you can see the tr
 
 It is open source because a tool about trust should be open to inspection. Anyone can check how a number is computed,
 point out a mistake, or build on it.
+
+## What's new in Version 3
+
+PinansyalPH v3 is a complete redesign of the interface. The calculations, datasets and data workflows are unchanged.
+
+- **A calmer, lighter design** built on the new brand kit in [`src/kit`](src/kit): warm off-white ground, white panels separated by tone, the brand blue for actions and answers, Literata for headlines and peso figures.
+- **The answer first.** Every tool opens with one input panel and one large result. Breakdowns, year-by-year tables, methodology and secondary charts open on request.
+- **Easier to find your way.** Tools are grouped into three plain questions: *Sahod* (pay), *Ipon* (savings) and *Presyo* (prices), with one Tools menu on desktop and a full-screen menu on phones.
+- **A live estimator on the homepage.** Type your salary to see your take-home pay, then carry it into the full Sweldo calculator.
+- **An animated logo and branded loading screen.** The rays of the logo rise over the sun like a growing bar chart. The splash paints before the app loads, leaves as soon as the page is ready, skips the long intro on reloads, and respects reduced-motion settings.
+- **Support PinansyalPH.** A new About page with a support dialog that links to the repository to star it, and to the developer's portfolio.
+
+Version 2 stays recoverable: tag [`v2-final`](https://github.com/jervilangelo/pinansyalph-v2/tree/v2-final) and branch `v2-archive`. Full notes: [docs/RELEASE-v3.md](docs/RELEASE-v3.md).
 
 ## Tools
 
@@ -55,17 +69,19 @@ figure shows its source, reference period and retrieval date; nothing is labelle
 
 Explore the actual application screens — from payroll to purchasing power.
 
-| 13th month pay | Sweldo |
+| Home | Sweldo |
 | --- | --- |
-| ![13th month pay calculator](docs/screenshots/thirteenth.jpg) | ![Salary calculator](docs/screenshots/salary.jpg) |
+| ![Homepage with the take-home pay estimator](docs/screenshots/home.jpg) | ![Salary calculator](docs/screenshots/salary.jpg) |
+| **13th month pay** | **About** |
+| ![13th month pay calculator](docs/screenshots/thirteenth.jpg) | ![About PinansyalPH](docs/screenshots/about.jpg) |
 | **MP2** | **Real value** |
 | ![MP2 calculator](docs/screenshots/mp2.jpg) | ![Real value after inflation](docs/screenshots/real-value.jpg) |
 | **Inflation** | **Gas** |
 | ![Inflation tracker](docs/screenshots/inflation.jpg) | ![Fuel price adjustments](docs/screenshots/gas.jpg) |
 
-Works on phones, tablets and desktops; tested at widths from 360px to 1920px.
+Works on phones, tablets and desktops; tested at widths from 320px to 1920px.
 
-<img src="docs/screenshots/mobile.jpg" alt="13th month pay calculator on a phone" width="260" />
+<img src="docs/screenshots/mobile.jpg" alt="The PinansyalPH homepage on a phone" width="260" />
 
 ## How the numbers are calculated
 
@@ -137,12 +153,13 @@ npm run lint
 | Layer | Choice |
 | --- | --- |
 | App | React 19, TypeScript, Vite; one page per tool with a small built-in router |
-| Styling and motion | Tailwind CSS v4, Motion (respects reduced-motion settings) |
+| Styling and motion | Tailwind CSS v4 design tokens, Motion with shared timing and easing (respects reduced-motion settings) |
+| Brand | Logo kit in `src/kit`; favicons, app icons, manifest and social image in `public/` |
 | Charts | Recharts, lazy-loaded |
 | Money | decimal.js |
 | Data contracts | zod schemas shared by the site and the data scripts |
 | Data ingestion | Node scripts run by GitHub Actions; pdf.js for DOE PDFs |
-| Tests | Vitest (111 unit tests), Playwright (52 browser tests) |
+| Tests | Vitest (111 unit tests), Playwright (57 browser tests) |
 | Hosting | GitHub Pages via GitHub Actions |
 
 Architecture and the reasons for it: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
@@ -193,7 +210,7 @@ Issues and pull requests are welcome:
 
 Built by **[Jervil Angelo De Leon](https://github.com/jervilangelo)** to make financial literacy easier to explore, verify and understand in the Philippines.
 
-If you find these tools useful, consider [starring PinansyalPH on GitHub](https://github.com/jervilangelo/pinansyalph-v2).
+If you find these tools useful, consider [starring PinansyalPH on GitHub](https://github.com/jervilangelo/pinansyalph-v2). More of my work: [jervilangelo.online](https://jervilangelo.online/).
 
 Photographs from Wikimedia Commons, credited on the site and listed in
 [docs/image-credits.json](docs/image-credits.json). Not affiliated with PSA, DOE, Pag-IBIG Fund, BIR, SSS, PhilHealth

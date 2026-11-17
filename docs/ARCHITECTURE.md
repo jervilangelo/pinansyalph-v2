@@ -53,6 +53,13 @@ A static site with versioned data. No server, no database, no accounts.
 - One shared scenario (amounts, duration, inflation assumption) lives above the router and drives the MP2, bank and
   comparison pages, so they are always compared on the same inputs as you move between them.
 - Charts load after first paint; reduced-motion preferences remove all travel and count-ups.
+- **v3 design system**: tokens in `src/index.css` (`@theme`), motion tokens in `src/components/ui/motion.tsx`, and
+  shared primitives: `Disclosure`, `Modal`, `ResultHero`/`Stat`/`CalcGrid`/`Panel` (`src/components/ui`), the brand
+  symbol and loaders (`src/components/brand/Logo.tsx`), the page shell and `ToolHeader`
+  (`src/components/layout`). Tools are grouped in `GROUPS`/`TOOLS` in `src/router.tsx`.
+- **Splash**: plain HTML/CSS in `index.html`, dismissed by `markAppReady()` (`src/splash.ts`) once a page has mounted,
+  with a CSS fail-safe. The homepage estimator passes its salary to `/sweldo` as `?basic=`; nothing else is read from
+  the URL.
 
 ## Folders
 
@@ -60,7 +67,8 @@ A static site with versioned data. No server, no database, no accounts.
 src/
   calculators/   pure, decimal-safe financial logic + unit tests
   charts/        Recharts components (lazy) and shared chart styling
-  components/    page sections, layout (header, page shell) and UI primitives
+  components/    page sections, layout (header, footer, page shell), brand, support dialog, UI primitives
+  kit/           brand kit: logo SVGs and PNGs, web icons (source of public/ icons)
   pages/         one component per route
   router.tsx     routes, links and navigation
   data/          versioned datasets (JSON) and typed accessors

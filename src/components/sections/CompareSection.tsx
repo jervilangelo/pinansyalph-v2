@@ -221,7 +221,7 @@ export function CompareSection({ s }: { s: ScenarioState }) {
                     {row.error ? (
                       <p className="mt-2 text-loss">{row.error}</p>
                     ) : (
-                      <dl className="m-0 mt-3 grid grid-cols-[minmax(0,9rem)_1fr] gap-x-4 gap-y-2.5 text-[0.9375rem]">
+                      <dl className="m-0 mt-3 grid grid-cols-[minmax(0,7rem)_1fr] gap-x-4 gap-y-2.5 text-[0.9375rem] sm:grid-cols-[minmax(0,9rem)_1fr]">
                         {row.cells.map((c) => (
                           <div key={c.h} className="contents">
                             <dt className="text-muted">{c.h}</dt>

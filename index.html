@@ -48,12 +48,12 @@
       html { background: #f6f4ef; }
       #splash {
         position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center;
-        background: #f6f4ef; transition: opacity .45s cubic-bezier(.22,1,.36,1), visibility .45s;
+        background: #f6f4ef; transition: opacity .35s .12s ease-out, visibility 0s .47s;
         animation: sp-fail .4s 8s forwards;
       }
       #splash.out { opacity: 0; visibility: hidden; }
-      #splash .sp-inner { display: flex; flex-direction: column; align-items: center; gap: 22px; transition: transform .45s cubic-bezier(.22,1,.36,1); }
-      #splash.out .sp-inner { transform: translateY(-10px) scale(.98); }
+      #splash .sp-inner { display: flex; flex-direction: column; align-items: center; gap: 22px; transition: opacity .16s ease-in, transform .3s cubic-bezier(.22,1,.36,1); }
+      #splash.out .sp-inner { opacity: 0; transform: translateY(-8px) scale(.97); }
       #splash svg { display: block; overflow: visible; }
       #splash .sp-base { transform-box: view-box; transform-origin: 128px 191px; animation: sp-base .55s cubic-bezier(.22,1,.36,1) both; }
       #splash .sp-sun { transform-box: view-box; animation: sp-sun .7s .15s cubic-bezier(.22,1,.36,1) both; }
