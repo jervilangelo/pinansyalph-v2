@@ -14,10 +14,10 @@ export type Route = (typeof ROUTES)[number]
 export type GroupId = 'sahod' | 'ipon' | 'presyo'
 
 /** Tools are grouped by the question a visitor brings, in plain Filipino-English. */
-export const GROUPS: { id: GroupId; label: string; question: string }[] = [
-  { id: 'sahod', label: 'Sahod', question: 'Your pay, and what is left of it' },
-  { id: 'ipon', label: 'Ipon', question: 'Where your savings grow' },
-  { id: 'presyo', label: 'Presyo', question: 'What things cost now' },
+export const GROUPS: { id: GroupId; label: string; gloss: string; question: string }[] = [
+  { id: 'sahod', label: 'Sahod', gloss: 'Pay', question: 'Your pay, and what is left of it' },
+  { id: 'ipon', label: 'Ipon', gloss: 'Savings', question: 'Where your savings grow' },
+  { id: 'presyo', label: 'Presyo', gloss: 'Prices', question: 'What things cost now' },
 ]
 
 export type PageInfo = { path: Exclude<Route, '/'>; label: string; name: string; title: string; blurb: string; group?: GroupId }
