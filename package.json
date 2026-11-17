@@ -16,7 +16,8 @@
     "data:fuel": "tsx scripts/fetch-fuel-prices.ts",
     "data:mp2": "tsx scripts/fetch-mp2-rates.ts",
     "data:banks": "tsx scripts/fetch-bank-rates.ts",
-    "data:update": "npm run data:inflation && npm run data:fuel && npm run data:mp2 && npm run data:banks && npm run validate:data"
+    "data:salary": "tsx scripts/update-salary-data.ts",
+    "data:update": "npm run data:inflation && npm run data:fuel && npm run data:mp2 && npm run data:banks && npm run data:salary && npm run validate:data"
   },
   "dependencies": {
     "decimal.js": "^10.6.0",

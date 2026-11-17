@@ -3,6 +3,7 @@ import { crossCheck, parseOilMonitor } from '../lib/oil-monitor'
 import { toPeriodValues, type PxData, type PxMeta } from '../lib/pxweb'
 import { validateMonthlySeries } from '../lib/validate'
 import { extractPdfLinks } from '../fetch-fuel-prices'
+import { industryId, industryKey, regionId } from '../update-salary-data'
 import { evaluateFreshness, normaliseText } from '../fetch-bank-rates'
 import { expectedLatestYear } from '../fetch-mp2-rates'
 import type { BankProduct } from '../../src/types/data'
@@ -175,5 +176,28 @@ describe('MP2 declaration watch', () => {
   it('expects last year\'s rate from April onward', () => {
     expect(expectedLatestYear(new Date('2026-03-15T00:00:00Z'))).toBe(2024)
     expect(expectedLatestYear(new Date('2026-04-01T00:00:00Z'))).toBe(2025)
+  })
+})
+
+
+describe('PSA OWS salary mapping', () => {
+  it('maps every PSA region label, including the leading dots PxWeb uses', () => {
+    expect(regionId('PHILIPPINES').id).toBe('ph')
+    expect(regionId('..National Capital Region').id).toBe('ncr')
+    expect(regionId('..Region IV-A - CALABARZON').id).toBe('calabarzon')
+    expect(regionId('..Region I - Ilocos Region').id).toBe('ilocos')
+    expect(regionId('..Region II - Cagayan Valley').id).toBe('cagayan-valley')
+    expect(regionId('..Bangsamoro Autonomous Region in Muslim Mindanao').id).toBe('barmm')
+  })
+
+  it('fails loudly on a region it does not know', () => {
+    expect(() => regionId('..Negros Island Region')).toThrow(/Unrecognised PSA region/)
+  })
+
+  it('matches industries across rounds despite commas, case and "and"', () => {
+    expect(industryKey('..Professional, Scientific, and Technical Activities')).toBe(industryKey('Professional, Scientific and Technical Activities'))
+    expect(industryKey('Education except Public Education')).toBe(industryKey('Education Except Public Education'))
+    expect(industryId('ALL INDUSTRIES')).toBe('all')
+    expect(industryId('..Information and Communications')).toBe('information-communications')
   })
 })

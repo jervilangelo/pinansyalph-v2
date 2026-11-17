@@ -4,6 +4,7 @@
  */
 import { BankDataset, FuelDataset, InflationDataset, Mp2Dataset } from '../src/types/data.ts'
 import { PayrollRules } from '../src/types/payroll.ts'
+import { SalaryBenchmarkDataset } from '../src/types/salary.ts'
 import { dataPath, readJson } from './lib/io.ts'
 import type { ZodType } from 'zod'
 
@@ -13,6 +14,7 @@ const files: [string, ZodType][] = [
   ['mp2.json', Mp2Dataset],
   ['banks.json', BankDataset],
   ['payroll.json', PayrollRules],
+  ['salary-benchmarks.json', SalaryBenchmarkDataset],
 ]
 
 let failed = false
@@ -46,6 +48,21 @@ const years = (mp2?.rates ?? []).map((r) => r.year)
 if (new Set(years).size !== years.length) {
   failed = true
   console.error('✗ mp2.json: duplicate year')
+}
+
+const salary = readJson<SalaryBenchmarkDataset>(dataPath('salary-benchmarks.json'))
+const salaryKeys = new Set<string>()
+for (const b of salary?.benchmarks ?? []) {
+  const key = [b.occupation, b.survey, b.region, b.industry, b.measure, b.basis].join('|')
+  if (salaryKeys.has(key)) {
+    failed = true
+    console.error(`✗ salary-benchmarks.json: duplicate figure ${key}`)
+  }
+  salaryKeys.add(key)
+  if (!salary!.surveys.some((s) => s.id === b.survey) || !salary!.tables.some((t) => t.id === b.table)) {
+    failed = true
+    console.error(`✗ salary-benchmarks.json: ${key} refers to an unknown survey or table`)
+  }
 }
 
 process.exit(failed ? 1 : 0)

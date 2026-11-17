@@ -1,0 +1,2858 @@
+{
+  "source": "Philippine Statistics Authority (PSA), Occupational Wages Survey, via PSA OpenSTAT",
+  "sourceUrl": "https://openstat.psa.gov.ph/",
+  "retrievedAt": "2026-11-17T12:33:04.864Z",
+  "status": "verified",
+  "population": "Time-rated workers on full-time basis in the establishments PSA surveyed. Government agencies, public schools and public hospitals are not covered.",
+  "definitions": {
+    "basicPay": "Pay for normal working time before employees' SSS, PhilHealth and Pag-IBIG contributions and withholding tax. Excludes overtime, night shift differential and other premium pay, commissions, tips, service charges and payment in kind.",
+    "allowance": "Regular, guaranteed cash payments such as living allowance. Excludes reimbursements for business expenses, uniforms, bonuses and gratuities, and family allowances.",
+    "wageRate": "Basic pay plus regular, guaranteed cash allowances.",
+    "median": "The amount where half of the workers receive more and half receive less."
+  },
+  "surveys": [
+    {
+      "id": "ows-2024",
+      "label": "2024 Occupational Wages Survey",
+      "referencePeriod": "August 2024",
+      "year": 2024,
+      "coverage": "Establishments with 10 or more workers in all major industries",
+      "notes": [
+        "The 2024 round covers establishments with 10 or more workers across all major industries; earlier rounds covered only establishments with 20 or more workers in selected industries, so the series has a break and the rounds are not directly comparable.",
+        "Sulu province is counted under BARMM. Provinces of the Negros Island Region are still counted under Regions VI and VII."
+      ]
+    },
+    {
+      "id": "ows-2022",
+      "label": "2022 Occupational Wages Survey",
+      "referencePeriod": "2022",
+      "year": 2022,
+      "coverage": "Establishments with 20 or more workers in selected industries",
+      "notes": [
+        "Earlier survey design: not directly comparable with the 2024 round."
+      ]
+    }
+  ],
+  "tables": [
+    {
+      "id": "0021B3E2002",
+      "title": "Average Monthly Basic Pay, Allowance, and Wage Rates of Time-Rated Workers on Full-Time Basis by Region, Philippines: August 2024",
+      "path": "PSA OpenSTAT › Labor and Employment › Occupational Wages Survey › Establishments employing 10 or more workers",
+      "apiUrl": "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/OWS/O10/0021B3E2002.px",
+      "updated": "2026-09-01",
+      "survey": "ows-2024"
+    },
+    {
+      "id": "0011B3E2001",
+      "title": "Average Monthly Basic Pay, Allowance, and Wage Rates of Time-Rated Workers on Full-Time Basis by Major Industry Group, Philippines: August 2024",
+      "path": "PSA OpenSTAT › Labor and Employment › Occupational Wages Survey › Establishments employing 10 or more workers",
+      "apiUrl": "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/OWS/O10/0011B3E2001.px",
+      "updated": "2026-09-01",
+      "survey": "ows-2024"
+    },
+    {
+      "id": "0061B3E2006",
+      "title": "Average Monthly Wage Rates of Benchmark Occupation: General Office Clerks by Sex and Region, Philippines: August 2024",
+      "path": "PSA OpenSTAT › Labor and Employment › Occupational Wages Survey › Establishments employing 10 or more workers",
+      "apiUrl": "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/OWS/O10/0061B3E2006.px",
+      "updated": "2026-09-01",
+      "survey": "ows-2024"
+    },
+    {
+      "id": "0051B3E2005",
+      "title": "Table 5. Average Monthly Wage Rates of Benchmark Occupation: General Office Clerks by Sex and Major Industry Group, Philippines: August 2024",
+      "path": "PSA OpenSTAT › Labor and Employment › Occupational Wages Survey › Establishments employing 10 or more workers",
+      "apiUrl": "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/OWS/O10/0051B3E2005.px",
+      "updated": "2026-09-01",
+      "survey": "ows-2024"
+    },
+    {
+      "id": "0081B3E2008",
+      "title": "Average Monthly Wage Rates of Benchmark Occupation: Elementary Occupations by Sex and Region, Philippines: August 2024",
+      "path": "PSA OpenSTAT › Labor and Employment › Occupational Wages Survey › Establishments employing 10 or more workers",
+      "apiUrl": "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/OWS/O10/0081B3E2008.px",
+      "updated": "2026-09-01",
+      "survey": "ows-2024"
+    },
+    {
+      "id": "0071B3E2007",
+      "title": "Average Monthly Wage Rates of Benchmark Occupation: Elementary Occupations by Sex and Major Industry Group, Philippines: August 2024",
+      "path": "PSA OpenSTAT › Labor and Employment › Occupational Wages Survey › Establishments employing 10 or more workers",
+      "apiUrl": "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/OWS/O10/0071B3E2007.px",
+      "updated": "2026-09-01",
+      "survey": "ows-2024"
+    },
+    {
+      "id": "0031B3E1030",
+      "title": "Average Monthly Wage Rates of Benchmark Occupations by Industry: 2014 to 2022",
+      "path": "PSA OpenSTAT › Labor and Employment › Occupational Wages Survey › Establishments employing 20 or more workers",
+      "apiUrl": "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/OWS/O20/0031B3E1030.px",
+      "updated": "2026-09-01",
+      "survey": "ows-2022"
+    },
+    {
+      "id": "0041B3E1040",
+      "title": "Median Monthly Basic Pay and Allowance of Time-Rate Workers on Full-Time Basis by Industry, 2014 to 2022",
+      "path": "PSA OpenSTAT › Labor and Employment › Occupational Wages Survey › Establishments employing 20 or more workers",
+      "apiUrl": "https://openstat.psa.gov.ph/PXWeb/api/v1/en/DB/1B/OWS/O20/0041B3E1040.px",
+      "updated": "2026-09-01",
+      "survey": "ows-2022"
+    }
+  ],
+  "regions": [
+    {
+      "id": "ph",
+      "name": "Philippines (national average)",
+      "short": "Philippines"
+    },
+    {
+      "id": "ncr",
+      "name": "National Capital Region (Metro Manila)",
+      "short": "NCR"
+    },
+    {
+      "id": "car",
+      "name": "Cordillera Administrative Region",
+      "short": "CAR"
+    },
+    {
+      "id": "ilocos",
+      "name": "Region I – Ilocos Region",
+      "short": "Ilocos"
+    },
+    {
+      "id": "cagayan-valley",
+      "name": "Region II – Cagayan Valley",
+      "short": "Cagayan Valley"
+    },
+    {
+      "id": "central-luzon",
+      "name": "Region III – Central Luzon",
+      "short": "Central Luzon"
+    },
+    {
+      "id": "calabarzon",
+      "name": "Region IV-A – CALABARZON",
+      "short": "CALABARZON"
+    },
+    {
+      "id": "mimaropa",
+      "name": "MIMAROPA Region",
+      "short": "MIMAROPA"
+    },
+    {
+      "id": "bicol",
+      "name": "Region V – Bicol Region",
+      "short": "Bicol"
+    },
+    {
+      "id": "western-visayas",
+      "name": "Region VI – Western Visayas",
+      "short": "Western Visayas"
+    },
+    {
+      "id": "central-visayas",
+      "name": "Region VII – Central Visayas",
+      "short": "Central Visayas"
+    },
+    {
+      "id": "eastern-visayas",
+      "name": "Region VIII – Eastern Visayas",
+      "short": "Eastern Visayas"
+    },
+    {
+      "id": "zamboanga-peninsula",
+      "name": "Region IX – Zamboanga Peninsula",
+      "short": "Zamboanga Peninsula"
+    },
+    {
+      "id": "northern-mindanao",
+      "name": "Region X – Northern Mindanao",
+      "short": "Northern Mindanao"
+    },
+    {
+      "id": "davao",
+      "name": "Region XI – Davao Region",
+      "short": "Davao"
+    },
+    {
+      "id": "soccsksargen",
+      "name": "Region XII – SOCCSKSARGEN",
+      "short": "SOCCSKSARGEN"
+    },
+    {
+      "id": "caraga",
+      "name": "Region XIII – Caraga",
+      "short": "Caraga"
+    },
+    {
+      "id": "barmm",
+      "name": "Bangsamoro Autonomous Region in Muslim Mindanao (BARMM)",
+      "short": "BARMM"
+    }
+  ],
+  "industries": [
+    {
+      "id": "agriculture-forestry-fishing",
+      "name": "Agriculture, Forestry, and Fishing"
+    },
+    {
+      "id": "mining-quarrying",
+      "name": "Mining and Quarrying"
+    },
+    {
+      "id": "manufacturing",
+      "name": "Manufacturing"
+    },
+    {
+      "id": "electricity-gas-steam-air-conditioning",
+      "name": "Electricity, Gas, Steam, and Air Conditioning Supply"
+    },
+    {
+      "id": "water-supply-sewerage-waste-management",
+      "name": "Water Supply; Sewerage, Waste Management and Remediation Activities"
+    },
+    {
+      "id": "construction",
+      "name": "Construction"
+    },
+    {
+      "id": "wholesale-retail-trade-repair-of",
+      "name": "Wholesale and Retail Trade; Repair of Motor Vehicles and Motorcycles"
+    },
+    {
+      "id": "transportation-storage",
+      "name": "Transportation and Storage"
+    },
+    {
+      "id": "accommodation-food-service-activities",
+      "name": "Accommodation and Food Service Activities"
+    },
+    {
+      "id": "information-communications",
+      "name": "Information and Communications"
+    },
+    {
+      "id": "financial-insurance-activities",
+      "name": "Financial and Insurance Activities"
+    },
+    {
+      "id": "real-estate-activities",
+      "name": "Real Estate Activities"
+    },
+    {
+      "id": "professional-scientific-technical-activities",
+      "name": "Professional, Scientific, and Technical Activities"
+    },
+    {
+      "id": "administrative-support-service-activities",
+      "name": "Administrative and Support Service Activities"
+    },
+    {
+      "id": "education",
+      "name": "Education except Public Education"
+    },
+    {
+      "id": "human-health-social-work-activities",
+      "name": "Human Health and Social Work Activities except Public Health Activities"
+    },
+    {
+      "id": "arts-entertainment-recreation",
+      "name": "Arts, Entertainment, and Recreation"
+    },
+    {
+      "id": "other-service-activities",
+      "name": "Other Service Activities except Activities of Membership Organizations"
+    }
+  ],
+  "occupations": [
+    {
+      "id": "general-office-clerks",
+      "psaLabel": "General Office Clerks"
+    },
+    {
+      "id": "elementary-occupations",
+      "psaLabel": "Elementary Occupations"
+    },
+    {
+      "id": "accounting-bookkeeping-clerks",
+      "psaLabel": "Accounting and Bookkeeping Clerks"
+    }
+  ],
+  "benchmarks": [
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "ph",
+      "industry": "all",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 20309,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "ph",
+      "industry": "all",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 1235,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "ph",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 21544,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "ncr",
+      "industry": "all",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 27318,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "ncr",
+      "industry": "all",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 1992,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "ncr",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 29310,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "car",
+      "industry": "all",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 16548,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "car",
+      "industry": "all",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 884,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "car",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 17432,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "ilocos",
+      "industry": "all",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 14248,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "ilocos",
+      "industry": "all",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 532,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "ilocos",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 14780,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "cagayan-valley",
+      "industry": "all",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 14849,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "cagayan-valley",
+      "industry": "all",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 304,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "cagayan-valley",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 15153,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "central-luzon",
+      "industry": "all",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 17372,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "central-luzon",
+      "industry": "all",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 902,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "central-luzon",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 18274,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "calabarzon",
+      "industry": "all",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 18754,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "calabarzon",
+      "industry": "all",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 958,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "calabarzon",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 19711,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "mimaropa",
+      "industry": "all",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 13418,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "mimaropa",
+      "industry": "all",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 820,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "mimaropa",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 14238,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "bicol",
+      "industry": "all",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 13045,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "bicol",
+      "industry": "all",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 706,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "bicol",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 13751,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "western-visayas",
+      "industry": "all",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 15326,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "western-visayas",
+      "industry": "all",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 777,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "western-visayas",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 16104,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "central-visayas",
+      "industry": "all",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 18055,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "central-visayas",
+      "industry": "all",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 1029,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "central-visayas",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 19084,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "eastern-visayas",
+      "industry": "all",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 12828,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "eastern-visayas",
+      "industry": "all",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 639,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "eastern-visayas",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 13467,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "zamboanga-peninsula",
+      "industry": "all",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 11862,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "zamboanga-peninsula",
+      "industry": "all",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 358,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "zamboanga-peninsula",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 12220,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "northern-mindanao",
+      "industry": "all",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 14072,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "northern-mindanao",
+      "industry": "all",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 447,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "northern-mindanao",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 14519,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "davao",
+      "industry": "all",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 17163,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "davao",
+      "industry": "all",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 790,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "davao",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 17953,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "soccsksargen",
+      "industry": "all",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 12622,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "soccsksargen",
+      "industry": "all",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 516,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "soccsksargen",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 13138,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "caraga",
+      "industry": "all",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 13459,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "caraga",
+      "industry": "all",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 760,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "caraga",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 14219,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "barmm",
+      "industry": "all",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 11169,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "barmm",
+      "industry": "all",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 326,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0021B3E2002",
+      "region": "barmm",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 11495,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "agriculture-forestry-fishing",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 14191,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "agriculture-forestry-fishing",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 424,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "agriculture-forestry-fishing",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 14615,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "mining-quarrying",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 19505,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "mining-quarrying",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 877,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "mining-quarrying",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 20382,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "manufacturing",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 18280,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "manufacturing",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 764,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "manufacturing",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 19044,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "electricity-gas-steam-air-conditioning",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 31062,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "electricity-gas-steam-air-conditioning",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 4127,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "electricity-gas-steam-air-conditioning",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 35188,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "water-supply-sewerage-waste-management",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 20305,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "water-supply-sewerage-waste-management",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 1238,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "water-supply-sewerage-waste-management",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 21543,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "construction",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 16684,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "construction",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 674,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "construction",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 17358,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "wholesale-retail-trade-repair-of",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 16515,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "wholesale-retail-trade-repair-of",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 685,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "wholesale-retail-trade-repair-of",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 17200,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "transportation-storage",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 19308,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "transportation-storage",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 1223,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "transportation-storage",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 20531,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "accommodation-food-service-activities",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 14805,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "accommodation-food-service-activities",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 451,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "accommodation-food-service-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 15256,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "information-communications",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 40931,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "information-communications",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 2745,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "information-communications",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 43676,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "financial-insurance-activities",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 29921,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "financial-insurance-activities",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 1412,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "financial-insurance-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 31333,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "real-estate-activities",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 23974,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "real-estate-activities",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 1034,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "real-estate-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 25007,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "professional-scientific-technical-activities",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 32553,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "professional-scientific-technical-activities",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 3543,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "professional-scientific-technical-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 36096,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "administrative-support-service-activities",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 23127,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "administrative-support-service-activities",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 2100,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "administrative-support-service-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 25227,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "education",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 17898,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "education",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 790,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "education",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 18688,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "human-health-social-work-activities",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 18814,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "human-health-social-work-activities",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 1537,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "human-health-social-work-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 20351,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "arts-entertainment-recreation",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 22680,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "arts-entertainment-recreation",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 1851,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "arts-entertainment-recreation",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 24531,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "other-service-activities",
+      "measure": "average",
+      "basis": "basic-pay",
+      "value": 15228,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "other-service-activities",
+      "measure": "average",
+      "basis": "allowance",
+      "value": 501,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2024",
+      "table": "0011B3E2001",
+      "region": "ph",
+      "industry": "other-service-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 15730,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0061B3E2006",
+      "region": "ph",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 19721,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0061B3E2006",
+      "region": "ncr",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 22903,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0061B3E2006",
+      "region": "car",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 17783,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0061B3E2006",
+      "region": "ilocos",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 15637,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0061B3E2006",
+      "region": "cagayan-valley",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 16183,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0061B3E2006",
+      "region": "central-luzon",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 20844,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0061B3E2006",
+      "region": "calabarzon",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 18817,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0061B3E2006",
+      "region": "mimaropa",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 14610,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0061B3E2006",
+      "region": "bicol",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 14458,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0061B3E2006",
+      "region": "western-visayas",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 15846,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0061B3E2006",
+      "region": "central-visayas",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 24852,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0061B3E2006",
+      "region": "eastern-visayas",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 15243,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0061B3E2006",
+      "region": "zamboanga-peninsula",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 13621,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0061B3E2006",
+      "region": "northern-mindanao",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 15406,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0061B3E2006",
+      "region": "davao",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 15718,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0061B3E2006",
+      "region": "soccsksargen",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 14298,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0061B3E2006",
+      "region": "caraga",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 15953,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0061B3E2006",
+      "region": "barmm",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 13347,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0051B3E2005",
+      "region": "ph",
+      "industry": "agriculture-forestry-fishing",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 16908,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0051B3E2005",
+      "region": "ph",
+      "industry": "mining-quarrying",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 19881,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0051B3E2005",
+      "region": "ph",
+      "industry": "manufacturing",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 19270,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0051B3E2005",
+      "region": "ph",
+      "industry": "electricity-gas-steam-air-conditioning",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 30398,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0051B3E2005",
+      "region": "ph",
+      "industry": "water-supply-sewerage-waste-management",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 21856,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0051B3E2005",
+      "region": "ph",
+      "industry": "construction",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 18643,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0051B3E2005",
+      "region": "ph",
+      "industry": "wholesale-retail-trade-repair-of",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 16784,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0051B3E2005",
+      "region": "ph",
+      "industry": "transportation-storage",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 19872,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0051B3E2005",
+      "region": "ph",
+      "industry": "accommodation-food-service-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 17308,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0051B3E2005",
+      "region": "ph",
+      "industry": "information-communications",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 25649,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0051B3E2005",
+      "region": "ph",
+      "industry": "financial-insurance-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 19740,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0051B3E2005",
+      "region": "ph",
+      "industry": "real-estate-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 20992,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0051B3E2005",
+      "region": "ph",
+      "industry": "professional-scientific-technical-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 22203,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0051B3E2005",
+      "region": "ph",
+      "industry": "administrative-support-service-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 25600,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0051B3E2005",
+      "region": "ph",
+      "industry": "education",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 17835,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0051B3E2005",
+      "region": "ph",
+      "industry": "human-health-social-work-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 17017,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0051B3E2005",
+      "region": "ph",
+      "industry": "arts-entertainment-recreation",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 18886,
+      "sampleSize": null
+    },
+    {
+      "occupation": "general-office-clerks",
+      "survey": "ows-2024",
+      "table": "0051B3E2005",
+      "region": "ph",
+      "industry": "other-service-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 15859,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0081B3E2008",
+      "region": "ph",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 13506,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0081B3E2008",
+      "region": "ncr",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 15991,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0081B3E2008",
+      "region": "car",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 13446,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0081B3E2008",
+      "region": "ilocos",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 12115,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0081B3E2008",
+      "region": "cagayan-valley",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 13631,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0081B3E2008",
+      "region": "central-luzon",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 14079,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0081B3E2008",
+      "region": "calabarzon",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 14318,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0081B3E2008",
+      "region": "mimaropa",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 10824,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0081B3E2008",
+      "region": "bicol",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 11658,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0081B3E2008",
+      "region": "western-visayas",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 12582,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0081B3E2008",
+      "region": "central-visayas",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 13370,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0081B3E2008",
+      "region": "eastern-visayas",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 11052,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0081B3E2008",
+      "region": "zamboanga-peninsula",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 10429,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0081B3E2008",
+      "region": "northern-mindanao",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 11767,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0081B3E2008",
+      "region": "davao",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 12543,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0081B3E2008",
+      "region": "soccsksargen",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 10826,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0081B3E2008",
+      "region": "caraga",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 11031,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0081B3E2008",
+      "region": "barmm",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 9770,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0071B3E2007",
+      "region": "ph",
+      "industry": "agriculture-forestry-fishing",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 12110,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0071B3E2007",
+      "region": "ph",
+      "industry": "mining-quarrying",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 12813,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0071B3E2007",
+      "region": "ph",
+      "industry": "manufacturing",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 14315,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0071B3E2007",
+      "region": "ph",
+      "industry": "electricity-gas-steam-air-conditioning",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 22259,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0071B3E2007",
+      "region": "ph",
+      "industry": "water-supply-sewerage-waste-management",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 15562,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0071B3E2007",
+      "region": "ph",
+      "industry": "construction",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 14015,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0071B3E2007",
+      "region": "ph",
+      "industry": "wholesale-retail-trade-repair-of",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 13061,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0071B3E2007",
+      "region": "ph",
+      "industry": "transportation-storage",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 14717,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0071B3E2007",
+      "region": "ph",
+      "industry": "accommodation-food-service-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 13163,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0071B3E2007",
+      "region": "ph",
+      "industry": "information-communications",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 15706,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0071B3E2007",
+      "region": "ph",
+      "industry": "financial-insurance-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 12593,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0071B3E2007",
+      "region": "ph",
+      "industry": "real-estate-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 14182,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0071B3E2007",
+      "region": "ph",
+      "industry": "professional-scientific-technical-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 14381,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0071B3E2007",
+      "region": "ph",
+      "industry": "administrative-support-service-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 12592,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0071B3E2007",
+      "region": "ph",
+      "industry": "education",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 12960,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0071B3E2007",
+      "region": "ph",
+      "industry": "human-health-social-work-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 12985,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0071B3E2007",
+      "region": "ph",
+      "industry": "arts-entertainment-recreation",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 14262,
+      "sampleSize": null
+    },
+    {
+      "occupation": "elementary-occupations",
+      "survey": "ows-2024",
+      "table": "0071B3E2007",
+      "region": "ph",
+      "industry": "other-service-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 13715,
+      "sampleSize": null
+    },
+    {
+      "occupation": "accounting-bookkeeping-clerks",
+      "survey": "ows-2022",
+      "table": "0031B3E1030",
+      "region": "ph",
+      "industry": "all",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 19676,
+      "sampleSize": null
+    },
+    {
+      "occupation": "accounting-bookkeeping-clerks",
+      "survey": "ows-2022",
+      "table": "0031B3E1030",
+      "region": "ph",
+      "industry": "agriculture-forestry-fishing",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 16801,
+      "sampleSize": null
+    },
+    {
+      "occupation": "accounting-bookkeeping-clerks",
+      "survey": "ows-2022",
+      "table": "0031B3E1030",
+      "region": "ph",
+      "industry": "mining-quarrying",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 20879,
+      "sampleSize": null
+    },
+    {
+      "occupation": "accounting-bookkeeping-clerks",
+      "survey": "ows-2022",
+      "table": "0031B3E1030",
+      "region": "ph",
+      "industry": "manufacturing",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 19056,
+      "sampleSize": null
+    },
+    {
+      "occupation": "accounting-bookkeeping-clerks",
+      "survey": "ows-2022",
+      "table": "0031B3E1030",
+      "region": "ph",
+      "industry": "electricity-gas-steam-air-conditioning",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 30676,
+      "sampleSize": null
+    },
+    {
+      "occupation": "accounting-bookkeeping-clerks",
+      "survey": "ows-2022",
+      "table": "0031B3E1030",
+      "region": "ph",
+      "industry": "water-supply-sewerage-waste-management",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 23885,
+      "sampleSize": null
+    },
+    {
+      "occupation": "accounting-bookkeeping-clerks",
+      "survey": "ows-2022",
+      "table": "0031B3E1030",
+      "region": "ph",
+      "industry": "construction",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 19999,
+      "sampleSize": null
+    },
+    {
+      "occupation": "accounting-bookkeeping-clerks",
+      "survey": "ows-2022",
+      "table": "0031B3E1030",
+      "region": "ph",
+      "industry": "wholesale-retail-trade-repair-of",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 17206,
+      "sampleSize": null
+    },
+    {
+      "occupation": "accounting-bookkeeping-clerks",
+      "survey": "ows-2022",
+      "table": "0031B3E1030",
+      "region": "ph",
+      "industry": "transportation-storage",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 20001,
+      "sampleSize": null
+    },
+    {
+      "occupation": "accounting-bookkeeping-clerks",
+      "survey": "ows-2022",
+      "table": "0031B3E1030",
+      "region": "ph",
+      "industry": "accommodation-food-service-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 17501,
+      "sampleSize": null
+    },
+    {
+      "occupation": "accounting-bookkeeping-clerks",
+      "survey": "ows-2022",
+      "table": "0031B3E1030",
+      "region": "ph",
+      "industry": "information-communications",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 30731,
+      "sampleSize": null
+    },
+    {
+      "occupation": "accounting-bookkeeping-clerks",
+      "survey": "ows-2022",
+      "table": "0031B3E1030",
+      "region": "ph",
+      "industry": "financial-insurance-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 20119,
+      "sampleSize": null
+    },
+    {
+      "occupation": "accounting-bookkeeping-clerks",
+      "survey": "ows-2022",
+      "table": "0031B3E1030",
+      "region": "ph",
+      "industry": "real-estate-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 21870,
+      "sampleSize": null
+    },
+    {
+      "occupation": "accounting-bookkeeping-clerks",
+      "survey": "ows-2022",
+      "table": "0031B3E1030",
+      "region": "ph",
+      "industry": "professional-scientific-technical-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 25443,
+      "sampleSize": null
+    },
+    {
+      "occupation": "accounting-bookkeeping-clerks",
+      "survey": "ows-2022",
+      "table": "0031B3E1030",
+      "region": "ph",
+      "industry": "administrative-support-service-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 22363,
+      "sampleSize": null
+    },
+    {
+      "occupation": "accounting-bookkeeping-clerks",
+      "survey": "ows-2022",
+      "table": "0031B3E1030",
+      "region": "ph",
+      "industry": "education",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 18188,
+      "sampleSize": null
+    },
+    {
+      "occupation": "accounting-bookkeeping-clerks",
+      "survey": "ows-2022",
+      "table": "0031B3E1030",
+      "region": "ph",
+      "industry": "arts-entertainment-recreation",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 18763,
+      "sampleSize": null
+    },
+    {
+      "occupation": "accounting-bookkeeping-clerks",
+      "survey": "ows-2022",
+      "table": "0031B3E1030",
+      "region": "ph",
+      "industry": "other-service-activities",
+      "measure": "average",
+      "basis": "wage-rate",
+      "value": 21509,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "all",
+      "measure": "median",
+      "basis": "basic-pay",
+      "value": 14588,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "all",
+      "measure": "median",
+      "basis": "allowance",
+      "value": 2381,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "agriculture-forestry-fishing",
+      "measure": "median",
+      "basis": "basic-pay",
+      "value": 10995,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "agriculture-forestry-fishing",
+      "measure": "median",
+      "basis": "allowance",
+      "value": 1110,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "mining-quarrying",
+      "measure": "median",
+      "basis": "basic-pay",
+      "value": 16132,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "mining-quarrying",
+      "measure": "median",
+      "basis": "allowance",
+      "value": 2003,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "manufacturing",
+      "measure": "median",
+      "basis": "basic-pay",
+      "value": 12301,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "manufacturing",
+      "measure": "median",
+      "basis": "allowance",
+      "value": 1845,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "electricity-gas-steam-air-conditioning",
+      "measure": "median",
+      "basis": "basic-pay",
+      "value": 29928,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "electricity-gas-steam-air-conditioning",
+      "measure": "median",
+      "basis": "allowance",
+      "value": 3276,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "water-supply-sewerage-waste-management",
+      "measure": "median",
+      "basis": "basic-pay",
+      "value": 15909,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "water-supply-sewerage-waste-management",
+      "measure": "median",
+      "basis": "allowance",
+      "value": 2312,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "construction",
+      "measure": "median",
+      "basis": "basic-pay",
+      "value": 14359,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "construction",
+      "measure": "median",
+      "basis": "allowance",
+      "value": 1626,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "wholesale-retail-trade-repair-of",
+      "measure": "median",
+      "basis": "basic-pay",
+      "value": 13198,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "wholesale-retail-trade-repair-of",
+      "measure": "median",
+      "basis": "allowance",
+      "value": 1810,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "transportation-storage",
+      "measure": "median",
+      "basis": "basic-pay",
+      "value": 15134,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "transportation-storage",
+      "measure": "median",
+      "basis": "allowance",
+      "value": 2005,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "accommodation-food-service-activities",
+      "measure": "median",
+      "basis": "basic-pay",
+      "value": 12921,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "accommodation-food-service-activities",
+      "measure": "median",
+      "basis": "allowance",
+      "value": 1671,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "information-communications",
+      "measure": "median",
+      "basis": "basic-pay",
+      "value": 25988,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "information-communications",
+      "measure": "median",
+      "basis": "allowance",
+      "value": 2445,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "financial-insurance-activities",
+      "measure": "median",
+      "basis": "basic-pay",
+      "value": 17155,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "financial-insurance-activities",
+      "measure": "median",
+      "basis": "allowance",
+      "value": 2373,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "real-estate-activities",
+      "measure": "median",
+      "basis": "basic-pay",
+      "value": 19173,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "real-estate-activities",
+      "measure": "median",
+      "basis": "allowance",
+      "value": 2070,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "professional-scientific-technical-activities",
+      "measure": "median",
+      "basis": "basic-pay",
+      "value": 22463,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "professional-scientific-technical-activities",
+      "measure": "median",
+      "basis": "allowance",
+      "value": 3206,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "administrative-support-service-activities",
+      "measure": "median",
+      "basis": "basic-pay",
+      "value": 14836,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "administrative-support-service-activities",
+      "measure": "median",
+      "basis": "allowance",
+      "value": 2789,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "education",
+      "measure": "median",
+      "basis": "basic-pay",
+      "value": 15731,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "education",
+      "measure": "median",
+      "basis": "allowance",
+      "value": 2043,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "arts-entertainment-recreation",
+      "measure": "median",
+      "basis": "basic-pay",
+      "value": 17307,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "arts-entertainment-recreation",
+      "measure": "median",
+      "basis": "allowance",
+      "value": 5247,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "other-service-activities",
+      "measure": "median",
+      "basis": "basic-pay",
+      "value": 14197,
+      "sampleSize": null
+    },
+    {
+      "occupation": "all-workers",
+      "survey": "ows-2022",
+      "table": "0041B3E1040",
+      "region": "ph",
+      "industry": "other-service-activities",
+      "measure": "median",
+      "basis": "allowance",
+      "value": 1427,
+      "sampleSize": null
+    }
+  ]
+}
