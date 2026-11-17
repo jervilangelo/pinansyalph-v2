@@ -4,8 +4,10 @@
  */
 import { BankDataset, FuelDataset, InflationDataset, Mp2Dataset } from '../src/types/data.ts'
 import { PayrollRules } from '../src/types/payroll.ts'
+import { ElectricityDataset } from '../src/types/electricity.ts'
 import { SalaryBenchmarkDataset } from '../src/types/salary.ts'
 import type { TollDataset } from '../src/types/toll.ts'
+import { verifySchedule } from './update-electricity-rates.ts'
 import { dataPath, readJson } from './lib/io.ts'
 import type { ZodType } from 'zod'
 
@@ -16,6 +18,7 @@ const files: [string, ZodType][] = [
   ['banks.json', BankDataset],
   ['payroll.json', PayrollRules],
   ['salary-benchmarks.json', SalaryBenchmarkDataset],
+  ['electricity.json', ElectricityDataset],
 ]
 
 let failed = false
@@ -93,6 +96,23 @@ if (tolls) {
   console.log(`✓ tolls.json (${tolls.expressways.length} expressways)`)
   for (const c of tolls.connections)
     for (const e of [c.a, c.b]) if (!tolls.expressways.find((x) => x.id === e.expressway)?.plazas.some((p) => p.id === e.plaza)) tollErr(`connection to unknown plaza ${e.expressway}/${e.plaza}`)
+}
+
+// Electricity: each month must still reproduce Meralco's own worked bills (see scripts/update-electricity-rates.ts).
+const elec = readJson<ElectricityDataset>(dataPath('electricity.json'))
+for (const p of elec?.providers ?? []) {
+  const months = p.schedules.map((s) => s.month)
+  if (new Set(months).size !== months.length) {
+    failed = true
+    console.error(`✗ electricity.json: ${p.id} has a duplicate month`)
+  }
+  for (const s of p.schedules) {
+    const bad = verifySchedule(s)
+    if (bad.length) {
+      failed = true
+      console.error(`✗ electricity.json: ${p.id} ${s.month} no longer reproduces the utility's worked bills: ${bad.join('; ')}`)
+    }
+  }
 }
 
 process.exit(failed ? 1 : 0)

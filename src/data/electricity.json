@@ -1,0 +1,851 @@
+{
+  "version": 1,
+  "retrievedAt": "2026-11-17T17:22:41.672Z",
+  "providers": [
+    {
+      "id": "meralco",
+      "name": "Meralco",
+      "long": "Manila Electric Company",
+      "area": "Metro Manila, Bulacan, Cavite, Rizal, and parts of Laguna, Quezon, Batangas and Pampanga",
+      "ratesPage": "https://www.meralco.com.ph/residential/rates-and-charges",
+      "schedules": [
+        {
+          "month": "2026-11",
+          "category": "residential",
+          "sources": {
+            "schedule": "https://www.meralco.com.ph/uploads/documents/11-2026-Rate-Schedule-1.pdf",
+            "bills": "https://www.meralco.com.ph/uploads/documents/11-2026-Residential-Bills-1.pdf"
+          },
+          "verifiedOn": "2026-11-18",
+          "perKwh": {
+            "generation": 10.6349,
+            "transmission": 0.7143,
+            "ancillary": 0.4379,
+            "systemLoss": 0.9705,
+            "supply": 0.4617,
+            "metering": 0.3126,
+            "regResetAdj": 0,
+            "lifelineRateAdj": 0,
+            "seniorSubsidy": 0.0001,
+            "rpt": 0.009,
+            "rptAdj": 0.0015,
+            "fitAll": 0.3359,
+            "geaAll": 0,
+            "lifelineSubsidy": 0.01,
+            "lftAdj": -0.0002
+          },
+          "refunds": [
+            {
+              "label": "Refund ordered by ERC (1 of 3)",
+              "rate": -0.4278
+            },
+            {
+              "label": "Refund ordered by ERC (2 of 3)",
+              "rate": -0.5861
+            },
+            {
+              "label": "Refund ordered by ERC (3 of 3)",
+              "rate": -0.1733
+            }
+          ],
+          "universalCharges": [
+            {
+              "label": "Missionary electrification (NPC-SPUG)",
+              "rate": 0.3296
+            },
+            {
+              "label": "Missionary electrification (RED-CI)",
+              "rate": 0.0101
+            },
+            {
+              "label": "Environmental charge",
+              "rate": 0.0025
+            },
+            {
+              "label": "Stranded debts",
+              "rate": 0.0428
+            }
+          ],
+          "distribution": [
+            {
+              "upTo": 200,
+              "rate": 1.0404
+            },
+            {
+              "upTo": 300,
+              "rate": 1.3532
+            },
+            {
+              "upTo": 400,
+              "rate": 1.6484
+            },
+            {
+              "upTo": null,
+              "rate": 2.1627
+            }
+          ],
+          "fixed": {
+            "supplyCustomer": 17,
+            "meteringCustomer": 6
+          },
+          "vat": {
+            "generation": 0.0965,
+            "transmission": 0.1199,
+            "ancillary": 0.0936,
+            "systemLoss": 0,
+            "others": 0.12
+          },
+          "lftRate": 0.005,
+          "energyTax": [
+            {
+              "upTo": 650,
+              "rate": 0
+            },
+            {
+              "upTo": 1000,
+              "rate": 0.1
+            },
+            {
+              "upTo": 1500,
+              "rate": 0.2
+            },
+            {
+              "upTo": null,
+              "rate": 0.35
+            }
+          ],
+          "lifelineDiscounts": [
+            {
+              "upTo": 50,
+              "share": 1
+            },
+            {
+              "upTo": 70,
+              "share": 0.35
+            },
+            {
+              "upTo": 100,
+              "share": 0.2
+            }
+          ],
+          "officialBills": [
+            {
+              "kwh": 50,
+              "lifeline": true,
+              "total": 0
+            },
+            {
+              "kwh": 70,
+              "lifeline": true,
+              "total": 718.05
+            },
+            {
+              "kwh": 100,
+              "lifeline": true,
+              "total": 1253.62
+            },
+            {
+              "kwh": 50,
+              "lifeline": false,
+              "total": 796.98
+            },
+            {
+              "kwh": 70,
+              "lifeline": false,
+              "total": 1105.4
+            },
+            {
+              "kwh": 100,
+              "lifeline": false,
+              "total": 1568.03
+            },
+            {
+              "kwh": 200,
+              "lifeline": false,
+              "total": 3110.19
+            },
+            {
+              "kwh": 300,
+              "lifeline": false,
+              "total": 4757.92
+            },
+            {
+              "kwh": 400,
+              "lifeline": false,
+              "total": 6468.1
+            },
+            {
+              "kwh": 500,
+              "lifeline": false,
+              "total": 8367.96
+            },
+            {
+              "kwh": 600,
+              "lifeline": false,
+              "total": 10036.39
+            },
+            {
+              "kwh": 700,
+              "lifeline": false,
+              "total": 11709.8
+            },
+            {
+              "kwh": 800,
+              "lifeline": false,
+              "total": 13388.22
+            },
+            {
+              "kwh": 900,
+              "lifeline": false,
+              "total": 15066.64
+            },
+            {
+              "kwh": 1000,
+              "lifeline": false,
+              "total": 16745.06
+            },
+            {
+              "kwh": 1500,
+              "lifeline": false,
+              "total": 25187.14
+            },
+            {
+              "kwh": 3000,
+              "lifeline": false,
+              "total": 50738.41
+            },
+            {
+              "kwh": 5000,
+              "lifeline": false,
+              "total": 84806.77
+            }
+          ]
+        },
+        {
+          "month": "2026-10",
+          "category": "residential",
+          "sources": {
+            "schedule": "https://meralcomain.s3.ap-southeast-1.amazonaws.com/2026-10/10-2026_rate_schedule.pdf",
+            "bills": "https://meralcomain.s3.ap-southeast-1.amazonaws.com/2026-10/10-2026_residential_bills.pdf"
+          },
+          "verifiedOn": "2026-11-18",
+          "perKwh": {
+            "generation": 10.2005,
+            "transmission": 0.5422,
+            "ancillary": 0.602,
+            "systemLoss": 0.9301,
+            "supply": 0.4979,
+            "metering": 0.335,
+            "regResetAdj": -0.0023,
+            "lifelineRateAdj": 0,
+            "seniorSubsidy": 0.0001,
+            "rpt": 0.0067,
+            "rptAdj": 0.0015,
+            "fitAll": 0.3359,
+            "geaAll": 0,
+            "lifelineSubsidy": 0.01,
+            "lftAdj": -0.0002
+          },
+          "refunds": [
+            {
+              "label": "Refund ordered by ERC (1 of 2)",
+              "rate": -0.4278
+            },
+            {
+              "label": "Refund ordered by ERC (2 of 2)",
+              "rate": -0.5861
+            }
+          ],
+          "universalCharges": [
+            {
+              "label": "Missionary electrification (NPC-SPUG)",
+              "rate": 0.3296
+            },
+            {
+              "label": "Missionary electrification (RED-CI)",
+              "rate": 0.0101
+            },
+            {
+              "label": "Environmental charge",
+              "rate": 0.0025
+            },
+            {
+              "label": "Stranded debts",
+              "rate": 0.0428
+            }
+          ],
+          "distribution": [
+            {
+              "upTo": 200,
+              "rate": 0.9803
+            },
+            {
+              "upTo": 300,
+              "rate": 1.2908
+            },
+            {
+              "upTo": 400,
+              "rate": 1.5837
+            },
+            {
+              "upTo": null,
+              "rate": 2.0941
+            }
+          ],
+          "fixed": {
+            "supplyCustomer": 16.38,
+            "meteringCustomer": 5
+          },
+          "vat": {
+            "generation": 0.0833,
+            "transmission": 0.1199,
+            "ancillary": 0.0909,
+            "systemLoss": 0,
+            "others": 0.12
+          },
+          "lftRate": 0.005,
+          "energyTax": [
+            {
+              "upTo": 650,
+              "rate": 0
+            },
+            {
+              "upTo": 1000,
+              "rate": 0.1
+            },
+            {
+              "upTo": 1500,
+              "rate": 0.2
+            },
+            {
+              "upTo": null,
+              "rate": 0.35
+            }
+          ],
+          "lifelineDiscounts": [
+            {
+              "upTo": 50,
+              "share": 1
+            },
+            {
+              "upTo": 70,
+              "share": 0.35
+            },
+            {
+              "upTo": 100,
+              "share": 0.2
+            }
+          ],
+          "officialBills": [
+            {
+              "kwh": 50,
+              "lifeline": true,
+              "total": 0
+            },
+            {
+              "kwh": 70,
+              "lifeline": true,
+              "total": 695.01
+            },
+            {
+              "kwh": 100,
+              "lifeline": true,
+              "total": 1213.74
+            },
+            {
+              "kwh": 50,
+              "lifeline": false,
+              "total": 771.17
+            },
+            {
+              "kwh": 70,
+              "lifeline": false,
+              "total": 1069.95
+            },
+            {
+              "kwh": 100,
+              "lifeline": false,
+              "total": 1518.18
+            },
+            {
+              "kwh": 200,
+              "lifeline": false,
+              "total": 3012.3
+            },
+            {
+              "kwh": 300,
+              "lifeline": false,
+              "total": 4611.23
+            },
+            {
+              "kwh": 400,
+              "lifeline": false,
+              "total": 6272.08
+            },
+            {
+              "kwh": 500,
+              "lifeline": false,
+              "total": 8121.2
+            },
+            {
+              "kwh": 600,
+              "lifeline": false,
+              "total": 9740.64
+            },
+            {
+              "kwh": 700,
+              "lifeline": false,
+              "total": 11365.08
+            },
+            {
+              "kwh": 800,
+              "lifeline": false,
+              "total": 12994.5
+            },
+            {
+              "kwh": 900,
+              "lifeline": false,
+              "total": 14623.93
+            },
+            {
+              "kwh": 1000,
+              "lifeline": false,
+              "total": 16253.36
+            },
+            {
+              "kwh": 1500,
+              "lifeline": false,
+              "total": 24450.51
+            },
+            {
+              "kwh": 3000,
+              "lifeline": false,
+              "total": 49266.99
+            },
+            {
+              "kwh": 5000,
+              "lifeline": false,
+              "total": 82355.61
+            }
+          ]
+        },
+        {
+          "month": "2026-09",
+          "category": "residential",
+          "sources": {
+            "schedule": "https://meralcomain.s3.ap-southeast-1.amazonaws.com/2026-09/09-2026_rate_schedule.pdf",
+            "bills": "https://meralcomain.s3.ap-southeast-1.amazonaws.com/2026-09/09-2026_residential_bills.pdf"
+          },
+          "verifiedOn": "2026-11-18",
+          "perKwh": {
+            "generation": 9.7032,
+            "transmission": 0.5485,
+            "ancillary": 0.7341,
+            "systemLoss": 0.8898,
+            "supply": 0.4979,
+            "metering": 0.335,
+            "regResetAdj": -0.0023,
+            "lifelineRateAdj": -0.0001,
+            "seniorSubsidy": 0.0001,
+            "rpt": 0.0067,
+            "rptAdj": 0.0015,
+            "fitAll": 0.3359,
+            "geaAll": 0,
+            "lifelineSubsidy": 0.01,
+            "lftAdj": -0.0002
+          },
+          "refunds": [
+            {
+              "label": "Refund ordered by ERC (1 of 2)",
+              "rate": -0.4278
+            },
+            {
+              "label": "Refund ordered by ERC (2 of 2)",
+              "rate": -0.5861
+            }
+          ],
+          "universalCharges": [
+            {
+              "label": "Missionary electrification (NPC-SPUG)",
+              "rate": 0.2662
+            },
+            {
+              "label": "Missionary electrification (RED-CI)",
+              "rate": 0.0101
+            },
+            {
+              "label": "Environmental charge",
+              "rate": 0.0025
+            },
+            {
+              "label": "Stranded debts",
+              "rate": 0.0428
+            }
+          ],
+          "distribution": [
+            {
+              "upTo": 200,
+              "rate": 0.9803
+            },
+            {
+              "upTo": 300,
+              "rate": 1.2908
+            },
+            {
+              "upTo": 400,
+              "rate": 1.5837
+            },
+            {
+              "upTo": null,
+              "rate": 2.0941
+            }
+          ],
+          "fixed": {
+            "supplyCustomer": 16.38,
+            "meteringCustomer": 5
+          },
+          "vat": {
+            "generation": 0.0921,
+            "transmission": 0.1199,
+            "ancillary": 0.0983,
+            "systemLoss": 0.0938,
+            "others": 0.12
+          },
+          "lftRate": 0.005,
+          "energyTax": [
+            {
+              "upTo": 650,
+              "rate": 0
+            },
+            {
+              "upTo": 1000,
+              "rate": 0.1
+            },
+            {
+              "upTo": 1500,
+              "rate": 0.2
+            },
+            {
+              "upTo": null,
+              "rate": 0.35
+            }
+          ],
+          "lifelineDiscounts": [
+            {
+              "upTo": 50,
+              "share": 1
+            },
+            {
+              "upTo": 70,
+              "share": 0.35
+            },
+            {
+              "upTo": 100,
+              "share": 0.2
+            }
+          ],
+          "officialBills": [
+            {
+              "kwh": 50,
+              "lifeline": true,
+              "total": 0
+            },
+            {
+              "kwh": 70,
+              "lifeline": true,
+              "total": 680.5
+            },
+            {
+              "kwh": 100,
+              "lifeline": true,
+              "total": 1188.23
+            },
+            {
+              "kwh": 50,
+              "lifeline": false,
+              "total": 755.2
+            },
+            {
+              "kwh": 70,
+              "lifeline": false,
+              "total": 1047.62
+            },
+            {
+              "kwh": 100,
+              "lifeline": false,
+              "total": 1486.29
+            },
+            {
+              "kwh": 200,
+              "lifeline": false,
+              "total": 2948.48
+            },
+            {
+              "kwh": 300,
+              "lifeline": false,
+              "total": 4515.51
+            },
+            {
+              "kwh": 400,
+              "lifeline": false,
+              "total": 6144.47
+            },
+            {
+              "kwh": 500,
+              "lifeline": false,
+              "total": 7961.65
+            },
+            {
+              "kwh": 600,
+              "lifeline": false,
+              "total": 9549.19
+            },
+            {
+              "kwh": 700,
+              "lifeline": false,
+              "total": 11141.71
+            },
+            {
+              "kwh": 800,
+              "lifeline": false,
+              "total": 12739.23
+            },
+            {
+              "kwh": 900,
+              "lifeline": false,
+              "total": 14336.76
+            },
+            {
+              "kwh": 1000,
+              "lifeline": false,
+              "total": 15934.27
+            },
+            {
+              "kwh": 1500,
+              "lifeline": false,
+              "total": 23971.89
+            },
+            {
+              "kwh": 3000,
+              "lifeline": false,
+              "total": 48309.73
+            },
+            {
+              "kwh": 5000,
+              "lifeline": false,
+              "total": 80760.18
+            }
+          ]
+        },
+        {
+          "month": "2026-08",
+          "category": "residential",
+          "sources": {
+            "schedule": "https://meralcomain.s3.ap-southeast-1.amazonaws.com/2026-08/08-2026_rate_schedule.pdf",
+            "bills": "https://meralcomain.s3.ap-southeast-1.amazonaws.com/2026-08/08-2026_residential_bills.pdf"
+          },
+          "verifiedOn": "2026-11-18",
+          "perKwh": {
+            "generation": 9.28,
+            "transmission": 0.5125,
+            "ancillary": 1.0685,
+            "systemLoss": 0.9218,
+            "supply": 0.4979,
+            "metering": 0.335,
+            "regResetAdj": -0.0023,
+            "lifelineRateAdj": -0.0001,
+            "seniorSubsidy": -0.0004,
+            "rpt": 0.0067,
+            "rptAdj": 0.0015,
+            "fitAll": 0.3359,
+            "geaAll": 0,
+            "lifelineSubsidy": 0.01,
+            "lftAdj": -0.0002
+          },
+          "refunds": [
+            {
+              "label": "Refund ordered by ERC (1 of 2)",
+              "rate": -0.4278
+            },
+            {
+              "label": "Refund ordered by ERC (2 of 2)",
+              "rate": -0.5861
+            }
+          ],
+          "universalCharges": [
+            {
+              "label": "Missionary electrification (NPC-SPUG)",
+              "rate": 0.2662
+            },
+            {
+              "label": "Missionary electrification (RED-CI)",
+              "rate": 0.0101
+            },
+            {
+              "label": "Environmental charge",
+              "rate": 0.0025
+            },
+            {
+              "label": "Stranded debts",
+              "rate": 0.0428
+            }
+          ],
+          "distribution": [
+            {
+              "upTo": 200,
+              "rate": 0.9803
+            },
+            {
+              "upTo": 300,
+              "rate": 1.2908
+            },
+            {
+              "upTo": 400,
+              "rate": 1.5837
+            },
+            {
+              "upTo": null,
+              "rate": 2.0941
+            }
+          ],
+          "fixed": {
+            "supplyCustomer": 16.38,
+            "meteringCustomer": 5
+          },
+          "vat": {
+            "generation": 0.1059,
+            "transmission": 0.1199,
+            "ancillary": 0.1009,
+            "systemLoss": 0.106,
+            "others": 0.12
+          },
+          "lftRate": 0.005,
+          "energyTax": [
+            {
+              "upTo": 650,
+              "rate": 0
+            },
+            {
+              "upTo": 1000,
+              "rate": 0.1
+            },
+            {
+              "upTo": 1500,
+              "rate": 0.2
+            },
+            {
+              "upTo": null,
+              "rate": 0.35
+            }
+          ],
+          "lifelineDiscounts": [
+            {
+              "upTo": 50,
+              "share": 1
+            },
+            {
+              "upTo": 70,
+              "share": 0.35
+            },
+            {
+              "upTo": 100,
+              "share": 0.2
+            }
+          ],
+          "officialBills": [
+            {
+              "kwh": 50,
+              "lifeline": true,
+              "total": 0
+            },
+            {
+              "kwh": 70,
+              "lifeline": true,
+              "total": 682.38
+            },
+            {
+              "kwh": 100,
+              "lifeline": true,
+              "total": 1191.53
+            },
+            {
+              "kwh": 50,
+              "lifeline": false,
+              "total": 757.24
+            },
+            {
+              "kwh": 70,
+              "lifeline": false,
+              "total": 1050.48
+            },
+            {
+              "kwh": 100,
+              "lifeline": false,
+              "total": 1490.35
+            },
+            {
+              "kwh": 200,
+              "lifeline": false,
+              "total": 2956.65
+            },
+            {
+              "kwh": 300,
+              "lifeline": false,
+              "total": 4527.75
+            },
+            {
+              "kwh": 400,
+              "lifeline": false,
+              "total": 6160.79
+            },
+            {
+              "kwh": 500,
+              "lifeline": false,
+              "total": 7982.09
+            },
+            {
+              "kwh": 600,
+              "lifeline": false,
+              "total": 9573.69
+            },
+            {
+              "kwh": 700,
+              "lifeline": false,
+              "total": 11170.3
+            },
+            {
+              "kwh": 800,
+              "lifeline": false,
+              "total": 12771.9
+            },
+            {
+              "kwh": 900,
+              "lifeline": false,
+              "total": 14373.51
+            },
+            {
+              "kwh": 1000,
+              "lifeline": false,
+              "total": 15975.11
+            },
+            {
+              "kwh": 1500,
+              "lifeline": false,
+              "total": 24033.16
+            },
+            {
+              "kwh": 3000,
+              "lifeline": false,
+              "total": 48432.25
+            },
+            {
+              "kwh": 5000,
+              "lifeline": false,
+              "total": 80964.38
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

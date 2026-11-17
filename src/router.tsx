@@ -8,7 +8,7 @@ import { createContext, useCallback, useContext, useEffect, useState, type Ancho
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, '')
 
-export const ROUTES = ['/', '/sweldo', '/underpaid-ba-ko', '/13th-month', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/magkano-ang-toll', '/about'] as const
+export const ROUTES = ['/', '/sweldo', '/underpaid-ba-ko', '/13th-month', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/magkano-ang-toll', '/magkano-kuryente', '/about'] as const
 export type Route = (typeof ROUTES)[number]
 
 export type GroupId = 'sahod' | 'ipon' | 'presyo'
@@ -32,6 +32,7 @@ export const PAGES: PageInfo[] = [
   { path: '/inflation', label: 'Inflation', name: 'Inflation tracker', title: 'Philippine inflation', blurb: 'Headline, core, food and transport inflation from PSA since 2019.', group: 'presyo' },
   { path: '/gas', label: 'Gas', name: 'Fuel prices', title: 'Magkano na ang gas?', blurb: 'Weekly DOE pump price adjustments for gasoline, diesel and kerosene.', group: 'presyo' },
   { path: '/magkano-ang-toll', label: 'Toll', name: 'Magkano ang Toll Ko?', title: 'Magkano ang Toll Ko?', blurb: 'Expressway toll by entry, exit and vehicle class, with your RFID load.', group: 'presyo' },
+  { path: '/magkano-kuryente', label: 'Kuryente', name: 'Magkano Kuryente Ko?', title: 'Magkano Kuryente Ko?', blurb: 'Check your Meralco bill against the month’s published rates, appliance by appliance.', group: 'presyo' },
   { path: '/about', label: 'About', name: 'About', title: 'About PinansyalPH', blurb: 'Why this open-source project exists, and how the numbers are made.' },
 ]
 

@@ -435,3 +435,22 @@ travel cost   = trip toll + fuel
 
 Sources, the independent checks, discrepancies, what is not included and how to update are in
 [TOLL-DATA.md](TOLL-DATA.md).
+
+## 11. Electricity bills ("Magkano Kuryente Ko?")
+
+```
+each per-kWh line   = rate × kWh, rounded to centavos
+distribution        = whole month's kWh × rate of its tier (0–200, 201–300, 301–400, over 400 kWh)
+fixed lines         = supply and metering charges per customer per month
+local franchise tax = LFT rate × (generation through real property tax adjustment)
+VAT                 = published effective rate × generation, transmission, ancillary, system loss,
+                      and 12% × (distribution, supply, metering, refunds, regulatory adjustments)
+energy tax          = ₱0.10 / ₱0.20 / ₱0.35 per kWh by block above 650 kWh
+lifeline discount   = 100% / 35% / 20% of the bill up to 50 / 70 / 100 kWh, registered households only
+bill check          = your current charges − expected bill; "matches" within ₱5 or the 0%–0.75% LFT range
+bill change         = (kWh after − kWh before) × rate before  +  (rate after − rate before) × kWh after
+appliance kWh       = watts × quantity × hours a day × days × running share ÷ 1,000
+saving              = bill at today's kWh − bill at the kWh after the change (same month's tariff)
+```
+
+The rates and the check against Meralco's worked bills are described in [ELECTRICITY-DATA.md](ELECTRICITY-DATA.md).

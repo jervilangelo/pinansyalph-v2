@@ -1,7 +1,7 @@
 {
   "name": "pinansyalph",
   "private": true,
-  "version": "3.1.0",
+  "version": "3.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -17,6 +17,7 @@
     "data:mp2": "tsx scripts/fetch-mp2-rates.ts",
     "data:banks": "tsx scripts/fetch-bank-rates.ts",
     "data:salary": "tsx scripts/update-salary-data.ts",
+    "data:electricity": "tsx scripts/update-electricity-rates.ts",
     "data:update": "npm run data:inflation && npm run data:fuel && npm run data:mp2 && npm run data:banks && npm run data:salary && npm run validate:data"
   },
   "dependencies": {
