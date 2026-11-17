@@ -8,7 +8,7 @@ on:
   # Deploy again after the scheduled data job commits new figures
   # (pushes made with GITHUB_TOKEN do not trigger `push` workflows).
   workflow_run:
-    workflows: ['Update economic data']
+    workflows: ['Update economic data', 'Update salary data']
     types: [completed]
     branches: [main]
   workflow_dispatch:

@@ -57,6 +57,10 @@ A static site with versioned data. No server, no database, no accounts.
   shared primitives: `Disclosure`, `Modal`, `ResultHero`/`Stat`/`CalcGrid`/`Panel` (`src/components/ui`), the brand
   symbol and loaders (`src/components/brand/Logo.tsx`), the page shell and `ToolHeader`
   (`src/components/layout`). Tools are grouped in `GROUPS`/`TOOLS` in `src/router.tsx`.
+- **Underpaid ba ko?** (`/underpaid-ba-ko`): PSA OWS figures in `src/data/salary-benchmarks.json` (fetched by
+  `scripts/update-salary-data.ts`, contract in `src/types/salary.ts`), job-title mapping in
+  `src/data/salaryOccupations.ts`, pure logic in `src/calculators/salaryBenchmark.ts` and `src/calculators/jobOffer.ts`
+  (which reuses the payroll engine). Community submissions are designed but not built: docs/COMMUNITY-SALARY-DATA.md.
 - **Splash**: plain HTML/CSS in `index.html`, dismissed by `markAppReady()` (`src/splash.ts`) once a page has mounted,
   with a CSS fail-safe. The homepage estimator passes its salary to `/sweldo` as `?basic=`; nothing else is read from
   the URL.

@@ -102,7 +102,11 @@ function find(data: SalaryBenchmarkDataset, f: Partial<Benchmark>): Benchmark | 
 /** Every published PSA figure that applies to the query, most specific first. */
 export function lookupBenchmarks(data: SalaryBenchmarkDataset, q: Query): Lookup {
   validatePay(q.pay)
-  const occName = (id: string) => data.occupations.find((o) => o.id === id)?.psaLabel ?? id
+  // PSA labels are in title case ("General Office Clerks"); read them as a phrase.
+  const occName = (id: string) => {
+    const l = data.occupations.find((o) => o.id === id)?.psaLabel ?? id
+    return l.charAt(0) + l.slice(1).toLowerCase()
+  }
   const regionName = (id: string) => data.regions.find((r) => r.id === id)?.short ?? id
   const industryName = (id: string) => data.industries.find((i) => i.id === id)?.name ?? id
   const survey = (id: string) => {

@@ -8,7 +8,7 @@ import { createContext, useCallback, useContext, useEffect, useState, type Ancho
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, '')
 
-export const ROUTES = ['/', '/sweldo', '/13th-month', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/about'] as const
+export const ROUTES = ['/', '/sweldo', '/underpaid-ba-ko', '/13th-month', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/about'] as const
 export type Route = (typeof ROUTES)[number]
 
 export type GroupId = 'sahod' | 'ipon' | 'presyo'
@@ -24,6 +24,7 @@ export type PageInfo = { path: Exclude<Route, '/'>; label: string; name: string;
 
 export const PAGES: PageInfo[] = [
   { path: '/sweldo', label: 'Sweldo', name: 'Sweldo calculator', title: 'Saan napupunta ang sweldo ko?', blurb: 'Take-home pay after SSS, PhilHealth, Pag-IBIG and tax, then your monthly budget.', group: 'sahod' },
+  { path: '/underpaid-ba-ko', label: 'Underpaid ba ko?', name: 'Underpaid ba ko?', title: 'Underpaid ba ko?', blurb: 'Compare your pay with official PSA wage data for your job, region and industry.', group: 'sahod' },
   { path: '/13th-month', label: '13th Month Pay', name: '13th month pay', title: 'Magkano Ang 13th Month Pay Mo?', blurb: 'Your 13th month pay under PD 851, prorated, with the ₱90,000 tax check.', group: 'sahod' },
   { path: '/mp2', label: 'MP2', name: 'Pag-IBIG MP2', title: 'Pag-IBIG MP2 calculator', blurb: 'Project MP2 dividends and see what they are worth after inflation.', group: 'ipon' },
   { path: '/banks', label: 'Digital banks', name: 'Digital bank savings', title: 'Saan mas sulit mag-ipon?', blurb: 'Digital bank savings with verified base rates, after the 20% tax.', group: 'ipon' },

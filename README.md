@@ -54,6 +54,7 @@ Every tool has its own focused page, uses sourced figures, and explains its calc
 | Page | What it does |
 | --- | --- |
 | [**Sweldo**](https://jervilangelo.github.io/pinansyalph-v2/sweldo) · *Saan napupunta ang sweldo ko?* | Take-home pay after SSS, PhilHealth, Pag-IBIG and BIR withholding, then your bills, savings and what is left, monthly or per payday. Includes a fuel estimator and charts. Inputs stay in your browser. |
+| [**Underpaid ba ko?**](https://jervilangelo.github.io/pinansyalph-v2/underpaid-ba-ko) · *Alamin kung competitive ang sweldo mo.* | Compares your basic pay and regular allowances with PSA's Occupational Wages Survey for your job, region and industry, in pesos and percent, with the survey period, coverage and definitions shown. Says plainly when PSA has no benchmark for your job. Includes **Sulit ba ang job offer?**, which compares take-home pay and commute costs of your current job and an offer. |
 | [**13th Month Pay**](https://jervilangelo.github.io/pinansyalph-v2/13th-month) · *Magkano Ang 13th Month Pay Mo?* | 13th month pay under PD 851: prorated for midyear hires and resignations, with salary changes, unpaid absences, the maternity salary differential and earlier installments. Separates earned from projected months, checks the ₱90,000 tax exemption, and explains the rules in plain Taglish. |
 | [**MP2**](https://jervilangelo.github.io/pinansyalph-v2/mp2) · *Lumago nga ba talaga?* | Pag-IBIG MP2 projections with the latest declared rate, the five-year average or your own, then what the result is worth in today's pesos. |
 | [**Digital banks**](https://jervilangelo.github.io/pinansyalph-v2/banks) · *Saan mas sulit mag-ipon?* | Digital bank savings with verified base rates, promos with caps and end dates, and the 20% final withholding tax. |
@@ -111,6 +112,7 @@ Money is computed with decimal.js and rounded to centavos only where a real inst
 | Fuel price adjustments | [DOE Oil Monitor](https://doe.gov.ph/data-and-prices/liquid-fuels/oil-monitor) | Week of 27 October 2026 | Daily check |
 | MP2 dividend rates (2011–2025) | Pag-IBIG Fund declarations | 2025: 7.12%, declared 27 Feb 2026 | Daily watch; added by hand |
 | Bank savings rates | Each bank's official page or product disclosure | Verified 4 November 2026 | Daily evidence check; changed by hand |
+| Occupational wages (Underpaid ba ko?) | [PSA OpenSTAT](https://openstat.psa.gov.ph/), Occupational Wages Survey: 8 tables | 2024 OWS (August 2024); 2022 OWS for accounting and bookkeeping clerks and medians | Weekly check |
 | Payroll and tax rules (SSS, PhilHealth, Pag-IBIG, BIR, ₱90,000 benefits ceiling) | SSS Circular 2024-006, PhilHealth Circular 2020-0005, HDMF Circular 460, BIR RR 11-2018, RA 10963 | In force since 2025-01-01 / 2024-01-01 / 2024-02-01 / 2023-01-01 | Versioned by hand in `src/data/payroll.json` |
 
 The [`Update economic data`](.github/workflows/update-economic-data.yml) workflow runs daily. It retrieves each source,
@@ -124,6 +126,10 @@ fails, and commits only real changes; the deploy workflow then rebuilds the site
 - **Payroll and tax rules**: when an agency issues a new schedule, or the ₱90,000 ceiling changes by law, add a new
   version with its `effectiveFrom` date and source to [`src/data/payroll.json`](src/data/payroll.json). No code changes
   are needed.
+- **Salary benchmarks**: the [`Update salary data`](.github/workflows/update-salary-data.yml) workflow runs
+  `npm run data:salary` weekly. It keeps the previous file if PSA is unreachable, a table changes shape, a region or
+  industry label is unknown, validation fails, or far fewer figures come back. Job title mapping is edited by hand in
+  [`src/data/salaryOccupations.ts`](src/data/salaryOccupations.ts).
 - **MP2**: when a new year's rate is due (from April onward), the job flags it. Add it to
   [`src/data/mp2.json`](src/data/mp2.json).
 
@@ -143,7 +149,8 @@ npm test               # unit tests: calculators and data parsers
 npm run test:e2e       # browser tests against the production build
 PW_CHANNEL=chrome npm run test:e2e   # use an installed Chrome instead of Playwright's Chromium
 npm run validate:data  # schema-check every dataset
-npm run data:update    # fetch PSA, DOE, MP2 and bank checks, then validate
+npm run data:salary    # fetch PSA Occupational Wages Survey benchmarks
+npm run data:update    # fetch PSA, DOE, MP2, bank checks and salary benchmarks, then validate
 npm run build          # production build in dist/
 npm run lint
 ```
@@ -159,7 +166,7 @@ npm run lint
 | Money | decimal.js |
 | Data contracts | zod schemas shared by the site and the data scripts |
 | Data ingestion | Node scripts run by GitHub Actions; pdf.js for DOE PDFs |
-| Tests | Vitest (111 unit tests), Playwright (57 browser tests) |
+| Tests | Vitest (151 unit tests), Playwright (75 browser tests) |
 | Hosting | GitHub Pages via GitHub Actions |
 
 Architecture and the reasons for it: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
@@ -192,6 +199,11 @@ The base path comes from GitHub Pages, so the site works under any repository na
 - DOE reports adjustments, not one national pump price, so no fuel percentage change is shown.
 - Inflation assumptions are applied uniformly to future years.
 - The Pag-IBIG website blocks automated access, so MP2 rates are recorded from reported declarations.
+- **Underpaid ba ko?** is a market comparison, not a legal finding, and not a minimum-wage check. PSA's open OWS
+  tables cover three benchmark occupations (general office clerks, elementary occupations, and, from 2022,
+  accounting and bookkeeping clerks); every other job is compared with all time-rated workers in its region or
+  industry. The figures describe August 2024 (or 2022), mix all experience levels, exclude the public sector, and come
+  with no percentiles or sample sizes, so none are shown. Details: [docs/METHODOLOGY.md](docs/METHODOLOGY.md#9-salary-comparison-underpaid-ba-ko).
 - MariBank, UNO and OwnBank rates could not be confirmed on their official pages and are listed as excluded.
 
 ## Contributing
@@ -211,6 +223,8 @@ Issues and pull requests are welcome:
 Built by **[Jervil Angelo De Leon](https://github.com/jervilangelo)** to make financial literacy easier to explore, verify and understand in the Philippines.
 
 If you find these tools useful, consider [starring PinansyalPH on GitHub](https://github.com/jervilangelo/pinansyalph-v2). More of my work: [jervilangelo.online](https://jervilangelo.online/).
+
+Salary statistics: Philippine Statistics Authority, Occupational Wages Survey, via PSA OpenSTAT.
 
 Photographs from Wikimedia Commons, credited on the site and listed in
 [docs/image-credits.json](docs/image-credits.json). Not affiliated with PSA, DOE, Pag-IBIG Fund, BIR, SSS, PhilHealth

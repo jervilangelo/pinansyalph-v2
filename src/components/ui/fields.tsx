@@ -8,12 +8,15 @@ export function AmountField({
   onChange,
   hint,
   max = 1_000_000_000_000,
+  context,
 }: {
   label: string
   value: number
   onChange: (v: number) => void
   hint?: string
   max?: number
+  /** Read before the label by screen readers only, e.g. "Job offer:". */
+  context?: string
 }) {
   const id = useId()
   const [text, setText] = useState(value ? value.toLocaleString('en-PH') : '0')
@@ -45,6 +48,7 @@ export function AmountField({
   return (
     <div className="ui">
       <label htmlFor={id} className="field-label">
+        {context && <span className="sr-only">{context} </span>}
         {label}
       </label>
       <div className="relative">
@@ -81,7 +85,9 @@ export function NumberField({
   max,
   step = 0.01,
   hint,
+  context,
 }: {
+  context?: string
   label: string
   value: number
   onChange: (v: number) => void
@@ -102,6 +108,7 @@ export function NumberField({
   return (
     <div className="ui">
       <label htmlFor={id} className="field-label">
+        {context && <span className="sr-only">{context} </span>}
         {label}
       </label>
       <div className="relative">
@@ -186,7 +193,9 @@ export function Segmented<T extends string>({
   options,
   hideLabel = false,
   wrap = false,
+  context,
 }: {
+  context?: string
   label: string
   value: T
   onChange: (v: T) => void
@@ -201,7 +210,10 @@ export function Segmented<T extends string>({
   const reduce = useReducedMotion()
   return (
     <fieldset className="ui m-0 min-w-0 border-0 p-0">
-      <legend className={hideLabel ? 'sr-only' : 'field-label p-0'}>{label}</legend>
+      <legend className={hideLabel ? 'sr-only' : 'field-label p-0'}>
+        {context && <span className="sr-only">{context} </span>}
+        {label}
+      </legend>
       <div className={`relative ${wrap ? 'grid grid-cols-2 sm:flex' : 'flex'} gap-0.5 rounded-[16px] bg-surface p-1`}>
         {options.map((o) => {
           const active = o.value === value

@@ -1,0 +1,51 @@
+name: Update salary data
+
+# PSA's Occupational Wages Survey is released every two years and its
+# OpenSTAT tables are revised rarely, so a weekly check is enough.
+# The fetcher keeps the previous dataset if PSA is unreachable, if the
+# tables change shape, if validation fails, or if far fewer figures come back.
+on:
+  schedule:
+    - cron: '41 2 * * 1' # Mondays, 10:41 Philippine time
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Shares the data workflow's group so the two never push at the same time.
+concurrency:
+  group: economic-data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+
+      - name: Salary benchmarks (PSA OpenSTAT, Occupational Wages Survey)
+        run: npm run data:salary
+
+      - name: Validate every dataset
+        run: npm run validate:data
+      - name: Unit tests on the new data
+        run: npm test
+
+      - name: Commit the changed dataset
+        run: |
+          if git diff --quiet -- src/data/salary-benchmarks.json; then
+            echo "Salary benchmarks unchanged." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/salary-benchmarks.json
+          git commit -m "data: refresh PSA salary benchmarks ($(date -u +%Y-%m-%d))"
+          git push
+          echo "Committed updated salary benchmarks." >> "$GITHUB_STEP_SUMMARY"

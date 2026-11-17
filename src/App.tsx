@@ -13,6 +13,8 @@ import { Router, useRouter, type Route } from './router'
 const loadTools = () => import('./pages/ToolPages')
 const loadAbout = () => import('./pages/AboutPage')
 const SweldoPage = lazy(() => loadTools().then((m) => ({ default: m.SweldoPage })))
+const loadUnderpaid = () => import('./pages/UnderpaidPage')
+const UnderpaidPage = lazy(() => loadUnderpaid().then((m) => ({ default: m.UnderpaidPage })))
 const ThirteenthPage = lazy(() => loadTools().then((m) => ({ default: m.ThirteenthPage })))
 const Mp2Page = lazy(() => loadTools().then((m) => ({ default: m.Mp2Page })))
 const BanksPage = lazy(() => loadTools().then((m) => ({ default: m.BanksPage })))
@@ -23,7 +25,7 @@ const AboutPage = lazy(() => loadAbout().then((m) => ({ default: m.AboutPage }))
 
 function usePrefetch() {
   useEffect(() => {
-    const run = () => void Promise.all([loadTools(), loadAbout()]).catch(() => {})
+    const run = () => void Promise.all([loadTools(), loadAbout(), loadUnderpaid()]).catch(() => {})
     const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number }
     if (w.requestIdleCallback) w.requestIdleCallback(run, { timeout: 3000 })
     else setTimeout(run, 1500)
@@ -61,6 +63,7 @@ function Pages() {
   const pages: Record<Route, ReactNode> = {
     '/': <HomePage />,
     '/sweldo': <SweldoPage s={s} />,
+    '/underpaid-ba-ko': <UnderpaidPage />,
     '/13th-month': <ThirteenthPage s={s} />,
     '/mp2': <Mp2Page s={s} />,
     '/banks': <BanksPage s={s} />,

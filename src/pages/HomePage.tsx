@@ -150,7 +150,7 @@ function Tools() {
         <h2 id="tools-title" className="text-step-head max-w-[16ch]">
           Ano ang gusto mong malaman?
         </h2>
-        <p className="mt-4 max-w-[52ch] text-step-lead leading-snug text-ink-2">Seven tools, in three plain questions. Each one opens with the answer, and shows its working when you ask.</p>
+        <p className="mt-4 max-w-[52ch] text-step-lead leading-snug text-ink-2">{TOOLS.length} tools, in three plain questions. Each one opens with the answer, and shows its working when you ask.</p>
       </Reveal>
       <div className="mt-12 grid gap-4">
         {GROUPS.map((g, gi) => (

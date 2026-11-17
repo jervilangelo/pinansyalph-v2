@@ -1,5 +1,5 @@
 import { AnimatePresence } from 'motion/react'
-import { Plus, RotateCcw, Trash2 } from 'lucide-react'
+import { ArrowRight, Plus, RotateCcw, Trash2 } from 'lucide-react'
 import { useMemo, useState, type ReactNode } from 'react'
 import { salaryBreakdown, type BudgetResult, type GroupKey } from '../../calculators/budget'
 import { calculateMp2 } from '../../calculators/mp2'
@@ -10,7 +10,7 @@ import { SalaryCharts } from '../../charts/lazy'
 import { banks, latestFuel, latestMp2, recentAverageInflation } from '../../data'
 import { safe, type ScenarioState } from '../../hooks/useScenario'
 import { CATALOGUE, GROUP_LABELS, useSalary, type SalaryHook } from '../../hooks/useSalary'
-import { useRouter } from '../../router'
+import { Link, useRouter } from '../../router'
 import { dateLabel, peso, perLiter } from '../../utils/format'
 import { ToolHeader } from '../layout/Page'
 import { Disclosure } from '../ui/Disclosure'
@@ -176,6 +176,13 @@ function PayResult({ h, p, unit }: { h: SalaryHook; p: PayrollResult; unit: Unit
           <Deductions p={p} unit={unit} />
         </Disclosure>
       </div>
+      <Link to="/underpaid-ba-ko" className="card group flex items-center justify-between gap-4 px-5 py-4 transition-colors hover:bg-accent-soft sm:px-6">
+        <span>
+          <span className="block font-semibold">Underpaid ba ko?</span>
+          <span className="ui block text-[0.875rem] text-muted">Compare your pay with official PSA wage data for your job and region.</span>
+        </span>
+        <ArrowRight aria-hidden="true" size={20} className="shrink-0 transition-transform duration-300 group-hover:translate-x-1" />
+      </Link>
     </>
   )
 }

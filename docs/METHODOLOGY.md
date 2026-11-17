@@ -305,3 +305,114 @@ is taxed for them. The site does not compute a net payout: final tax depends on 
 An optional split of the projected amount into six buckets. The MP2 and digital bank projections call the existing
 `calculateMp2` and `calculateSavings` engines (one-time deposit, five years, latest declared MP2 rate, the selected bank
 product, five-year average inflation); no separate financial maths is written for this section.
+
+## 9. Salary comparison ("Underpaid ba ko?")
+
+An educational comparison of a visitor's pay with published Philippine wage statistics. It is not a legal
+determination: earning below an average does not mean an employer is breaking the law, and the legal minimum wage
+is set separately by region through the wage orders of the National Wages and Productivity Commission.
+
+### Source
+
+The **Occupational Wages Survey (OWS)** of the Philippine Statistics Authority, read from PSA OpenSTAT
+(`Labor and Employment › Occupational Wages Survey`) through its PxWeb API. Eight tables are used:
+
+| Survey round | Coverage | Tables used |
+| --- | --- | --- |
+| 2024 OWS, reference period August 2024 | Establishments with 10 or more workers, all major industries | Average basic pay, allowance and wage rate of all time-rated workers by region and by major industry group; average wage rate of the benchmark occupations *General office clerks* and *Elementary occupations*, by region and by major industry group |
+| 2022 OWS | Establishments with 20 or more workers, selected industries | Average wage rate of *Accounting and bookkeeping clerks* by industry; median basic pay and median allowances of all time-rated workers by industry |
+
+PSA notes a break in the series between 2022 and 2024 (coverage changed), so the two rounds are never combined or
+compared with each other, and 2022 figures are always labelled with their year and coverage. Only the latest round of
+the 2014–2022 series is kept.
+
+PSA's fuller OWS report tables, with more industry-specific occupations, are published on psa.gov.ph, which refuses
+automated access. They are not used. To add them, download the official tables by hand, add the figures to
+`src/data/salary-benchmarks.json` with `status: "verified-manual"` and a `tables` entry naming the file and its
+publication date, and run `npm run validate:data` and `npm test`.
+
+### PSA definitions (from the table notes)
+
+- **Time-rated workers on full-time basis**: paid by a unit of time, working at least the establishment's normal hours.
+- **Basic pay**: pay for normal working time before SSS, PhilHealth and Pag-IBIG contributions and withholding tax;
+  excludes overtime, night shift differential and other premium pay, commissions, tips, service charges and payment
+  in kind.
+- **Allowances**: regular, guaranteed cash payments such as living allowance; excludes reimbursements, uniforms,
+  bonuses, gratuities and family allowances.
+- **Wage rate**: basic pay + allowances.
+- **Median**: half of workers receive more, half less.
+
+### Comparing like with like
+
+The visitor enters **basic monthly pay** and **regular monthly allowances** separately, both gross. Their wage rate is
+basic pay + allowances, compared with PSA's wage rate. The 2022 medians are of basic pay, so they are compared with
+basic pay only. Take-home pay is never compared: it is after contributions and tax, which PSA's figures are not.
+
+```
+difference = your pay − PSA figure
+percent    = (your pay − PSA figure) ÷ PSA figure × 100
+```
+
+Example: a ₱30,000 average and ₱25,000 pay is ₱5,000, or 16.67%, below. Within ±5% (on the unrounded percentage)
+the result reads "malapit sa benchmark", because survey averages are not precise to the peso.
+
+### Choosing the benchmark
+
+Most specific first, using only figures PSA published:
+
+1. The occupation in the chosen region (2024).
+2. The occupation in the chosen major industry group (2024, or 2022 for accounting and bookkeeping clerks).
+3. The occupation nationwide.
+4. All time-rated workers in the region, then in the industry, then nationwide (2024).
+5. The 2022 median basic pay of the industry, as extra context.
+
+PSA does not publish an occupation broken down by region **and** industry together, so no such figure is shown.
+
+### Job titles
+
+`src/data/salaryOccupations.ts` maps everyday job titles to PSA benchmark occupations under the Philippine Standard
+Occupational Classification. A title is mapped only if it falls inside the PSA group: an Accountant (PSOC 2411) is
+not an Accounting clerk (PSOC 4311). Common titles with no PSA benchmark (IT support, HR, customer service, nursing,
+teaching and others) are listed with no benchmark, so the visitor is told plainly that only an all-workers comparison
+is available.
+
+### What is not available, and not estimated
+
+- **Experience levels**: the OWS does not separate pay by experience. The experience question only changes the
+  explanation.
+- **Percentiles and sample sizes**: not published in these tables. No percentile is derived from an average.
+- **Current market salaries**: the figures describe August 2024 (or 2022). The page shows how much consumer prices
+  rose since the reference month, from PSA's purchasing power of the peso, without adjusting the benchmark.
+- Government agencies, public schools and public hospitals are outside the survey.
+
+Figures are stored as OpenSTAT publishes them, in whole pesos, so basic pay + allowance can differ from the wage
+rate by ₱1.
+
+### Updates
+
+`npm run data:salary` (`scripts/update-salary-data.ts`) discovers the tables by title, maps every region and industry
+explicitly (an unknown label stops the update), validates against `src/types/salary.ts`, refuses a result with far
+fewer figures than the stored one, and writes only when the data changed. The
+[`Update salary data`](../.github/workflows/update-salary-data.yml) workflow runs it weekly and commits changes;
+the deploy workflow then rebuilds the site.
+
+### Job offer comparison ("Sulit ba ang job offer?")
+
+For the current job and the offer: take-home pay from the Sweldo calculator's payroll engine (rank-and-file,
+semi-monthly), minus work costs = what is left.
+
+```
+commute per month = cost per office day × office days a week × 52 ÷ 12
+what is left      = take-home pay − commute per month − other monthly work costs
+yearly difference = 12 × (difference in what is left) + difference in 13th month pay
+```
+
+13th month pay is one month of basic pay for a full year (PD 851), treated as tax-free within the ₱90,000 ceiling.
+Taxable allowances are taxed with basic pay; non-taxable (de minimis) allowances are not. Overtime, bonuses beyond
+the 13th month, commissions, HMO and non-money factors are not counted, and the tool does not recommend a choice.
+
+### Privacy
+
+Everything is computed in the browser. Job title, location and pay are not stored or sent anywhere. Anonymous
+community submissions are not collected; see [COMMUNITY-SALARY-DATA.md](COMMUNITY-SALARY-DATA.md) for the design
+they would need first.

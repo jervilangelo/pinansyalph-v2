@@ -64,7 +64,7 @@ export function Disclosure({
 
   const H = headingLevel ? (`h${headingLevel}` as const) : null
   return (
-    <div className={`${bg} rounded-[22px]`}>
+    <div className={`${bg} min-w-0 rounded-[22px]`}>
       {H ? <H className="m-0 font-sans text-base tracking-normal">{trigger}</H> : trigger}
       <AnimatePresence initial={false}>
         {open && (
