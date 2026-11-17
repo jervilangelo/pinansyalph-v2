@@ -61,6 +61,7 @@ Every tool has its own focused page, uses sourced figures, and explains its calc
 | [**Compare**](https://jervilangelo.github.io/pinansyalph-v2/compare) | MP2 and bank products side by side on the same plan, in pesos or in today's pesos. Nothing is ranked by headline rate. |
 | [**Inflation**](https://jervilangelo.github.io/pinansyalph-v2/inflation) | Headline, core, food and transport inflation from PSA since 2019, with the BSP target band. |
 | [**Gas**](https://jervilangelo.github.io/pinansyalph-v2/gas) · *Magkano na ang gas?* | Weekly DOE pump price adjustments for gasoline, diesel and kerosene, and the year-to-date net change. |
+| [**Toll**](https://jervilangelo.github.io/pinansyalph-v2/magkano-ang-toll) · *Magkano ang Toll Ko? Alamin ang toll fee bago bumiyahe.* | Toll from any entry plaza to any exit on NLEX–SCTEX, TPLEX, Skyway Stage 3, Skyway–SLEX, STAR, CALAX, CAVITEX and the NLEX Connector, by vehicle class, one way or balikan. Trips across expressways are split per road, the RFID load is shown per account (Easytrip, Autosweep), routes can be saved in your browser, and fuel can be added for a total travel cost. |
 | [**About**](https://jervilangelo.github.io/pinansyalph-v2/about) | Why the project exists, its principles, how to contribute, and the FAQ. |
 
 Amounts you enter in MP2 carry over to Digital banks and Compare, so every comparison uses the same inputs. Every
@@ -113,6 +114,7 @@ Money is computed with decimal.js and rounded to centavos only where a real inst
 | MP2 dividend rates (2011–2025) | Pag-IBIG Fund declarations | 2025: 7.12%, declared 27 Feb 2026 | Daily watch; added by hand |
 | Bank savings rates | Each bank's official page or product disclosure | Verified 4 November 2026 | Daily evidence check; changed by hand |
 | Occupational wages (Underpaid ba ko?) | [PSA OpenSTAT](https://openstat.psa.gov.ph/), Occupational Wages Survey: 8 tables | 2024 OWS (August 2024); 2022 OWS for accounting and bookkeeping clerks and medians | Weekly check |
+| Expressway tolls (Magkano ang Toll Ko?) | [Toll Regulatory Board](https://trb.gov.ph/index.php/toll-rates) matrices, as transcribed by [ExpresswayPH](https://expresswayph.com/matrix) and checked against news reports of each TRB approval | NLEX–SCTEX 20 Jan 2026; Skyway–SLEX and STAR 1 Jul 2026; TPLEX 8 Jul 2026; others in [docs/TOLL-DATA.md](docs/TOLL-DATA.md) | By hand when TRB approves new rates |
 | Payroll and tax rules (SSS, PhilHealth, Pag-IBIG, BIR, ₱90,000 benefits ceiling) | SSS Circular 2024-006, PhilHealth Circular 2020-0005, HDMF Circular 460, BIR RR 11-2018, RA 10963 | In force since 2025-01-01 / 2024-01-01 / 2024-02-01 / 2023-01-01 | Versioned by hand in `src/data/payroll.json` |
 
 The [`Update economic data`](.github/workflows/update-economic-data.yml) workflow runs daily. It retrieves each source,
@@ -130,6 +132,9 @@ fails, and commits only real changes; the deploy workflow then rebuilds the site
   `npm run data:salary` weekly. It keeps the previous file if PSA is unreachable, a table changes shape, a region or
   industry label is unknown, validation fails, or far fewer figures come back. Job title mapping is edited by hand in
   [`src/data/salaryOccupations.ts`](src/data/salaryOccupations.ts).
+- **Toll rates are updated by hand.** TRB's site does not allow automated access, so there is no scheduled job. When
+  TRB approves new rates, update [`src/data/tolls.json`](src/data/tolls.json) as described in
+  [docs/TOLL-DATA.md](docs/TOLL-DATA.md); `npm run validate:data` and the unit tests check every matrix.
 - **MP2**: when a new year's rate is due (from April onward), the job flags it. Add it to
   [`src/data/mp2.json`](src/data/mp2.json).
 
@@ -166,7 +171,7 @@ npm run lint
 | Money | decimal.js |
 | Data contracts | zod schemas shared by the site and the data scripts |
 | Data ingestion | Node scripts run by GitHub Actions; pdf.js for DOE PDFs |
-| Tests | Vitest (151 unit tests), Playwright (75 browser tests) |
+| Tests | Vitest (180 unit tests), Playwright (92 browser tests) |
 | Hosting | GitHub Pages via GitHub Actions |
 
 Architecture and the reasons for it: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
@@ -204,6 +209,9 @@ The base path comes from GitHub Pages, so the site works under any repository na
   accounting and bookkeeping clerks); every other job is compared with all time-rated workers in its region or
   industry. The figures describe August 2024 (or 2022), mix all experience levels, exclude the public sector, and come
   with no percentiles or sample sizes, so none are shown. Details: [docs/METHODOLOGY.md](docs/METHODOLOGY.md#9-salary-comparison-underpaid-ba-ko).
+- **Magkano ang Toll Ko?** gives TRB-approved fares, not what a plaza will charge on the day. NAIAX, NLEX Harbor Link
+  and MCX as its own road are not included, CAVITEX and Skyway Stage 3 have plaza pairs with no published fare, and
+  Skyway Stage 3 uses the provisional rates from 2021. Details: [docs/TOLL-DATA.md](docs/TOLL-DATA.md).
 - MariBank, UNO and OwnBank rates could not be confirmed on their official pages and are listed as excluded.
 
 ## Contributing

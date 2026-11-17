@@ -416,3 +416,22 @@ the 13th month, commissions, HMO and non-money factors are not counted, and the 
 Everything is computed in the browser. Job title, location and pay are not stored or sent anywhere. Anonymous
 community submissions are not collected; see [COMMUNITY-SALARY-DATA.md](COMMUNITY-SALARY-DATA.md) for the design
 they would need first.
+
+## 10. Expressway tolls ("Magkano ang Toll Ko?")
+
+```
+leg fare      = TRB matrix[vehicle class][entry plaza][exit plaza]    (one expressway)
+trip toll     = sum of leg fares, one leg per expressway on the route
+round trip    = trip toll (there) + trip toll (back, computed on its own)
+RFID load     = sum of leg fares per account (Easytrip, Autosweep)
+fuel          = distance ÷ km per liter × price per liter              (visitor's figures)
+travel cost   = trip toll + fuel
+```
+
+- Fares are TRB-approved, VAT inclusive, in whole pesos.
+- NLEX–SCTEX and Skyway–SLEX are each one integrated matrix, so a trip within them is a single leg.
+- Expressways are joined at fixed junctions, and the route with the fewest expressways is used (breadth-first search).
+- A plaza pair with no published fare is reported as not possible, never estimated.
+
+Sources, the independent checks, discrepancies, what is not included and how to update are in
+[TOLL-DATA.md](TOLL-DATA.md).

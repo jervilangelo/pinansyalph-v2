@@ -15,6 +15,8 @@ const loadAbout = () => import('./pages/AboutPage')
 const SweldoPage = lazy(() => loadTools().then((m) => ({ default: m.SweldoPage })))
 const loadUnderpaid = () => import('./pages/UnderpaidPage')
 const UnderpaidPage = lazy(() => loadUnderpaid().then((m) => ({ default: m.UnderpaidPage })))
+const loadToll = () => import('./pages/TollPage')
+const TollPage = lazy(() => loadToll().then((m) => ({ default: m.TollPage })))
 const ThirteenthPage = lazy(() => loadTools().then((m) => ({ default: m.ThirteenthPage })))
 const Mp2Page = lazy(() => loadTools().then((m) => ({ default: m.Mp2Page })))
 const BanksPage = lazy(() => loadTools().then((m) => ({ default: m.BanksPage })))
@@ -25,7 +27,7 @@ const AboutPage = lazy(() => loadAbout().then((m) => ({ default: m.AboutPage }))
 
 function usePrefetch() {
   useEffect(() => {
-    const run = () => void Promise.all([loadTools(), loadAbout(), loadUnderpaid()]).catch(() => {})
+    const run = () => void Promise.all([loadTools(), loadAbout(), loadUnderpaid(), loadToll()]).catch(() => {})
     const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number }
     if (w.requestIdleCallback) w.requestIdleCallback(run, { timeout: 3000 })
     else setTimeout(run, 1500)
@@ -70,6 +72,7 @@ function Pages() {
     '/compare': <ComparePage s={s} />,
     '/inflation': <InflationPage />,
     '/gas': <GasPage />,
+    '/magkano-ang-toll': <TollPage />,
     '/about': <AboutPage />,
   }
 
