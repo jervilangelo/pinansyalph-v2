@@ -182,7 +182,7 @@ test.describe('accessibility basics', () => {
   })
 })
 
-const ROUTES = ['/', '/sweldo', '/underpaid-ba-ko', '/13th-month', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/magkano-ang-toll', '/magkano-kuryente', '/about']
+const ROUTES = ['/', '/sweldo', '/underpaid-ba-ko', '/13th-month', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/magkano-ang-toll', '/magkano-kuryente', '/magkano-bahay', '/about']
 
 test.describe('pages and navigation', () => {
   test('every route loads directly with its own heading and title', async ({ page }) => {

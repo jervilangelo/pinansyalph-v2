@@ -63,6 +63,7 @@ Every tool has its own focused page, uses sourced figures, and explains its calc
 | [**Gas**](https://jervilangelo.github.io/pinansyalph-v2/gas) · *Magkano na ang gas?* | Weekly DOE pump price adjustments for gasoline, diesel and kerosene, and the year-to-date net change. |
 | [**Toll**](https://jervilangelo.github.io/pinansyalph-v2/magkano-ang-toll) · *Magkano ang Toll Ko? Alamin ang toll fee bago bumiyahe.* | Toll from any entry plaza to any exit on NLEX–SCTEX, TPLEX, Skyway Stage 3, Skyway–SLEX, STAR, CALAX, CAVITEX and the NLEX Connector, by vehicle class, one way or balikan. Trips across expressways are split per road, the RFID load is shown per account (Easytrip, Autosweep), routes can be saved in your browser, and fuel can be added for a total travel cost. |
 | [**Kuryente**](https://jervilangelo.github.io/pinansyalph-v2/magkano-kuryente) · *Magkano Kuryente Ko? Tama ba ang singil sa bill mo?* | Checks a Meralco residential bill against Meralco's published rates for the billing month, line by line (generation, transmission, system loss, distribution tiers, refunds, subsidies, taxes, universal charges), from kWh or meter readings. Shows the difference in pesos and percent with ordinary reasons, never a verdict. Also: an appliance calculator, a two-bill comparison that splits a change into usage and rate, and a savings simulator priced with the real tariff. Other providers use a typed rate, labelled an estimate. |
+| [**Bahay**](https://jervilangelo.github.io/pinansyalph-v2/magkano-bahay) · *Magkano Bahay Ngayon?* | Official BSP median prices of houses and condominium units by area (Q2 2026), with the number of bank loans behind each figure; a location comparison; BSP price-index trends; “Overpriced ba ’to?”, which compares an asking price with the area median without passing judgment; and “Kaya ko ba?”, a home loan amortization and affordability calculator. Says “Insufficient verified market data” where no official figure exists (city-level, per square meter, lots). |
 | [**About**](https://jervilangelo.github.io/pinansyalph-v2/about) | Why the project exists, its principles, how to contribute, and the FAQ. |
 
 Amounts you enter in MP2 carry over to Digital banks and Compare, so every comparison uses the same inputs. Every
@@ -116,6 +117,7 @@ Money is computed with decimal.js and rounded to centavos only where a real inst
 | Bank savings rates | Each bank's official page or product disclosure | Verified 4 November 2026 | Daily evidence check; changed by hand |
 | Occupational wages (Underpaid ba ko?) | [PSA OpenSTAT](https://openstat.psa.gov.ph/), Occupational Wages Survey: 8 tables | 2024 OWS (August 2024); 2022 OWS for accounting and bookkeeping clerks and medians | Weekly check |
 | Expressway tolls (Magkano ang Toll Ko?) | [Toll Regulatory Board](https://trb.gov.ph/index.php/toll-rates) matrices, as transcribed by [ExpresswayPH](https://expresswayph.com/matrix) and checked against news reports of each TRB approval | NLEX–SCTEX 20 Jan 2026; Skyway–SLEX and STAR 1 Jul 2026; TPLEX 8 Jul 2026; others in [docs/TOLL-DATA.md](docs/TOLL-DATA.md) | By hand when TRB approves new rates |
+| Housing prices (Magkano Bahay Ngayon?) | [BSP Residential Property Price Index report](https://www.bsp.gov.ph/Media_And_Research/RPPI/RPPI-Report-2026-Q2.pdf) | Q2 2026 (published September 2026) | By hand each quarter, see [docs/HOUSING-DATA.md](docs/HOUSING-DATA.md) |
 | Electricity rates (Magkano Kuryente Ko?) | Meralco's monthly [Summary Schedule of Rates and Residential Bills at Typical Consumption Levels](https://www.meralco.com.ph/residential/rates-and-charges) | August to November 2026 billing (₱15.5510/kWh at 200 kWh in November) | By hand each month, see [docs/ELECTRICITY-DATA.md](docs/ELECTRICITY-DATA.md) |
 | Payroll and tax rules (SSS, PhilHealth, Pag-IBIG, BIR, ₱90,000 benefits ceiling) | SSS Circular 2024-006, PhilHealth Circular 2020-0005, HDMF Circular 460, BIR RR 11-2018, RA 10963 | In force since 2025-01-01 / 2024-01-01 / 2024-02-01 / 2023-01-01 | Versioned by hand in `src/data/payroll.json` |
 
@@ -134,6 +136,8 @@ fails, and commits only real changes; the deploy workflow then rebuilds the site
   `npm run data:salary` weekly. It keeps the previous file if PSA is unreachable, a table changes shape, a region or
   industry label is unknown, validation fails, or far fewer figures come back. Job title mapping is edited by hand in
   [`src/data/salaryOccupations.ts`](src/data/salaryOccupations.ts).
+- **Housing figures are updated by hand each quarter** from BSP's RPPI report, which blocks automated access. The
+  unit tests check the transcription; see [docs/HOUSING-DATA.md](docs/HOUSING-DATA.md).
 - **Electricity rates are updated by hand each month.** Meralco's website uses bot protection, so there is no
   scheduled job. `npm run data:electricity` builds a month from Meralco's two PDFs and writes it only if it reproduces
   all 18 of Meralco's worked bills; see [docs/ELECTRICITY-DATA.md](docs/ELECTRICITY-DATA.md). The page says when a
@@ -177,7 +181,7 @@ npm run lint
 | Money | decimal.js |
 | Data contracts | zod schemas shared by the site and the data scripts |
 | Data ingestion | Node scripts run by GitHub Actions; pdf.js for DOE PDFs |
-| Tests | Vitest (212 unit tests), Playwright (109 browser tests) |
+| Tests | Vitest (228 unit tests), Playwright (122 browser tests) |
 | Hosting | GitHub Pages via GitHub Actions |
 
 Architecture and the reasons for it: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
@@ -222,6 +226,9 @@ The base path comes from GitHub Pages, so the site works under any repository na
   centavos up to 400 kWh (₱0.30 at most, at 5,000 kWh), because Meralco publishes rounded VAT rates. Local
   franchise tax depends on the city. Cooperatives and other utilities use a typed rate. A difference from the
   published rates is not proof of an error.
+- **Magkano Bahay Ngayon?** shows BSP medians for seven areas, not cities or barangays, and only for homes bought with
+  bank loans. No asking-price listings or machine-learning estimates are used: the reviewed listing datasets have no
+  verifiable reuse licence and the models' errors are about 25% of the price. See [docs/HOUSING-DATA.md](docs/HOUSING-DATA.md).
 - MariBank, UNO and OwnBank rates could not be confirmed on their official pages and are listed as excluded.
 
 ## Contributing

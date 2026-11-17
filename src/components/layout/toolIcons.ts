@@ -1,4 +1,4 @@
-import { ArrowLeftRight, CarFront, Fuel, Gift, Landmark, PiggyBank, Scale, TrendingUp, Wallet, Zap, type LucideIcon } from 'lucide-react'
+import { ArrowLeftRight, CarFront, House, Fuel, Gift, Landmark, PiggyBank, Scale, TrendingUp, Wallet, Zap, type LucideIcon } from 'lucide-react'
 import type { Route } from '../../router'
 
 /** One plain, recognisable icon per tool: what the tool is about, not decoration. */
@@ -13,4 +13,5 @@ export const TOOL_ICONS: Partial<Record<Route, LucideIcon>> = {
   '/gas': Fuel,
   '/magkano-ang-toll': CarFront,
   '/magkano-kuryente': Zap,
+  '/magkano-bahay': House,
 }

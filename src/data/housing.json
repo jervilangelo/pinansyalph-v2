@@ -1,0 +1,139 @@
+{
+  "version": 1,
+  "compiledOn": "2026-11-18",
+  "sources": [
+    {
+      "id": "bsp-rppi-2026q2",
+      "organization": "Bangko Sentral ng Pilipinas (BSP), Department of Economic Statistics",
+      "title": "Residential Property Price Index Report, 2nd Quarter 2026",
+      "url": "https://www.bsp.gov.ph/Media_And_Research/RPPI/RPPI-Report-2026-Q2.pdf",
+      "category": "median-price",
+      "coverage": "Philippines; NCR; Areas Outside NCR, split into Balance GMA (Batangas, Bulacan, Cavite, Laguna, Pampanga, Rizal), Metro Cebu, Metro Mindanao (Metro Davao and Metro Cagayan de Oro) and Other Areas. Condominium units and houses.",
+      "published": "2026-09",
+      "period": "Q2 2026 (April to June)",
+      "verifiedOn": "2026-11-18",
+      "units": "Philippine pesos (median price, Figure 4); percent change (RPPI, Figures 1a–2c); number of loans (Figures 3b–3c)",
+      "reuse": "Official publication of a Philippine government institution, cited with attribution. Figures are transcribed exactly from the report's tables and chart labels.",
+      "limitations": [
+        "Built from residential real estate loans granted by banks. Homes bought in cash, through Pag-IBIG or through developer in-house financing are not covered.",
+        "A median for a whole area and housing type: it mixes all sizes, ages and locations within the area.",
+        "Houses are not split into single-detached, townhouse and duplex in the medians.",
+        "One quarter only; the RPPI percent changes describe movement, not a peso price."
+      ]
+    },
+    {
+      "id": "imf-rppi-2024",
+      "organization": "International Monetary Fund",
+      "title": "Philippines: Technical Assistance Report — Report on the Residential Property Price Index Mission (January 22–26, 2024)",
+      "url": "https://www.imf.org/en/Publications/technical-assistance-reports/Issues/2024/07/22/The-Philippines-Report-on-the-Residential-Property-Price-Index-Mission-January-22-26-2024-552176",
+      "category": "methodology",
+      "coverage": "BSP's residential property price statistics",
+      "published": "2024-07-22",
+      "period": "2024",
+      "verifiedOn": "2026-11-18",
+      "units": "Methodology",
+      "reuse": "Cited for methodology only.",
+      "limitations": ["Describes the move from appraised values to acquisition costs; it does not contain current prices."]
+    },
+    {
+      "id": "pia-pagibig-4ph",
+      "organization": "Philippine Information Agency",
+      "title": "Pag-IBIG keeps 3% housing loan rate to shield workers from inflation",
+      "url": "https://pia.gov.ph/news/pag-ibig-keeps-3-housing-loan-rate-to-shield-workers-from-inflation/",
+      "category": "loan-rate",
+      "coverage": "Pag-IBIG Fund socialized housing loans under the Expanded Pambansang Pabahay para sa Pilipino (4PH) Program",
+      "published": "2026-04",
+      "period": "2026",
+      "verifiedOn": "2026-11-18",
+      "units": "Percent a year",
+      "reuse": "Government news release, cited with attribution.",
+      "limitations": ["Applies only to qualified socialized housing borrowers. Regular Pag-IBIG and bank rates differ and change; check with the lender."]
+    }
+  ],
+  "areas": [
+    { "id": "philippines", "name": "Philippines", "coverage": "The whole country", "parent": null },
+    { "id": "ncr", "name": "NCR (Metro Manila)", "coverage": "Caloocan, Las Piñas, Makati, Malabon, Mandaluyong, Manila, Marikina, Muntinlupa, Navotas, Parañaque, Pasay, Pasig, Quezon City, San Juan, Taguig, Valenzuela and Pateros", "parent": "philippines" },
+    { "id": "aoncr", "name": "Areas outside NCR", "coverage": "Everywhere outside Metro Manila", "parent": "philippines" },
+    { "id": "balance-gma", "name": "Balance GMA", "coverage": "Batangas, Bulacan, Cavite, Laguna, Pampanga and Rizal", "parent": "aoncr" },
+    { "id": "metro-cebu", "name": "Metro Cebu", "coverage": "Cebu, Mandaue, Lapu-Lapu, Talisay, Naga, Carcar and Danao cities, and Cordova, Consolacion, Liloan, Compostela, Minglanilla and San Fernando", "parent": "aoncr" },
+    { "id": "metro-mindanao", "name": "Metro Mindanao", "coverage": "Metro Davao (Davao, Panabo, Tagum, Samal, Digos and Mati cities and nearby towns) and Metro Cagayan de Oro (Cagayan de Oro and El Salvador cities and nearby towns)", "parent": "aoncr" },
+    { "id": "other-areas", "name": "Other areas in the Philippines", "coverage": "All other provinces, cities and towns", "parent": "aoncr" }
+  ],
+  "medians": {
+    "period": "Q2 2026",
+    "source": "bsp-rppi-2026q2",
+    "values": [
+      { "area": "philippines", "type": "all", "pesos": 3905999 },
+      { "area": "philippines", "type": "condominium", "pesos": 4129152 },
+      { "area": "philippines", "type": "house", "pesos": 3532893 },
+      { "area": "ncr", "type": "all", "pesos": 5409077 },
+      { "area": "ncr", "type": "condominium", "pesos": 5179350 },
+      { "area": "ncr", "type": "house", "pesos": 8000000 },
+      { "area": "aoncr", "type": "all", "pesos": 3451385 },
+      { "area": "aoncr", "type": "condominium", "pesos": 3462235 },
+      { "area": "aoncr", "type": "house", "pesos": 3398500 },
+      { "area": "other-areas", "type": "all", "pesos": 3253026 },
+      { "area": "other-areas", "type": "condominium", "pesos": 3936570 },
+      { "area": "other-areas", "type": "house", "pesos": 2997964 },
+      { "area": "balance-gma", "type": "all", "pesos": 3451385 },
+      { "area": "balance-gma", "type": "condominium", "pesos": 3451385 },
+      { "area": "balance-gma", "type": "house", "pesos": 3465340 },
+      { "area": "metro-cebu", "type": "all", "pesos": 4167353 },
+      { "area": "metro-cebu", "type": "condominium", "pesos": 3997616 },
+      { "area": "metro-cebu", "type": "house", "pesos": 4987500 },
+      { "area": "metro-mindanao", "type": "all", "pesos": 3722550 },
+      { "area": "metro-mindanao", "type": "condominium", "pesos": 3338176 },
+      { "area": "metro-mindanao", "type": "house", "pesos": 4311658 }
+    ]
+  },
+  "loans": {
+    "period": "Q2 2026",
+    "source": "bsp-rppi-2026q2",
+    "values": [
+      { "area": "philippines", "type": "condominium", "count": 4378 },
+      { "area": "ncr", "type": "condominium", "count": 2604 },
+      { "area": "aoncr", "type": "condominium", "count": 1774 },
+      { "area": "other-areas", "type": "condominium", "count": 238 },
+      { "area": "balance-gma", "type": "condominium", "count": 945 },
+      { "area": "metro-cebu", "type": "condominium", "count": 376 },
+      { "area": "metro-mindanao", "type": "condominium", "count": 215 },
+      { "area": "philippines", "type": "house", "count": 5277 },
+      { "area": "ncr", "type": "house", "count": 363 },
+      { "area": "aoncr", "type": "house", "count": 4914 },
+      { "area": "other-areas", "type": "house", "count": 1252 },
+      { "area": "balance-gma", "type": "house", "count": 3146 },
+      { "area": "metro-cebu", "type": "house", "count": 259 },
+      { "area": "metro-mindanao", "type": "house", "count": 257 }
+    ]
+  },
+  "growth": {
+    "source": "bsp-rppi-2026q2",
+    "yoyQuarters": ["Q2 2025", "Q1 2026", "Q2 2026"],
+    "qoqQuarters": ["Q3 2025", "Q4 2025", "Q1 2026", "Q2 2026"],
+    "series": [
+      { "area": "philippines", "type": "all", "yoy": [7.5, 4.5, 0.4], "qoq": [-3.8, -1.3, 5.6, 0.1] },
+      { "area": "ncr", "type": "all", "yoy": [2.4, 3.5, 5.2], "qoq": [-0.8, -2.0, 10.4, -2.0] },
+      { "area": "aoncr", "type": "all", "yoy": [11.5, 5.7, -2.7], "qoq": [-5.9, -0.7, 2.5, 1.6] },
+      { "area": "other-areas", "type": "all", "yoy": [8.8, -4.7, -5.3], "qoq": [-6.4, -5.8, -1.9, 9.5] },
+      { "area": "balance-gma", "type": "all", "yoy": [13.2, 9.7, -3.0], "qoq": [-6.1, 0.2, 4.3, -1.2] },
+      { "area": "metro-cebu", "type": "all", "yoy": [11.5, 9.4, -0.2], "qoq": [-8.0, 4.6, 1.3, 2.4] },
+      { "area": "metro-mindanao", "type": "all", "yoy": [7.7, 1.3, 2.1], "qoq": [-0.9, -1.0, 1.4, 2.7] },
+      { "area": "philippines", "type": "condominium", "yoy": [-0.2, 4.6, 6.0], "qoq": [-1.4, -1.7, 11.1, -1.5] },
+      { "area": "philippines", "type": "house", "yoy": [13.1, 3.9, -4.1], "qoq": [-5.7, -0.9, 0.8, 1.7] },
+      { "area": "ncr", "type": "condominium", "yoy": [-2.2, 3.7, 7.4], "qoq": [-1.4, -1.8, 13.2, -1.9] },
+      { "area": "ncr", "type": "house", "yoy": [14.3, 1.3, -3.1], "qoq": [1.1, -2.5, 0.8, -2.5] },
+      { "area": "aoncr", "type": "condominium", "yoy": [6.2, 8.4, 3.4], "qoq": [-1.3, -1.3, 7.1, -0.8] },
+      { "area": "aoncr", "type": "house", "yoy": [12.6, 4.6, -4.5], "qoq": [-7.1, -0.6, 0.8, 2.5] }
+    ]
+  },
+  "loanRates": [
+    { "id": "pagibig-4ph", "label": "Pag-IBIG socialized housing (4PH)", "annualRate": 3, "note": "For qualified socialized housing borrowers only.", "source": "pia-pagibig-4ph" }
+  ],
+  "excluded": [
+    { "name": "Lamudi listings (Ph-Real-Estate, Kaggle “Philippine Real Estate” and “Philippines Housing Market”)", "url": "https://github.com/aronnicksnts/Ph-Real-Estate", "reason": "Scraped asking prices from one portal (2022 to March 2024), with no verifiable licence for reuse; Lamudi blocks automated access. Too old and too thin (about 1,500 listings nationwide in the Kaggle sets) for city-level prices." },
+    { "name": "Machine-learning price models in the reviewed repositories", "url": "https://github.com/adrianpintacasi/philippine-housing-prediction", "reason": "Trained on the same listing data; reported errors of about 25% of the price (MAPE), and one model scores below a flat average (R² of −1.19)." },
+    { "name": "BIR zonal values", "url": "https://www.bir.gov.ph/", "reason": "Tax reference values per street and barangay, not market prices; not integrated." },
+    { "name": "Pag-IBIG regular housing loan rate table", "url": "https://www.pagibigfund.gov.ph/", "reason": "Pag-IBIG’s website blocks automated access and secondary sites disagree on the current table. Enter the rate your lender quotes." },
+    { "name": "Price per square meter and size-based estimates", "reason": "No official source publishes current prices per square meter by location. The BSP medians are not adjusted for size." }
+  ]
+}

@@ -1,9 +1,9 @@
-import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
+import { useState } from 'react'
 import { monthLabel, dateLabel } from '../../utils/format'
 import { ToolHeader } from '../layout/Page'
 import { Disclosure } from '../ui/Disclosure'
 import { NumberField, SelectField, Toggle } from '../ui/fields'
-import { SPRING, motion, useReducedMotion } from '../ui/motion'
+import { Tabs, type TabDef } from '../ui/Tabs'
 import { StatusTag } from '../ui/Status'
 import type { Appliance } from '../../calculators/appliances'
 import { CheckBill } from './kuryente/CheckBill'
@@ -11,7 +11,7 @@ import { AppliancesTab, CompareTab, SaveTab } from './kuryente/Tools'
 import { LATEST, MERALCO, defaultTariff, isBehind, type ProviderChoice, type Tariff } from './kuryente/tariff'
 
 type TabId = 'check' | 'appliances' | 'compare' | 'save'
-const TABS: { id: TabId; label: string; short: string }[] = [
+const TABS: TabDef<TabId>[] = [
   { id: 'check', label: 'Check my bill', short: 'Check bill' },
   { id: 'appliances', label: 'Appliance calculator', short: 'Appliances' },
   { id: 'compare', label: 'Compare bills', short: 'Compare' },
@@ -49,7 +49,7 @@ export function KuryenteSection() {
 
         <TariffBar tariff={tariff} set={set} />
 
-        <Tabs tab={tab} setTab={setTab}>
+        <Tabs tabs={TABS} value={tab} onChange={setTab} label="Kuryente tools">
           {tab === 'check' && <CheckBill tariff={tariff} onKwh={setBillKwh} />}
           {tab === 'appliances' && <AppliancesTab tariff={tariff} appliances={appliances} setAppliances={setAppliances} />}
           {tab === 'compare' && <CompareTab />}
@@ -115,56 +115,6 @@ function TariffBar({ tariff, set }: { tariff: Tariff; set: (p: Partial<Tariff>) 
           )}
         </div>
       )}
-    </div>
-  )
-}
-
-/** Accessible tabs: arrow keys move between tabs, the panel follows. */
-function Tabs({ tab, setTab, children }: { tab: TabId; setTab: (t: TabId) => void; children: ReactNode }) {
-  const id = useId()
-  const reduce = useReducedMotion()
-  const refs = useRef<(HTMLButtonElement | null)[]>([])
-  const onKey = (e: KeyboardEvent, i: number) => {
-    const n = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? TABS.length - 1 : null
-    if (n === null) return
-    e.preventDefault()
-    const next = (n + TABS.length) % TABS.length
-    setTab(TABS[next].id)
-    refs.current[next]?.focus()
-  }
-  return (
-    <div>
-      <div role="tablist" aria-label="Kuryente tools" className="ui relative grid grid-cols-4 gap-0.5 rounded-[18px] bg-surface p-1">
-        {TABS.map((t, i) => {
-          const active = t.id === tab
-          return (
-            <button
-              key={t.id}
-              ref={(el) => {
-                refs.current[i] = el
-              }}
-              role="tab"
-              type="button"
-              id={`${id}-tab-${t.id}`}
-              aria-selected={active}
-              aria-controls={`${id}-panel`}
-              tabIndex={active ? 0 : -1}
-              onClick={() => setTab(t.id)}
-              onKeyDown={(e) => onKey(e, i)}
-              className="relative min-h-12 cursor-pointer rounded-[14px] border-0 bg-transparent px-2 text-[0.875rem] leading-tight font-semibold text-ink-2 sm:text-[0.9375rem]"
-            >
-              {active && <motion.span layoutId={`${id}-thumb`} aria-hidden="true" className="absolute inset-0 rounded-[14px] bg-paper shadow-[0_1px_2px_rgba(21,21,20,0.08),0_2px_8px_-2px_rgba(21,21,20,0.10)]" transition={reduce ? { duration: 0 } : SPRING} />}
-              <span className={`relative ${active ? 'text-ink' : ''}`}>
-                <span className="sm:hidden">{t.short}</span>
-                <span className="hidden sm:inline">{t.label}</span>
-              </span>
-            </button>
-          )
-        })}
-      </div>
-      <div role="tabpanel" id={`${id}-panel`} aria-labelledby={`${id}-tab-${tab}`} className="mt-4" tabIndex={-1}>
-        {children}
-      </div>
     </div>
   )
 }

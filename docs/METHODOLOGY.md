@@ -454,3 +454,18 @@ saving              = bill at today's kWh − bill at the kWh after the change (
 ```
 
 The rates and the check against Meralco's worked bills are described in [ELECTRICITY-DATA.md](ELECTRICITY-DATA.md).
+
+## 12. Housing prices ("Magkano Bahay Ngayon?")
+
+```
+median price       = BSP's published median for the area and type of home (no adjustment)
+place → area       = the BSP RPPI area that covers the city, municipality or province
+price change       = BSP's published percent change of the RPPI (year-on-year, quarter-on-quarter)
+asking vs median   = (asking price − median) ÷ median × 100
+monthly payment    = P × r ÷ (1 − (1 + r)^−n), r = annual rate ÷ 12, n = years × 12 (P ÷ n at 0%)
+total interest     = monthly payment × n − P
+share of income    = monthly payment ÷ gross monthly income
+```
+
+No price is estimated from floor or lot area. Sources, exclusions and the review of four public GitHub projects are in
+[HOUSING-DATA.md](HOUSING-DATA.md).

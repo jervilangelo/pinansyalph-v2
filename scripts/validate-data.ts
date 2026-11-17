@@ -5,6 +5,7 @@
 import { BankDataset, FuelDataset, InflationDataset, Mp2Dataset } from '../src/types/data.ts'
 import { PayrollRules } from '../src/types/payroll.ts'
 import { ElectricityDataset } from '../src/types/electricity.ts'
+import { HousingDataset } from '../src/types/housing.ts'
 import { SalaryBenchmarkDataset } from '../src/types/salary.ts'
 import type { TollDataset } from '../src/types/toll.ts'
 import { verifySchedule } from './update-electricity-rates.ts'
@@ -19,6 +20,7 @@ const files: [string, ZodType][] = [
   ['payroll.json', PayrollRules],
   ['salary-benchmarks.json', SalaryBenchmarkDataset],
   ['electricity.json', ElectricityDataset],
+  ['housing.json', HousingDataset],
 ]
 
 let failed = false
