@@ -1,6 +1,6 @@
 import { AnimatePresence } from 'motion/react'
 import { Search, X } from 'lucide-react'
-import { useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
+import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import { DUR, EASE, motion, useReducedMotion } from './motion'
 
 export interface ComboOption {
@@ -42,6 +42,12 @@ export function Combobox({
   const [open, setOpen] = useState(false)
   const [active, setActive] = useState(0)
   const results = open ? search(text) : []
+
+  // A blur closes the list a moment later (so a click on an option still lands). Coming back to the input
+  // before then must cancel it, or a stale close would shut the list the visitor just reopened.
+  const blurTimer = useRef<number | undefined>(undefined)
+  const cancelClose = () => window.clearTimeout(blurTimer.current)
+  useEffect(() => cancelClose, [])
 
   const choose = (o: ComboOption) => {
     onChange(o)
@@ -94,13 +100,20 @@ export function Combobox({
           placeholder={placeholder}
           value={text}
           onChange={(e) => {
+            cancelClose()
             setText(e.target.value)
             setActive(0)
             setOpen(true)
             if (value && e.target.value !== value.label) onChange(null)
           }}
-          onFocus={() => text && !value && setOpen(true)}
-          onBlur={() => window.setTimeout(close, 120)}
+          onFocus={() => {
+            cancelClose()
+            if (text && !value) setOpen(true)
+          }}
+          onBlur={() => {
+            cancelClose()
+            blurTimer.current = window.setTimeout(close, 120)
+          }}
           onKeyDown={onKey}
         />
         {text && (
