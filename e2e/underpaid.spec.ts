@@ -72,6 +72,8 @@ test('"my job is not listed" works, and the combobox is keyboard operable', asyn
   await expect(page.getByTestId('no-occupation-benchmark')).toContainText('not in PSA’s open benchmark list')
 
   await job(page).fill('bookk')
+  // Wait for the list to show the match before using the keyboard (CI machines render more slowly).
+  await expect(page.getByRole('option', { name: /^Bookkeeper/ })).toBeVisible()
   await job(page).press('ArrowDown')
   await job(page).press('Enter')
   await expect(job(page)).toHaveValue('Bookkeeper')
