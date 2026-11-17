@@ -37,8 +37,8 @@ export function ResultHero({
         </p>
         {aside}
       </div>
-      <p data-testid={testId} className="figure mt-4 text-[clamp(2.75rem,2rem+3.4vw,4.5rem)] leading-[0.95]">
-        <AnimatedNumber value={value} format={format} />
+      <p className="figure mt-4 text-[clamp(2.75rem,2rem+3.4vw,4.5rem)] leading-[0.95]">
+        <AnimatedNumber value={value} format={format} testId={testId} />
       </p>
       {caption && <div className={`ui mt-4 max-w-[46ch] text-[0.9375rem] leading-relaxed ${sub}`}>{caption}</div>}
       {children}

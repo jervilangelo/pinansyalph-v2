@@ -182,12 +182,13 @@ function PayResult({ h, p, unit }: { h: SalaryHook; p: PayrollResult; unit: Unit
 
 /* ---------------------------- Step 2: budget ---------------------------- */
 
-function Group({ group, h, budget, children }: { group: GroupKey; h: SalaryHook; budget: BudgetResult | null; children: ReactNode }) {
+function Group({ group, h, budget, children, defaultOpen = false }: { group: GroupKey; h: SalaryHook; budget: BudgetResult | null; children: ReactNode; defaultOpen?: boolean }) {
   const off = h.state.disabled.includes(group)
   const total = budget?.byGroup[group].toNumber() ?? 0
   return (
     <Disclosure
       tone="paper"
+      defaultOpen={defaultOpen}
       title={
         <span className="flex items-center gap-3">
           <span aria-hidden="true" className="inline-block h-3 w-3 shrink-0 rounded-full" style={{ background: GROUP_COLORS[group] }} />
@@ -494,7 +495,7 @@ export function SalarySection({ s }: { s: ScenarioState }) {
             inputs={
               <>
                 <div className="grid gap-2">
-                  <Group group="housing" h={h} budget={budgetOk}>
+                  <Group group="housing" h={h} budget={budgetOk} defaultOpen>
                     <Items group="housing" h={h} />
                   </Group>
                   <Group group="transport" h={h} budget={budgetOk}>

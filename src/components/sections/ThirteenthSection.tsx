@@ -108,11 +108,11 @@ function QuickInputs({ h }: { h: ThirteenthHook }) {
   )
 }
 
-function Stat({ label, value, note, emphasis = false, testId }: { label: string; value: ReactNode; note?: ReactNode; emphasis?: boolean; testId?: string }) {
+function Stat({ label, value, note, emphasis = false }: { label: string; value: ReactNode; note?: ReactNode; emphasis?: boolean }) {
   return (
     <div className={`flex flex-col gap-1 rounded-[18px] p-4 sm:p-5 ${emphasis ? 'bg-accent-soft' : 'bg-ground'}`}>
       <dt className="ui text-[0.875rem] leading-snug font-medium text-muted">{label}</dt>
-      <dd className="figure m-0 text-[1.5rem] leading-tight" data-testid={testId}>
+      <dd className="figure m-0 text-[1.5rem] leading-tight">
         {value}
       </dd>
       {note && <p className="ui text-[0.8125rem] leading-snug text-muted">{note}</p>}
@@ -168,15 +168,14 @@ function Results({ r, h }: { r: ThirteenthResult; h: ThirteenthHook }) {
 
       <div className="card p-3 sm:p-4">
         <dl className="m-0 grid gap-2 sm:grid-cols-2">
-          <Stat label="Earned so far" value={<AnimatedNumber value={r.earnedToDate.toNumber()} format={pesoExact} />} note={`Months completed by ${dateLabel(h.today)}`} testId="earned-to-date" />
-          <Stat emphasis label="Still to be paid" value={<AnimatedNumber value={r.remaining.toNumber()} format={pesoExact} />} note="Full-year amount minus what was already paid" testId="remaining-entitlement" />
+          <Stat label="Earned so far" value={<AnimatedNumber value={r.earnedToDate.toNumber()} format={pesoExact} testId="earned-to-date" />} note={`Months completed by ${dateLabel(h.today)}`} />
+          <Stat emphasis label="Still to be paid" value={<AnimatedNumber value={r.remaining.toNumber()} format={pesoExact} testId="remaining-entitlement" />} note="Full-year amount minus what was already paid" />
           <Stat label="Total eligible basic salary" value={<AnimatedNumber value={r.totalEligible.toNumber()} format={pesoExact} />} note={r.hasProjection ? `${pesoExact(r.totalProjected)} of this is projected` : 'All earned'} />
           <Stat label="Already paid" value={<AnimatedNumber value={r.previouslyPaid.toNumber()} format={pesoExact} />} note="Advances or installments received" />
           <Stat
             label="Potentially taxable benefits"
-            value={<AnimatedNumber value={r.tax.potentiallyTaxable.toNumber()} format={pesoExact} />}
+            value={<AnimatedNumber value={r.tax.potentiallyTaxable.toNumber()} format={pesoExact} testId="potentially-taxable" />}
             note={`Above the ${peso(r.tax.ceiling)} combined exemption`}
-            testId="potentially-taxable"
           />
           <Stat label="Projected full year" value={<AnimatedNumber value={r.fullYear.toNumber()} format={pesoExact} />} note={r.hasProjection ? 'Assumes your salary continues as entered' : 'Same as earned: nothing is projected'} />
         </dl>

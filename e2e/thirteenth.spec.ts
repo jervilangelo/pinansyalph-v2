@@ -25,7 +25,7 @@ test.beforeEach(async ({ page }) => {
 test('page heading, menu item and default full-year result', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Magkano Ang 13th Month Pay Mo?')
   await expect(page.locator('main')).toContainText('Calculate your estimated 13th-month pay based on Philippine labor laws.')
-  await expect(page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: '13th Month Pay' })).toHaveAttribute('aria-current', 'page')
+  await expect(page.getByRole('navigation', { name: 'Breadcrumb' })).toContainText('13th month pay')
   // Employed since two years ago, ₱25,000: the full year totals one month of salary.
   await expect(total(page)).toHaveText('₱25,000.00')
 })
@@ -91,6 +91,7 @@ test('maternity differential and actual partial-month figures', async ({ page })
 test('current year marks future months as projected', async ({ page }) => {
   test.skip(new Date().getMonth() === 11 && new Date().getDate() === 31, 'no future months on Dec 31')
   await expect(page.locator('main')).toContainText('Includes projected months')
+  await page.getByRole('button', { name: /Monthly breakdown/ }).click()
   await expect(page.locator('#thirteenth table').getByText('Projected').first()).toBeVisible()
 })
 
@@ -161,5 +162,5 @@ test('mobile shows a result bar while editing inputs', async ({ page }) => {
   const bar = page.getByRole('button', { name: /Estimated 13th month pay/ })
   await expect(bar).toBeVisible()
   await bar.click()
-  await expect(total(page)).toBeInViewport()
+  await expect(page.getByText(/^Estimated 13th month pay, \d{4}$/)).toBeInViewport()
 })

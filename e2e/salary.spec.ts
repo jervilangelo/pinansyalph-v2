@@ -12,7 +12,10 @@ test.beforeEach(async ({ page }) => {
 
 test('₱30,000 semi-monthly: deductions and take-home pay', async ({ page }) => {
   const s = section(page)
-  const deductions = s.locator('ul[data-ui]').first()
+  // The breakdown sits behind a disclosure; the answer is shown first.
+  await expect(page.getByTestId('take-home')).toHaveText('₱26,543')
+  await s.getByRole('button', { name: /Where the deductions go/ }).click()
+  const deductions = s.locator('#deductions ul[data-ui]')
   await expect(deductions).toContainText('₱1,500')
   await expect(deductions).toContainText('₱750')
   await expect(deductions).toContainText('₱200')
@@ -81,6 +84,7 @@ test('minimum wage earners pay no withholding tax', async ({ page }) => {
   const s = section(page)
   await s.getByLabel('Basic monthly salary').fill('18,000')
   await s.getByRole('checkbox', { name: /statutory minimum wage/ }).check()
+  await s.getByRole('button', { name: /Where the deductions go/ }).click()
   await expect(s).toContainText('your taxable pay is below the BIR threshold')
 })
 

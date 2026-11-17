@@ -61,8 +61,8 @@ function QuickPay() {
               <SunMark />
               Estimated take-home pay
             </p>
-            <p className="figure mt-3 text-[clamp(2.5rem,1.8rem+3vw,3.75rem)] leading-none" data-testid="quick-take-home">
-              <AnimatedNumber value={take} format={peso} />
+            <p className="figure mt-3 text-[clamp(2.5rem,1.8rem+3vw,3.75rem)] leading-none">
+              <AnimatedNumber value={take} format={peso} testId="quick-take-home" />
             </p>
             <p className="ui mt-2 text-[0.9375rem] text-white/85">a month, after government deductions</p>
           </div>
@@ -108,11 +108,12 @@ function QuickPay() {
 
 /* ------------------------------------------------------------------ */
 
-function Hero() {
+function Hero({ ready }: { ready: boolean }) {
   const enter = useEnter()
   return (
     <header className="wrap grid items-center gap-10 pt-8 pb-4 sm:pt-14 lg:grid-cols-12 lg:gap-12 lg:pt-16">
-      <div className="lg:col-span-7">
+      {/* Keyed so the entrance replays once the splash has gone; the estimator keeps its state. */}
+      <div key={ready ? 'shown' : 'covered'} className="lg:col-span-7">
         <AnimatedSymbol size={88} className="-ml-2 h-[72px] w-[72px] sm:h-[88px] sm:w-[88px]" />
         <h1 className="mt-5 max-w-[13ch] text-[clamp(2.75rem,1.5rem+4.6vw,5.5rem)] leading-[0.98] tracking-[-0.035em]">
           <SplitWords text={TAGLINE} delay={0.55} />
@@ -305,7 +306,7 @@ export function HomePage() {
   const ready = useSplashGone()
   return (
     <Page path="/" next={false}>
-      <Hero key={ready ? 'shown' : 'covered'} />
+      <Hero ready={ready} />
       <Tools />
       <Numbers />
       <OpenSource />

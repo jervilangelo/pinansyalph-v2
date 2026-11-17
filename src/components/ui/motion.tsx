@@ -63,11 +63,14 @@ export function AnimatedNumber({
   format,
   className,
   duration = 0.7,
+  testId,
 }: {
   value: number
   format: (n: number) => string
   className?: string
   duration?: number
+  /** Marks the settled value (not the animating one) for tests. */
+  testId?: string
 }) {
   const reduce = useReducedMotion()
   const ref = useRef<HTMLSpanElement>(null)
@@ -97,7 +100,9 @@ export function AnimatedNumber({
     <span ref={ref} className={className}>
       {/* Screen readers and tests read the settled value; the animation is decoration. */}
       <span aria-hidden="true">{format(shown)}</span>
-      <span className="sr-only">{format(value)}</span>
+      <span className="sr-only" data-testid={testId}>
+        {format(value)}
+      </span>
     </span>
   )
 }
