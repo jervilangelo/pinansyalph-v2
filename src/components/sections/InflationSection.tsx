@@ -6,6 +6,7 @@ import type { InflationSeriesKey } from '../../types/data'
 import { dateLabel, monthLabel, pct } from '../../utils/format'
 import { Segmented } from '../ui/fields'
 import { AnimatedNumber, Reveal, motion, useReducedMotion, EASE } from '../ui/motion'
+import { ToolHeader } from '../layout/Page'
 import { StatusTag } from '../ui/Status'
 
 const BAR_COUNT = 13
@@ -20,7 +21,7 @@ function Bars() {
   return (
     <div data-ui className="relative">
       {/* Desktop/tablet: bars stand on the bottom edge */}
-      <ol className="m-0 hidden h-[52vh] max-h-[560px] min-h-[320px] list-none items-end gap-2 p-0 sm:grid" style={{ gridTemplateColumns: `repeat(${obs.length}, minmax(0, 1fr))` }} aria-label="Headline inflation, last 13 months">
+      <ol className="m-0 hidden h-[44vh] max-h-[460px] min-h-[300px] list-none items-end gap-2 p-0 sm:grid" style={{ gridTemplateColumns: `repeat(${obs.length}, minmax(0, 1fr))` }} aria-label="Headline inflation, last 13 months">
         {obs.map((o, i) => {
           const latest = i === obs.length - 1
           const h = Math.max((Math.max(o.value, 0) / max) * 100, 1.5)
@@ -38,7 +39,7 @@ function Bars() {
               >
                 <span className={`ui mb-2 text-center tabular text-[clamp(0.9375rem,1.3vw,1.375rem)] font-semibold transition-opacity ${show ? 'opacity-100' : 'opacity-0'}`}>{pct(o.value)}</span>
                 <motion.span
-                  className={`block w-full origin-bottom ${latest ? 'bg-accent' : 'bg-surface-2 group-hover:bg-[#c9c5ba]'} transition-colors`}
+                  className={`block w-full origin-bottom rounded-t-[10px] ${latest ? 'bg-accent' : 'bg-surface-2 group-hover:bg-[#cfc9bb]'} transition-colors`}
                   style={{ height: `${h}%` }}
                   initial={reduce ? false : { scaleY: 0 }}
                   whileInView={{ scaleY: 1 }}
@@ -61,7 +62,7 @@ function Bars() {
               <span className={`ui text-[0.875rem] ${latest ? 'font-semibold' : 'text-muted'}`}>{monthLabel(o.period, true).replace(' 20', ' ’')}</span>
               <span className="relative block h-7">
                 <motion.span
-                  className={`absolute inset-y-0 left-0 block origin-left ${latest ? 'bg-accent' : 'bg-surface-2'}`}
+                  className={`absolute inset-y-0 left-0 block origin-left rounded-r-[8px] ${latest ? 'bg-accent' : 'bg-surface-2'}`}
                   style={{ width: `${Math.max((Math.max(o.value, 0) / max) * 100, 2)}%` }}
                   initial={reduce ? false : { scaleX: 0 }}
                   whileInView={{ scaleX: 1 }}
@@ -82,15 +83,15 @@ function Kpi({ k, label, note }: { k: InflationSeriesKey; label: string; note: s
   const l = latestOf(k)
   const diff = l.value - l.previous.value
   return (
-    <div className="bg-paper p-5">
+    <div className="card p-6">
       <p className="ui text-[0.9375rem] font-semibold">{label}</p>
-      <p className="mt-2 tabular text-[2.5rem] leading-none font-medium tracking-[-0.02em]">
+      <p className="figure mt-3 text-[2.5rem] leading-none">
         <AnimatedNumber value={l.value} format={(n) => pct(n)} />
       </p>
       <p className="ui mt-2 text-[0.9375rem]">
         {diff === 0 ? 'Same as' : diff > 0 ? `Up ${diff.toFixed(1)} points from` : `Down ${Math.abs(diff).toFixed(1)} points from`} {monthLabel(l.previous.period, true)}
       </p>
-      <p className="ui mt-2 text-[0.875rem] text-muted">{note}</p>
+      <p className="ui mt-1 text-[0.875rem] text-muted">{note}</p>
     </div>
   )
 }
@@ -102,38 +103,40 @@ export function InflationSection() {
   const toggle = (k: InflationSeriesKey) => setVisible((v) => (v.includes(k) ? (v.length > 1 ? v.filter((x) => x !== k) : v) : [...v, k]))
 
   return (
-    <section id="inflation" aria-labelledby="inflation-title" className="pt-[clamp(24px,4vw,56px)]">
-      {/* Full-bleed field with the bars */}
-      <div className="bg-ground pt-4">
-        <div className="wrap">
-          <Reveal>
-            <p className="tabular text-[clamp(5.5rem,13vw,10.5rem)] leading-[0.85] font-medium tracking-[-0.045em]" aria-hidden="true">
-              <AnimatedNumber value={latest.value} format={(n) => pct(n)} duration={1.2} />
+    <section id="inflation" aria-labelledby="inflation-title">
+      <ToolHeader
+        path="/inflation"
+        id="inflation-title"
+        title={<>Philippine inflation, {monthLabel(latest.period)}</>}
+        lede={
+          <>
+            Prices were {pct(latest.value)} higher than a year earlier
+            {(() => {
+              const c = headlineContext()
+              if (!c) return '.'
+              const tie = c.tiedWith ? `level with ${monthLabel(c.tiedWith)} and ` : ''
+              return c.since ? `, ${tie}the highest since ${monthLabel(c.since)}.` : `, ${tie}the highest in this series.`
+            })()}
+          </>
+        }
+        meta={<StatusTag status={inflation.status} extra={`PSA release, retrieved ${dateLabel(inflation.retrievedAt)}`} />}
+      />
+      <div className="wrap">
+        <div className="card p-5 sm:p-8 lg:p-10">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <p className="figure text-[clamp(4.5rem,3rem+7vw,9rem)] leading-[0.85]" aria-hidden="true">
+              <AnimatedNumber value={latest.value} format={(n) => pct(n)} duration={1.1} />
             </p>
-            <h1 id="inflation-title" className="mt-4 text-[clamp(1.75rem,1.2rem+1.6vw,2.75rem)] leading-[1.1]">
-              Philippine inflation, {monthLabel(latest.period)}
-            </h1>
-            <p className="mt-3 max-w-[48ch] text-ink-2">
-              Prices were {pct(latest.value)} higher than a year earlier
-              {(() => {
-                const c = headlineContext()
-                if (!c) return '.'
-                const tie = c.tiedWith ? `level with ${monthLabel(c.tiedWith)} and ` : ''
-                return c.since ? `, ${tie}the highest since ${monthLabel(c.since)}.` : `, ${tie}the highest in this series.`
-              })()}
-            </p>
-            <div className="mt-3">
-              <StatusTag status={inflation.status} extra={`PSA release, retrieved ${dateLabel(inflation.retrievedAt)}`} />
-            </div>
-          </Reveal>
-        </div>
-        <div className="mt-12 px-[var(--gutter)]">
-          <Bars />
+            <p className="ui max-w-[30ch] pb-2 text-[0.9375rem] text-muted">Headline inflation, year on year. The last 13 months; the blue bar is the latest.</p>
+          </div>
+          <div className="mt-10">
+            <Bars />
+          </div>
         </div>
       </div>
 
-      <div className="wrap mt-[clamp(72px,8vw,120px)]">
-        <div data-ui className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="wrap mt-4">
+        <div data-ui className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Kpi k="headline" label="Headline" note="All goods and services" />
           <Kpi k="core" label="Core" note="Excludes selected food and energy items" />
           <Kpi k="food" label="Food" note="Food only, excluding drinks" />
@@ -142,18 +145,18 @@ export function InflationSection() {
 
         <div className="mt-[clamp(72px,8vw,120px)] grid gap-8 lg:grid-cols-12">
           <Reveal className="lg:col-span-4">
-            <h3 className="text-[clamp(1.5rem,1.2rem+1vw,2.25rem)]">Since {monthLabel(inflation.series.headline[0].period, true)}</h3>
+            <h2 className="text-step-head">Since {monthLabel(inflation.series.headline[0].period, true)}</h2>
             <p className="mt-4 text-ink-2">
               Year-on-year change in consumer prices, as published monthly by the Philippine Statistics Authority. The shaded band is
               the Bangko Sentral's 2–4% target. Full years {recentAverageInflation.from}–{recentAverageInflation.to} averaged {pct(recentAverageInflation.value)}.
             </p>
             <fieldset className="ui mt-8 border-0 p-0">
-              <legend className="mb-3 p-0 text-[0.9375rem] font-medium">Show</legend>
+              <legend className="field-label p-0">Show</legend>
               <div className="flex flex-wrap gap-2">
                 {INFLATION_SERIES.map((sr) => {
                   const on = visible.includes(sr.key)
                   return (
-                    <label key={sr.key} className={`flex min-h-11 cursor-pointer items-center gap-2 px-3.5 py-2 text-[0.9375rem] transition-colors ${on ? 'bg-ink text-ground' : 'bg-surface hover:bg-surface-2'}`}>
+                    <label key={sr.key} data-on={on} className="chip">
                       <input type="checkbox" className="sr-only" checked={on} onChange={() => toggle(sr.key)} />
                       <span aria-hidden="true" className="inline-block h-3 w-3 rounded-full" style={{ background: sr.color }} />
                       {sr.label}
@@ -175,7 +178,7 @@ export function InflationSection() {
               />
             </div>
           </Reveal>
-          <div className="bg-paper p-4 sm:p-6 lg:col-span-8">
+          <div className="card p-4 sm:p-6 lg:col-span-8">
             <InflationHistoryChart series={inflation.series} visible={visible} range={range === 'all' ? inflation.series.headline.length : Number(range)} />
           </div>
         </div>

@@ -7,6 +7,9 @@ import { safe } from '../../hooks/useScenario'
 import { MONTH_NAMES, dateLabel, peso, pesoExact } from '../../utils/format'
 import { AmountField, DateField, OptionalAmountField, SelectField, Toggle } from '../ui/fields'
 import { AnimatedNumber, EASE, Reveal, motion, useReducedMotion } from '../ui/motion'
+import { ToolHeader } from '../layout/Page'
+import { Disclosure } from '../ui/Disclosure'
+import { CalcGrid, Panel, ResultHero } from '../ui/Result'
 
 const todayIso = () => {
   const d = new Date()
@@ -79,7 +82,8 @@ function QuickInputs({ h }: { h: ThirteenthHook }) {
   const thisYear = Number(h.today.slice(0, 4))
   const years = Array.from({ length: thisYear + 1 - FIRST_YEAR + 1 }, (_, i) => String(FIRST_YEAR + i)).reverse()
   return (
-    <form className="mt-10 grid max-w-[34rem] gap-6" onSubmit={(e) => e.preventDefault()}>
+    <Panel as="form" title="Your details" intro="Basic salary and dates are enough. Payslip details go in the advanced calculator below.">
+      <div className="grid gap-6">
       <AmountField
         label="Monthly basic salary"
         value={h.state.monthlyBasic}
@@ -92,22 +96,23 @@ function QuickInputs({ h }: { h: ThirteenthHook }) {
         <div>
           <DateField label="Employment end date" optional value={h.state.endDate} onChange={(v) => h.patch({ endDate: v })} min={h.state.startDate || undefined} />
           {h.state.endDate && (
-            <button type="button" className="ui mt-2 cursor-pointer border-0 bg-transparent p-0 text-[0.875rem] underline underline-offset-4" onClick={() => h.patch({ endDate: '' })}>
+            <button type="button" className="btn btn-quiet mt-1 text-[0.875rem]" onClick={() => h.patch({ endDate: '' })}>
               Clear end date (still employed)
             </button>
           )}
         </div>
       </div>
-      <p className="ui text-[0.875rem] leading-relaxed text-night-muted">Fill in the end date only if you resigned or were separated. Everything stays in your browser.</p>
-    </form>
+      <p className="ui text-[0.875rem] leading-relaxed text-muted">Fill in the end date only if you resigned or were separated. Everything stays in your browser.</p>
+      </div>
+    </Panel>
   )
 }
 
 function Stat({ label, value, note, emphasis = false, testId }: { label: string; value: ReactNode; note?: ReactNode; emphasis?: boolean; testId?: string }) {
   return (
-    <div className={`flex flex-col gap-1 p-4 sm:p-5 ${emphasis ? 'bg-accent-soft' : 'bg-surface'}`}>
-      <dt className="ui text-[0.875rem] leading-snug font-medium text-ink-2">{label}</dt>
-      <dd className="m-0 tabular text-[1.5rem] leading-tight font-medium tracking-[-0.01em]" data-testid={testId}>
+    <div className={`flex flex-col gap-1 rounded-[18px] p-4 sm:p-5 ${emphasis ? 'bg-accent-soft' : 'bg-ground'}`}>
+      <dt className="ui text-[0.875rem] leading-snug font-medium text-muted">{label}</dt>
+      <dd className="figure m-0 text-[1.5rem] leading-tight" data-testid={testId}>
         {value}
       </dd>
       {note && <p className="ui text-[0.8125rem] leading-snug text-muted">{note}</p>}
@@ -119,38 +124,41 @@ function Results({ r, h }: { r: ThirteenthResult; h: ThirteenthHook }) {
   const year = h.state.year
   const deadline = r.separated ? 'when your employment ends, with your final pay' : `on or before December 24, ${year}`
   return (
-    <div aria-live="polite">
-      <p className="ui text-[0.9375rem] font-semibold">Estimated 13th month pay, {year}</p>
-      <p className="tabular mt-2 text-[clamp(2.75rem,1.4rem+3.6vw,5.5rem)] leading-[0.95] font-medium tracking-[-0.04em]" data-testid="thirteenth-total">
-        <AnimatedNumber value={r.fullYear.toNumber()} format={(n) => pesoExact(n)} />
-      </p>
-      <div className="ui mt-4 flex flex-wrap gap-2 text-[0.8125rem] font-semibold">
-        {r.hasProjection ? (
-          <span className="bg-warn-soft px-2.5 py-1 text-warn">Includes projected months</span>
-        ) : (
-          <span className="bg-gain-soft px-2.5 py-1 text-gain">Based on months already earned</span>
-        )}
-        {r.separated && <span className="bg-surface px-2.5 py-1">Separated: prorated</span>}
-        {r.hasPartialEstimate && <span className="bg-surface px-2.5 py-1">Partial month estimated</span>}
-      </div>
-      <p className="mt-4 max-w-[52ch] text-ink-2">
-        {peso(r.totalEligible)} eligible basic salary ÷ 12. Employers must pay it {deadline}.
-      </p>
+    <>
+      <ResultHero
+        label={`Estimated 13th month pay, ${year}`}
+        value={r.fullYear.toNumber()}
+        format={pesoExact}
+        testId="thirteenth-total"
+        caption={
+          <>
+            {peso(r.totalEligible)} eligible basic salary ÷ 12. Employers must pay it {deadline}.
+          </>
+        }
+      >
+        <div className="ui mt-5 flex flex-wrap gap-2 text-[0.8125rem] font-semibold">
+          {r.hasProjection ? (
+            <span className="rounded-full bg-white/15 px-3 py-1">Includes projected months</span>
+          ) : (
+            <span className="rounded-full bg-white/15 px-3 py-1">Based on months already earned</span>
+          )}
+          {r.separated && <span className="rounded-full bg-white/15 px-3 py-1">Separated: prorated</span>}
+          {r.hasPartialEstimate && <span className="rounded-full bg-white/15 px-3 py-1">Partial month estimated</span>}
+        </div>
+      </ResultHero>
 
       <AnimatePresence initial={false}>
         {(r.belowOneMonth || r.overpaid.gt(0)) && (
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.3, ease: EASE }} className="overflow-hidden">
-            <div className="ui mt-5 grid gap-2 text-[0.9375rem]">
+            <div className="ui grid gap-2 text-[0.9375rem]">
               {r.belowOneMonth && (
-                <p role="status" className="bg-warn-soft p-4">
-                  You worked less than one month in {year}. PD 851 covers employees who worked at least one month during the calendar year,
-                  so your employer may not be required to pay it.
+                <p role="status" className="rounded-[18px] bg-warn-soft p-4">
+                  You worked less than one month in {year}. PD 851 covers employees who worked at least one month during the calendar year, so your employer may not be required to pay it.
                 </p>
               )}
               {r.overpaid.gt(0) && (
-                <p role="status" className="bg-warn-soft p-4">
-                  You were already paid {pesoExact(r.overpaid)} more than this estimate. Check with HR: the difference may be a bonus, not 13th month
-                  pay.
+                <p role="status" className="rounded-[18px] bg-warn-soft p-4">
+                  You were already paid {pesoExact(r.overpaid)} more than this estimate. Check with HR: the difference may be a bonus, not 13th month pay.
                 </p>
               )}
             </div>
@@ -158,20 +166,22 @@ function Results({ r, h }: { r: ThirteenthResult; h: ThirteenthHook }) {
         )}
       </AnimatePresence>
 
-      <dl className="m-0 mt-8 grid gap-2 sm:grid-cols-2">
-        <Stat label="Total eligible basic salary" value={<AnimatedNumber value={r.totalEligible.toNumber()} format={pesoExact} />} note={r.hasProjection ? `${pesoExact(r.totalProjected)} of this is projected` : 'All earned'} />
-        <Stat label="Earned-to-date 13th month pay" value={<AnimatedNumber value={r.earnedToDate.toNumber()} format={pesoExact} />} note={`Months completed by ${dateLabel(h.today)}`} testId="earned-to-date" />
-        <Stat label="Projected full-year 13th month pay" value={<AnimatedNumber value={r.fullYear.toNumber()} format={pesoExact} />} note={r.hasProjection ? 'Assumes your salary continues as entered' : 'Same as earned: nothing is projected'} />
-        <Stat label="Previously paid amount" value={<AnimatedNumber value={r.previouslyPaid.toNumber()} format={pesoExact} />} note="Advances or installments already received" />
-        <Stat emphasis label="Estimated remaining entitlement" value={<AnimatedNumber value={r.remaining.toNumber()} format={pesoExact} />} note="Full-year amount minus what was already paid" testId="remaining-entitlement" />
-        <Stat
-          label="Potentially taxable benefits"
-          value={<AnimatedNumber value={r.tax.potentiallyTaxable.toNumber()} format={pesoExact} />}
-          note={`Above the ${peso(r.tax.ceiling)} combined exemption`}
-          testId="potentially-taxable"
-        />
-      </dl>
-    </div>
+      <div className="card p-3 sm:p-4">
+        <dl className="m-0 grid gap-2 sm:grid-cols-2">
+          <Stat label="Earned so far" value={<AnimatedNumber value={r.earnedToDate.toNumber()} format={pesoExact} />} note={`Months completed by ${dateLabel(h.today)}`} testId="earned-to-date" />
+          <Stat emphasis label="Still to be paid" value={<AnimatedNumber value={r.remaining.toNumber()} format={pesoExact} />} note="Full-year amount minus what was already paid" testId="remaining-entitlement" />
+          <Stat label="Total eligible basic salary" value={<AnimatedNumber value={r.totalEligible.toNumber()} format={pesoExact} />} note={r.hasProjection ? `${pesoExact(r.totalProjected)} of this is projected` : 'All earned'} />
+          <Stat label="Already paid" value={<AnimatedNumber value={r.previouslyPaid.toNumber()} format={pesoExact} />} note="Advances or installments received" />
+          <Stat
+            label="Potentially taxable benefits"
+            value={<AnimatedNumber value={r.tax.potentiallyTaxable.toNumber()} format={pesoExact} />}
+            note={`Above the ${peso(r.tax.ceiling)} combined exemption`}
+            testId="potentially-taxable"
+          />
+          <Stat label="Projected full year" value={<AnimatedNumber value={r.fullYear.toNumber()} format={pesoExact} />} note={r.hasProjection ? 'Assumes your salary continues as entered' : 'Same as earned: nothing is projected'} />
+        </dl>
+      </div>
+    </>
   )
 }
 
@@ -193,7 +203,7 @@ function SalaryChanges({ h }: { h: ThirteenthHook }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.25, ease: EASE }}
-              className="grid items-end gap-3 bg-paper p-4 sm:grid-cols-[1fr_1fr_auto]"
+              className="tile grid items-end gap-3 p-4 sm:grid-cols-[1fr_1fr_auto]"
             >
               <SelectField
                 label="Starting"
@@ -202,7 +212,7 @@ function SalaryChanges({ h }: { h: ThirteenthHook }) {
                 options={MONTH_NAMES.map((m, k) => ({ value: String(k + 1), label: m }))}
               />
               <AmountField label="New monthly basic salary" value={c.monthly} onChange={(v) => set(changes.map((x, j) => (j === i ? { ...x, monthly: v } : x)))} />
-              <button type="button" className="btn bg-surface hover:bg-surface-2" onClick={() => set(changes.filter((_, j) => j !== i))} aria-label={`Remove the salary change starting ${MONTH_NAMES[c.month - 1]}`}>
+              <button type="button" className="btn btn-paper h-[52px]" onClick={() => set(changes.filter((_, j) => j !== i))} aria-label={`Remove the salary change starting ${MONTH_NAMES[c.month - 1]}`}>
                 <Trash2 aria-hidden="true" size={18} />
               </button>
             </motion.li>
@@ -223,17 +233,17 @@ function MonthEditor({ row, entry, h }: { row: MonthRow; entry: MonthEntry; h: T
   const edited = entry.actual != null || !!entry.unpaidAbsences || !!entry.adjustment || !!entry.maternityDifferential
   const reduce = useReducedMotion()
   return (
-    <li className="bg-paper">
+    <li className="rounded-[18px] bg-ground">
       <button
         type="button"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="ui flex min-h-[56px] w-full cursor-pointer items-center justify-between gap-3 border-0 bg-transparent px-4 py-3 text-left text-[1rem] font-medium transition-colors hover:bg-surface"
+        className="ui flex min-h-[56px] w-full cursor-pointer items-center justify-between gap-3 rounded-[18px] border-0 bg-transparent px-4 py-3 text-left text-[1rem] font-medium transition-colors hover:bg-surface"
       >
         <span className="flex items-center gap-2">
           {name}
-          {edited && <span className="bg-accent-soft px-2 py-0.5 text-[0.75rem] font-semibold text-accent">Edited</span>}
-          {row.partial && <span className="bg-surface px-2 py-0.5 text-[0.75rem] font-semibold">Partial</span>}
+          {edited && <span className="rounded-full bg-accent-soft px-2.5 py-0.5 text-[0.75rem] font-semibold text-accent">Edited</span>}
+          {row.partial && <span className="rounded-full bg-surface px-2.5 py-0.5 text-[0.75rem] font-semibold">Partial</span>}
         </span>
         <span className="flex items-center gap-3">
           <span className="tabular text-ink-2">{pesoExact(row.total)}</span>
@@ -280,19 +290,21 @@ function Advanced({ h, r }: { h: ThirteenthHook; r: ThirteenthResult | null }) {
   const [open, setOpen] = useState(false)
   const reduce = useReducedMotion()
   return (
-    <div className="bg-surface">
+    <div className="card">
       <button
         type="button"
         aria-expanded={open}
         aria-controls="thirteenth-advanced"
         onClick={() => setOpen((v) => !v)}
-        className="flex w-full cursor-pointer items-center justify-between gap-4 border-0 bg-transparent px-5 py-6 text-left text-ink transition-colors hover:bg-surface-2 sm:px-8"
+        className="group flex w-full cursor-pointer items-center justify-between gap-4 rounded-[28px] border-0 bg-transparent px-5 py-6 text-left text-ink transition-colors hover:bg-black/[0.025] sm:px-8"
       >
         <span>
-          <span className="block text-[1.5rem] leading-tight">Advanced calculator</span>
-          <span className="ui mt-1 block text-[0.9375rem] text-ink-2">Salary changes, partial months, unpaid absences, adjustments, maternity differential, earlier payments and other benefits.</span>
+          <span className="serif block text-[1.5rem] leading-tight tracking-[-0.015em]">Advanced calculator</span>
+          <span className="ui mt-1 block text-[0.9375rem] text-muted">Salary changes, partial months, unpaid absences, adjustments, maternity differential, earlier payments and other benefits.</span>
         </span>
-        <ChevronDown aria-hidden="true" size={26} className={`shrink-0 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
+        <span aria-hidden="true" className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors ${open ? 'bg-ink text-ground' : 'bg-surface group-hover:bg-surface-2'}`}>
+          <ChevronDown size={20} className={`transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
+        </span>
       </button>
       <AnimatePresence initial={false}>
         {open && (
@@ -325,7 +337,7 @@ function Advanced({ h, r }: { h: ThirteenthHook; r: ThirteenthResult | null }) {
               </div>
               <div className="lg:col-span-7">
                 <h3 className="text-[1.375rem] leading-tight">Month by month</h3>
-                <p className="ui mt-2 text-[0.9375rem] text-ink-2">
+                <p className="ui mt-2 text-[0.9375rem] text-muted">
                   Open a month to enter what your payslip shows. Entering an actual amount replaces the estimate for that month.
                 </p>
                 {r ? (
@@ -337,7 +349,7 @@ function Advanced({ h, r }: { h: ThirteenthHook; r: ThirteenthResult | null }) {
                       ))}
                   </ul>
                 ) : (
-                  <p className="ui mt-5 bg-paper p-4 text-ink-2">Fix the dates above to edit months.</p>
+                  <p className="ui tile mt-5 p-4 text-ink-2">Fix the dates above to edit months.</p>
                 )}
               </div>
             </div>
@@ -354,7 +366,7 @@ const STATUS_LABEL = { actual: 'Actual', projected: 'Projected', 'not-employed':
 function StatusBadge({ row }: { row: MonthRow }) {
   const tone = row.status === 'actual' ? 'bg-gain-soft text-gain' : row.status === 'projected' ? 'bg-warn-soft text-warn' : 'bg-surface text-muted'
   return (
-    <span className={`ui inline-block px-2 py-0.5 text-[0.8125rem] font-semibold whitespace-nowrap ${tone}`}>
+    <span className={`ui inline-block rounded-full px-2.5 py-0.5 text-[0.8125rem] font-semibold whitespace-nowrap ${tone}`}>
       {STATUS_LABEL[row.status]}
       {row.partial ? ' · partial est.' : ''}
     </span>
@@ -364,35 +376,30 @@ const adj = (r: MonthRow) => r.adjustment.plus(r.maternityDifferential).minus(r.
 
 function Breakdown({ r }: { r: ThirteenthResult }) {
   return (
-    <section aria-labelledby="breakdown-title" className="mt-2 bg-paper px-5 py-10 sm:px-8 lg:px-[6%] lg:py-16">
-      <Reveal>
-        <h2 id="breakdown-title" className="text-[clamp(1.75rem,1.2rem+1.6vw,2.5rem)] leading-[1.1]">
-          Monthly breakdown
-        </h2>
-        <p className="ui mt-2 max-w-[60ch] text-[0.9375rem] text-ink-2">
+    <Disclosure size="lg" headingLevel={2} title={<span id="breakdown-title">Monthly breakdown</span>} summary={`Total ÷ 12 = ${pesoExact(r.fullYear)}`}>
+        <p className="ui max-w-[60ch] text-[0.9375rem] text-muted">
           Actual months have already ended. Projected months assume your salary continues and are not yet earned.
         </p>
-      </Reveal>
       {/* Wide screens: a table */}
-      <table className="ui mt-8 hidden w-full border-collapse text-[0.9375rem] md:table">
+      <table className="data-table ui mt-6 hidden md:table">
         <caption className="sr-only">Eligible earnings by month</caption>
         <thead>
-          <tr className="border-b border-surface-2 text-left text-ink-2">
-            <th scope="col" className="py-3 pr-4 font-medium">Month</th>
-            <th scope="col" className="py-3 pr-4 text-right font-medium">Eligible basic salary</th>
-            <th scope="col" className="py-3 pr-4 text-right font-medium">Adjustments</th>
-            <th scope="col" className="py-3 pr-4 text-right font-medium">Total eligible earnings</th>
-            <th scope="col" className="py-3 font-medium">Status</th>
+          <tr>
+            <th scope="col">Month</th>
+            <th scope="col" className="!text-right">Eligible basic salary</th>
+            <th scope="col" className="!text-right">Adjustments</th>
+            <th scope="col" className="!text-right">Total eligible earnings</th>
+            <th scope="col">Status</th>
           </tr>
         </thead>
         <tbody className="tabular">
           {r.months.map((m) => (
-            <tr key={m.month} className={`border-b border-surface transition-colors hover:bg-ground ${m.status === 'not-employed' ? 'text-muted' : ''}`}>
-              <th scope="row" className="py-3 pr-4 text-left font-medium">{MONTH_NAMES[m.month - 1]}</th>
-              <td className="py-3 pr-4 text-right">{pesoExact(m.basic)}</td>
-              <td className="py-3 pr-4 text-right">{adj(m).isZero() ? '—' : pesoExact(adj(m))}</td>
-              <td className="py-3 pr-4 text-right font-semibold">{pesoExact(m.total)}</td>
-              <td className="py-3"><StatusBadge row={m} /></td>
+            <tr key={m.month} className={m.status === 'not-employed' ? 'text-muted' : ''}>
+              <th scope="row" className="font-medium">{MONTH_NAMES[m.month - 1]}</th>
+              <td className="!text-right">{pesoExact(m.basic)}</td>
+              <td className="!text-right">{adj(m).isZero() ? '—' : pesoExact(adj(m))}</td>
+              <td className="!text-right font-semibold">{pesoExact(m.total)}</td>
+              <td><StatusBadge row={m} /></td>
             </tr>
           ))}
         </tbody>
@@ -406,9 +413,9 @@ function Breakdown({ r }: { r: ThirteenthResult }) {
         </tfoot>
       </table>
       {/* Phones: one card per month */}
-      <ul className="ui m-0 mt-8 grid list-none gap-1 p-0 md:hidden">
+      <ul className="ui m-0 mt-6 grid list-none gap-1.5 p-0 md:hidden">
         {r.months.map((m) => (
-          <li key={m.month} className={`grid grid-cols-[1fr_auto] gap-x-4 gap-y-1 bg-ground px-4 py-3 ${m.status === 'not-employed' ? 'text-muted' : ''}`}>
+          <li key={m.month} className={`grid grid-cols-[1fr_auto] gap-x-4 gap-y-1 rounded-[16px] bg-ground px-4 py-3 ${m.status === 'not-employed' ? 'text-muted' : ''}`}>
             <span className="font-semibold">{MONTH_NAMES[m.month - 1]}</span>
             <span className="tabular text-right font-semibold">{pesoExact(m.total)}</span>
             <span className="text-[0.8125rem] text-ink-2">
@@ -418,12 +425,12 @@ function Breakdown({ r }: { r: ThirteenthResult }) {
             <span className="text-right"><StatusBadge row={m} /></span>
           </li>
         ))}
-        <li className="grid grid-cols-[1fr_auto] gap-x-4 bg-ink px-4 py-3 text-ground">
+        <li className="grid grid-cols-[1fr_auto] gap-x-4 rounded-[16px] bg-ink px-4 py-3 text-ground">
           <span className="font-semibold">Total ÷ 12</span>
           <span className="tabular text-right font-semibold">{pesoExact(r.fullYear)}</span>
         </li>
       </ul>
-    </section>
+    </Disclosure>
   )
 }
 
@@ -435,10 +442,10 @@ function TaxCheck({ r, h }: { r: ThirteenthResult; h: ThirteenthHook }) {
   const scale = Math.max(combined, t.ceiling) || 1
   const reduce = useReducedMotion()
   return (
-    <section aria-labelledby="tax-title" className="mt-[clamp(72px,8vw,140px)]">
+    <section aria-labelledby="tax-title" className="mt-[clamp(80px,9vw,140px)]">
       <div className="grid gap-10 lg:grid-cols-12">
         <Reveal className="lg:col-span-5">
-          <h2 id="tax-title" className="text-[clamp(2rem,1.4rem+2vw,3rem)] leading-[1.05]">
+          <h2 id="tax-title" className="text-[clamp(2rem,1.5rem+1.6vw,3rem)] leading-[1.05]">
             Taxable Ba Ang 13th Month Pay Ko?
           </h2>
           <p className="mt-4 max-w-[46ch]">
@@ -463,11 +470,11 @@ function TaxCheck({ r, h }: { r: ThirteenthResult; h: ThirteenthHook }) {
           </div>
         </Reveal>
         <Reveal delay={0.08} className="lg:col-span-7">
-          <div className="bg-paper p-5 sm:p-8">
+          <div className="card p-5 sm:p-8">
             <p className="ui text-[0.9375rem] font-semibold">13th month pay + other benefits</p>
-            <p className="tabular mt-1 text-[2.25rem] leading-tight font-medium">{pesoExact(t.combined)}</p>
-            <div className="relative mt-6 h-4 bg-surface" role="img" aria-label={`${pesoExact(t.exempt)} exempt and ${pesoExact(t.potentiallyTaxable)} potentially taxable, against a ${peso(t.ceiling)} ceiling`}>
-              <motion.div className="absolute inset-y-0 left-0 bg-gain" initial={false} animate={{ width: `${(t.exempt.toNumber() / scale) * 100}%` }} transition={reduce ? { duration: 0 } : { duration: 0.6, ease: EASE }} />
+            <p className="figure mt-2 text-[2.5rem] leading-tight">{pesoExact(t.combined)}</p>
+            <div className="relative mt-6 h-4 rounded-full bg-surface" role="img" aria-label={`${pesoExact(t.exempt)} exempt and ${pesoExact(t.potentiallyTaxable)} potentially taxable, against a ${peso(t.ceiling)} ceiling`}>
+              <motion.div className="absolute inset-y-0 left-0 rounded-l-full bg-gain" initial={false} animate={{ width: `${(t.exempt.toNumber() / scale) * 100}%` }} transition={reduce ? { duration: 0 } : { duration: 0.6, ease: EASE }} />
               <motion.div
                 className="absolute inset-y-0 bg-loss"
                 initial={false}
@@ -519,10 +526,10 @@ function MobileResultBar({ r, target, area }: { r: ThirteenthResult | null; targ
           exit={{ y: 80, opacity: 0 }}
           transition={{ duration: 0.35, ease: EASE }}
           onClick={() => target.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-          className="ui fixed inset-x-3 bottom-3 z-30 flex cursor-pointer items-center justify-between gap-3 border-0 bg-ink px-5 py-3.5 text-left text-ground shadow-[0_12px_32px_-12px_rgba(0,0,0,0.5)] lg:hidden"
+          className="ui fixed inset-x-3 bottom-[max(12px,env(safe-area-inset-bottom))] z-30 flex cursor-pointer items-center justify-between gap-3 rounded-[20px] border-0 bg-ink px-5 py-3.5 text-left text-ground shadow-[0_12px_32px_-12px_rgba(0,0,0,0.5)] lg:hidden"
         >
           <span className="text-[0.875rem]">Estimated 13th month pay</span>
-          <span className="tabular text-[1.125rem] font-semibold">{pesoExact(r!.fullYear)}</span>
+          <span className="figure text-[1.25rem]">{pesoExact(r!.fullYear)}</span>
         </motion.button>
       )}
     </AnimatePresence>
@@ -534,38 +541,35 @@ export function ThirteenthSection({ h }: { h: ThirteenthHook }) {
   const areaRef = useRef<HTMLDivElement>(null)
   const r = h.result.ok ? h.result.value : null
   return (
-    <section id="thirteenth" aria-labelledby="thirteenth-title" className="px-[var(--gutter)] pt-[clamp(24px,4vw,56px)]">
-      <div ref={areaRef}>
-      <div className="grid gap-0 lg:grid-cols-2">
-        <div className="on-dark bg-night px-5 py-10 text-night-ink sm:px-8 lg:px-[8%] lg:py-16">
-          <Reveal>
-            <h1 id="thirteenth-title" className="text-step-head">
-              Magkano Ang 13th Month Pay Mo?
-            </h1>
-            <p className="mt-4 max-w-[46ch] text-night-muted">Calculate your estimated 13th-month pay based on Philippine labor laws.</p>
-          </Reveal>
-          <QuickInputs h={h} />
+    <section id="thirteenth" aria-labelledby="thirteenth-title">
+      <ToolHeader
+        path="/13th-month"
+        id="thirteenth-title"
+        title="Magkano Ang 13th Month Pay Mo?"
+        lede="Calculate your estimated 13th-month pay based on Philippine labor laws."
+        meta={<p className="ui text-[0.875rem] text-muted">Under PD 851, prorated for new hires and resignations, with the ₱90,000 tax check.</p>}
+      />
+      <div className="wrap">
+        <div ref={areaRef} className="grid gap-4">
+          <CalcGrid
+            inputs={<QuickInputs h={h} />}
+            result={
+              <div ref={resultsRef} className="grid scroll-mt-24 gap-4">
+                {r ? (
+                  <Results r={r} h={h} />
+                ) : (
+                  <p role="alert" className="ui field-error rounded-[22px] bg-loss-soft p-5 text-[1rem]">
+                    {!h.result.ok && h.result.error}
+                  </p>
+                )}
+              </div>
+            }
+          />
+          <Advanced h={h} r={r} />
+          {r && <Breakdown r={r} />}
         </div>
-        <div ref={resultsRef} className="scroll-mt-24 bg-paper px-5 py-10 sm:px-8 lg:px-[8%] lg:py-16">
-          {r ? (
-            <Results r={r} h={h} />
-          ) : (
-            <p role="alert" className="ui field-error bg-loss-soft p-4 text-[1rem]">
-              {!h.result.ok && h.result.error}
-            </p>
-          )}
-        </div>
+        {r && <TaxCheck r={r} h={h} />}
       </div>
-      <div className="mt-2">
-        <Advanced h={h} r={r} />
-      </div>
-      {r && <Breakdown r={r} />}
-      </div>
-      {r && (
-        <div className="wrap !px-0">
-          <TaxCheck r={r} h={h} />
-        </div>
-      )}
       <MobileResultBar r={r} target={resultsRef} area={areaRef} />
     </section>
   )

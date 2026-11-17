@@ -6,7 +6,7 @@ import { banks, mp2 } from '../../data'
 import { safe, type ScenarioState } from '../../hooks/useScenario'
 import { peso, pesoSigned } from '../../utils/format'
 import { Segmented } from '../ui/fields'
-import { Reveal } from '../ui/motion'
+import { ToolHeader } from '../layout/Page'
 import { Link } from '../../router'
 
 /** Projection start date, fixed for the session. */
@@ -66,35 +66,32 @@ export function CompareSection({ s }: { s: ScenarioState }) {
   ]
 
   return (
-    <section id="compare" aria-labelledby="compare-title" className="pt-[clamp(24px,4vw,56px)] px-[var(--gutter)]">
-      <div className="bg-surface px-5 py-14 sm:px-8 lg:px-[6%] lg:py-24">
-        <div className="grid gap-8 lg:grid-cols-12">
-          <Reveal className="lg:col-span-5">
-            <h1 id="compare-title" className="text-step-head">
-              MP2 vs digital banks
-            </h1>
-          </Reveal>
-          <Reveal delay={0.08} className="lg:col-span-7">
-            <p className="max-w-[56ch]">
-              The same {peso(s.scenario.monthly)} a month{s.scenario.initial > 0 ? ` and ${peso(s.scenario.initial)} upfront` : ''} for{' '}
-              {s.scenario.years} years, under {s.inflation.label}. Banks use their base rates after the {banks.tax.ratePct}% tax;
-              MP2 uses the dividend rate you chose in the MP2 calculator, tax-free. The highest line is not automatically the best
-              choice: read the notes below.
-            </p>
-            <p className="ui mt-4 flex flex-wrap gap-x-5 gap-y-2 text-[0.9375rem]">
-              <Link className="link" to="/mp2">
-                Change the amounts or MP2 rate
-              </Link>
-              <Link className="link" to="/banks">
-                Pick a bank product
-              </Link>
-            </p>
-          </Reveal>
-        </div>
-
-        <div className="mt-10 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+    <section id="compare" aria-labelledby="compare-title">
+      <ToolHeader
+        path="/compare"
+        id="compare-title"
+        title="MP2 vs digital banks"
+        lede={
+          <>
+            The same {peso(s.scenario.monthly)} a month{s.scenario.initial > 0 ? ` and ${peso(s.scenario.initial)} upfront` : ''} for {s.scenario.years} years, under {s.inflation.label}. Banks use
+            base rates after the {banks.tax.ratePct}% tax; MP2 uses your chosen dividend rate, tax-free.
+          </>
+        }
+        meta={
+          <p className="ui flex flex-wrap gap-x-5 gap-y-2 text-[0.9375rem]">
+            <Link className="link" to="/mp2">
+              Change the amounts or MP2 rate
+            </Link>
+            <Link className="link" to="/banks">
+              Pick a bank product
+            </Link>
+          </p>
+        }
+      />
+      <div className="wrap">
+        <div className="card flex flex-col gap-6 p-5 sm:p-7 lg:flex-row lg:items-end lg:justify-between">
           <fieldset className="ui m-0 min-w-0 border-0 p-0">
-            <legend className="mb-3 p-0 text-[0.9375rem] font-medium">Show options</legend>
+            <legend className="field-label p-0">Show options</legend>
             <div className="flex flex-wrap gap-2">
               {OPTIONS.map((opt) => {
                 const product = banks.products.find((p) => p.id === opt.id)
@@ -103,7 +100,7 @@ export function CompareSection({ s }: { s: ScenarioState }) {
                 return (
                   <label
                     key={opt.id}
-                    className={`flex min-h-11 cursor-pointer items-center gap-2.5 px-3.5 py-2 text-[0.9375rem] transition-colors ${checked && !disabled ? 'bg-ink text-ground' : 'bg-paper hover:bg-ground'} ${disabled ? 'cursor-not-allowed opacity-60' : ''}`}
+                    data-on={checked && !disabled} data-disabled={disabled} className="chip !bg-ground data-[on=true]:!bg-ink"
                     title={disabled ? 'Time deposits take one placement; set the monthly amount to ₱0 to compare.' : undefined}
                   >
                     <input type="checkbox" className="sr-only" checked={checked} disabled={disabled} onChange={() => toggle(opt.id)} />
@@ -127,11 +124,11 @@ export function CompareSection({ s }: { s: ScenarioState }) {
             />
           </div>
         </div>
-        {recurring && <p className="ui mt-3 text-sm text-ink-2">Time deposits are greyed out because they take a single placement. Set the monthly amount to ₱0 to compare them.</p>}
+        {recurring && <p className="ui mt-3 px-2 text-sm text-muted">Time deposits are greyed out because they take a single placement. Set the monthly amount to ₱0 to compare them.</p>}
 
-        <div className="mt-10 bg-paper p-4 sm:p-6">
+        <div className="card mt-4 p-4 sm:p-7">
           {series.length === 0 ? (
-            <p className="ui p-8 text-center text-ink-2">Choose at least one option to compare.</p>
+            <p className="ui p-8 text-center text-muted">Choose at least one option to compare.</p>
           ) : (
             <ComparisonChart series={series} contributed={reference} mode={mode} />
           )}
@@ -179,14 +176,14 @@ export function CompareSection({ s }: { s: ScenarioState }) {
           const swatch = (id: string) => <span aria-hidden="true" className="mr-2 inline-block h-3 w-3 shrink-0 rounded-full" style={{ background: colorOf(id) }} />
           return (
             <>
-              <table className="ui mt-10 hidden w-full border-collapse text-left text-[0.9375rem] lg:table">
+              <div className="card mt-4 hidden p-3 lg:block"><table className="data-table ui">
                 <thead>
-                  <tr className="bg-ground">
-                    <th scope="col" className="p-3 font-semibold">
+                  <tr>
+                    <th scope="col">
                       Option
                     </th>
                     {heads.map((h) => (
-                      <th key={h} scope="col" className="p-3 font-semibold">
+                      <th key={h} scope="col">
                         {h}
                       </th>
                     ))}
@@ -194,18 +191,18 @@ export function CompareSection({ s }: { s: ScenarioState }) {
                 </thead>
                 <tbody className="tabular">
                   {rows.map((row) => (
-                    <tr key={row.id} className="align-top odd:bg-paper even:bg-ground">
-                      <th scope="row" className="p-3 font-medium">
+                    <tr key={row.id}>
+                      <th scope="row" className="font-medium whitespace-nowrap">
                         {swatch(row.id)}
                         {row.name}
                       </th>
                       {row.error ? (
-                        <td colSpan={6} className="p-3 text-loss">
+                        <td colSpan={6} className="text-loss">
                           {row.error}
                         </td>
                       ) : (
                         row.cells.map((c) => (
-                          <td key={c.h} className={`p-3 ${c.cls ?? ''}`}>
+                          <td key={c.h} className={c.cls ?? ''}>
                             {c.v}
                           </td>
                         ))
@@ -213,10 +210,10 @@ export function CompareSection({ s }: { s: ScenarioState }) {
                     </tr>
                   ))}
                 </tbody>
-              </table>
-              <ul className="ui m-0 mt-10 grid list-none gap-2 p-0 sm:grid-cols-2 lg:hidden">
+              </table></div>
+              <ul className="ui m-0 mt-4 grid list-none gap-3 p-0 sm:grid-cols-2 lg:hidden">
                 {rows.map((row) => (
-                  <li key={row.id} className="bg-paper p-5">
+                  <li key={row.id} className="card p-5">
                     <h3 className="flex items-center text-[1.0625rem] font-semibold tracking-normal">
                       {swatch(row.id)}
                       {row.name}

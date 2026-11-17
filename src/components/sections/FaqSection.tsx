@@ -3,6 +3,7 @@ import { banks, fuel, inflation, latestMp2, mp2 } from '../../data'
 import { dateLabel, monthLabel } from '../../utils/format'
 
 import { REPO } from '../../site'
+import { Disclosure } from '../ui/Disclosure'
 
 const QA: { q: string; a: ReactNode }[] = [
   {
@@ -80,19 +81,19 @@ const QA: { q: string; a: ReactNode }[] = [
 
 export function FaqSection() {
   return (
-    <section id="faq" aria-labelledby="faq-title" className="mt-[clamp(96px,10vw,180px)]">
-      <div className="wrap">
-        <div className="grid gap-y-[clamp(48px,6vw,84px)]">
-          <div className="grid md:grid-cols-12">
-            <h2 id="faq-title" className="text-[clamp(1.625rem,2.6vw,2.5rem)] leading-[1.1] text-muted md:col-span-6">
-              Questions, answered
-            </h2>
-          </div>
-          {QA.map((item) => (
-            <div key={item.q} className="grid gap-3 md:grid-cols-12 md:gap-0">
-              <h3 className="text-[clamp(1.5rem,2.6vw,2.5rem)] leading-[1.1] md:col-span-6 md:pr-8">{item.q}</h3>
-              <p className="max-w-[44ch] text-[1.0625rem] leading-[1.6] md:col-span-5 md:col-start-8 md:pt-1.5">{item.a}</p>
-            </div>
+    <section id="faq" aria-labelledby="faq-title" className="wrap mt-[clamp(80px,9vw,140px)] scroll-mt-24">
+      <div className="grid gap-8 lg:grid-cols-12">
+        <div className="lg:col-span-4">
+          <h2 id="faq-title" className="text-step-head">
+            Questions, answered
+          </h2>
+          <p className="mt-4 max-w-[34ch] text-ink-2">How the numbers are made, and what they can and cannot tell you.</p>
+        </div>
+        <div className="grid gap-2 lg:col-span-8">
+          {QA.map((item, i) => (
+            <Disclosure key={item.q} title={item.q} defaultOpen={i === 0} headingLevel={3}>
+              <p className="max-w-[62ch] text-[1.0625rem] leading-[1.65] text-ink-2">{item.a}</p>
+            </Disclosure>
           ))}
         </div>
       </div>

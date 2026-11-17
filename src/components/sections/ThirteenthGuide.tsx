@@ -72,13 +72,13 @@ function Faq({ item, i }: { item: (typeof QA)[number]; i: number }) {
   const [open, setOpen] = useState(i === 0)
   const reduce = useReducedMotion()
   return (
-    <li className="border-t border-surface-2 last:border-b">
+    <li className="rounded-[22px] bg-paper">
       <h3 className="m-0 text-[clamp(1.25rem,1.1rem+0.6vw,1.625rem)] leading-tight">
         <button
           type="button"
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="flex w-full cursor-pointer items-center justify-between gap-4 border-0 bg-transparent py-5 text-left font-[inherit] text-[inherit] text-ink transition-colors hover:text-accent"
+          className="flex w-full cursor-pointer items-center justify-between gap-4 rounded-[22px] border-0 bg-transparent px-5 py-5 text-left font-[inherit] text-[inherit] text-ink transition-colors hover:text-accent sm:px-6"
         >
           {item.q}
           <ChevronDown aria-hidden="true" size={22} className={`shrink-0 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
@@ -93,7 +93,7 @@ function Faq({ item, i }: { item: (typeof QA)[number]; i: number }) {
             transition={{ duration: 0.3, ease: EASE }}
             className="overflow-hidden"
           >
-            <p className="max-w-[62ch] pb-6 text-[1.0625rem] leading-[1.65] text-ink-2">{item.a}</p>
+            <p className="max-w-[62ch] px-5 pb-6 text-[1.0625rem] leading-[1.65] text-ink-2 sm:px-6">{item.a}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -107,7 +107,7 @@ export function ThirteenthLiteracy() {
       <div className="wrap grid gap-10 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <Reveal>
-            <h2 id="literacy-title" className="text-step-head">
+            <h2 id="literacy-title" className="text-[clamp(2rem,1.5rem+1.6vw,3rem)] leading-[1.05]">
               Mga Dapat Mong Malaman
             </h2>
             <p className="mt-4 text-ink-2">Ang basics ng 13th month pay, sa simpleng salita.</p>
@@ -117,7 +117,7 @@ export function ThirteenthLiteracy() {
             <ul className="m-0 mt-3 grid list-none gap-2 p-0 text-[0.9375rem]">
               {SOURCES.map((s) => (
                 <li key={s.href}>
-                  <a className="link" href={s.href} target="_blank" rel="noreferrer">
+                  <a className="link" href={s.href} target="_blank" rel="noopener noreferrer">
                     {s.label}
                   </a>
                 </li>
@@ -125,7 +125,7 @@ export function ThirteenthLiteracy() {
             </ul>
           </Reveal>
         </div>
-        <ul className="m-0 list-none p-0 lg:col-span-7 lg:col-start-6">
+        <ul className="m-0 grid list-none gap-2 p-0 lg:col-span-7 lg:col-start-6">
           {QA.map((item, i) => (
             <Faq key={item.q} item={item} i={i} />
           ))}
@@ -176,12 +176,11 @@ export function ThirteenthAllocation({ amount, s }: { amount: number; s: Scenari
 
   if (amount <= 0) return null
   return (
-    <section aria-labelledby="allocation-title" className="mt-[clamp(96px,10vw,180px)] px-[var(--gutter)]">
-      <div className="bg-surface px-5 py-12 sm:px-8 lg:px-[6%] lg:py-20">
+    <section aria-labelledby="allocation-title" className="wrap mt-[clamp(96px,10vw,180px)]">
+      <div className="card-soft p-5 sm:p-8 lg:p-12">
         <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
           <Reveal className="lg:col-span-6">
-            <p className="ui text-[0.875rem] font-semibold text-accent">Optional</p>
-            <h2 id="allocation-title" className="mt-2 text-[clamp(1.875rem,1.3rem+2vw,3rem)] leading-[1.05]">
+            <h2 id="allocation-title" className="text-[clamp(1.875rem,1.3rem+2vw,3rem)] leading-[1.05]">
               Anong Gagawin Mo Sa 13th Month Pay Mo?
             </h2>
           </Reveal>
@@ -192,7 +191,7 @@ export function ThirteenthAllocation({ amount, s }: { amount: number; s: Scenari
           </Reveal>
         </div>
 
-        <div className="mt-10 flex h-5 overflow-hidden bg-surface-2" role="img" aria-label={split.map((b) => `${b.label} ${b.pct}%`).join(', ')}>
+        <div className="mt-10 flex h-4 overflow-hidden rounded-full bg-surface-2" role="img" aria-label={split.map((b) => `${b.label} ${b.pct}%`).join(', ')}>
           {split.map((b) => (
             <motion.div key={b.key} className="h-full" style={{ background: b.color }} initial={false} animate={{ width: `${(b.pct / Math.max(total, 100)) * 100}%` }} transition={reduce ? { duration: 0 } : { duration: 0.5, ease: EASE }} />
           ))}
@@ -203,13 +202,13 @@ export function ThirteenthAllocation({ amount, s }: { amount: number; s: Scenari
 
         <ul className="m-0 mt-8 grid list-none gap-2 p-0 sm:grid-cols-2 lg:grid-cols-3">
           {split.map((b, i) => (
-            <li key={b.key} className="grid content-between gap-4 bg-paper p-5">
+            <li key={b.key} className="card grid content-between gap-4 !rounded-[22px] p-5">
               <div className="flex items-start justify-between gap-3">
                 <span className="ui flex items-center gap-2 font-semibold">
-                  <span aria-hidden="true" className="h-3 w-3 shrink-0" style={{ background: b.color }} />
+                  <span aria-hidden="true" className="h-3 w-3 shrink-0 rounded-full" style={{ background: b.color }} />
                   {b.label}
                 </span>
-                <span className="tabular text-[1.25rem] font-medium">{pesoExact(amt(b.key))}</span>
+                <span className="figure text-[1.25rem]">{pesoExact(amt(b.key))}</span>
               </div>
               <NumberField label={`Share for ${b.label.toLowerCase()}`} value={b.pct} min={0} max={100} step={1} suffix="%" onChange={(v) => setSplit(split.map((x, j) => (j === i ? { ...x, pct: v } : x)))} />
               {b.key === 'mp2' && projections.mp2 != null && (
