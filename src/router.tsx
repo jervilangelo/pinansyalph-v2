@@ -20,19 +20,19 @@ export const GROUPS: { id: GroupId; label: string; gloss: string; question: stri
   { id: 'presyo', label: 'Presyo', gloss: 'Prices', question: 'What things cost now' },
 ]
 
-export type PageInfo = { path: Exclude<Route, '/'>; label: string; name: string; title: string; blurb: string; group?: GroupId }
+export type PageInfo = { path: Exclude<Route, '/'>; label: string; name: string; title: string; blurb: string; /** One short line for the Tools menu. */ hint?: string; group?: GroupId }
 
 export const PAGES: PageInfo[] = [
-  { path: '/sweldo', label: 'Sweldo', name: 'Sweldo calculator', title: 'Saan napupunta ang sweldo ko?', blurb: 'Take-home pay after SSS, PhilHealth, Pag-IBIG and tax, then your monthly budget.', group: 'sahod' },
-  { path: '/underpaid-ba-ko', label: 'Underpaid ba ko?', name: 'Underpaid ba ko?', title: 'Underpaid ba ko?', blurb: 'Compare your pay with official PSA wage data for your job, region and industry.', group: 'sahod' },
-  { path: '/13th-month', label: '13th Month Pay', name: '13th month pay', title: 'Magkano Ang 13th Month Pay Mo?', blurb: 'Your 13th month pay under PD 851, prorated, with the ₱90,000 tax check.', group: 'sahod' },
-  { path: '/mp2', label: 'MP2', name: 'Pag-IBIG MP2', title: 'Pag-IBIG MP2 calculator', blurb: 'Project MP2 dividends and see what they are worth after inflation.', group: 'ipon' },
-  { path: '/banks', label: 'Digital banks', name: 'Digital bank savings', title: 'Saan mas sulit mag-ipon?', blurb: 'Digital bank savings with verified base rates, after the 20% tax.', group: 'ipon' },
-  { path: '/compare', label: 'Compare', name: 'MP2 vs digital banks', title: 'MP2 vs digital banks', blurb: 'The same savings plan side by side, in pesos or in today’s pesos.', group: 'ipon' },
-  { path: '/inflation', label: 'Inflation', name: 'Inflation tracker', title: 'Philippine inflation', blurb: 'Headline, core, food and transport inflation from PSA since 2019.', group: 'presyo' },
-  { path: '/gas', label: 'Gas', name: 'Fuel prices', title: 'Magkano na ang gas?', blurb: 'Weekly DOE pump price adjustments for gasoline, diesel and kerosene.', group: 'presyo' },
-  { path: '/magkano-ang-toll', label: 'Toll', name: 'Magkano ang Toll Ko?', title: 'Magkano ang Toll Ko?', blurb: 'Expressway toll by entry, exit and vehicle class, with your RFID load.', group: 'presyo' },
-  { path: '/magkano-kuryente', label: 'Kuryente', name: 'Magkano Kuryente Ko?', title: 'Magkano Kuryente Ko?', blurb: 'Check your Meralco bill against the month’s published rates, appliance by appliance.', group: 'presyo' },
+  { path: '/sweldo', label: 'Sweldo', name: 'Sweldo calculator', title: 'Saan napupunta ang sweldo ko?', blurb: 'Take-home pay after SSS, PhilHealth, Pag-IBIG and tax, then your monthly budget.', hint: 'Take-home pay and budget', group: 'sahod' },
+  { path: '/underpaid-ba-ko', label: 'Underpaid ba ko?', name: 'Underpaid ba ko?', title: 'Underpaid ba ko?', blurb: 'Compare your pay with official PSA wage data for your job, region and industry.', hint: 'Your pay against PSA wage data', group: 'sahod' },
+  { path: '/13th-month', label: '13th Month Pay', name: '13th month pay', title: 'Magkano Ang 13th Month Pay Mo?', blurb: 'Your 13th month pay under PD 851, prorated, with the ₱90,000 tax check.', hint: 'Your 13th month pay, prorated', group: 'sahod' },
+  { path: '/mp2', label: 'MP2', name: 'Pag-IBIG MP2', title: 'Pag-IBIG MP2 calculator', blurb: 'Project MP2 dividends and see what they are worth after inflation.', hint: 'MP2 dividends, after inflation', group: 'ipon' },
+  { path: '/banks', label: 'Digital banks', name: 'Digital bank savings', title: 'Saan mas sulit mag-ipon?', blurb: 'Digital bank savings with verified base rates, after the 20% tax.', hint: 'Digital bank savings, after tax', group: 'ipon' },
+  { path: '/compare', label: 'Compare', name: 'MP2 vs digital banks', title: 'MP2 vs digital banks', blurb: 'The same savings plan side by side, in pesos or in today’s pesos.', hint: 'MP2 and banks, side by side', group: 'ipon' },
+  { path: '/inflation', label: 'Inflation', name: 'Inflation tracker', title: 'Philippine inflation', blurb: 'Headline, core, food and transport inflation from PSA since 2019.', hint: 'PSA inflation since 2019', group: 'presyo' },
+  { path: '/gas', label: 'Gas', name: 'Fuel prices', title: 'Magkano na ang gas?', blurb: 'Weekly DOE pump price adjustments for gasoline, diesel and kerosene.', hint: 'Weekly DOE pump price changes', group: 'presyo' },
+  { path: '/magkano-ang-toll', label: 'Toll', name: 'Magkano ang Toll Ko?', title: 'Magkano ang Toll Ko?', blurb: 'Expressway toll by entry, exit and vehicle class, with your RFID load.', hint: 'Expressway tolls and RFID load', group: 'presyo' },
+  { path: '/magkano-kuryente', label: 'Kuryente', name: 'Magkano Kuryente Ko?', title: 'Magkano Kuryente Ko?', blurb: 'Check your Meralco bill against the month’s published rates, appliance by appliance.', hint: 'Check your Meralco bill', group: 'presyo' },
   { path: '/about', label: 'About', name: 'About', title: 'About PinansyalPH', blurb: 'Why this open-source project exists, and how the numbers are made.' },
 ]
 

@@ -142,7 +142,7 @@ export function SiteHeader() {
               className="absolute inset-x-0 top-full hidden lg:block"
             >
               <div className="wrap">
-                <div className="ml-auto max-w-[920px] rounded-[28px] bg-paper p-5 shadow-[0_24px_60px_-20px_rgba(21,21,20,0.28),0_2px_6px_rgba(21,21,20,0.04)]">
+                <div className="ml-auto max-w-[1000px] rounded-[28px] bg-paper p-5 shadow-[0_24px_60px_-20px_rgba(21,21,20,0.28),0_2px_6px_rgba(21,21,20,0.04)]">
                   <ToolDirectory onNavigate={close} />
                 </div>
               </div>
