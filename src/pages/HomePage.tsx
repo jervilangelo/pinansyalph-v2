@@ -2,13 +2,14 @@ import { ArrowRight, ArrowUpRight, Heart } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { calculatePayroll } from '../calculators/payroll'
 import { AnimatedSymbol } from '../components/brand/Logo'
+import { ToolMark } from '../components/brand/ToolMark'
 import { Page } from '../components/layout/Page'
 import { useSupport } from '../components/support/Support'
 import { AmountField } from '../components/ui/fields'
 import { AnimatedNumber, Reveal, SplitWords, motion, useEnter } from '../components/ui/motion'
 import { SunMark } from '../components/ui/Result'
 import { StatusTag } from '../components/ui/Status'
-import { basePurchasingPowerYear, fuel, inflation, latestFuel, latestHeadline, latestMp2, latestPurchasingPower, payrollRules } from '../data'
+import { basePurchasingPowerYear, fuel, inflation, latestFuel, latestHeadline, latestMp2, latestPurchasingPower, payrollRules, savingsBaseRange } from '../data'
 import { safe } from '../hooks/useScenario'
 import { GROUPS, Link, TOOLS } from '../router'
 import { TAGLINE } from '../site'
@@ -69,7 +70,11 @@ function QuickPay() {
 
           {gross > 0 && (
             <div className="mt-5">
-              <div className="flex h-2.5 overflow-hidden rounded-full bg-surface" role="img" aria-label={`Of ${peso(gross)} gross: ${peso(take)} take-home, ${rows.map((x) => `${peso(x.value)} ${x.label}`).join(', ')}`}>
+              <div
+                className="flex h-2.5 overflow-hidden rounded-full bg-surface"
+                role="img"
+                aria-label={`Of ${peso(gross)} gross: ${peso(take)} take-home, ${rows.map((x) => `${peso(x.value)} ${x.label}`).join(', ')}`}
+              >
                 <motion.span className="h-full bg-accent" animate={{ width: `${(take / gross) * 100}%` }} transition={{ duration: 0.5 }} />
                 {rows.map((x) => (
                   <motion.span key={x.label} className="h-full" style={{ background: x.color }} animate={{ width: `${(x.value / gross) * 100}%` }} transition={{ duration: 0.5 }} />
@@ -143,43 +148,105 @@ function Hero({ ready }: { ready: boolean }) {
 
 /* ------------------------------------------------------------------ */
 
+/**
+ * The tool index: an editorial table of contents, not a grid of cards. Each
+ * group is a column label in large serif; its tools are numbered rows on
+ * hairline rules, with the tool's own mark and, where the homepage already has
+ * it, the latest official figure the tool is built on.
+ */
+function toolFigure(path: string): { value: string; label: string } | null {
+  if (path === '/inflation') return { value: `${latestHeadline.value.toFixed(1)}%`, label: monthLabel(latestHeadline.period, true) }
+  if (path === '/mp2') return { value: `${latestMp2.rate.toFixed(2)}%`, label: `${latestMp2.year} dividend` }
+  if (path === '/gas') return { value: perLiter(latestFuel.diesel.min, latestFuel.diesel.max), label: 'diesel change this week' }
+  if (path === '/banks') return { value: `${savingsBaseRange.min}–${savingsBaseRange.max}%`, label: 'base rates' }
+  return null
+}
+
 function Tools() {
+  let n = 0
   return (
     <section id="tools" aria-labelledby="tools-title" className="wrap mt-[clamp(96px,11vw,170px)] scroll-mt-24">
-      <Reveal>
-        <h2 id="tools-title" className="text-step-head max-w-[16ch]">
-          Ano ang gusto mong malaman?
-        </h2>
-        <p className="mt-4 max-w-[52ch] text-step-lead leading-snug text-ink-2">{TOOLS.length} tools, in three plain questions. Each one opens with the answer, and shows its working when you ask.</p>
+      <Reveal className="grid gap-6 lg:grid-cols-12 lg:items-end">
+        <div className="lg:col-span-7">
+          <h2 id="tools-title" className="text-step-head max-w-[16ch]">
+            Ano ang gusto mong malaman?
+          </h2>
+          <p className="mt-4 max-w-[46ch] text-step-lead leading-snug text-ink-2">
+            {TOOLS.length} tools for your sahod, ipon, the prices you pay and where your money goes. Each opens with the answer, then shows its working.
+          </p>
+        </div>
+        <nav aria-label="Tool categories" className="lg:col-span-5">
+          <ul className="ui m-0 flex list-none flex-wrap gap-x-1 gap-y-2 p-0 lg:justify-end">
+            {GROUPS.map((g) => (
+              <li key={g.id}>
+                <a
+                  href={`#group-${g.id}`}
+                  className="group flex items-baseline gap-1.5 rounded-full px-3 py-2 text-[0.9375rem] font-semibold text-ink-2 transition-colors hover:bg-paper hover:text-accent"
+                >
+                  {g.label}
+                  <span className="tabular text-[0.75rem] font-medium text-muted">{TOOLS.filter((t) => t.group === g.id).length}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </Reveal>
-      <div className="mt-12 grid gap-4">
-        {GROUPS.map((g, gi) => (
-          <Reveal key={g.id} delay={0.05 * gi} className="grid gap-3 rounded-[28px] bg-paper p-3 sm:p-4 lg:grid-cols-12 lg:gap-4">
-            <div className="px-3 pt-3 pb-1 sm:px-4 lg:col-span-4 lg:py-5">
-              <h3 className="text-[clamp(1.75rem,1.4rem+1.2vw,2.5rem)] leading-none">{g.label}</h3>
-              <p className="ui mt-2 text-[0.9375rem] text-muted">{g.question}</p>
+
+      <div className="mt-[clamp(48px,6vw,88px)] border-t-2 border-ink">
+        {GROUPS.map((g) => {
+          const tools = TOOLS.filter((t) => t.group === g.id)
+          return (
+            <div key={g.id} id={`group-${g.id}`} className="scroll-mt-24 border-b border-line">
+              <Reveal className="grid gap-x-10 py-8 sm:py-10 lg:grid-cols-12">
+                <div className="mb-4 lg:col-span-3 lg:mb-0">
+                  <h3 className="text-[clamp(2.25rem,1.6rem+2.2vw,3.5rem)] leading-[0.95] tracking-[-0.03em]">{g.label}</h3>
+                  <p className="ui mt-2 text-[0.875rem] font-semibold tracking-[0.08em] text-accent uppercase">{g.gloss}</p>
+                  <p className="ui mt-1 max-w-[24ch] text-[0.9375rem] text-muted">{g.question}</p>
+                </div>
+                <ol className="m-0 list-none p-0 lg:col-span-9">
+                  {tools.map((t) => {
+                    n += 1
+                    const fig = toolFigure(t.path)
+                    return (
+                      <li key={t.path} className="border-t border-line first:border-t-0 lg:first:border-t-0">
+                        <Link
+                          to={t.path}
+                          className="tool-row group relative grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-4 py-4 sm:grid-cols-[2.5rem_auto_minmax(0,1fr)_auto] sm:gap-x-5 sm:py-5"
+                        >
+                          <span aria-hidden="true" className="figure hidden text-[0.9375rem] text-muted tabular-nums transition-colors group-hover:text-accent sm:block">
+                            {String(n).padStart(2, '0')}
+                          </span>
+                          <ToolMark path={t.path} size={44} className="transition-transform duration-500 ease-[var(--ease-out-quint)] group-hover:-translate-y-0.5 group-hover:scale-105" />
+                          <span className="min-w-0">
+                            <span className="serif block text-[clamp(1.25rem,1.05rem+0.8vw,1.75rem)] leading-tight tracking-[-0.015em] transition-colors group-hover:text-accent">{t.name}</span>
+                            <span className="ui mt-1 block text-[0.9375rem] leading-snug text-muted">{t.blurb}</span>
+                            {fig && (
+                              <span className="ui mt-2 flex items-baseline gap-2 text-[0.875rem] md:hidden">
+                                <span className="tabular font-semibold text-ink">{fig.value}</span>
+                                <span className="text-muted">{fig.label}</span>
+                              </span>
+                            )}
+                          </span>
+                          <span className="flex items-center gap-5">
+                            {fig && (
+                              <span className="hidden text-right md:block">
+                                <span className="figure block text-[1.375rem] leading-none whitespace-nowrap">{fig.value}</span>
+                                <span className="ui mt-1 block text-[0.75rem] text-muted">{fig.label}</span>
+                              </span>
+                            )}
+                            <span className="flex h-10 w-10 items-center justify-center rounded-full text-muted transition-[background-color,color,transform] duration-300 ease-[var(--ease-out-quint)] group-hover:translate-x-1 group-hover:bg-accent group-hover:text-white">
+                              <ArrowRight aria-hidden="true" size={18} />
+                            </span>
+                          </span>
+                        </Link>
+                      </li>
+                    )
+                  })}
+                </ol>
+              </Reveal>
             </div>
-            <ul className={`m-0 grid list-none gap-2 p-0 lg:col-span-8 ${TOOLS.filter((t) => t.group === g.id).length > 2 ? 'sm:grid-cols-3' : 'sm:grid-cols-2'}`}>
-              {TOOLS.filter((t) => t.group === g.id).map((t) => (
-                <li key={t.path} className="flex">
-                  <Link
-                    to={t.path}
-                    className="group flex min-h-[148px] w-full flex-col justify-between gap-6 rounded-[22px] bg-ground p-5 transition-[background-color,color,transform] duration-300 ease-[var(--ease-out-quint)] hover:-translate-y-0.5 hover:bg-accent hover:text-accent-ink active:translate-y-0"
-                  >
-                    <span>
-                      <span className="serif block text-[1.375rem] leading-tight tracking-[-0.015em]">{t.name}</span>
-                      <span className="ui mt-2 block text-[0.875rem] leading-snug text-muted transition-colors duration-300 group-hover:text-white/85">{t.blurb}</span>
-                    </span>
-                    <span className="ui flex items-center gap-1.5 text-[0.875rem] font-semibold">
-                      Open
-                      <ArrowRight aria-hidden="true" size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        ))}
+          )
+        })}
       </div>
     </section>
   )
@@ -254,7 +321,11 @@ function Numbers() {
               <Link to={t.to} className="group flex w-full flex-col rounded-[28px] bg-paper p-6 transition-colors duration-300 hover:bg-accent-soft sm:p-7">
                 <span className="flex items-center justify-between gap-3">
                   <span className="ui text-[0.9375rem] font-semibold">{t.label}</span>
-                  <ArrowUpRight aria-hidden="true" size={20} className="text-muted transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent" />
+                  <ArrowUpRight
+                    aria-hidden="true"
+                    size={20}
+                    className="text-muted transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-accent"
+                  />
                 </span>
                 <span className="figure mt-5 block text-[clamp(2.25rem,1.8rem+1.6vw,3.25rem)] leading-none">{t.value}</span>
                 <span className="mt-3 block text-[0.9375rem] leading-relaxed text-ink-2">{t.body}</span>
@@ -283,9 +354,7 @@ function OpenSource() {
           <h2 id="open-title" className="text-step-head mt-6 max-w-[18ch]">
             Libre, open source, para sa lahat.
           </h2>
-          <p className="mt-4 max-w-[54ch] text-step-lead leading-snug text-ink-2">
-            No ads, no accounts, no tracking. Every formula and dataset is public, so anyone can check how a number is made.
-          </p>
+          <p className="mt-4 max-w-[54ch] text-step-lead leading-snug text-ink-2">No ads, no accounts, no tracking. Every formula and dataset is public, so anyone can check how a number is made.</p>
         </div>
         <div className="flex flex-wrap gap-3 lg:col-span-4 lg:justify-end">
           <button type="button" onClick={openSupport} className="btn btn-primary">

@@ -7,6 +7,8 @@ export interface ComboOption {
   id: string
   label: string
   hint?: ReactNode
+  /** Optional picture before the label, e.g. a brand mark. */
+  icon?: ReactNode
 }
 
 /**
@@ -158,10 +160,13 @@ export function Combobox({
                   aria-selected={i === active}
                   onMouseEnter={() => setActive(i)}
                   onClick={() => choose(o)}
-                  className={`cursor-pointer rounded-[12px] px-3.5 py-2.5 transition-colors ${i === active ? 'bg-accent-soft' : ''}`}
+                  className={`flex cursor-pointer items-center gap-3 rounded-[12px] px-3.5 py-2.5 transition-colors ${i === active ? 'bg-accent-soft' : ''}`}
                 >
-                  <span className="block text-[0.9375rem] font-semibold">{o.label}</span>
-                  {o.hint && <span className="mt-0.5 block text-[0.8125rem] leading-snug text-muted">{o.hint}</span>}
+                  {o.icon}
+                  <span className="min-w-0">
+                    <span className="block text-[0.9375rem] font-semibold">{o.label}</span>
+                    {o.hint && <span className="mt-0.5 block text-[0.8125rem] leading-snug text-muted">{o.hint}</span>}
+                  </span>
                 </li>
               ))}
             </ul>

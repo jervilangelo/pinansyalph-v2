@@ -8,16 +8,17 @@ import { createContext, useCallback, useContext, useEffect, useState, type Ancho
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, '')
 
-export const ROUTES = ['/', '/sweldo', '/underpaid-ba-ko', '/13th-month', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/magkano-ang-toll', '/magkano-kuryente', '/magkano-bahay', '/about'] as const
+export const ROUTES = ['/', '/sweldo', '/underpaid-ba-ko', '/13th-month', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/magkano-ang-toll', '/magkano-kuryente', '/magkano-bahay', '/magkano-subscription', '/about'] as const
 export type Route = (typeof ROUTES)[number]
 
-export type GroupId = 'sahod' | 'ipon' | 'presyo'
+export type GroupId = 'sahod' | 'ipon' | 'presyo' | 'gastos'
 
 /** Tools are grouped by the question a visitor brings, in plain Filipino-English. */
 export const GROUPS: { id: GroupId; label: string; gloss: string; question: string }[] = [
   { id: 'sahod', label: 'Sahod', gloss: 'Pay', question: 'Your pay, and what is left of it' },
   { id: 'ipon', label: 'Ipon', gloss: 'Savings', question: 'Where your savings grow' },
   { id: 'presyo', label: 'Presyo', gloss: 'Prices', question: 'What things cost now' },
+  { id: 'gastos', label: 'Gastos', gloss: 'Spending', question: 'Your monthly bills and subscriptions' },
 ]
 
 export type PageInfo = { path: Exclude<Route, '/'>; label: string; name: string; title: string; blurb: string; /** One short line for the Tools menu. */ hint?: string; group?: GroupId }
@@ -32,8 +33,9 @@ export const PAGES: PageInfo[] = [
   { path: '/inflation', label: 'Inflation', name: 'Inflation tracker', title: 'Philippine inflation', blurb: 'Headline, core, food and transport inflation from PSA since 2019.', hint: 'PSA inflation since 2019', group: 'presyo' },
   { path: '/gas', label: 'Gas', name: 'Fuel prices', title: 'Magkano na ang gas?', blurb: 'Weekly DOE pump price adjustments for gasoline, diesel and kerosene.', hint: 'Weekly DOE pump price changes', group: 'presyo' },
   { path: '/magkano-ang-toll', label: 'Toll', name: 'Magkano ang Toll Ko?', title: 'Magkano ang Toll Ko?', blurb: 'Expressway toll by entry, exit and vehicle class, with your RFID load.', hint: 'Expressway tolls and RFID load', group: 'presyo' },
-  { path: '/magkano-kuryente', label: 'Kuryente', name: 'Magkano Kuryente Ko?', title: 'Magkano Kuryente Ko?', blurb: 'Check your Meralco bill against the month’s published rates, appliance by appliance.', hint: 'Check your Meralco bill', group: 'presyo' },
+  { path: '/magkano-kuryente', label: 'Kuryente', name: 'Magkano Kuryente Ko?', title: 'Magkano Kuryente Ko?', blurb: 'Check your Meralco bill against the month’s published rates, appliance by appliance.', hint: 'Check your Meralco bill', group: 'gastos' },
   { path: '/magkano-bahay', label: 'Bahay', name: 'Magkano Bahay Ngayon?', title: 'Magkano Bahay Ngayon?', blurb: 'House and condo prices by area from the BSP, price trends, and what a home loan would cost.', hint: 'House and condo prices, home loans', group: 'presyo' },
+  { path: '/magkano-subscription', label: 'Subscriptions', name: 'Magkano ba Subscription Ko?', title: 'Magkano ba Subscription Ko?', blurb: 'Add your streaming, cloud, AI and gaming subscriptions and see what they cost you a month and a year.', hint: 'Your subscriptions, monthly and yearly', group: 'gastos' },
   { path: '/about', label: 'About', name: 'About', title: 'About PinansyalPH', blurb: 'Why this open-source project exists, and how the numbers are made.' },
 ]
 

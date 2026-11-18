@@ -1,23 +1,23 @@
 import { ArrowRight } from 'lucide-react'
 import { GROUPS, Link, TOOLS, useRouter, type PageInfo } from '../../router'
-import { TOOL_ICONS } from './toolIcons'
+import { ToolMark } from '../brand/ToolMark'
 
 /**
  * The tools, grouped by the question a visitor brings. Used by the header
  * menu (desktop panel and phone sheet).
  *
  * Group names are small labelled column headers over a rule, so they read as
- * headings and never as one more link. Each tool is one row: an icon that
- * says what it is about, its name, and one line on what it does.
+ * headings and never as one more link. Each tool is one row: its own mark,
+ * its name, and one line on what it does.
  */
 export function ToolDirectory({ onNavigate, compact = false }: { onNavigate?: () => void; compact?: boolean }) {
   const { path } = useRouter()
   return (
-    <div className={`grid ${compact ? 'gap-6' : 'gap-6 md:grid-cols-3 md:gap-0 md:divide-x md:divide-line'}`}>
+    <div className={`grid ${compact ? 'gap-6' : 'gap-6 md:grid-cols-2 md:gap-y-6 lg:grid-cols-4 lg:gap-0 lg:divide-x lg:divide-line'}`}>
       {GROUPS.map((g) => {
         const tools = TOOLS.filter((t) => t.group === g.id)
         return (
-          <section key={g.id} aria-labelledby={`dir-${g.id}`} className={compact ? '' : 'md:px-3 md:first:pl-0 md:last:pr-0'}>
+          <section key={g.id} aria-labelledby={`dir-${g.id}`} className={compact ? '' : 'lg:px-3 lg:first:pl-0 lg:last:pr-0'}>
             <h2 id={`dir-${g.id}`} className="ui mx-3 flex items-baseline gap-2 border-b border-line pb-2.5 text-[0.8125rem] leading-none font-semibold tracking-[0.08em] uppercase">
               <span className="text-accent">{g.label}</span>
               <span className="font-medium tracking-normal text-muted normal-case">{g.gloss}</span>
@@ -38,7 +38,6 @@ export function ToolDirectory({ onNavigate, compact = false }: { onNavigate?: ()
 }
 
 function ToolLink({ t, active, onNavigate }: { t: PageInfo; active: boolean; onNavigate?: () => void }) {
-  const Icon = TOOL_ICONS[t.path]
   return (
     <Link
       to={t.path}
@@ -46,14 +45,9 @@ function ToolLink({ t, active, onNavigate }: { t: PageInfo; active: boolean; onN
       aria-current={active ? 'page' : undefined}
       className="ui group flex min-h-[56px] items-center gap-3 rounded-[14px] px-3 py-2.5 transition-colors duration-200 hover:bg-surface focus-visible:bg-surface aria-[current=page]:bg-accent-soft"
     >
-      {Icon && (
-        <span
-          aria-hidden="true"
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[11px] bg-surface text-ink-2 transition-colors duration-200 group-hover:bg-accent group-hover:text-white group-aria-[current=page]:bg-accent group-aria-[current=page]:text-white"
-        >
-          <Icon size={18} strokeWidth={1.9} />
-        </span>
-      )}
+      <span aria-hidden="true" className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[12px] bg-ground transition-transform duration-300 ease-[var(--ease-out-quint)] group-hover:-translate-y-0.5">
+        <ToolMark path={t.path} size={30} />
+      </span>
       <span className="min-w-0 flex-1">
         <span className="flex items-center gap-2 text-[0.9375rem] leading-snug font-semibold text-ink group-hover:text-accent group-aria-[current=page]:text-accent">
           {t.label}

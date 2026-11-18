@@ -6,7 +6,7 @@ import { resolve } from 'node:path'
 import { defineConfig, type Plugin } from 'vite'
 
 /** Keep in sync with ROUTES in src/router.tsx. */
-const ROUTES = ['sweldo', 'underpaid-ba-ko', '13th-month', 'mp2', 'banks', 'compare', 'inflation', 'gas', 'magkano-ang-toll', 'magkano-kuryente', 'magkano-bahay', 'about']
+const ROUTES = ['sweldo', 'underpaid-ba-ko', '13th-month', 'mp2', 'banks', 'compare', 'inflation', 'gas', 'magkano-ang-toll', 'magkano-kuryente', 'magkano-bahay', 'magkano-subscription', 'about']
 
 /**
  * GitHub Pages has no rewrite rules, so give every route its own copy of

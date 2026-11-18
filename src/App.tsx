@@ -21,6 +21,8 @@ const loadKuryente = () => import('./pages/KuryentePage')
 const KuryentePage = lazy(() => loadKuryente().then((m) => ({ default: m.KuryentePage })))
 const loadBahay = () => import('./pages/BahayPage')
 const BahayPage = lazy(() => loadBahay().then((m) => ({ default: m.BahayPage })))
+const loadSubs = () => import('./pages/SubscriptionPage')
+const SubscriptionPage = lazy(() => loadSubs().then((m) => ({ default: m.SubscriptionPage })))
 const ThirteenthPage = lazy(() => loadTools().then((m) => ({ default: m.ThirteenthPage })))
 const Mp2Page = lazy(() => loadTools().then((m) => ({ default: m.Mp2Page })))
 const BanksPage = lazy(() => loadTools().then((m) => ({ default: m.BanksPage })))
@@ -31,7 +33,7 @@ const AboutPage = lazy(() => loadAbout().then((m) => ({ default: m.AboutPage }))
 
 function usePrefetch() {
   useEffect(() => {
-    const run = () => void Promise.all([loadTools(), loadAbout(), loadUnderpaid(), loadToll(), loadKuryente(), loadBahay()]).catch(() => {})
+    const run = () => void Promise.all([loadTools(), loadAbout(), loadUnderpaid(), loadToll(), loadKuryente(), loadBahay(), loadSubs()]).catch(() => {})
     const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number }
     if (w.requestIdleCallback) w.requestIdleCallback(run, { timeout: 3000 })
     else setTimeout(run, 1500)
@@ -79,6 +81,7 @@ function Pages() {
     '/magkano-ang-toll': <TollPage />,
     '/magkano-kuryente': <KuryentePage />,
     '/magkano-bahay': <BahayPage />,
+    '/magkano-subscription': <SubscriptionPage />,
     '/about': <AboutPage />,
   }
 

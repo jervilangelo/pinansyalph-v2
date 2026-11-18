@@ -469,3 +469,22 @@ share of income    = monthly payment ÷ gross monthly income
 
 No price is estimated from floor or lot area. Sources, exclusions and the review of four public GitHub projects are in
 [HOUSING-DATA.md](HOUSING-DATA.md).
+
+## 13. Subscriptions ("Magkano ba Subscription Ko?")
+
+Each subscription is reduced to what it costs you per month:
+
+```
+your share per period = plan price ÷ people splitting it (you included)
+monthly cost          = your share ÷ months in the billing period (1, 3 or 12)
+yearly total          = sum of monthly costs × 12
+weekly equivalent     = yearly total ÷ 52
+```
+
+Sums are exact (decimal.js) and rounded to centavos only for display. Renewal dates roll forward by whole billing
+periods, keeping the day of the month where it exists (31 January → 28 or 29 February).
+
+Prices in `src/data/subscriptions.ts` were read from each service's own Philippine pricing page on 18 November 2026,
+from a Philippine connection. Only peso prices the service publishes are pre-filled. Dollar prices are shown for
+reference and never converted; promotional and first-period prices are kept apart from the regular price; plans with
+no verifiable Philippine price have no default. The visitor's amount always overrides the default.
