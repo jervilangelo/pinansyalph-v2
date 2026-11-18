@@ -108,6 +108,12 @@ describe('credit cards', () => {
     expect(min.months!).toBeGreaterThan(fixed.months!)
     expect(min.totalInterest).toBeGreaterThan(fixed.totalInterest)
   })
+  it('the page example: ₱30,000 at 3% a month, 3% minimum with a ₱500 floor, is not paid off within 50 years', () => {
+    const r = cardRepayment({ balance: 30000, monthlyRate: 3, minPercent: 3, minAmount: 500, newSpending: 0 }, { kind: 'minimum' })
+    expect(r.months).toBeNull()
+    expect(r.neverPaysOff).toBe(false)
+    expect(cardRepayment({ balance: 30000, monthlyRate: 3, minPercent: 3, minAmount: 500, newSpending: 0 }, { kind: 'fixed', amount: 2000 }).months).toBe(21)
+  })
   it('a minimum below the finance charge never pays off', () => {
     const r = cardRepayment({ ...card, minPercent: 2, minAmount: 0 }, { kind: 'minimum' })
     expect(r.neverPaysOff).toBe(true)

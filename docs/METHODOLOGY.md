@@ -543,8 +543,9 @@ credit card, per month  = charge on balance carried, + new spending, − payment
 future value            = payment × ((1 + r)^n − 1) ÷ r, with r the per-period equivalent of the annual return; 0% is plain addition
 ```
 
+The page's six worked examples are computed with these same functions, from fixed example inputs shown on the page.
 House edges shown as examples follow from game rules (single-zero roulette: 1 ÷ 37 ≈ 2.70%; double-zero: 2 ÷ 38 ≈
-5.26%). The variance chart is a seeded simulation, labelled as such. Credit card results simplify the issuer's average
+5.26%). Credit card results simplify the issuer's average
 daily balance method. Regulatory figures come from BSP Circular No. 1165 (credit cards) and BSP Circular No. 1133 (small
 loans from lending and financing companies); privacy rules from NPC Circulars No. 20-01 and 2022-02. Every source, with
 what it supports and whether its text was read, is listed in `src/data/iwasanSources.ts` and on the page. The SEC website

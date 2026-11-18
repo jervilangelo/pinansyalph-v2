@@ -98,144 +98,99 @@ test.describe('main toolbar entry', () => {
   }
 })
 
-test.describe('page and simulators', () => {
+test.describe('page and calculators', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/mga-dapat-iwasan')
   })
 
-  test('hero, three entry points and the sources list', async ({ page }) => {
-    await expect(page.locator('main')).toContainText('Kilalanin ang mga financial traps bago pa maubos ang pera mo.')
-    await expect(S(page, 'iwasan-entry')).toHaveCount(3)
+  const tab = (page: Page, name: string) => page.getByRole('tab', { name })
+
+  test('short English page: hero, six things to avoid with examples, help and sources', async ({ page }) => {
+    await expect(page.locator('main')).toContainText('Money traps that quietly drain your wallet.')
+    await expect(S(page, 'avoid-item')).toHaveCount(6)
+    await expect(S(page, 'avoid-list')).toContainText('Betting and gambling sites')
+    await expect(S(page, 'avoid-list')).toContainText('Online loan apps')
+    await expect(S(page, 'avoid-betting-example')).toContainText('₱4,212')
+    await expect(S(page, 'avoid-loan-apps-example')).toContainText('₱8,500')
+    await expect(S(page, 'avoid-loan-apps-example')).toContainText('₱10,600')
+    await expect(S(page, 'avoid-reborrowing-example')).toContainText('₱8,337')
+    await expect(S(page, 'avoid-minimum-example')).toContainText('more than 50 years')
+    await expect(S(page, 'avoid-installments-example')).toContainText('₱3,600')
+    await expect(S(page, 'avoid-impulse-example')).toContainText('₱36,500')
+    await expect(S(page, 'iwasan-entry')).toHaveCount(6)
     await S(page, 'iwasan-entry').nth(1).click()
-    await expect(page).toHaveURL(/#utang$/)
-    const sources = S(page, 'iwasan-sources').getByRole('listitem')
-    await expect(sources).toHaveCount(20)
-    await expect(S(page, 'iwasan-sources')).toContainText('Circular No. 1165')
+    await expect(page).toHaveURL(/#avoid-loan-apps$/)
+    await expect(S(page, 'get-help')).toContainText('PAGCOR')
+    await page.getByRole('button', { name: /^Sources/ }).click()
+    await expect(S(page, 'iwasan-sources').getByRole('listitem')).toHaveCount(11)
     await expect(S(page, 'iwasan-sources').getByRole('link', { name: /^Circular No. 1133/ })).toHaveAttribute('href', 'https://www.bsp.gov.ph/Regulations/Issuances/2021/1133.pdf')
   })
 
-  test('gambling: expected loss = total wagered × house edge, over different periods', async ({ page }) => {
+  test('betting: expected loss = total bet × house edge', async ({ page }) => {
     await expect(S(page, 'g-expected-loss')).toHaveText('₱4,212.00')
     await expect(S(page, 'g-total-wagered')).toHaveText('₱156,000.00')
     await expect(S(page, 'g-week')).toHaveText('₱81')
-    await expect(S(page, 'g-month')).toHaveText('₱351')
     await page.getByRole('button', { name: /Double-zero roulette/ }).click()
-    await expect(S(page, 'g-edge')).toHaveText('5.26%')
     await expect(S(page, 'g-expected-loss')).toHaveText('₱8,205.60')
     await page.getByLabel('Total bet per session, exact value').fill('500')
     await expect(S(page, 'g-expected-loss')).toHaveText('₱4,102.80')
-    await page.getByLabel('Total bet per session, exact value').fill('0')
-    await expect(page.locator('#sugal').getByRole('alert').first()).toBeVisible()
   })
 
-  test('variance demo: deterministic, and changes when asked', async ({ page }) => {
-    const text = await S(page, 'v-ahead').textContent()
-    await page.getByRole('button', { name: 'Six other players' }).click()
-    await expect(S(page, 'v-ahead')).toContainText('of 6')
-    expect(text).toContain('The average expectation is')
-  })
-
-  test('loan: cash received, fees, total cost and effective monthly cost', async ({ page }) => {
+  test('loans: cash received, repayment, real cost, and borrowing again', async ({ page }) => {
+    await tab(page, 'Loans').click()
     await expect(S(page, 'l-cash')).toHaveText('₱8,500.00')
     await expect(S(page, 'l-repay')).toHaveText('₱10,600.00')
     await expect(S(page, 'l-total-cost')).toHaveText('₱2,100.00')
-    await expect(S(page, 'l-shortfall')).toHaveText('₱1,500.00')
     await expect(S(page, 'l-eir')).toHaveText('24.71%')
-    await expect(S(page, 'l-ceiling')).toContainText('at most 15% a month')
-    await page.getByLabel('Late fees you expect').fill('500')
-    await expect(S(page, 'l-total-cost')).toHaveText('₱2,600.00')
-    await page.getByLabel('Loan amount (as advertised)').fill('20,000')
-    await expect(S(page, 'l-ceiling')).toHaveCount(0)
+    const again = page.getByRole('slider', { name: 'Times you borrow again to pay it' })
+    await again.focus()
+    for (let i = 0; i < 2; i++) await again.press('ArrowRight')
+    // Borrowing twice more to pay it: what is owed grows past the original repayment.
+    await expect(S(page, 'l-again')).toHaveText('2')
+    await expect(S(page, 'l-owed')).toBeVisible()
+    const owed = Number((await S(page, 'l-owed').textContent())!.replace(/[₱,]/g, ''))
+    expect(owed).toBeGreaterThan(10600)
   })
 
-  test('loan: diminishing balance and several payments', async ({ page }) => {
-    await page.getByLabel('Fees deducted before you get the cash').fill('0')
-    await page.getByLabel('Loan amount (as advertised)').fill('12,000')
-    await page.getByLabel('Interest rate a month').fill('2')
-    await page.getByText('Diminishing balance', { exact: true }).click()
-    const months = page.getByRole('slider', { name: 'Loan length' })
-    await months.focus()
-    for (let i = 0; i < 22; i++) await months.press('ArrowRight')
-    const pays = page.getByRole('slider', { name: 'Number of payments' })
-    await pays.focus()
-    for (let i = 0; i < 11; i++) await pays.press('ArrowRight')
-    await expect(S(page, 'l-installment')).toHaveText('₱1,134.72')
-    await expect(S(page, 'l-eir')).toHaveText('2.00%')
-  })
-
-  test('utang cycle: borrowing again grows what is owed; paying yourself ends it', async ({ page }) => {
-    const sim = S(page, 'cycle-sim')
-    const cycles = sim.getByRole('slider', { name: 'Times you borrow again' })
-    await cycles.focus()
-    await cycles.press('ArrowLeft')
-    await expect(S(page, 'c-cycles')).toHaveText('2')
-    await expect(S(page, 'c-final')).toHaveText('₱7,145.83')
-    await expect(S(page, 'c-cost')).toHaveText('₱2,645.83')
-    await expect(S(page, 'c-rounds').getByRole('listitem')).toHaveCount(3)
-    await sim.getByLabel('Your own money at each due date').fill('6,000')
-    await expect(S(page, 'c-final')).toHaveText('₱0.00')
-    await expect(sim).toContainText('Paid off')
-  })
-
-  test('credit card: minimum versus fixed versus higher payments, with a schedule', async ({ page }) => {
-    const card = page.locator('#credit-card')
-    await card.getByLabel('Outstanding balance').fill('10,000')
-    await card.getByLabel('Minimum due').fill('5')
-    await card.getByLabel('Fixed payment').fill('1,000')
+  test('credit card: minimum only versus a fixed payment', async ({ page }) => {
+    await tab(page, 'Credit card').click()
+    await expect(S(page, 'card-minimum-months')).toHaveText('Over 50 years')
+    await expect(S(page, 'card-fixed-months')).toHaveText('1 yr 9 mo')
+    await page.getByLabel('Card balance').fill('10,000')
+    await page.getByLabel('What you’ll pay each month').fill('1,000')
     await expect(S(page, 'card-fixed-months')).toHaveText('1 yr 1 mo')
-    const minInterest = await S(page, 'card-minimum-interest').textContent()
-    const fixedInterest = await S(page, 'card-fixed-interest').textContent()
-    const n = (s: string | null) => Number(s!.replace(/[₱,]/g, ''))
-    expect(n(minInterest)).toBeGreaterThan(n(fixedInterest))
-    await card.getByLabel('Minimum due').fill('2')
-    await card.getByLabel('Or at least').fill('0')
-    await expect(S(page, 'card-minimum-months')).toHaveText('Never at this rate')
-    await page.getByRole('button', { name: /Month-by-month schedule/ }).click()
-    await page.getByRole('group', { name: 'Schedule for', exact: true }).getByText('₱1,000 a month', { exact: true }).click()
-    await expect(S(page, 'card-schedule-table').getByRole('row').nth(1)).toContainText('₱10,000.00')
-    await expect(S(page, 'card-schedule-table').getByRole('row').nth(1)).toContainText('₱300.00')
   })
 
-  test('installments: monthly burden and cash versus installment', async ({ page }) => {
+  test('installments: monthly total, share of pay and what is left', async ({ page }) => {
+    await tab(page, 'Installments').click()
     await expect(S(page, 'inst-total')).toHaveText('₱3,600.00')
     await expect(S(page, 'inst-pct')).toHaveText('14.4%')
     await expect(S(page, 'inst-left')).toHaveText('₱21,400.00')
     await expect(S(page, 'inst-remaining')).toHaveText('₱24,900.00')
     await page.getByRole('button', { name: 'Remove Gadget' }).click()
     await expect(S(page, 'inst-total')).toHaveText('₱2,700.00')
-    await expect(S(page, 'cvi-total')).toHaveText('₱13,200.00')
-    await expect(S(page, 'cvi-extra')).toHaveText('₱1,200.00')
-    await expect(S(page, 'cvi-save')).toHaveText('11 months to pay cash')
   })
 
-  test('kung inipon mo sana: contributions, 0% and compound scenarios', async ({ page }) => {
-    await expect(S(page, 's-yearly')).toContainText('₱36,500')
-    await expect(S(page, 's-contrib')).toHaveText('₱182,500.00')
-    const ret = page.getByRole('slider', { name: 'Assumed return a year' })
-    await ret.focus()
-    await ret.press('Home')
-    await expect(S(page, 's-return')).toHaveText('0%')
+  test('if you saved it: 0% is plain addition, returns compound', async ({ page }) => {
+    await tab(page, 'If you saved it').click()
     await expect(S(page, 's-fv')).toHaveText('₱182,500.00')
-    await expect(S(page, 's-growth')).toHaveText('₱0.00')
     await page.getByText('Monthly', { exact: true }).click()
     await page.getByLabel('Amount', { exact: true }).fill('1,000')
     const yrs = page.getByRole('slider', { name: 'For' })
     await yrs.focus()
     for (let i = 0; i < 5; i++) await yrs.press('ArrowRight')
     await expect(S(page, 's-fv')).toHaveText('₱120,000.00')
+    await expect(S(page, 's-scenarios')).toContainText('At 6% a year')
   })
 
-  test('psychology concepts open with example and citation', async ({ page }) => {
-    await page.getByRole('button', { name: /Minimum payment anchoring/ }).click()
-    await expect(S(page, 'biases')).toContainText('Decide a fixed payment from your budget first')
-  })
-
-  for (const width of [390, 768, 1440]) {
+  for (const width of [320, 390, 768, 1440]) {
     test(`no horizontal overflow at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 })
       await page.goto('/mga-dapat-iwasan')
-      await page.getByRole('button', { name: /Month-by-month schedule/ }).click()
-      expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0)
+      for (const name of ['Betting', 'Loans', 'Installments']) {
+        await page.getByRole('tab', { name: new RegExp(name === 'Installments' ? 'Install' : name) }).click()
+        expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth), name).toBeLessThanOrEqual(0)
+      }
     })
   }
 })
