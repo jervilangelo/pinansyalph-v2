@@ -95,15 +95,9 @@ export function SiteHeader() {
             <Heart aria-hidden="true" size={16} strokeWidth={2.2} className="text-accent" />
             Support
           </button>
-          <Link to="/sweldo" className="btn btn-primary btn-sm ml-2">
-            Compute my sweldo
-          </Link>
         </div>
 
         {/* Phones and tablets */}
-        <Link to="/sweldo" className="btn btn-primary btn-sm hidden sm:inline-flex lg:hidden">
-          Compute my sweldo
-        </Link>
         <button
           ref={mobileBtn}
           type="button"

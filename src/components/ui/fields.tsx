@@ -355,3 +355,103 @@ export function DateField({ label, value, onChange, hint, min, max, optional = f
     </div>
   )
 }
+
+/**
+ * A slider with its value shown beside the label, and an optional exact field
+ * underneath for typing. Both update the same value immediately.
+ */
+export function SliderField({
+  label,
+  value,
+  onChange,
+  min,
+  max,
+  step = 1,
+  format,
+  hint,
+  exact,
+  suffix,
+  testId,
+}: {
+  label: string
+  value: number
+  onChange: (v: number) => void
+  min: number
+  max: number
+  step?: number
+  /** How the current value is shown beside the label. */
+  format: (v: number) => string
+  hint?: ReactNode
+  /** Show a number field for exact entry. */
+  exact?: boolean
+  suffix?: string
+  testId?: string
+}) {
+  const id = useId()
+  const [text, setText] = useState(String(value))
+  const [error, setError] = useState<string | null>(null)
+  useEffect(() => {
+    if (Number(text) !== value) setText(String(value))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value])
+  return (
+    <div className="ui">
+      <label htmlFor={id} className="field-label flex items-baseline justify-between gap-3">
+        <span>{label}</span>
+        <span className="figure text-[1.25rem] tracking-normal whitespace-nowrap" data-testid={testId}>
+          {format(value)}
+        </span>
+      </label>
+      <input
+        id={id}
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={Math.min(Math.max(value, min), max)}
+        onChange={(e) => {
+          setError(null)
+          onChange(Number(e.target.value))
+        }}
+        className="h-11 w-full"
+        aria-valuetext={format(value)}
+        aria-describedby={hint || error ? `${id}-desc` : undefined}
+      />
+      {exact && (
+        <div className="relative mt-1">
+          <label htmlFor={`${id}-exact`} className="sr-only">
+            {label}, exact value
+          </label>
+          <input
+            id={`${id}-exact`}
+            type="number"
+            inputMode="decimal"
+            min={min}
+            step={step}
+            className={`field-input ${suffix ? 'pr-20' : ''}`}
+            value={text}
+            aria-invalid={error ? 'true' : 'false'}
+            onChange={(e) => {
+              setText(e.target.value)
+              const n = Number(e.target.value)
+              if (e.target.value.trim() === '' || !Number.isFinite(n)) return setError('Enter a number.')
+              if (n < min) return setError(`Use ${min} or more.`)
+              setError(null)
+              onChange(n)
+            }}
+          />
+          {suffix && (
+            <span aria-hidden="true" className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-muted">
+              {suffix}
+            </span>
+          )}
+        </div>
+      )}
+      {(hint || error) && (
+        <p id={`${id}-desc`} className={`field-hint ${error ? 'field-error' : ''}`} role={error ? 'alert' : undefined}>
+          {error ?? hint}
+        </p>
+      )}
+    </div>
+  )
+}

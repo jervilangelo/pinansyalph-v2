@@ -1,6 +1,7 @@
 import { ArrowUpRight, Heart, Star } from 'lucide-react'
 import { AnimatedSymbol } from '../components/brand/Logo'
 import { Page } from '../components/layout/Page'
+import { ConnectSection, PrivacySection, ToolkitSection } from '../components/about/AboutSections'
 import { FaqSection } from '../components/sections/FaqSection'
 import { useSupport } from '../components/support/Support'
 import { Reveal, SplitWords, motion, useEnter } from '../components/ui/motion'
@@ -11,7 +12,7 @@ import { AUTHOR, PORTFOLIO, REPO } from '../site'
 const PRINCIPLES: { title: string; body: string }[] = [
   { title: 'Open source', body: 'Every line of code, every formula and every dataset is public on GitHub. Read it, check it, copy it, improve it.' },
   { title: 'Official data only', body: 'Inflation from PSA, fuel from DOE, dividends from Pag-IBIG and rates from each bank’s own page, each shown with its date.' },
-  { title: 'Your numbers stay with you', body: 'No sign-up, no ads, no tracking. Salary and savings inputs never leave your browser.' },
+  { title: 'Your numbers stay with you', body: 'No sign-up, no ads, no tracking. What you enter is computed in your browser and never sent anywhere.' },
   { title: 'Honest about limits', body: 'Projections are labelled as projections. Rates that are not guaranteed are never presented as if they were.' },
 ]
 
@@ -20,6 +21,7 @@ const LEARN = [
   'Why money can grow in pesos and still shrink in what it can buy.',
   'How a tax-free MP2 dividend compares with taxed bank interest on the same savings plan.',
   'What the official inflation rate and weekly fuel adjustments actually measure.',
+  'What your appliances, internet plan and subscriptions really cost you in a month and a year.',
 ]
 
 function SupportSection() {
@@ -83,6 +85,8 @@ export function AboutPage() {
         </motion.p>
       </header>
 
+      <ToolkitSection />
+
       {/* Why */}
       <section aria-labelledby="why-title" className="wrap mt-[clamp(80px,9vw,140px)]">
         <div className="grid gap-8 rounded-[32px] bg-paper p-6 sm:p-10 lg:grid-cols-12 lg:p-14">
@@ -131,6 +135,8 @@ export function AboutPage() {
           ))}
         </dl>
       </section>
+
+      <PrivacySection />
 
       <SupportSection />
 
@@ -192,6 +198,8 @@ export function AboutPage() {
           </ul>
         </Reveal>
       </section>
+
+      <ConnectSection />
 
       <FaqSection />
 

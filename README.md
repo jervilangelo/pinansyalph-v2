@@ -65,6 +65,8 @@ Every tool has its own focused page, uses sourced figures, and explains its calc
 | [**Kuryente**](https://jervilangelo.github.io/pinansyalph-v2/magkano-kuryente) · *Magkano Kuryente Ko? Tama ba ang singil sa bill mo?* | Checks a Meralco residential bill against Meralco's published rates for the billing month, line by line (generation, transmission, system loss, distribution tiers, refunds, subsidies, taxes, universal charges), from kWh or meter readings. Shows the difference in pesos and percent with ordinary reasons, never a verdict. Also: an appliance calculator, a two-bill comparison that splits a change into usage and rate, and a savings simulator priced with the real tariff. Other providers use a typed rate, labelled an estimate. |
 | [**Bahay**](https://jervilangelo.github.io/pinansyalph-v2/magkano-bahay) · *Magkano Bahay Ngayon?* | Official BSP median prices of houses and condominium units by area (Q2 2026), with the number of bank loans behind each figure; a location comparison; BSP price-index trends; “Overpriced ba ’to?”, which compares an asking price with the area median without passing judgment; and “Kaya ko ba?”, a home loan amortization and affordability calculator. Says “Insufficient verified market data” where no official figure exists (city-level, per square meter, lots). |
 | [**Subscriptions**](https://jervilangelo.github.io/pinansyalph-v2/magkano-subscription) · *Magkano ba Subscription Ko? Akala mo maliit lang?* | A subscription tracker with a directory of 42 services and their official Philippine prices. Monthly, quarterly and yearly plans are normalised to a monthly cost, shared plans count only your share, and you can always type what you actually pay. Shows monthly, yearly and weekly totals, a category breakdown, what cancelling would save, a budget and upcoming renewals. Saved only in your browser. |
+| [**Konsumo**](https://jervilangelo.github.io/pinansyalph-v2/magkano-konsumo) · *Magkano Konsumo Ko?* | Appliance electricity costs a day, a month and a year, from typical ratings or an energy label, with indicative Meralco and Visayan Electric residential rates or your own. A household list with the biggest users, and a "what if I use it less" simulator. Saved only in your browser. |
+| [**Internet**](https://jervilangelo.github.io/pinansyalph-v2/sulit-internet) · *Sulit Ba Internet Ko?* | Your internet plan's ₱ per Mbps against verified plans from PLDT Fiber Prepaid, Globe GFiber, Converge, Starlink, Smart and DITO, with first-year and contract costs, installation and promos, side-by-side comparison, custom plans and saved comparisons. |
 | [**About**](https://jervilangelo.github.io/pinansyalph-v2/about) | Why the project exists, its principles, how to contribute, and the FAQ. |
 
 Amounts you enter in MP2 carry over to Digital banks and Compare, so every comparison uses the same inputs. Every
@@ -121,6 +123,8 @@ Money is computed with decimal.js and rounded to centavos only where a real inst
 | Housing prices (Magkano Bahay Ngayon?) | [BSP Residential Property Price Index report](https://www.bsp.gov.ph/Media_And_Research/RPPI/RPPI-Report-2026-Q2.pdf) | Q2 2026 (published September 2026) | By hand each quarter, see [docs/HOUSING-DATA.md](docs/HOUSING-DATA.md) |
 | Electricity rates (Magkano Kuryente Ko?) | Meralco's monthly [Summary Schedule of Rates and Residential Bills at Typical Consumption Levels](https://www.meralco.com.ph/residential/rates-and-charges) | August to November 2026 billing (₱15.5510/kWh at 200 kWh in November) | By hand each month, see [docs/ELECTRICITY-DATA.md](docs/ELECTRICITY-DATA.md) |
 | Subscription prices (Magkano ba Subscription Ko?) | Each service's own Philippine pricing page (Spotify, Netflix, Disney+, YouTube, Apple, Google One, Microsoft 365, Adobe, ChatGPT and others) | Checked 18 November 2026 | By hand; see `src/data/subscriptions.ts` |
+| Internet plans (Sulit Ba Internet Ko?) | Each provider's own plan page or press release | Checked 18 November 2026 | By hand; see docs/METHODOLOGY.md §15 |
+| Indicative electricity rates (Magkano Konsumo Ko?) | Meralco rate schedule; Visayan Electric newsroom | Meralco November 2026; Visayan Electric September 2026 | Monthly (Meralco); by hand (Visayan Electric) |
 | Payroll and tax rules (SSS, PhilHealth, Pag-IBIG, BIR, ₱90,000 benefits ceiling) | SSS Circular 2024-006, PhilHealth Circular 2020-0005, HDMF Circular 460, BIR RR 11-2018, RA 10963 | In force since 2025-01-01 / 2024-01-01 / 2024-02-01 / 2023-01-01 | Versioned by hand in `src/data/payroll.json` |
 
 The [`Update economic data`](.github/workflows/update-economic-data.yml) workflow runs daily. It retrieves each source,
@@ -183,7 +187,7 @@ npm run lint
 | Money | decimal.js |
 | Data contracts | zod schemas shared by the site and the data scripts |
 | Data ingestion | Node scripts run by GitHub Actions; pdf.js for DOE PDFs |
-| Tests | Vitest (242 unit tests), Playwright (139 browser tests) |
+| Tests | Vitest (261 unit tests), Playwright (162 browser tests) |
 | Hosting | GitHub Pages via GitHub Actions |
 
 Architecture and the reasons for it: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).

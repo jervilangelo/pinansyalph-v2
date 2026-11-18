@@ -105,6 +105,22 @@ export const TOOL_MARKS: Partial<Record<Route, MarkPart[]>> = {
     },
     { tone: 'gold', d: sun(24, 41, 7) },
   ],
+  // Konsumo: the kWh meter outside every home, the sun in its dial.
+  '/magkano-konsumo': [
+    {
+      tone: 'blue',
+      d: 'M15 4h18a6 6 0 0 1 6 6v28a6 6 0 0 1-6 6H15a6 6 0 0 1-6-6V10a6 6 0 0 1 6-6Zm9 6.5a10.5 10.5 0 1 0 0 21 10.5 10.5 0 0 0 0-21ZM17.5 35h13a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-13a1.5 1.5 0 0 1-1.5-1.5v-1a1.5 1.5 0 0 1 1.5-1.5Z',
+    },
+    { tone: 'gold', d: sun(24, 24.5, 7) },
+  ],
+  // Internet: a router, with the sun rising from it.
+  '/sulit-internet': [
+    { tone: 'gold', d: sun(24, 27, 8.5) },
+    {
+      tone: 'blue',
+      d: 'M11 27h26a4 4 0 0 1 4 4v6a4 4 0 0 1-4 4H11a4 4 0 0 1-4-4v-6a4 4 0 0 1 4-4Zm3.5 5.25a1.75 1.75 0 1 0 0 3.5 1.75 1.75 0 0 0 0-3.5Zm6 0a1.75 1.75 0 1 0 0 3.5 1.75 1.75 0 0 0 0-3.5ZM10 10.75a1.75 1.75 0 0 1 3.5 0V27H10ZM34.5 10.75a1.75 1.75 0 0 1 3.5 0V27h-3.5Z',
+    },
+  ],
   // Subscriptions: the renewal loop, going round the sun.
   '/magkano-subscription': [
     {

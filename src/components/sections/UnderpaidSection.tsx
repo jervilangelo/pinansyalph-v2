@@ -416,6 +416,7 @@ export function UnderpaidSection() {
             exit={{ y: 80, opacity: 0 }}
             transition={{ duration: 0.3, ease: EASE }}
             onClick={() => resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+            data-floating-bar
             className="ui fixed inset-x-3 bottom-[max(12px,env(safe-area-inset-bottom))] z-30 flex cursor-pointer items-center justify-between gap-3 rounded-[20px] border-0 bg-ink px-5 py-3.5 text-left text-ground shadow-[0_12px_32px_-12px_rgba(0,0,0,0.5)] lg:hidden"
           >
             <span className="text-[0.875rem]">See your result</span>

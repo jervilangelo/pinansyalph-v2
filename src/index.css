@@ -577,3 +577,35 @@
     color: var(--color-loss);
   }
 }
+
+/* The phone tool launcher steps aside for a page's own floating result bar, and sits above a sticky one. */
+body:has([data-floating-bar]) .tool-launcher {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+body:has([data-sticky-bar]) .tool-launcher {
+  bottom: calc(max(16px, env(safe-area-inset-bottom)) + 84px);
+}
+
+/* Homepage constellation: each tool mark drifts a few pixels, out of step with its neighbours. */
+@keyframes mark-drift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+.constellation-mark {
+  animation: mark-drift 6s var(--ease-in-out) infinite;
+}
+.constellation-mark:hover,
+.constellation-mark:focus-visible {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .constellation-mark {
+    animation: none;
+  }
+}

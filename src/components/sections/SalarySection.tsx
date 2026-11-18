@@ -571,7 +571,7 @@ export function SalarySection({ s }: { s: ScenarioState }) {
 
       {/* Phone: keep the answer in view while editing a long list */}
       {p.ok && budgetOk && (
-        <div className="ui sticky bottom-0 z-30 mt-8 px-3 pb-[max(12px,env(safe-area-inset-bottom))] lg:hidden">
+        <div data-sticky-bar className="ui sticky bottom-0 z-30 mt-8 px-3 pb-[max(12px,env(safe-area-inset-bottom))] lg:hidden">
           <div className="flex items-center justify-between gap-4 rounded-[20px] bg-ink px-5 py-3.5 text-ground shadow-[0_12px_32px_-12px_rgba(0,0,0,0.45)]">
             <span className="text-[0.9375rem] font-medium">{hasBudget ? 'Natitira' : 'Take-home'} {perPay ? 'per payday' : 'per month'}</span>
             <span className={`figure text-[1.375rem] ${hasBudget && budgetOk.remaining.lt(0) ? 'text-[#f3aaa0]' : ''}`}>

@@ -31,7 +31,8 @@ test.describe('home page', () => {
     const errors = trackErrors(page)
     await page.goto('/')
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Mas malinaw ang pera mo/i)
-    await expect(page.getByRole('link', { name: 'Compute my take-home pay' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Explore the tools' })).toBeVisible()
+    await expect(page.getByTestId('constellation-mark')).toHaveCount(14)
     const numbers = page.locator('[aria-labelledby="numbers-title"]')
     await expect(numbers).toContainText('Inflation')
     await expect(numbers).toContainText('MP2 dividend')
@@ -182,7 +183,7 @@ test.describe('accessibility basics', () => {
   })
 })
 
-const ROUTES = ['/', '/sweldo', '/underpaid-ba-ko', '/13th-month', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/magkano-ang-toll', '/magkano-kuryente', '/magkano-bahay', '/magkano-subscription', '/about']
+const ROUTES = ['/', '/sweldo', '/underpaid-ba-ko', '/13th-month', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/magkano-ang-toll', '/magkano-kuryente', '/magkano-bahay', '/magkano-subscription', '/magkano-konsumo', '/sulit-internet', '/about']
 
 test.describe('pages and navigation', () => {
   test('every route loads directly with its own heading and title', async ({ page }) => {
@@ -288,16 +289,10 @@ test.describe('v3 brand and support', () => {
     await expect(page.locator('img[alt="PinansyalPH"]').first()).toBeVisible()
   })
 
-  test('home estimator hands its salary to the sweldo calculator', async ({ page }) => {
+  test('a salary in the address pre-fills the sweldo calculator', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
-    await page.goto('/')
-    await page.getByLabel('Monthly basic salary').fill('45,000')
-    await expect(page.getByTestId('quick-take-home')).not.toHaveText('₱26,543')
-    const quick = await page.getByTestId('quick-take-home').textContent()
-    await page.getByRole('link', { name: 'Full breakdown' }).click()
-    await expect(page).toHaveURL(/\/sweldo\?basic=45000$/)
+    await page.goto('/sweldo?basic=45000')
     await expect(page.locator('#sweldo').getByLabel('Basic monthly salary')).toHaveValue('45,000')
-    await expect(page.getByTestId('take-home')).toHaveText(quick!)
   })
 
   test('support modal: focus, links, Escape and focus restore', async ({ page }) => {

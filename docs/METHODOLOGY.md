@@ -488,3 +488,42 @@ Prices in `src/data/subscriptions.ts` were read from each service's own Philippi
 from a Philippine connection. Only peso prices the service publishes are pre-filled. Dollar prices are shown for
 reference and never converted; promotional and first-period prices are kept apart from the regular price; plans with
 no verifiable Philippine price have no default. The visitor's amount always overrides the default.
+
+## 14. Appliance electricity ("Magkano Konsumo Ko?")
+
+```
+kWh on a day it runs = watts × hours a day × units × share of time at full power ÷ 1,000
+kWh a month          = daily kWh × days a month;  a year = × 12;  a week = a year ÷ 52
+cost                 = kWh × rate per kWh
+```
+
+Rated wattage (the label's maximum), typical operating power and estimated actual use are kept apart. Cycling and
+variable appliances (refrigerators, aircons, irons, induction cookers) carry a default "share of time at full power"
+that the visitor can change; refrigerators and aircons can use the kWh on their Philippine Energy Label instead.
+Presets in `src/data/appliances.ts` are typical ratings of common models, not measurements.
+
+Indicative rates (`src/data/electricityRates.ts`): Meralco's is computed from the published schedule already used by
+the Kuryente checker (total bill for 200 kWh ÷ 200); Visayan Electric's is its announced overall residential rate.
+Only residential rates are included. Update: each month with the Meralco schedule (`npm run data:electricity`), and by
+hand for Visayan Electric from its newsroom, changing `perKwh`, `billingPeriod`, `verifiedOn` and `sourceUrl` together.
+
+## 15. Internet plans ("Sulit Ba Internet Ko?")
+
+```
+monthly equivalent = postpaid price, or prepaid load × 365 ÷ load days ÷ 12
+₱ per Mbps         = monthly equivalent ÷ advertised download Mbps
+first-year cost    = one-time fees + 12 months of charges (promo months and installation instalments included)
+contract cost      = one-time fees + charges over the lock-in (24 months as a reference when there is none)
+effective monthly  = contract cost ÷ its months
+```
+
+Plans in `src/data/internetPlans.ts` come from each provider's own page. `current` plans were read on a live page;
+`announced` plans come from an official announcement that could not be re-confirmed and are never used to say a
+visitor is overpaying. Anything a provider does not publish is `null` ("not stated"). Coverage is not filtered by
+place, because no provider publishes coverage data that can be checked.
+
+Update by hand: open each `source.url`, change the plan's fields and `checked` date together, mark plans that have
+disappeared by removing them (never by leaving an old price), and run `npm test`, which checks every plan has a
+provider, a source and a price. If a page cannot be read (some providers block automated requests), keep the last
+verified entry and its date rather than guessing.
+

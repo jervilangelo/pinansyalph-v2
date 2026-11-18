@@ -8,7 +8,7 @@ import { createContext, useCallback, useContext, useEffect, useState, type Ancho
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, '')
 
-export const ROUTES = ['/', '/sweldo', '/underpaid-ba-ko', '/13th-month', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/magkano-ang-toll', '/magkano-kuryente', '/magkano-bahay', '/magkano-subscription', '/about'] as const
+export const ROUTES = ['/', '/sweldo', '/underpaid-ba-ko', '/13th-month', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/magkano-ang-toll', '/magkano-kuryente', '/magkano-bahay', '/magkano-subscription', '/magkano-konsumo', '/sulit-internet', '/about'] as const
 export type Route = (typeof ROUTES)[number]
 
 export type GroupId = 'sahod' | 'ipon' | 'presyo' | 'gastos'
@@ -35,6 +35,8 @@ export const PAGES: PageInfo[] = [
   { path: '/magkano-ang-toll', label: 'Toll', name: 'Magkano ang Toll Ko?', title: 'Magkano ang Toll Ko?', blurb: 'Expressway toll by entry, exit and vehicle class, with your RFID load.', hint: 'Expressway tolls and RFID load', group: 'presyo' },
   { path: '/magkano-kuryente', label: 'Kuryente', name: 'Magkano Kuryente Ko?', title: 'Magkano Kuryente Ko?', blurb: 'Check your Meralco bill against the month’s published rates, appliance by appliance.', hint: 'Check your Meralco bill', group: 'gastos' },
   { path: '/magkano-bahay', label: 'Bahay', name: 'Magkano Bahay Ngayon?', title: 'Magkano Bahay Ngayon?', blurb: 'House and condo prices by area from the BSP, price trends, and what a home loan would cost.', hint: 'House and condo prices, home loans', group: 'presyo' },
+  { path: '/magkano-konsumo', label: 'Konsumo', name: 'Magkano Konsumo Ko?', title: 'Magkano Konsumo Ko?', blurb: 'What each appliance costs in electricity a day, a month and a year, and what using it less would save.', hint: 'Appliance electricity costs', group: 'gastos' },
+  { path: '/sulit-internet', label: 'Internet', name: 'Sulit Ba Internet Ko?', title: 'Sulit Ba Internet Ko?', blurb: 'Your internet plan’s cost per Mbps against verified plans from PLDT, Globe, Converge, Starlink and more.', hint: 'Compare internet plans by ₱ per Mbps', group: 'gastos' },
   { path: '/magkano-subscription', label: 'Subscriptions', name: 'Magkano ba Subscription Ko?', title: 'Magkano ba Subscription Ko?', blurb: 'Add your streaming, cloud, AI and gaming subscriptions and see what they cost you a month and a year.', hint: 'Your subscriptions, monthly and yearly', group: 'gastos' },
   { path: '/about', label: 'About', name: 'About', title: 'About PinansyalPH', blurb: 'Why this open-source project exists, and how the numbers are made.' },
 ]
