@@ -60,6 +60,11 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
+                  <Link className="link font-semibold text-alarm" to="/mga-dapat-iwasan">
+                    Mga Dapat Iwasan
+                  </Link>
+                </li>
+                <li>
                   <a className="link" href={REPO} target="_blank" rel="noopener noreferrer">
                     Source code on GitHub
                   </a>

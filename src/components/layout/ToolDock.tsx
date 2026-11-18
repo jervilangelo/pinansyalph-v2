@@ -1,5 +1,5 @@
 import { AnimatePresence } from 'motion/react'
-import { LayoutGrid, X } from 'lucide-react'
+import { LayoutGrid, ShieldAlert, X } from 'lucide-react'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { GROUPS, Link, TOOLS, useRouter } from '../../router'
 import { SymbolSmall } from '../brand/Logo'
@@ -82,6 +82,14 @@ function DesktopDock({ hidden }: { hidden: boolean }) {
             ))}
           </Fragment>
         ))}
+        <li aria-hidden="true" className="mx-1 h-6 w-[3px] rounded-full bg-surface" />
+        <li>
+          <DockItem to="/mga-dapat-iwasan" label="Mga Dapat Iwasan" hint="Financial traps to avoid" active={path === '/mga-dapat-iwasan'} focus={focus} setFocus={setFocus}>
+            <span className="flex h-7 w-7 items-center justify-center rounded-[9px] bg-alarm text-white">
+              <ShieldAlert size={17} strokeWidth={2.3} />
+            </span>
+          </DockItem>
+        </li>
       </ul>
     </motion.nav>
   )
@@ -225,6 +233,13 @@ function MobileLauncher({ hidden }: { hidden: boolean }) {
                   <span className="sr-only">Close</span>
                 </button>
               </div>
+              <Link to="/mga-dapat-iwasan" onClick={() => setOpen(false)} className="ui mt-4 flex items-center gap-3 rounded-[16px] bg-alarm-soft p-3 font-semibold text-alarm-deep">
+                <span className="flex h-9 w-9 items-center justify-center rounded-[11px] bg-alarm text-white">
+                  <ShieldAlert aria-hidden="true" size={18} />
+                </span>
+                Mga Dapat Iwasan
+                <span className="ml-auto rounded-full bg-alarm px-2 py-0.5 text-[0.6875rem] font-bold text-white">BASAHIN</span>
+              </Link>
               {GROUPS.map((g, gi) => (
                 <section key={g.id} aria-labelledby={`sheet-${g.id}`} className="mt-5">
                   <h2 id={`sheet-${g.id}`} className="ui px-1 text-[0.9375rem] font-semibold text-accent">

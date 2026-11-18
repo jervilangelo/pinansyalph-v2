@@ -67,6 +67,7 @@ Every tool has its own focused page, uses sourced figures, and explains its calc
 | [**Subscriptions**](https://jervilangelo.github.io/pinansyalph-v2/magkano-subscription) · *Magkano ba Subscription Ko? Akala mo maliit lang?* | A subscription tracker with a directory of 42 services and their official Philippine prices. Monthly, quarterly and yearly plans are normalised to a monthly cost, shared plans count only your share, and you can always type what you actually pay. Shows monthly, yearly and weekly totals, a category breakdown, what cancelling would save, a budget and upcoming renewals. Saved only in your browser. |
 | [**Konsumo**](https://jervilangelo.github.io/pinansyalph-v2/magkano-konsumo) · *Magkano Konsumo Ko?* | Appliance electricity costs a day, a month and a year, from typical ratings or an energy label, with indicative Meralco and Visayan Electric residential rates or your own. A household list with the biggest users, and a "what if I use it less" simulator. Saved only in your browser. |
 | [**Internet**](https://jervilangelo.github.io/pinansyalph-v2/sulit-internet) · *Sulit Ba Internet Ko?* | Your internet plan's ₱ per Mbps against verified plans from PLDT Fiber Prepaid, Globe GFiber, Converge, Starlink, Smart and DITO, with first-year and contract costs, installation and promos, side-by-side comparison, custom plans and saved comparisons. |
+| [**Mga Dapat Iwasan**](https://jervilangelo.github.io/pinansyalph-v2/mga-dapat-iwasan) · *Kilalanin ang mga financial traps bago pa maubos ang pera mo.* | A financial awareness page, last in the main toolbar in red: the house edge and an expected-loss simulator, the true cost of loan apps and a borrowing-again simulator, credit card minimum payments with a repayment schedule, installment load, the psychology of financial traps, "Kung inipon mo sana", and where to get help. Rules cited from BSP, NPC and PAGCOR documents. |
 | [**About**](https://jervilangelo.github.io/pinansyalph-v2/about) | Why the project exists, its principles, how to contribute, and the FAQ. |
 
 Amounts you enter in MP2 carry over to Digital banks and Compare, so every comparison uses the same inputs. Every
@@ -187,7 +188,7 @@ npm run lint
 | Money | decimal.js |
 | Data contracts | zod schemas shared by the site and the data scripts |
 | Data ingestion | Node scripts run by GitHub Actions; pdf.js for DOE PDFs |
-| Tests | Vitest (261 unit tests), Playwright (162 browser tests) |
+| Tests | Vitest (279 unit tests), Playwright (184 browser tests) |
 | Hosting | GitHub Pages via GitHub Actions |
 
 Architecture and the reasons for it: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).

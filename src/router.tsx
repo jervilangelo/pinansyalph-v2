@@ -8,7 +8,7 @@ import { createContext, useCallback, useContext, useEffect, useState, type Ancho
 
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, '')
 
-export const ROUTES = ['/', '/sweldo', '/underpaid-ba-ko', '/13th-month', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/magkano-ang-toll', '/magkano-kuryente', '/magkano-bahay', '/magkano-subscription', '/magkano-konsumo', '/sulit-internet', '/about'] as const
+export const ROUTES = ['/', '/sweldo', '/underpaid-ba-ko', '/13th-month', '/mp2', '/banks', '/compare', '/inflation', '/gas', '/magkano-ang-toll', '/magkano-kuryente', '/magkano-bahay', '/magkano-subscription', '/magkano-konsumo', '/sulit-internet', '/mga-dapat-iwasan', '/about'] as const
 export type Route = (typeof ROUTES)[number]
 
 export type GroupId = 'sahod' | 'ipon' | 'presyo' | 'gastos'
@@ -38,6 +38,7 @@ export const PAGES: PageInfo[] = [
   { path: '/magkano-konsumo', label: 'Konsumo', name: 'Magkano Konsumo Ko?', title: 'Magkano Konsumo Ko?', blurb: 'What each appliance costs in electricity a day, a month and a year, and what using it less would save.', hint: 'Appliance electricity costs', group: 'gastos' },
   { path: '/sulit-internet', label: 'Internet', name: 'Sulit Ba Internet Ko?', title: 'Sulit Ba Internet Ko?', blurb: 'Your internet plan’s cost per Mbps against verified plans from PLDT, Globe, Converge, Starlink and more.', hint: 'Compare internet plans by ₱ per Mbps', group: 'gastos' },
   { path: '/magkano-subscription', label: 'Subscriptions', name: 'Magkano ba Subscription Ko?', title: 'Magkano ba Subscription Ko?', blurb: 'Add your streaming, cloud, AI and gaming subscriptions and see what they cost you a month and a year.', hint: 'Your subscriptions, monthly and yearly', group: 'gastos' },
+  { path: '/mga-dapat-iwasan', label: 'Mga Dapat Iwasan', name: 'Mga Dapat Iwasan', title: 'Mga Dapat Iwasan', blurb: 'The arithmetic behind gambling, loan apps, credit card minimums and installment spending, with simulators and ways to protect your money.', hint: 'Financial traps to avoid' },
   { path: '/about', label: 'About', name: 'About', title: 'About PinansyalPH', blurb: 'Why this open-source project exists, and how the numbers are made.' },
 ]
 

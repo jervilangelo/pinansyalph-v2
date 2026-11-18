@@ -26,6 +26,8 @@ const loadSubs = () => import('./pages/SubscriptionPage')
 const SubscriptionPage = lazy(() => loadSubs().then((m) => ({ default: m.SubscriptionPage })))
 const loadKonsumo = () => import('./pages/KonsumoPage')
 const KonsumoPage = lazy(() => loadKonsumo().then((m) => ({ default: m.KonsumoPage })))
+const loadIwasan = () => import('./pages/IwasanPage')
+const IwasanPage = lazy(() => loadIwasan().then((m) => ({ default: m.IwasanPage })))
 const loadInternet = () => import('./pages/InternetPage')
 const InternetPage = lazy(() => loadInternet().then((m) => ({ default: m.InternetPage })))
 const ThirteenthPage = lazy(() => loadTools().then((m) => ({ default: m.ThirteenthPage })))
@@ -38,7 +40,7 @@ const AboutPage = lazy(() => loadAbout().then((m) => ({ default: m.AboutPage }))
 
 function usePrefetch() {
   useEffect(() => {
-    const run = () => void Promise.all([loadTools(), loadAbout(), loadUnderpaid(), loadToll(), loadKuryente(), loadBahay(), loadSubs(), loadKonsumo(), loadInternet()]).catch(() => {})
+    const run = () => void Promise.all([loadTools(), loadAbout(), loadUnderpaid(), loadToll(), loadKuryente(), loadBahay(), loadSubs(), loadKonsumo(), loadInternet(), loadIwasan()]).catch(() => {})
     const w = window as Window & { requestIdleCallback?: (cb: () => void, o?: { timeout: number }) => number }
     if (w.requestIdleCallback) w.requestIdleCallback(run, { timeout: 3000 })
     else setTimeout(run, 1500)
@@ -89,6 +91,7 @@ function Pages() {
     '/magkano-subscription': <SubscriptionPage />,
     '/magkano-konsumo': <KonsumoPage />,
     '/sulit-internet': <InternetPage />,
+    '/mga-dapat-iwasan': <IwasanPage />,
     '/about': <AboutPage />,
   }
 

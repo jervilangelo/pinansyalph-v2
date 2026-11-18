@@ -34,6 +34,11 @@
   --color-gain-soft: #e1efe5;
   --color-loss: #a43a30;
   --color-loss-soft: #f7e3df;
+  /* Mga Dapat Iwasan: the warning identity, used on that page and its navigation entry only. */
+  --color-alarm: #b42318;
+  --color-alarm-deep: #7a1a12;
+  --color-alarm-soft: #fdeceb;
+  --color-alarm-muted: #f6d4cf;
   --color-warn: #7a5200;
   --color-warn-soft: #f8edd2;
   --color-night: #151514;

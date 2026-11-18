@@ -1,5 +1,5 @@
 import { AnimatePresence } from 'motion/react'
-import { ChevronDown, Heart, Menu, X } from 'lucide-react'
+import { ChevronDown, Heart, Menu, ShieldAlert, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { Link, TOOLS, useRouter } from '../../router'
 import { LogoHorizontal } from '../brand/Logo'
@@ -8,7 +8,8 @@ import { DUR, EASE, motion, useReducedMotion } from '../ui/motion'
 import { ToolDirectory } from './ToolDirectory'
 
 /**
- * A plain bar: the logo, one "Tools" menu, About, and one action.
+ * A plain bar: the logo, one "Tools" menu, About, Support and, last on the
+ * right, "Mga Dapat Iwasan" in its red warning treatment.
  * Desktop: the tools open as a panel under the bar. Phones: the same
  * directory fills the screen as a sheet.
  */
@@ -68,7 +69,7 @@ export function SiteHeader() {
     <header className={`sticky top-0 z-40 transition-colors duration-300 ${scrolled || open ? 'bg-paper/[0.98]' : 'bg-ground'}`}>
       <nav aria-label="Main" className="wrap flex h-[var(--header-h)] items-center gap-2">
         <Link to="/" className="-ml-1.5 mr-auto flex shrink-0 items-center rounded-[10px] p-1.5 transition-opacity hover:opacity-80" aria-label="PinansyalPH home">
-          <LogoHorizontal height={42} className="h-[38px] w-auto sm:h-[42px]" />
+          <LogoHorizontal height={42} className="h-[30px] w-auto min-[380px]:h-[38px] sm:h-[42px]" />
         </Link>
 
         {/* Desktop */}
@@ -91,13 +92,20 @@ export function SiteHeader() {
           >
             About
           </Link>
-          <button type="button" onClick={openSupport} className="flex min-h-11 cursor-pointer items-center gap-2 rounded-full border-0 bg-transparent px-4 text-[0.9375rem] font-semibold transition-colors hover:bg-surface">
+          <button
+            type="button"
+            onClick={openSupport}
+            className="flex min-h-11 cursor-pointer items-center gap-2 rounded-full border-0 bg-transparent px-4 text-[0.9375rem] font-semibold transition-colors hover:bg-surface"
+          >
             <Heart aria-hidden="true" size={16} strokeWidth={2.2} className="text-accent" />
             Support
           </button>
+          <span aria-hidden="true" className="mx-2 h-6 w-[2px] rounded-full bg-surface-2" />
+          <IwasanLink active={path === '/mga-dapat-iwasan'} />
         </div>
 
         {/* Phones and tablets */}
+        <IwasanLink active={path === '/mga-dapat-iwasan'} compact />
         <button
           ref={mobileBtn}
           type="button"
@@ -153,12 +161,40 @@ export function SiteHeader() {
               className="fixed inset-x-0 top-[var(--header-h)] bottom-0 overflow-y-auto overscroll-contain bg-paper lg:hidden"
             >
               <div className="wrap pt-4 pb-[max(32px,env(safe-area-inset-bottom))]">
+                <Link
+                  to="/mga-dapat-iwasan"
+                  onClick={close}
+                  aria-current={path === '/mga-dapat-iwasan' ? 'page' : undefined}
+                  className="ui mb-6 flex items-center gap-3 rounded-[18px] bg-alarm-soft p-3 text-alarm-deep outline-offset-2 hover:bg-alarm-muted"
+                  data-testid="iwasan-mobile-link"
+                >
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[13px] bg-alarm text-white">
+                    <ShieldAlert aria-hidden="true" size={22} />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-center gap-2 text-[1rem] font-semibold">
+                      Mga Dapat Iwasan
+                      <span className="rounded-full bg-alarm px-2 py-0.5 text-[0.6875rem] font-bold tracking-[0.04em] text-white">BASAHIN</span>
+                    </span>
+                    <span className="mt-0.5 block text-[0.8125rem] text-alarm-deep/80">Gambling, loan apps, credit cards and installment traps</span>
+                  </span>
+                </Link>
                 <ToolDirectory onNavigate={close} compact />
                 <div className="ui mt-8 grid gap-1 rounded-[22px] bg-ground p-2">
-                  <Link to="/" onClick={close} aria-current={path === '/' ? 'page' : undefined} className="flex min-h-[52px] items-center rounded-[16px] px-3 font-semibold hover:bg-surface aria-[current=page]:text-accent">
+                  <Link
+                    to="/"
+                    onClick={close}
+                    aria-current={path === '/' ? 'page' : undefined}
+                    className="flex min-h-[52px] items-center rounded-[16px] px-3 font-semibold hover:bg-surface aria-[current=page]:text-accent"
+                  >
                     Home
                   </Link>
-                  <Link to="/about" onClick={close} aria-current={path === '/about' ? 'page' : undefined} className="flex min-h-[52px] items-center rounded-[16px] px-3 font-semibold hover:bg-surface aria-[current=page]:text-accent">
+                  <Link
+                    to="/about"
+                    onClick={close}
+                    aria-current={path === '/about' ? 'page' : undefined}
+                    className="flex min-h-[52px] items-center rounded-[16px] px-3 font-semibold hover:bg-surface aria-[current=page]:text-accent"
+                  >
                     About
                   </Link>
                   <button
@@ -178,5 +214,37 @@ export function SiteHeader() {
         )}
       </AnimatePresence>
     </header>
+  )
+}
+
+/**
+ * "Mga Dapat Iwasan": the one red item in the bar, always last on the right.
+ * Compact on phones (icon and badge), full label from tablet width.
+ */
+function IwasanLink({ active, compact = false }: { active: boolean; compact?: boolean }) {
+  return (
+    <Link
+      to="/mga-dapat-iwasan"
+      aria-current={active ? 'page' : undefined}
+      className={`iwasan-link ui group relative items-center gap-2 rounded-full bg-alarm-soft font-semibold text-alarm-deep transition-[background-color,box-shadow] duration-300 hover:bg-alarm-muted focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-alarm aria-[current=page]:bg-alarm aria-[current=page]:text-white ${
+        compact ? 'mr-1 flex min-h-11 gap-1.5 px-2 text-[0.875rem] min-[380px]:gap-2 min-[380px]:px-2.5 lg:hidden' : 'hidden min-h-11 pr-2 pl-3.5 text-[0.9375rem] lg:flex'
+      }`}
+      data-testid={compact ? 'iwasan-nav-compact' : 'iwasan-nav'}
+    >
+      <ShieldAlert
+        aria-hidden="true"
+        size={18}
+        strokeWidth={2.3}
+        className="shrink-0 text-alarm transition-transform duration-300 ease-[var(--ease-out-quint)] group-hover:-rotate-6 group-hover:scale-110 group-aria-[current=page]:text-white"
+      />
+      <span className={compact ? 'sr-only min-[400px]:not-sr-only' : ''}>{compact ? 'Iwasan' : 'Mga Dapat Iwasan'}</span>
+      {compact && <span className="sr-only"> (Mga Dapat Iwasan)</span>}
+      <span
+        className="rounded-full bg-alarm px-2 py-0.5 text-[0.6875rem] leading-tight font-bold tracking-[0.04em] text-white group-aria-[current=page]:bg-white group-aria-[current=page]:text-alarm"
+        data-testid="iwasan-badge"
+      >
+        BASAHIN
+      </span>
+    </Link>
   )
 }

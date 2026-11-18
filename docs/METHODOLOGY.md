@@ -527,3 +527,26 @@ disappeared by removing them (never by leaving an old price), and run `npm test`
 provider, a source and a price. If a page cannot be read (some providers block automated requests), keep the last
 verified entry and its date rather than guessing.
 
+## 16. Financial traps ("Mga Dapat Iwasan")
+
+Formulas (`src/calculators/iwasan.ts`):
+
+```
+expected gambling loss  = total wagered × house edge          (a long-run average, not a prediction)
+loan cash received      = advertised amount − fees deducted up front
+loan total cost         = total repayment − cash received
+effective monthly cost  = the per-month rate at which the payments are worth the cash received (internal rate of return)
+effective annual cost   = (1 + effective monthly)^12 − 1
+add-on interest         = principal × monthly rate × months;  diminishing balance = level amortising payment
+borrowing again         = each due amount, less your own payment, is borrowed again, grossed up for the new loan's fees
+credit card, per month  = charge on balance carried, + new spending, − payment (minimum = larger of % and peso floor)
+future value            = payment × ((1 + r)^n − 1) ÷ r, with r the per-period equivalent of the annual return; 0% is plain addition
+```
+
+House edges shown as examples follow from game rules (single-zero roulette: 1 ÷ 37 ≈ 2.70%; double-zero: 2 ÷ 38 ≈
+5.26%). The variance chart is a seeded simulation, labelled as such. Credit card results simplify the issuer's average
+daily balance method. Regulatory figures come from BSP Circular No. 1165 (credit cards) and BSP Circular No. 1133 (small
+loans from lending and financing companies); privacy rules from NPC Circulars No. 20-01 and 2022-02. Every source, with
+what it supports and whether its text was read, is listed in `src/data/iwasanSources.ts` and on the page. The SEC website
+refused automated reading, so SEC circulars are cited for their title and role only.
+
