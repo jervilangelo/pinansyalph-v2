@@ -5,11 +5,12 @@ import { Link, TOOLS, useRouter } from '../../router'
 import { LogoHorizontal } from '../brand/Logo'
 import { useSupport } from '../support/Support'
 import { DUR, EASE, motion, useReducedMotion } from '../ui/motion'
+import { ShareButton } from './ShareButton'
 import { ToolDirectory } from './ToolDirectory'
 
 /**
  * A plain bar: the logo, one "Tools" menu, About, Support and, last on the
- * right, "Mga Dapat Iwasan" in its red warning treatment.
+ * right, a Share button for the current page.
  * Desktop: the tools open as a panel under the bar. Phones: the same
  * directory fills the screen as a sheet.
  */
@@ -101,11 +102,11 @@ export function SiteHeader() {
             Support
           </button>
           <span aria-hidden="true" className="mx-2 h-6 w-[2px] rounded-full bg-surface-2" />
-          <IwasanLink active={path === '/mga-dapat-iwasan'} />
+          <ShareButton />
         </div>
 
         {/* Phones and tablets */}
-        <IwasanLink active={path === '/mga-dapat-iwasan'} compact />
+        <ShareButton compact />
         <button
           ref={mobileBtn}
           type="button"
@@ -214,37 +215,5 @@ export function SiteHeader() {
         )}
       </AnimatePresence>
     </header>
-  )
-}
-
-/**
- * "Mga Dapat Iwasan": the one red item in the bar, always last on the right.
- * Compact on phones (icon and badge), full label from tablet width.
- */
-function IwasanLink({ active, compact = false }: { active: boolean; compact?: boolean }) {
-  return (
-    <Link
-      to="/mga-dapat-iwasan"
-      aria-current={active ? 'page' : undefined}
-      className={`iwasan-link ui group relative items-center gap-2 rounded-full bg-alarm-soft font-semibold text-alarm-deep transition-[background-color,box-shadow] duration-300 hover:bg-alarm-muted focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-alarm aria-[current=page]:bg-alarm aria-[current=page]:text-white ${
-        compact ? 'mr-1 flex min-h-11 gap-1.5 px-2 text-[0.875rem] min-[380px]:gap-2 min-[380px]:px-2.5 lg:hidden' : 'hidden min-h-11 pr-2 pl-3.5 text-[0.9375rem] lg:flex'
-      }`}
-      data-testid={compact ? 'iwasan-nav-compact' : 'iwasan-nav'}
-    >
-      <ShieldAlert
-        aria-hidden="true"
-        size={18}
-        strokeWidth={2.3}
-        className="shrink-0 text-alarm transition-transform duration-300 ease-[var(--ease-out-quint)] group-hover:-rotate-6 group-hover:scale-110 group-aria-[current=page]:text-white"
-      />
-      <span className={compact ? 'sr-only min-[400px]:not-sr-only' : ''}>{compact ? 'Iwasan' : 'Mga Dapat Iwasan'}</span>
-      {compact && <span className="sr-only"> (Mga Dapat Iwasan)</span>}
-      <span
-        className="rounded-full bg-alarm px-2 py-0.5 text-[0.6875rem] leading-tight font-bold tracking-[0.04em] text-white group-aria-[current=page]:bg-white group-aria-[current=page]:text-alarm"
-        data-testid="iwasan-badge"
-      >
-        BASAHIN
-      </span>
-    </Link>
   )
 }

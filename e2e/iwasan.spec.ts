@@ -8,94 +8,79 @@ test.beforeEach(async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
 })
 
-test.describe('main toolbar entry', () => {
-  for (const width of [1024, 1280, 1440, 1920]) {
-    test(`is the last, rightmost item and overlaps nothing at ${width}px`, async ({ page }) => {
+test.describe('share button', () => {
+  for (const width of [1024, 1440, 1920]) {
+    test(`is the last, rightmost toolbar item and overlaps nothing at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 })
       await page.goto('/')
       const nav = page.getByRole('navigation', { name: 'Main' })
       const items = nav.locator('a:visible, button:visible')
       const n = await items.count()
-      const last = items.nth(n - 1)
-      await expect(last).toHaveAttribute('data-testid', 'iwasan-nav')
-      await expect(last).toContainText('Mga Dapat Iwasan')
+      await expect(items.nth(n - 1)).toHaveAttribute('data-testid', 'share-button')
       const boxes = await Promise.all(Array.from({ length: n }, (_, i) => items.nth(i).boundingBox()))
-      for (let i = 1; i < n; i++) expect(boxes[i]!.x, `item ${i} starts after item ${i - 1} ends`).toBeGreaterThanOrEqual(boxes[i - 1]!.x + boxes[i - 1]!.width - 1)
-      const lastBox = boxes[n - 1]!
-      const rightmost = Math.max(...boxes.map((b) => b!.x + b!.width))
-      expect(lastBox.x + lastBox.width).toBe(rightmost)
-      expect(lastBox.x + lastBox.width).toBeLessThanOrEqual(width)
-      // The other toolbar items are still there.
-      await expect(nav.getByRole('button', { name: 'Tools' })).toBeVisible()
-      await expect(nav.getByRole('link', { name: 'About', exact: true })).toBeVisible()
+      for (let i = 1; i < n; i++) expect(boxes[i]!.x).toBeGreaterThanOrEqual(boxes[i - 1]!.x + boxes[i - 1]!.width - 1)
+      expect(boxes[n - 1]!.x + boxes[n - 1]!.width).toBeLessThanOrEqual(width)
+      await expect(nav.getByTestId('iwasan-nav')).toHaveCount(0)
     })
   }
 
-  test('red icon, red text, BASAHIN badge, hover and keyboard focus, and it opens the page', async ({ page }) => {
+  test('opens with Facebook, Messenger, Instagram and Copy link; keyboard and Escape work', async ({ page, context }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write'])
     await page.setViewportSize({ width: 1440, height: 900 })
-    await page.goto('/')
-    const item = S(page, 'iwasan-nav')
-    const badge = item.getByTestId('iwasan-badge')
-    await expect(badge).toBeVisible()
-    await expect(badge).toHaveText('BASAHIN')
-    const red = (c: string) => {
-      const [r, g, b] = c.match(/\d+/g)!.map(Number)
-      return r > 100 && r > g * 2 && r > b * 2
-    }
-    expect(red(await item.locator('svg').evaluate((e) => getComputedStyle(e).color)), 'icon is red').toBe(true)
-    expect(red(await item.evaluate((e) => getComputedStyle(e).color)), 'text is red').toBe(true)
-    expect(red(await badge.evaluate((e) => getComputedStyle(e).backgroundColor)), 'badge is red').toBe(true)
-
-    const before = await item.evaluate((e) => getComputedStyle(e).backgroundColor)
-    await item.hover()
-    await expect.poll(() => item.evaluate((e) => getComputedStyle(e).backgroundColor)).not.toBe(before)
-
-    await page.mouse.move(0, 500)
-    await item.focus()
-    await page.keyboard.press('Shift+Tab')
-    await page.keyboard.press('Tab')
-    await expect(item).toBeFocused()
-    expect(await item.evaluate((e) => getComputedStyle(e).outlineStyle)).not.toBe('none')
-
+    await page.goto('/magkano-konsumo')
+    const btn = S(page, 'share-button')
+    await btn.focus()
     await page.keyboard.press('Enter')
-    await expect(page).toHaveURL(/\/mga-dapat-iwasan$/)
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Mga Dapat Iwasan')
-    await expect(item).toHaveAttribute('aria-current', 'page')
-    await expect(page).toHaveTitle(/^Mga Dapat Iwasan · PinansyalPH$/)
-  })
+    const panel = S(page, 'share-panel')
+    await expect(panel).toBeVisible()
+    for (const id of ['share-facebook', 'share-messenger', 'share-instagram', 'share-copy']) await expect(S(page, id)).toBeVisible()
 
-  test('other toolbar links keep working', async ({ page }) => {
-    await page.setViewportSize({ width: 1440, height: 900 })
-    await page.goto('/mga-dapat-iwasan')
-    const nav = page.getByRole('navigation', { name: 'Main' })
-    await nav.getByRole('link', { name: 'About', exact: true }).click()
-    await expect(page).toHaveURL(/\/about$/)
-    await nav.getByRole('button', { name: 'Tools' }).click()
-    await page
-      .locator('#tools-menu')
-      .getByRole('link', { name: /^Sweldo/ })
-      .click()
-    await expect(page).toHaveURL(/\/sweldo$/)
+    const [fb] = await Promise.all([page.waitForEvent('popup'), S(page, 'share-facebook').click()])
+    expect(fb.url()).toContain('facebook.com')
+    expect(decodeURIComponent(fb.url())).toContain('/magkano-konsumo')
+    await fb.close()
+
+    await S(page, 'share-copy').click()
+    await expect(S(page, 'share-status')).toHaveText('Link copied.')
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toMatch(/\/magkano-konsumo$/)
+
+    // On a computer, Messenger copies the link and opens Messenger to paste it.
+    const [msg] = await Promise.all([page.waitForEvent('popup'), S(page, 'share-messenger').click()])
+    expect(msg.url()).toContain('messenger.com')
+    await msg.close()
+    await expect(S(page, 'share-status')).toContainText('Paste it into your Messenger chat')
+
+    await page.keyboard.press('Escape')
+    await expect(panel).toHaveCount(0)
+    await expect(btn).toBeFocused()
   })
 
   for (const width of [320, 390, 768]) {
-    test(`keeps its red identity on smaller screens at ${width}px`, async ({ page }) => {
+    test(`fits as an icon button on smaller screens at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 844 })
       await page.goto('/')
-      const compact = S(page, 'iwasan-nav-compact')
-      await expect(compact).toBeVisible()
-      await expect(compact.getByTestId('iwasan-badge')).toBeVisible()
-      const box = (await compact.boundingBox())!
+      const btn = S(page, 'share-button-compact')
+      await expect(btn).toBeVisible()
+      await expect(btn).toHaveAccessibleName('Share this page')
+      await btn.click()
+      const box = (await S(page, 'share-panel').boundingBox())!
+      expect(box.x).toBeGreaterThanOrEqual(0)
       expect(box.x + box.width).toBeLessThanOrEqual(width)
-      expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0)
-      await page.getByRole('button', { name: 'Open menu' }).click()
-      await expect(S(page, 'iwasan-mobile-link')).toBeVisible()
-      await expect(S(page, 'iwasan-mobile-link')).toContainText('BASAHIN')
-      await S(page, 'iwasan-mobile-link').click()
-      await expect(page).toHaveURL(/\/mga-dapat-iwasan$/)
       expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0)
     })
   }
+
+  test('Mga Dapat Iwasan is still reachable from the phone menu, the dock and the footer', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto('/')
+    await expect(page.getByTestId('tool-dock').getByRole('link', { name: 'Mga Dapat Iwasan' })).toBeVisible()
+    await expect(page.getByRole('contentinfo').getByRole('link', { name: 'Mga Dapat Iwasan' })).toHaveAttribute('href', /mga-dapat-iwasan$/)
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.getByRole('button', { name: 'Open menu' }).click()
+    await S(page, 'iwasan-mobile-link').click()
+    await expect(page).toHaveURL(/\/mga-dapat-iwasan$/)
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Mga Dapat Iwasan')
+  })
 })
 
 test.describe('page and calculators', () => {
