@@ -35,7 +35,7 @@ export const AVOID: AvoidItem[] = [
     id: 'betting',
     icon: Dices,
     title: 'Betting and gambling sites',
-    why: 'Every game keeps a share of what you bet. Wins happen, but the longer you play, the more you lose.',
+    why: 'They are built so players lose. Every game keeps a share of every bet, and the longer you play, the more you lose.',
     example: (
       <>
         Betting ₱1,000 three times a week at a 2.7% house edge loses about <strong>{peso(bet.expectedLoss)}</strong> a year, on average.
@@ -43,7 +43,7 @@ export const AVOID: AvoidItem[] = [
     ),
     instead: (
       <>
-        Don’t start, or only spend money you’re fine losing, with a limit set beforehand. If it’s hard to stop, PAGCOR offers self-exclusion.
+        Don’t gamble, online or offline. It is not a way to earn money. Put that money into savings. If you or someone close to you can’t stop, PAGCOR’s exclusion program can block access to licensed gaming sites.
         <Cite id="pagcor-exclusion" />
       </>
     ),
