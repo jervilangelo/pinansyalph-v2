@@ -128,6 +128,26 @@ test.describe('appearance', () => {
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
   })
 
+  for (const theme of ['light', 'dark'] as const) {
+    test(`the loading splash shows exactly one wordmark in ${theme} mode`, async ({ page }) => {
+      await page.addInitScript((t) => localStorage.setItem('pinansyalph-theme', t), theme)
+      // Hold the app back so the splash stays up while we look at it.
+      await page.route('**/src/main.tsx*', async (route) => {
+        await new Promise((r) => setTimeout(r, 1500))
+        await route.continue()
+      })
+      await page.route('**/assets/*.js', async (route) => {
+        await new Promise((r) => setTimeout(r, 1500))
+        await route.continue()
+      })
+      await page.goto('/', { waitUntil: 'commit' })
+      await page.waitForSelector('#splash .sp-word', { state: 'attached' })
+      await expect(page.locator('#splash .sp-word:visible')).toHaveCount(1)
+      const shown = theme === 'dark' ? '.sp-word-dark' : '.sp-word-light'
+      await expect(page.locator(`#splash ${shown}`)).toBeVisible()
+    })
+  }
+
   test('dark mode keeps text, inputs and charts readable', async ({ page }) => {
     await page.addInitScript(() => localStorage.setItem('pinansyalph-theme', 'dark'))
     await page.goto('/inflation')

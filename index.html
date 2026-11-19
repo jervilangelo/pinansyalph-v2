@@ -83,8 +83,6 @@
       html[data-theme='dark'], html[data-theme='dark'] #splash { background: #18191b; }
       #splash .sp-blue { fill: #1d4e89; }
       html[data-theme='dark'] #splash .sp-blue { fill: #8db4e2; }
-      #splash .sp-word-dark, html[data-theme='dark'] #splash .sp-word-light { display: none; }
-      html[data-theme='dark'] #splash .sp-word-dark { display: block; }
       #splash {
         position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center;
         background: #f6f4ef; transition: opacity .35s .12s ease-out, visibility 0s .47s;
@@ -102,6 +100,9 @@
                    sp-pulse 1.1s calc(1.3s + var(--i) * .12s) cubic-bezier(.65,0,.35,1) infinite;
       }
       #splash .sp-word { display: block; height: 34px; width: auto; animation: sp-word .6s .6s cubic-bezier(.22,1,.36,1) both; }
+      /* Only one wordmark: colour on light, reversed on dark. Comes after .sp-word so it wins. */
+      #splash .sp-word.sp-word-dark, html[data-theme='dark'] #splash .sp-word.sp-word-light { display: none; }
+      html[data-theme='dark'] #splash .sp-word.sp-word-dark { display: block; }
       #splash .sp-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
       .splash-quick #splash { animation: sp-in .2s .35s both, sp-fail .4s 8s forwards; }
       .splash-quick #splash .sp-base, .splash-quick #splash .sp-sun, .splash-quick #splash .sp-word { animation: none; }
