@@ -6,14 +6,14 @@
 
 **Tamang Pinansyal para sa mga Pilipino.** Understand your money with numbers you can check.
 
-Free tools to explore your salary, 13th month pay, savings, and the impact of inflation — designed for everyday financial decisions in the Philippines. Available in Filipino, English and Bisaya, in light and dark mode. No signup, no login, no ads.
+Free tools to explore your salary, 13th month pay, savings, and the impact of inflation — designed for everyday financial decisions in the Philippines. Available in English, Filipino and Bisaya, in light and dark mode. No signup, no login, no ads.
 
 **[Explore PinansyalPH](https://pinansyalph.site/)** · [See the calculators](#tools) · [How the numbers work](#how-the-numbers-are-calculated) · [Run locally](#run-it-locally)
 
 <br />
 
 ![Free](https://img.shields.io/badge/Free-no%20sign--up-151514?style=flat-square)
-![Languages](https://img.shields.io/badge/Filipino%20·%20English%20·%20Bisaya-1D4E89?style=flat-square)
+![Languages](https://img.shields.io/badge/English%20·%20Filipino%20·%20Bisaya-1D4E89?style=flat-square)
 ![React](https://img.shields.io/badge/React%2019-TypeScript-151514?style=flat-square)
 ![Data](https://img.shields.io/badge/Data-sourced%20%26%20dated-2E6A46?style=flat-square)
 ![Version](https://img.shields.io/badge/Version-3.0-EDA100?style=flat-square)

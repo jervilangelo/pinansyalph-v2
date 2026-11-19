@@ -6,7 +6,7 @@ import { DEFAULT_LANG, LANG_STORAGE_KEY, htmlLang, isLang, loadLang, setCurrentL
 import { readPref } from './prefs'
 
 async function boot() {
-  // Load the saved language (Filipino by default) before the first render, so text never switches after paint.
+  // Load the saved language (English by default) before the first render, so text never switches after paint.
   const saved = readPref(LANG_STORAGE_KEY)
   let lang: Lang = isLang(saved) ? saved : DEFAULT_LANG
   try {

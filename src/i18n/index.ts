@@ -1,5 +1,5 @@
 /**
- * Translations for Filipino (default), English and Bisaya / Cebuano.
+ * Translations for English (default), Filipino and Bisaya / Cebuano.
  *
  * Keys are the English source text, so code reads naturally and English needs
  * no catalog: `t('Monthly payment')`. fil.json and ceb.json map each English
@@ -32,11 +32,11 @@ export type Vars = Record<string, string | number>
 type Catalog = Record<string, string>
 
 export const LANGS: { id: Lang; label: string; html: string }[] = [
-  { id: 'fil', label: 'Filipino', html: 'fil' },
   { id: 'en', label: 'English', html: 'en-PH' },
+  { id: 'fil', label: 'Filipino', html: 'fil' },
   { id: 'ceb', label: 'Bisaya', html: 'ceb' },
 ]
-export const DEFAULT_LANG: Lang = 'fil'
+export const DEFAULT_LANG: Lang = 'en'
 export const LANG_STORAGE_KEY = 'pinansyalph-language'
 
 export const isLang = (v: unknown): v is Lang => v === 'fil' || v === 'en' || v === 'ceb'

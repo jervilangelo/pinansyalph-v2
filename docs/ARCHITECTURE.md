@@ -52,7 +52,7 @@ A static site with versioned data. No server, no database, no accounts.
   writes `<route>.html` (GitHub Pages serves it at the clean URL `/<route>` with a 200), a `<route>/index.html` copy for old
   trailing-slash links, a noindex `404.html` fallback, `sitemap.xml` and `robots.txt`, each page with its own canonical
   URL on https://pinansyalph.site. The router rewrites `/mp2/`, `/mp2.html` and `/pinansyalph-v2/mp2` to `/mp2`.
-- Languages: Filipino (default), English and Bisaya. Code uses English source text as keys (`t()`, `tx()` for text with
+- Languages: English (default), Filipino and Bisaya. Code uses English source text as keys (`t()`, `tx()` for text with
   inline elements, `tv()` for labels from data); `src/i18n/fil.json` and `ceb.json` hold translations, `en.json` English
   overrides for Taglish source text. Calculator messages stay in English and are translated at display time through
   the pattern keys in `src/i18n/patterns.json`. `src/__tests__/i18n.test.ts` fails on any untranslated key.

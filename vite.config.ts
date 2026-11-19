@@ -4,13 +4,13 @@ import tailwindcss from '@tailwindcss/vite'
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { defineConfig, type Plugin } from 'vite'
-import fil from './src/i18n/fil.json' with { type: 'json' }
+import en from './src/i18n/en.json' with { type: 'json' }
 import { PAGES, ROUTES, SITE_ORIGIN, canonicalUrl } from './src/routes.ts'
 
 const SITE_NAME = 'PinansyalPH'
-/** Static HTML is in Filipino, the site's default language (the app switches it in the browser). */
-const fil_ = fil as Record<string, string>
-const inFilipino = (s: string) => fil_[s] ?? s
+/** Static HTML is in English, the site's default language (the app switches it in the browser). */
+const en_ = en as Record<string, string>
+const inEnglish = (s: string) => en_[s] ?? s
 
 const escapeAttr = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
@@ -68,7 +68,7 @@ function pagesRoutes(): Plugin {
       }
 
       for (const page of PAGES) {
-        const html = headFor(index, page.path, `${inFilipino(page.title)} · ${SITE_NAME}`, inFilipino(page.blurb))
+        const html = headFor(index, page.path, `${inEnglish(page.title)} · ${SITE_NAME}`, inEnglish(page.blurb))
         const slug = page.path.slice(1)
         writeFileSync(resolve(outDir, `${slug}.html`), html)
         mkdirSync(resolve(outDir, slug), { recursive: true })
