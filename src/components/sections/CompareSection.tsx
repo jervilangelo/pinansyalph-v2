@@ -8,6 +8,8 @@ import { peso, pesoSigned } from '../../utils/format'
 import { Segmented } from '../ui/fields'
 import { ToolHeader } from '../layout/Page'
 import { Link } from '../../router'
+import { t, tv } from '../../i18n'
+import { tx } from '../../i18n/react'
 
 /** Projection start date, fixed for the session. */
 const today = new Date().toISOString().slice(0, 10)
@@ -70,28 +72,21 @@ export function CompareSection({ s }: { s: ScenarioState }) {
       <ToolHeader
         path="/compare"
         id="compare-title"
-        title="MP2 vs digital banks"
+        title={t("MP2 vs digital banks")}
         lede={
-          <>
-            The same {peso(s.scenario.monthly)} a month{s.scenario.initial > 0 ? ` and ${peso(s.scenario.initial)} upfront` : ''} for {s.scenario.years} years, under {s.inflation.label}. Banks use
-            base rates after the {banks.tax.ratePct}% tax; MP2 uses your chosen dividend rate, tax-free.
-          </>
+          <>{tx("The same {monthly} a month{v1} for {years} years, under {label}. Banks use base rates after the {ratePct}% tax; MP2 uses your chosen dividend rate, tax-free.", { monthly: (peso(s.scenario.monthly)), v1: (s.scenario.initial > 0 ? t(" and {initial} upfront", { initial: peso(s.scenario.initial) }) : ''), years: (s.scenario.years), label: (tv(s.inflation.label)), ratePct: (banks.tax.ratePct), })}</>
         }
         meta={
           <p className="ui flex flex-wrap gap-x-5 gap-y-2 text-[0.9375rem]">
-            <Link className="link" to="/mp2">
-              Change the amounts or MP2 rate
-            </Link>
-            <Link className="link" to="/banks">
-              Pick a bank product
-            </Link>
+            <Link className="link" to="/mp2">{t("Change the amounts or MP2 rate")}</Link>
+            <Link className="link" to="/banks">{t("Pick a bank product")}</Link>
           </p>
         }
       />
       <div className="wrap">
         <div className="card flex flex-col gap-6 p-5 sm:p-7 lg:flex-row lg:items-end lg:justify-between">
           <fieldset className="ui m-0 min-w-0 border-0 p-0">
-            <legend className="field-label p-0">Show options</legend>
+            <legend className="field-label p-0">{t("Show options")}</legend>
             <div className="flex flex-wrap gap-2">
               {OPTIONS.map((opt) => {
                 const product = banks.products.find((p) => p.id === opt.id)
@@ -101,12 +96,12 @@ export function CompareSection({ s }: { s: ScenarioState }) {
                   <label
                     key={opt.id}
                     data-on={checked && !disabled} data-disabled={disabled} className="chip !bg-ground data-[on=true]:!bg-ink"
-                    title={disabled ? 'Time deposits take one placement; set the monthly amount to ₱0 to compare.' : undefined}
+                    title={disabled ? t("Time deposits take one placement; set the monthly amount to ₱0 to compare.") : undefined}
                   >
                     <input type="checkbox" className="sr-only" checked={checked} disabled={disabled} onChange={() => toggle(opt.id)} />
                     <span aria-hidden="true" className="inline-block h-3 w-3 rounded-full" style={{ background: colorOf(opt.id) }} />
-                    {opt.label}
-                    {disabled && <span className="sr-only"> (unavailable with monthly deposits)</span>}
+                    {tv(opt.label)}
+                    {disabled && <span className="sr-only">{' '}{t("(unavailable with monthly deposits)")}</span>}
                   </label>
                 )
               })}
@@ -114,21 +109,21 @@ export function CompareSection({ s }: { s: ScenarioState }) {
           </fieldset>
           <div className="w-full max-w-[22rem] shrink-0">
             <Segmented
-              label="Measure"
+              label={t("Measure")}
               value={mode}
               onChange={setMode}
               options={[
-                { value: 'real', label: "Today's pesos" },
-                { value: 'nominal', label: 'Pesos' },
+                { value: 'real', label: t("Today's pesos") },
+                { value: 'nominal', label: t("Pesos") },
               ]}
             />
           </div>
         </div>
-        {recurring && <p className="ui mt-3 px-2 text-sm text-muted">Time deposits are greyed out because they take a single placement. Set the monthly amount to ₱0 to compare them.</p>}
+        {recurring && <p className="ui mt-3 px-2 text-sm text-muted">{t("Time deposits are greyed out because they take a single placement. Set the monthly amount to ₱0 to compare them.")}</p>}
 
         <div className="card mt-4 p-4 sm:p-7">
           {series.length === 0 ? (
-            <p className="ui p-8 text-center text-muted">Choose at least one option to compare.</p>
+            <p className="ui p-8 text-center text-muted">{t("Choose at least one option to compare.")}</p>
           ) : (
             <ComparisonChart series={series} contributed={reference} mode={mode} />
           )}
@@ -165,7 +160,7 @@ export function CompareSection({ s }: { s: ScenarioState }) {
                       { h: 'Real gain or loss', v: pesoSigned(r.value.real.realGain), cls: gainCls(r.value.real.realGain) },
                       { h: 'Tax', v: `${banks.tax.ratePct}% withheld` },
                       { h: 'Access to money', v: p.liquidity },
-                      { h: 'Rate certainty', v: `Bank can change it anytime${p.promo ? '; promo excluded' : ''}` },
+                      { h: 'Rate certainty', v: `Bank can change it anytime${p.promo ? t('; promo excluded') : ''}` },
                     ],
                   }
                 : { id: p.id, name: `${p.bank} ${p.product}`, error: r.error, cells: [] },
@@ -179,12 +174,10 @@ export function CompareSection({ s }: { s: ScenarioState }) {
               <div className="card mt-4 hidden p-3 lg:block"><table className="data-table ui">
                 <thead>
                   <tr>
-                    <th scope="col">
-                      Option
-                    </th>
+                    <th scope="col">{t("Option")}</th>
                     {heads.map((h) => (
                       <th key={h} scope="col">
-                        {h}
+                        {tv(h)}
                       </th>
                     ))}
                   </tr>
@@ -194,16 +187,16 @@ export function CompareSection({ s }: { s: ScenarioState }) {
                     <tr key={row.id}>
                       <th scope="row" className="font-medium whitespace-nowrap">
                         {swatch(row.id)}
-                        {row.name}
+                        {tv(row.name)}
                       </th>
                       {row.error ? (
                         <td colSpan={6} className="text-loss">
-                          {row.error}
+                          {tv(row.error)}
                         </td>
                       ) : (
                         row.cells.map((c) => (
                           <td key={c.h} className={c.cls ?? ''}>
-                            {c.v}
+                            {tv(c.v)}
                           </td>
                         ))
                       )}
@@ -216,16 +209,16 @@ export function CompareSection({ s }: { s: ScenarioState }) {
                   <li key={row.id} className="card p-5">
                     <h3 className="flex items-center text-[1.0625rem] font-semibold tracking-normal">
                       {swatch(row.id)}
-                      {row.name}
+                      {tv(row.name)}
                     </h3>
                     {row.error ? (
-                      <p className="mt-2 text-loss">{row.error}</p>
+                      <p className="mt-2 text-loss">{tv(row.error)}</p>
                     ) : (
                       <dl className="m-0 mt-3 grid grid-cols-[minmax(0,7rem)_1fr] gap-x-4 gap-y-2.5 text-[0.9375rem] sm:grid-cols-[minmax(0,9rem)_1fr]">
                         {row.cells.map((c) => (
                           <div key={c.h} className="contents">
-                            <dt className="text-muted">{c.h}</dt>
-                            <dd className={`m-0 tabular ${c.cls ?? ''}`}>{c.v}</dd>
+                            <dt className="text-muted">{tv(c.h)}</dt>
+                            <dd className={`m-0 tabular ${c.cls ?? ''}`}>{tv(c.v)}</dd>
                           </div>
                         ))}
                       </dl>

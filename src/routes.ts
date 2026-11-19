@@ -58,7 +58,7 @@ export const PAGES: PageInfo[] = [
   { path: '/sulit-internet', label: 'Internet', name: 'Sulit Ba Internet Ko?', title: 'Sulit Ba Internet Ko?', blurb: 'Your internet plan’s cost per Mbps against verified plans from PLDT, Globe, Converge, Starlink and more.', hint: 'Compare internet plans by ₱ per Mbps', group: 'gastos' },
   { path: '/magkano-subscription', label: 'Subscriptions', name: 'Magkano ba Subscription Ko?', title: 'Magkano ba Subscription Ko?', blurb: 'Add your streaming, cloud, AI and gaming subscriptions and see what they cost you a month and a year.', hint: 'Your subscriptions, monthly and yearly', group: 'gastos' },
   { path: '/mga-dapat-iwasan', label: 'Mga Dapat Iwasan', name: 'Mga Dapat Iwasan', title: 'Mga Dapat Iwasan', blurb: 'The arithmetic behind gambling, loan apps, credit card minimums and installment spending, with simulators and ways to protect your money.', hint: 'Financial traps to avoid' },
-  { path: '/about', label: 'About', name: 'About', title: 'About PinansyalPH', blurb: 'Why this open-source project exists, and how the numbers are made.' },
+  { path: '/about', label: 'About', name: 'About', title: 'About PinansyalPH', blurb: 'Why this free project exists, and how the numbers are made.' },
 ]
 
 export const TOOLS = PAGES.filter((p) => p.group)

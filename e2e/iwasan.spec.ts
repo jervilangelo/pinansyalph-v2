@@ -10,13 +10,14 @@ test.beforeEach(async ({ page }) => {
 
 test.describe('share button', () => {
   for (const width of [1024, 1440, 1920]) {
-    test(`is the last, rightmost toolbar item and overlaps nothing at ${width}px`, async ({ page }) => {
+    test(`sits just before the settings button, rightmost, and overlaps nothing at ${width}px`, async ({ page }) => {
       await page.setViewportSize({ width, height: 900 })
       await page.goto('/')
       const nav = page.getByRole('navigation', { name: 'Main' })
       const items = nav.locator('a:visible, button:visible')
       const n = await items.count()
-      await expect(items.nth(n - 1)).toHaveAttribute('data-testid', 'share-button')
+      await expect(items.nth(n - 1)).toHaveAttribute('data-testid', 'settings-button')
+      await expect(items.nth(n - 2)).toHaveAttribute('data-testid', 'share-button')
       const boxes = await Promise.all(Array.from({ length: n }, (_, i) => items.nth(i).boundingBox()))
       for (let i = 1; i < n; i++) expect(boxes[i]!.x).toBeGreaterThanOrEqual(boxes[i - 1]!.x + boxes[i - 1]!.width - 1)
       expect(boxes[n - 1]!.x + boxes[n - 1]!.width).toBeLessThanOrEqual(width)

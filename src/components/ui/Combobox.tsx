@@ -2,6 +2,8 @@ import { AnimatePresence } from 'motion/react'
 import { Search, X } from 'lucide-react'
 import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import { DUR, EASE, motion, useReducedMotion } from './motion'
+import { tx } from '../../i18n/react'
+import { tn, tv } from '../../i18n'
 
 export interface ComboOption {
   id: string
@@ -83,7 +85,7 @@ export function Combobox({
   return (
     <div className="ui relative">
       <label htmlFor={id} className="field-label">
-        {label}
+        {tv(label)}
       </label>
       <div className="relative">
         <Search aria-hidden="true" size={18} className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-muted" />
@@ -129,17 +131,17 @@ export function Combobox({
             className="absolute top-1/2 right-2 flex h-9 w-9 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border-0 bg-transparent text-muted transition-colors hover:bg-surface hover:text-ink"
           >
             <X aria-hidden="true" size={16} />
-            <span className="sr-only">Clear {label.toLowerCase()}</span>
+            <span className="sr-only">{tx("Clear {v0}", { v0: (label.toLowerCase()), })}</span>
           </button>
         )}
       </div>
       {hint && (
         <p id={`${id}-hint`} className="field-hint">
-          {hint}
+          {tv(hint)}
         </p>
       )}
       <p className="sr-only" aria-live="polite">
-        {open && text.trim() ? `${results.length} ${results.length === 1 ? 'match' : 'matches'}` : ''}
+        {open && text.trim() ? tn(results.length, '{n} match', '{n} matches') : ''}
       </p>
       <AnimatePresence>
         {open && text.trim().length > 0 && (
@@ -151,7 +153,7 @@ export function Combobox({
             // Keep focus in the input while the pointer picks an option.
             onMouseDown={(e) => e.preventDefault()}
           >
-            <ul id={listId} role="listbox" aria-label={label} className="m-0 max-h-[300px] list-none overflow-y-auto overscroll-contain p-0">
+            <ul id={listId} role="listbox" aria-label={tv(label)} className="m-0 max-h-[300px] list-none overflow-y-auto overscroll-contain p-0">
               {results.map((o, i) => (
                 <li
                   key={o.id}
@@ -164,8 +166,8 @@ export function Combobox({
                 >
                   {o.icon}
                   <span className="min-w-0">
-                    <span className="block text-[0.9375rem] font-semibold">{o.label}</span>
-                    {o.hint && <span className="mt-0.5 block text-[0.8125rem] leading-snug text-muted">{o.hint}</span>}
+                    <span className="block text-[0.9375rem] font-semibold">{tv(o.label)}</span>
+                    {o.hint && <span className="mt-0.5 block text-[0.8125rem] leading-snug text-muted">{tv(o.hint)}</span>}
                   </span>
                 </li>
               ))}

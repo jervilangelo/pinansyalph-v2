@@ -2,6 +2,7 @@ import { CartesianGrid, Line, LineChart, ReferenceArea, ReferenceLine, Responsiv
 import type { InflationSeriesKey, MonthlyObservation } from '../types/data'
 import { monthLabel, monthTick, pct } from '../utils/format'
 import { AXIS, GRID, INFLATION_SERIES, Legend, TooltipCard, axisTick, useChartAnimation } from './common'
+import { t } from '../i18n'
 
 
 /** Graph C — Philippine inflation history (year-on-year, monthly). */
@@ -19,13 +20,13 @@ export default function InflationHistoryChart({ series, visible, range }: { seri
   return (
     <figure className="m-0">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <Legend items={[...shown.map((s) => ({ color: s.color, label: s.label })), { color: '#c9d8ea', label: 'BSP target, 2–4%' }]} />
+        <Legend items={[...shown.map((s) => ({ color: s.color, label: s.label })), { color: 'var(--color-accent-soft-2)', label: t("BSP target, 2–4%") }]} />
       </div>
-      <div className="h-[clamp(300px,38vw,440px)]" role="img" aria-label={`Line chart of Philippine year-on-year inflation, ${monthLabel(periods[0])} to ${monthLabel(periods[periods.length - 1])}.`}>
+      <div className="h-[clamp(300px,38vw,440px)]" role="img" aria-label={t("Line chart of Philippine year-on-year inflation, {v0} to {v1}.", { v0: monthLabel(periods[0]), v1: monthLabel(periods[periods.length - 1]) })}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 8, right: 12, bottom: 8, left: 0 }}>
             <CartesianGrid stroke={GRID} vertical={false} />
-            <ReferenceArea y1={2} y2={4} fill="#c9d8ea" fillOpacity={0.55} stroke="none" ifOverflow="extendDomain" />
+            <ReferenceArea y1={2} y2={4} fill="var(--color-accent-soft-2)" fillOpacity={0.55} stroke="none" ifOverflow="extendDomain" />
             <ReferenceLine y={0} stroke={AXIS} />
             <XAxis dataKey="period" tick={axisTick} tickLine={false} axisLine={false} tickFormatter={monthTick} interval="preserveStartEnd" minTickGap={28} />
             <YAxis tick={axisTick} tickLine={false} axisLine={false} tickFormatter={(v) => `${v}%`} width={48} />
@@ -44,7 +45,7 @@ export default function InflationHistoryChart({ series, visible, range }: { seri
               }
             />
             {shown.map((s) => (
-              <Line key={s.key} type="monotone" dataKey={s.key} stroke={s.color} strokeWidth={s.key === 'headline' ? 2.75 : 2} dot={false} activeDot={{ r: 5, strokeWidth: 2, stroke: '#fbfaf7' }} connectNulls={false} {...anim} />
+              <Line key={s.key} type="monotone" dataKey={s.key} stroke={s.color} strokeWidth={s.key === 'headline' ? 2.75 : 2} dot={false} activeDot={{ r: 5, strokeWidth: 2, stroke: 'var(--color-paper)' }} connectNulls={false} {...anim} />
             ))}
           </LineChart>
         </ResponsiveContainer>

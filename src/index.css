@@ -74,6 +74,98 @@
   color-scheme: light;
   --gutter: clamp(16px, 4vw, 40px);
   --header-h: 64px;
+  /* Brand blue for the logo's rays and baseline; lighter on dark grounds (the kit's reversed blue). */
+  --color-brand-blue: #1d4e89;
+  --color-placeholder: #8a877f;
+  --color-ink-hover: #33322f;
+  /* Accent as text: links, selected labels. Same as the fill in light mode. */
+  --color-accent-text: var(--color-accent);
+  --chart-grid: #e5e1d7;
+  --chart-axis: #5f5d56;
+  --chart-cursor: rgba(21, 21, 20, 0.05);
+  --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23151514' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+/*
+ * Dark appearance: soft charcoal grounds, panels lifted by tone, off-white
+ * text (never pure white on pure black). The accent stays a mid blue so white
+ * text on it keeps AA contrast; accent-coloured text uses a lighter blue.
+ */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --color-ground: #18191b;
+  --color-paper: #212225;
+  --color-surface: #2a2b2f;
+  --color-surface-2: #35373b;
+  --color-line: #45474c;
+  --color-ink: #ecebe6;
+  --color-ink-2: #cfcdc6;
+  --color-muted: #a6a49c;
+  --color-accent: #3a72c0;
+  --color-accent-hover: #4a82d0;
+  --color-accent-ink: #ffffff;
+  --color-accent-soft: #1f2d42;
+  --color-accent-soft-2: #283a55;
+  --color-sun: #f0b12a;
+  --color-sun-soft: #3a3020;
+  --color-gain: #7cc79a;
+  --color-gain-soft: #1e3327;
+  --color-loss: #f19084;
+  --color-loss-soft: #3d2421;
+  --color-alarm: #c8392c;
+  --color-alarm-deep: #f3b2a9;
+  --color-alarm-soft: #3a201d;
+  --color-alarm-muted: #4b2924;
+  --color-warn: #e8bf6a;
+  --color-warn-soft: #362c18;
+  --color-night: #2b2d31;
+  --color-night-2: #34363b;
+  --color-night-ink: #ecebe6;
+  --color-night-muted: #a6a49c;
+  --color-s1: #4c92e6;
+  --color-s6: #3fae3f;
+  --color-s7: #8678ea;
+
+  --color-brand-blue: #8db4e2;
+  --color-placeholder: #8a8880;
+  --color-ink-hover: #d9d7d0;
+  --color-accent-text: #8db4e2;
+  --chart-grid: #35373b;
+  --chart-axis: #a6a49c;
+  --chart-cursor: rgba(236, 235, 230, 0.06);
+  --select-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23ecebe6' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+/* Accent-coloured text reads on dark grounds; accent fills keep the mid blue. */
+:root[data-theme='dark'] .text-accent,
+:root[data-theme='dark'] .hover\:text-accent:hover,
+:root[data-theme='dark'] .group:hover .group-hover\:text-accent,
+:root[data-theme='dark'] .aria-\[current\=page\]\:text-accent[aria-current='page'] {
+  color: var(--color-accent-text);
+}
+:root[data-theme='dark'] .bg-accent .text-accent,
+:root[data-theme='dark'] .on-accent .text-accent {
+  color: var(--color-accent);
+}
+
+/* Theme-specific artwork (logo lockups). */
+.dark-only {
+  display: none !important;
+}
+:root[data-theme='dark'] .dark-only {
+  display: revert !important;
+}
+:root[data-theme='dark'] .light-only {
+  display: none !important;
+}
+
+/* Colour changes between themes are instant: no element fades through the wrong palette. */
+@media (prefers-reduced-motion: no-preference) {
+  :root.theme-switching *,
+  :root.theme-switching *::before,
+  :root.theme-switching *::after {
+    transition-duration: 0s !important;
+  }
 }
 
 @layer base {
@@ -217,7 +309,7 @@
       box-shadow 180ms ease;
   }
   .field-input::placeholder {
-    color: #8a877f;
+    color: var(--color-placeholder);
   }
   .field-input:hover {
     border-color: var(--color-line);
@@ -230,7 +322,7 @@
   }
   .field-input[aria-invalid='true'] {
     border-color: var(--color-loss);
-    background: #fdf6f4;
+    background: var(--color-loss-soft);
   }
   .field-input:disabled {
     opacity: 0.6;
@@ -242,7 +334,7 @@
   }
   select.field-input {
     appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23151514' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-image: var(--select-arrow);
     background-repeat: no-repeat;
     background-position: right 16px center;
     padding-right: 44px;
@@ -339,7 +431,7 @@
     color: var(--color-ground);
   }
   .btn-ink:hover {
-    background: #33322f;
+    background: var(--color-ink-hover);
   }
   .btn-soft {
     background: var(--color-surface);

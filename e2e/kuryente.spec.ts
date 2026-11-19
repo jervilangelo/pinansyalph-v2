@@ -55,7 +55,7 @@ test('a matching bill says so; a higher one lists reasons, not a verdict', async
   await ready(page)
   await page.getByLabel('Total kWh used').fill('200')
   await page.getByLabel('Current charges on your bill').fill('3110.19')
-  await expect(page.getByTestId('bill-check')).toContainText('Tugma sa published rates')
+  await expect(page.getByTestId('bill-check')).toContainText('Matches the published rates')
   await page.getByLabel('Current charges on your bill').fill('3610.19')
   await expect(page.getByTestId('bill-difference')).toHaveText('+₱500.00')
   await expect(page.getByTestId('bill-percent')).toHaveText('+16.08%')

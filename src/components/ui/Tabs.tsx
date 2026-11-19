@@ -1,5 +1,6 @@
 import { useId, useRef, type CSSProperties, type KeyboardEvent, type ReactNode } from 'react'
 import { SPRING, motion, useReducedMotion } from './motion'
+import { tv } from '../../i18n'
 
 export interface TabDef<T extends string> {
   id: T
@@ -25,7 +26,7 @@ export function Tabs<T extends string>({ tabs, value, onChange, label, children 
     <div className="min-w-0">
       <div
         role="tablist"
-        aria-label={label}
+        aria-label={tv(label)}
         // More than four tabs wrap to two rows on phones; one row from tablet width.
         className={`ui relative grid gap-0.5 rounded-[18px] bg-surface p-1 ${tabs.length > 4 ? 'grid-cols-3 sm:grid-cols-[var(--tab-cols)]' : 'grid-cols-[var(--tab-cols)]'}`}
         style={{ '--tab-cols': `repeat(${tabs.length}, minmax(0, 1fr))` } as CSSProperties}
@@ -50,8 +51,8 @@ export function Tabs<T extends string>({ tabs, value, onChange, label, children 
             >
               {active && <motion.span layoutId={`${id}-thumb`} aria-hidden="true" className="absolute inset-0 rounded-[14px] bg-paper shadow-[0_1px_2px_rgba(21,21,20,0.08),0_2px_8px_-2px_rgba(21,21,20,0.10)]" transition={reduce ? { duration: 0 } : SPRING} />}
               <span className={`relative ${active ? 'text-ink' : ''}`}>
-                <span className="sm:hidden">{t.short}</span>
-                <span className="hidden sm:inline">{t.label}</span>
+                <span className="sm:hidden">{tv(t.short)}</span>
+                <span className="hidden sm:inline">{tv(t.label)}</span>
               </span>
             </button>
           )

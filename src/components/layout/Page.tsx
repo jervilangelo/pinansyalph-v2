@@ -1,9 +1,10 @@
 import { ArrowRight, ChevronRight } from 'lucide-react'
 import { useEffect, type ReactNode } from 'react'
 import { GROUPS, Link, TOOLS, canonicalUrl, pageInfo, useScrollOnEnter, type Route } from '../../router'
-import { SITE_NAME } from '../../site'
+import { SITE_NAME, TAGLINE } from '../../site'
 import { markAppReady } from '../../splash'
 import { Reveal, motion, useEnter } from '../ui/motion'
+import { t, tv } from '../../i18n'
 
 const DEFAULT_DESCRIPTION = 'Free Philippine money calculators: sweldo and take-home pay, 13th month pay, Pag-IBIG MP2, digital bank savings and official PSA inflation.'
 
@@ -13,8 +14,8 @@ const setHead = (selector: string, attr: string, value: string) => document.head
 export function Page({ path, title, description, children, next = true }: { path: Route; title?: string; description?: string; children: ReactNode; next?: boolean }) {
   useScrollOnEnter()
   useEffect(() => {
-    const fullTitle = title ? `${title} · ${SITE_NAME}` : `${SITE_NAME}: Mas malinaw ang pera mo`
-    const desc = description ?? pageInfo(path)?.blurb ?? DEFAULT_DESCRIPTION
+    const fullTitle = title ? `${title} · ${SITE_NAME}` : `${SITE_NAME}: ${TAGLINE}`
+    const desc = description ?? tv(pageInfo(path)?.blurb) ?? t(DEFAULT_DESCRIPTION)
     const url = canonicalUrl(path)
     document.title = fullTitle
     // Keep the head that the build prerendered for this route in step with in-app navigation.
@@ -36,16 +37,16 @@ export function Page({ path, title, description, children, next = true }: { path
     <>
       {children}
       {next && nextPage && (
-        <nav aria-label="Next tool" className="wrap mt-[clamp(80px,9vw,140px)]">
+        <nav aria-label={t("Next tool")} className="wrap mt-[clamp(80px,9vw,140px)]">
           <Reveal>
             <Link
               to={nextPage.path}
               className="group flex flex-col gap-4 rounded-[28px] bg-paper p-6 transition-colors duration-300 hover:bg-accent hover:text-accent-ink sm:flex-row sm:items-center sm:justify-between sm:p-9"
             >
               <span className="min-w-0">
-                <span className="ui block text-[0.875rem] font-semibold text-muted transition-colors duration-300 group-hover:text-white/80">Next tool</span>
-                <span className="serif mt-1.5 block text-[clamp(1.5rem,1.2rem+1.4vw,2.5rem)] leading-[1.08] tracking-[-0.02em]">{nextPage.title}</span>
-                <span className="ui mt-2 block max-w-[52ch] text-[0.9375rem] text-ink-2 transition-colors duration-300 group-hover:text-white/85">{nextPage.blurb}</span>
+                <span className="ui block text-[0.875rem] font-semibold text-muted transition-colors duration-300 group-hover:text-white/80">{t("Next tool")}</span>
+                <span className="serif mt-1.5 block text-[clamp(1.5rem,1.2rem+1.4vw,2.5rem)] leading-[1.08] tracking-[-0.02em]">{tv(nextPage.title)}</span>
+                <span className="ui mt-2 block max-w-[52ch] text-[0.9375rem] text-ink-2 transition-colors duration-300 group-hover:text-white/85">{tv(nextPage.blurb)}</span>
               </span>
               <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-surface transition-[background-color,transform] duration-300 ease-[var(--ease-out-quint)] group-hover:translate-x-1 group-hover:bg-white/15">
                 <ArrowRight aria-hidden="true" size={24} />
@@ -68,32 +69,30 @@ export function ToolHeader({ path, id, title, lede, meta, children }: { path: Ro
   const enter = useEnter()
   return (
     <header className="wrap pt-6 pb-8 sm:pt-10 sm:pb-12">
-      <nav aria-label="Breadcrumb">
+      <nav aria-label={t("Breadcrumb")}>
         <ol className="ui m-0 flex list-none flex-wrap items-center gap-1 p-0 text-[0.875rem] text-muted">
           <li>
-            <Link to="/" className="rounded-full px-1 py-1 transition-colors hover:text-ink">
-              Home
-            </Link>
+            <Link to="/" className="rounded-full px-1 py-1 transition-colors hover:text-ink">{t("Home")}</Link>
           </li>
           {group && (
             <>
               <li aria-hidden="true">
                 <ChevronRight size={14} />
               </li>
-              <li>{group.label}</li>
+              <li>{tv(group.label)}</li>
             </>
           )}
           <li aria-hidden="true">
             <ChevronRight size={14} />
           </li>
           <li aria-current="page" className="font-semibold text-ink-2">
-            {info?.name}
+            {tv(info?.name)}
           </li>
         </ol>
       </nav>
       <div className="mt-5 grid gap-5 lg:grid-cols-12 lg:items-end lg:gap-10">
         <motion.h1 {...enter(0)} id={id} className="text-step-head lg:col-span-7">
-          {title}
+          {tv(title)}
         </motion.h1>
         <motion.div {...enter(0.08)} className="lg:col-span-5 lg:pb-1.5">
           <div className="text-[1.0625rem] leading-relaxed text-ink-2">{lede}</div>

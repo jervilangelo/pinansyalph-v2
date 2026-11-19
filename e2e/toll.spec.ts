@@ -21,7 +21,7 @@ const total = (page: Page) => page.getByTestId('toll-total')
 test('shows an empty state with common trips', async ({ page }) => {
   await ready(page)
   await expect(page.getByRole('heading', { level: 1, name: 'Magkano ang Toll Ko?' })).toBeVisible()
-  await expect(page.getByText('Alamin ang toll fee bago bumiyahe.')).toBeVisible()
+  await expect(page.getByText('Know the toll fee before you travel.')).toBeVisible()
   await expect(page.getByTestId('toll-empty')).toBeVisible()
 })
 

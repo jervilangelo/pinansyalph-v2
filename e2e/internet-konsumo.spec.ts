@@ -20,7 +20,7 @@ test.describe('Sulit Ba Internet Ko?', () => {
 
   test('heading, subtitle and source status', async ({ page }) => {
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Sulit Ba Internet Ko?')
-    await expect(page.locator('main')).toContainText('Sulit ba talaga ang internet mo, o baka may mas mura at mas mabilis?')
+    await expect(page.locator('main')).toContainText('Is your internet really worth it, or is there something cheaper and faster?')
     await expect(page.locator('main')).toContainText('Prices from each provider’s own page')
   })
 
@@ -131,7 +131,7 @@ test.describe('Magkano Konsumo Ko?', () => {
 
   test('heading and subtitle', async ({ page }) => {
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Magkano Konsumo Ko?')
-    await expect(page.locator('main')).toContainText('Alamin kung magkano ang kinakain ng kuryente ng mga appliances mo.')
+    await expect(page.locator('main')).toContainText('Find out how much electricity your appliances use.')
   })
 
   test('wattage preset, hours and days: kWh = W × h × days ÷ 1,000', async ({ page }) => {
@@ -277,8 +277,8 @@ test.describe('tool dock and homepage', () => {
 test.describe('About', () => {
   test('toolkit, privacy disclosures, disclaimer and contact links', async ({ page }) => {
     await page.goto('/about')
-    await expect(page.getByRole('heading', { name: 'An all-in-one, open-source Filipino financial toolkit' })).toBeVisible()
-    await expect(page.locator('main').getByRole('link', { name: /Source code on GitHub/ })).toHaveAttribute('href', 'https://github.com/jervilangelo/pinansyalph-v2')
+    await expect(page.getByRole('heading', { name: 'An all-in-one Filipino financial toolkit' })).toBeVisible()
+    await expect(page.locator('main').getByRole('link', { name: 'Report an issue', exact: true })).toHaveAttribute('href', 'mailto:deleonangelojervil@gmail.com')
     await expect(page.getByRole('heading', { name: 'Your data stays yours' })).toBeVisible()
     await expect(page.getByTestId('stored-list')).toContainText('Sulit Ba Internet Ko?')
     await expect(page.locator('main')).toContainText('Google Fonts')

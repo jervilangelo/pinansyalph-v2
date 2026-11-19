@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test'
 
-/** 13th month pay calculator ("Magkano Ang 13th Month Pay Mo?"). */
+/** 13th month pay calculator ("How Much Is Your 13th Month Pay?"). */
 
 const total = (page: Page) => page.getByTestId('thirteenth-total')
 const year = new Date().getFullYear()
@@ -23,7 +23,7 @@ test.beforeEach(async ({ page }) => {
 })
 
 test('page heading, menu item and default full-year result', async ({ page }) => {
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Magkano Ang 13th Month Pay Mo?')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('How Much Is Your 13th Month Pay?')
   await expect(page.locator('main')).toContainText('Calculate your estimated 13th-month pay based on Philippine labor laws.')
   await expect(page.getByRole('navigation', { name: 'Breadcrumb' })).toContainText('13th month pay')
   // Employed since two years ago, ₱25,000: the full year totals one month of salary.
@@ -98,7 +98,7 @@ test('current year marks future months as projected', async ({ page }) => {
 test('allocation reuses the MP2 calculator and opens it with the amount', async ({ page }) => {
   await page.getByLabel('Calculation year').selectOption(lastYear)
   const section = page.locator('[aria-labelledby="allocation-title"]')
-  await expect(section).toContainText('Anong Gagawin Mo Sa 13th Month Pay Mo?')
+  await expect(section).toContainText('What Will You Do With Your 13th Month Pay?')
   await expect(section).toContainText('₱5,000.00') // 20% of ₱25,000 to MP2
   await section.getByRole('button', { name: /Open in the MP2 calculator/ }).click()
   await expect(page).toHaveURL(/\/mp2$/)
@@ -108,7 +108,7 @@ test('allocation reuses the MP2 calculator and opens it with the amount', async 
 test('literacy section has official sources and expands answers', async ({ page }) => {
   const section = page.locator('[aria-labelledby="literacy-title"]')
   await expect(section.getByRole('link', { name: /Presidential Decree No. 851/ })).toHaveAttribute('href', /lawphil\.net/)
-  const q = section.getByRole('button', { name: 'Kailan dapat ibigay?' })
+  const q = section.getByRole('button', { name: 'When must it be paid?' })
   await q.click()
   await expect(q).toHaveAttribute('aria-expanded', 'true')
   await expect(section).toContainText('December 24')

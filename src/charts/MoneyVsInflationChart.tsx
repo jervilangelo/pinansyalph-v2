@@ -2,6 +2,7 @@ import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YA
 import type { Mp2Result } from '../calculators/mp2'
 import { peso } from '../utils/format'
 import { AXIS, GRID, Legend, NEUTRAL, SERIES, TooltipCard, axisTick, pesoTick, useChartAnimation } from './common'
+import { t } from '../i18n'
 
 /**
  * Graph A — Your money vs inflation.
@@ -31,12 +32,9 @@ export default function MoneyVsInflationChart({ result }: { result: Mp2Result })
     <figure className="m-0">
       <div className="mb-4">
         <Legend items={series.map((s) => ({ color: s.color, label: s.label, dashed: 'dashed' in s }))} />
-        <p className="ui mt-2 text-[0.875rem] text-ink-2">
-          Compare the two orange lines: the solid one is what you end up with in today's pesos, the dashed one is what your
-          contributions were worth when you made them. The gap at the end is your real gain or loss.
-        </p>
+        <p className="ui mt-2 text-[0.875rem] text-ink-2">{t("Compare the two orange lines: the solid one is what you end up with in today's pesos, the dashed one is what your contributions were worth when you made them. The gap at the end is your real gain or loss.")}</p>
       </div>
-      <div className="h-[clamp(280px,42vw,460px)]" role="img" aria-label={`Line chart: projected balance, value in today's pesos, and total contributed over ${result.rows.length} years.`}>
+      <div className="h-[clamp(280px,42vw,460px)]" role="img" aria-label={t("Line chart: projected balance, value in today's pesos, and total contributed over {length} years.", { length: result.rows.length })}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 8, right: 12, bottom: 8, left: 0 }}>
             <CartesianGrid stroke={GRID} vertical={false} />
@@ -47,7 +45,7 @@ export default function MoneyVsInflationChart({ result }: { result: Mp2Result })
               content={({ active, payload, label }) =>
                 active && payload?.length ? (
                   <TooltipCard
-                    title={label === 0 ? 'Start' : `End of year ${label}`}
+                    title={label === 0 ? t("Start") : t("End of year {label}", { label: label ?? "" })}
                     rows={series.map((s) => ({ color: s.color, dashed: 'dashed' in s, label: s.label, value: peso(Number(payload[0].payload[s.key])) }))}
                   />
                 ) : null
@@ -63,7 +61,7 @@ export default function MoneyVsInflationChart({ result }: { result: Mp2Result })
                 strokeWidth={'dashed' in s ? 2 : 2.5}
                 strokeDasharray={'dashed' in s ? '6 5' : undefined}
                 dot={false}
-                activeDot={{ r: 5, strokeWidth: 2, stroke: '#fbfaf7' }}
+                activeDot={{ r: 5, strokeWidth: 2, stroke: 'var(--color-paper)' }}
                 {...anim}
               />
             ))}

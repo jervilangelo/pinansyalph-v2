@@ -1,6 +1,9 @@
 import { useId } from 'react'
 import logoHorizontal from '../../kit/svg/pinansyalph-logo-horizontal-color.svg'
+import logoHorizontalReversed from '../../kit/svg/pinansyalph-logo-horizontal-reversed.svg'
 import wordmark from '../../kit/svg/pinansyalph-wordmark-color.svg'
+import wordmarkReversed from '../../kit/svg/pinansyalph-wordmark-reversed.svg'
+import { t, tv } from '../../i18n'
 
 /**
  * The PinansyalPH symbol, taken path for path from the brand kit
@@ -17,7 +20,8 @@ export const RAYS = [
 ]
 export const BASELINE = 'M30 180H226A11 11 0 0 1 226 202H30A11 11 0 0 1 30 180Z'
 export const SUN = 'M81 164A38 38 0 0 1 157 164Z'
-export const BLUE = '#1D4E89'
+/** Brand blue; the kit's lighter reversed blue in dark mode (--color-brand-blue in index.css). */
+export const BLUE = 'var(--color-brand-blue)'
 export const GOLD = '#EDA100'
 
 /** Small-size symbol from the kit (3 heavier rays), for anything under 48px. */
@@ -78,7 +82,7 @@ export function BrandSpinner({ size = 40, label = 'Loading' }: { size?: number; 
         <path d={SMALL_SUN} fill={GOLD} />
         <path d={SMALL_BASELINE} fill={BLUE} />
       </svg>
-      <span className="sr-only">{label}</span>
+      <span className="sr-only">{tv(label)}</span>
     </span>
   )
 }
@@ -98,11 +102,23 @@ export function SymbolSmall({ size = 24, className }: { size?: number; className
   )
 }
 
-/** The horizontal lockup from the kit, as shipped. Minimum 160px wide. */
-export function LogoHorizontal({ height = 40, className }: { height?: number; className?: string }) {
-  return <img src={logoHorizontal} alt="PinansyalPH" width={Math.round((height * 995) / 256)} height={height} className={className} decoding="async" />
+/** The horizontal lockup from the kit, as shipped (reversed artwork in dark mode). Minimum 160px wide. */
+export function LogoHorizontal({ height = 40, className = '' }: { height?: number; className?: string }) {
+  const w = Math.round((height * 995) / 256)
+  return (
+    <>
+      <img src={logoHorizontal} alt={t("PinansyalPH")} width={w} height={height} className={`light-only ${className}`} decoding="async" />
+      <img src={logoHorizontalReversed} alt={t("PinansyalPH")} width={w} height={height} className={`dark-only ${className}`} decoding="async" />
+    </>
+  )
 }
 
-export function Wordmark({ height = 32, className, alt = 'PinansyalPH' }: { height?: number; className?: string; alt?: string }) {
-  return <img src={wordmark} alt={alt} width={Math.round((height * 861) / 140)} height={height} className={className} decoding="async" />
+export function Wordmark({ height = 32, className = '', alt = 'PinansyalPH' }: { height?: number; className?: string; alt?: string }) {
+  const w = Math.round((height * 861) / 140)
+  return (
+    <>
+      <img src={wordmark} alt={alt} width={w} height={height} className={`light-only ${className}`} decoding="async" />
+      <img src={wordmarkReversed} alt={alt} width={w} height={height} className={`dark-only ${className}`} decoding="async" />
+    </>
+  )
 }

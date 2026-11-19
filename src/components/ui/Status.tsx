@@ -1,5 +1,7 @@
 import type { VerificationStatus } from '../../types/data'
 import { dateLabel } from '../../utils/format'
+import { tx } from '../../i18n/react'
+import { tv } from '../../i18n'
 
 const TEXT: Record<VerificationStatus, string> = {
   verified: 'Official data',
@@ -21,7 +23,7 @@ export function StatusTag({ status, extra, tone = 'light' }: { status: Verificat
     <span className={`ui inline-flex items-center gap-2 text-[0.8125rem] leading-snug font-medium ${warn ? 'text-loss' : ''}`}>
       <span aria-hidden="true" className={`inline-block h-2 w-2 shrink-0 rounded-full ${dot}`} />
       <span>
-        {label}
+        {tv(label)}
         {extra ? ` · ${extra}` : ''}
       </span>
     </span>
@@ -29,5 +31,5 @@ export function StatusTag({ status, extra, tone = 'light' }: { status: Verificat
 }
 
 export function Retrieved({ iso }: { iso: string }) {
-  return <>Updated {dateLabel(iso)}</>
+  return <>{tx("Updated {iso}", { iso: (dateLabel(iso)), })}</>
 }

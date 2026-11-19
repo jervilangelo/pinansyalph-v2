@@ -2,6 +2,7 @@ import { AnimatePresence } from 'motion/react'
 import { ChevronDown } from 'lucide-react'
 import { useId, useState, type ReactNode } from 'react'
 import { collapse, motion, useReducedMotion } from './motion'
+import { tv } from '../../i18n'
 
 /**
  * Progressive disclosure: a labelled row that opens to reveal detail.
@@ -52,10 +53,10 @@ export function Disclosure({
       aria-expanded={open}
       aria-controls={panelId}
       onClick={() => setOpen(!open)}
-      className={`ui group flex w-full cursor-pointer items-center gap-4 rounded-[inherit] border-0 bg-transparent text-left text-ink transition-colors hover:bg-black/[0.025] ${pad}`}
+      className={`ui group flex w-full cursor-pointer items-center gap-4 rounded-[inherit] border-0 bg-transparent text-left text-ink transition-colors hover:bg-ink/[0.035] ${pad}`}
     >
-      <span className={`min-w-0 flex-1 ${titleCls}`}>{title}</span>
-      {summary != null && <span className="tabular shrink-0 text-[0.9375rem] font-medium text-ink-2">{summary}</span>}
+      <span className={`min-w-0 flex-1 ${titleCls}`}>{tv(title)}</span>
+      {summary != null && <span className="tabular min-w-0 max-w-[48%] text-right text-[0.9375rem] leading-snug font-medium text-ink-2">{summary}</span>}
       <span aria-hidden="true" className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-colors ${open ? 'bg-ink text-ground' : 'bg-surface text-ink group-hover:bg-surface-2'}`}>
         <ChevronDown size={18} strokeWidth={2} className={`transition-transform duration-300 ease-[var(--ease-out-quint)] ${open ? 'rotate-180' : ''}`} />
       </span>

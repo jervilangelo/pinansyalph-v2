@@ -2,6 +2,7 @@ import { AnimatePresence } from 'motion/react'
 import { Check, Link2, Share2, X } from 'lucide-react'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { DUR, EASE, motion, useReducedMotion } from '../ui/motion'
+import { t, tv } from '../../i18n'
 
 /**
  * Share the current page: Facebook, Messenger, Instagram, or copy the link.
@@ -129,7 +130,7 @@ export function ShareButton({ compact = false }: { compact?: boolean }) {
         type="button"
         aria-expanded={open}
         aria-controls="share-panel"
-        aria-label={compact ? 'Share this page' : undefined}
+        aria-label={compact ? t("Share this page") : undefined}
         onClick={() => {
           setStatus('')
           setOpen((o) => !o)
@@ -138,7 +139,7 @@ export function ShareButton({ compact = false }: { compact?: boolean }) {
         data-testid={compact ? 'share-button-compact' : 'share-button'}
       >
         <Share2 aria-hidden="true" size={18} strokeWidth={2.2} className="transition-transform duration-300 group-hover:-rotate-12" />
-        {!compact && 'Share'}
+        {!compact && t("Share")}
       </button>
       <AnimatePresence>
         {open && (
@@ -146,7 +147,7 @@ export function ShareButton({ compact = false }: { compact?: boolean }) {
             ref={panel}
             id="share-panel"
             role="dialog"
-            aria-label="Share this page"
+            aria-label={t("Share this page")}
             initial={reduce ? { opacity: 0 } : { opacity: 0, y: -6, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1, transition: { duration: DUR.fast, ease: EASE } }}
             exit={{ opacity: 0, transition: { duration: 0.1 } }}
@@ -154,7 +155,7 @@ export function ShareButton({ compact = false }: { compact?: boolean }) {
             data-testid="share-panel"
           >
             <div className="flex items-center justify-between px-3 pt-1.5 pb-1">
-              <p className="ui text-[0.875rem] font-semibold text-muted">Share this page</p>
+              <p className="ui text-[0.875rem] font-semibold text-muted">{t("Share this page")}</p>
               <button
                 type="button"
                 onClick={() => {
@@ -164,7 +165,7 @@ export function ShareButton({ compact = false }: { compact?: boolean }) {
                 className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border-0 bg-transparent text-muted hover:bg-surface"
               >
                 <X aria-hidden="true" size={16} />
-                <span className="sr-only">Close</span>
+                <span className="sr-only">{t("Close")}</span>
               </button>
             </div>
             <ul className="m-0 grid list-none gap-0.5 p-0">
@@ -179,7 +180,7 @@ export function ShareButton({ compact = false }: { compact?: boolean }) {
                     <span aria-hidden="true" className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[11px] bg-ground text-accent">
                       {it.icon}
                     </span>
-                    {it.label}
+                    {tv(it.label)}
                   </button>
                 </li>
               ))}
@@ -193,7 +194,7 @@ export function ShareButton({ compact = false }: { compact?: boolean }) {
                 value={typeof window !== 'undefined' ? pageUrl() : ''}
                 onFocus={(e) => e.currentTarget.select()}
                 className="field-input mx-2 mb-2 !min-h-10 w-[calc(100%-16px)] !py-2 text-[0.8125rem]"
-                aria-label="Page link"
+                aria-label={t("Page link")}
               />
             )}
           </motion.div>

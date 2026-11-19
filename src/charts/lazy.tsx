@@ -1,4 +1,5 @@
 import { lazy, Suspense, type ComponentType } from 'react'
+import { t } from '../i18n'
 
 /** Charts load after the first paint; the slot keeps its height so nothing jumps. */
 function withSuspense<P extends object>(load: () => Promise<{ default: ComponentType<P> }>, minHeight: number) {
@@ -7,9 +8,7 @@ function withSuspense<P extends object>(load: () => Promise<{ default: Component
     return (
       <Suspense
         fallback={
-          <div className="ui flex items-center justify-center bg-surface text-ink-2" style={{ minHeight }}>
-            Loading chart…
-          </div>
+          <div className="ui flex items-center justify-center bg-surface text-ink-2" style={{ minHeight }}>{t("Loading chart…")}</div>
         }
       >
         <Comp {...props} />

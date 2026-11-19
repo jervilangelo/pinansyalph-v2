@@ -30,7 +30,7 @@ test.describe('home page', () => {
   test('loads with title, indicators and no console errors', async ({ page }) => {
     const errors = trackErrors(page)
     await page.goto('/')
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Mas malinaw ang pera mo/i)
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(/Tamang Pinansyal para sa mga Pilipino/)
     await expect(page.getByRole('link', { name: 'Explore the tools' })).toBeVisible()
     await expect(page.getByTestId('constellation-mark')).toHaveCount(14)
     const numbers = page.locator('[aria-labelledby="numbers-title"]')
@@ -231,11 +231,11 @@ test.describe('pages and navigation', () => {
     await expect(page.locator('#gas-title')).toBeVisible()
   })
 
-  test('the about page explains the project and links to the source', async ({ page }) => {
+  test('the about page explains the project and how to send feedback', async ({ page }) => {
     await page.goto('/about')
-    await expect(page.locator('main')).toContainText('open source')
+    await expect(page.locator('main')).not.toContainText(/open[- ]?source/i)
     await expect(page.locator('main')).toContainText('financial literacy')
-    await expect(page.getByRole('link', { name: 'View the source on GitHub' })).toHaveAttribute('href', 'https://github.com/jervilangelo/pinansyalph-v2')
+    await expect(page.getByRole('link', { name: 'Report an issue or suggest a tool' })).toHaveAttribute('href', 'mailto:deleonangelojervil@gmail.com')
     await expect(page.locator('#faq')).toBeVisible()
   })
 })
@@ -285,7 +285,7 @@ test.describe('v3 brand and support', () => {
   test('nested routes load directly after a refresh', async ({ page }) => {
     await page.goto('/13th-month')
     await page.reload()
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText('Magkano Ang 13th Month Pay Mo?')
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText('How Much Is Your 13th Month Pay?')
     await expect(page.locator('img[alt="PinansyalPH"]').first()).toBeVisible()
   })
 
@@ -302,10 +302,10 @@ test.describe('v3 brand and support', () => {
     await trigger.click()
     const dialog = page.getByRole('dialog', { name: 'Support PinansyalPH' })
     await expect(dialog).toBeVisible()
-    const star = dialog.getByRole('link', { name: /Star on GitHub/ })
-    await expect(star).toBeFocused()
-    await expect(star).toHaveAttribute('href', 'https://github.com/jervilangelo/pinansyalph-v2')
-    await expect(star).toHaveAttribute('target', '_blank')
+    const copy = dialog.getByRole('button', { name: /Copy the link to PinansyalPH/ })
+    await expect(copy).toBeFocused()
+    await expect(dialog.getByRole('link', { name: /Send feedback/ })).toHaveAttribute('href', 'mailto:deleonangelojervil@gmail.com')
+    await expect(dialog).not.toContainText(/open[- ]?source|GitHub/i)
     await expect(dialog.getByRole('link', { name: /View Developer Portfolio/ })).toHaveAttribute('href', 'https://jervilangelo.online/')
     // Focus stays inside the dialog.
     for (let i = 0; i < 6; i++) await page.keyboard.press('Tab')
@@ -328,6 +328,6 @@ test.describe('v3 brand and support', () => {
     await expect(dialog).toBeVisible()
     const box = await dialog.boundingBox()
     expect(box!.width).toBeLessThanOrEqual(360)
-    await expect(dialog.getByRole('link', { name: /Star on GitHub/ })).toBeInViewport()
+    await expect(dialog.getByRole('button', { name: /Copy the link to PinansyalPH/ })).toBeInViewport()
   })
 })

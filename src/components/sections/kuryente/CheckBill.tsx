@@ -6,6 +6,8 @@ import { Disclosure } from '../../ui/Disclosure'
 import { AmountField, NumberField, OptionalAmountField, Segmented } from '../../ui/fields'
 import { CalcGrid, Panel, ResultHero } from '../../ui/Result'
 import { priceKwh, scheduleFor, type Tariff } from './tariff'
+import { tx } from '../../../i18n/react'
+import { t, tv } from '../../../i18n'
 
 type Mode = 'kwh' | 'readings'
 
@@ -52,24 +54,24 @@ export function CheckBill({ tariff, onKwh }: { tariff: Tariff; onKwh: (kwh: numb
   }, [schedule, kwh, billed, tariff.lifeline, tariff.lftRate])
 
   const inputs = (
-    <Panel as="form" title="Your bill">
+    <Panel as="form" title={t("Your bill")}>
       <div className="grid gap-5">
         <Segmented<Mode>
-          label="Consumption"
+          label={t("Consumption")}
           value={mode}
           onChange={setMode}
           options={[
-            { value: 'kwh', label: 'kWh on my bill' },
-            { value: 'readings', label: 'Meter readings' },
+            { value: 'kwh', label: t("kWh on my bill") },
+            { value: 'readings', label: t("Meter readings") },
           ]}
         />
         {mode === 'kwh' ? (
-          <NumberField label="Total kWh used" suffix="kWh" value={kwhInput} onChange={setKwhInput} min={0} max={100000} step={1} hint="Printed as “kWh consumption” or “Total kWh” on your bill." />
+          <NumberField label={t("Total kWh used")} suffix="kWh" value={kwhInput} onChange={setKwhInput} min={0} max={100000} step={1} hint={t("Printed as “kWh consumption” or “Total kWh” on your bill.")} />
         ) : (
           <div className="grid gap-4 sm:grid-cols-3">
-            <NumberField label="Previous reading" value={prev} onChange={setPrev} min={0} max={10_000_000} step={1} />
-            <NumberField label="Present reading" value={curr} onChange={setCurr} min={0} max={10_000_000} step={1} />
-            <NumberField label="Multiplier" value={mult} onChange={setMult} min={0.01} max={10000} step={1} hint="Usually 1." />
+            <NumberField label={t("Previous reading")} value={prev} onChange={setPrev} min={0} max={10_000_000} step={1} />
+            <NumberField label={t("Present reading")} value={curr} onChange={setCurr} min={0} max={10_000_000} step={1} />
+            <NumberField label={t("Multiplier")} value={mult} onChange={setMult} min={0.01} max={10000} step={1} hint={t("Usually 1.")} />
           </div>
         )}
         {reading.error && (
@@ -79,18 +81,18 @@ export function CheckBill({ tariff, onKwh }: { tariff: Tariff; onKwh: (kwh: numb
         )}
         {mode === 'readings' && kwh > 0 && (
           <p className="ui -mt-2 text-[0.9375rem]" data-testid="kwh-from-readings">
-            ({curr.toLocaleString('en-PH')} − {prev.toLocaleString('en-PH')}) × {mult} = <strong>{kwh.toLocaleString('en-PH')} kWh</strong>
+            ({curr.toLocaleString('en-PH')} − {prev.toLocaleString('en-PH')}) × {mult} = <strong>{tx("{v0} kWh", { v0: (kwh.toLocaleString('en-PH')), })}</strong>
           </p>
         )}
-        <AmountField label="Current charges on your bill" value={billed} onChange={setBilled} hint="This month’s charges only, not “Total amount due” (which can include unpaid balances)." />
-        <NumberField label="Days in the billing period (optional)" suffix="days" value={days} onChange={setDays} min={0} max={62} step={1} />
+        <AmountField label={t("Current charges on your bill")} value={billed} onChange={setBilled} hint={t("This month’s charges only, not “Total amount due” (which can include unpaid balances).")} />
+        <NumberField label={t("Days in the billing period (optional)")} suffix="days" value={days} onChange={setDays} min={0} max={62} step={1} />
 
         {schedule && (
-          <Disclosure title="Compare line by line (optional)" tone="ground" size="sm" id="itemized">
-            <p className="ui mb-4 text-[0.875rem] leading-relaxed text-muted">Copy the subtotals from the “Breakdown of charges” on your bill. Leave a line empty if your bill does not show it.</p>
+          <Disclosure title={t("Compare line by line (optional)")} tone="ground" size="sm" id="itemized">
+            <p className="ui mb-4 text-[0.875rem] leading-relaxed text-muted">{t("Copy the subtotals from the “Breakdown of charges” on your bill. Leave a line empty if your bill does not show it.")}</p>
             <div className="grid gap-3 sm:grid-cols-2">
               {GROUP_ORDER.map((g) => (
-                <OptionalAmountField key={g} label={GROUP_LABELS[g]} value={items[g] ?? null} onChange={(v) => setItems((x) => ({ ...x, [g]: v }))} compact />
+                <OptionalAmountField key={g} label={tv(GROUP_LABELS[g])} value={items[g] ?? null} onChange={(v) => setItems((x) => ({ ...x, [g]: v }))} compact />
               ))}
             </div>
           </Disclosure>
@@ -103,47 +105,38 @@ export function CheckBill({ tariff, onKwh }: { tariff: Tariff; onKwh: (kwh: numb
   if (!kwh) {
     result = (
       <div className="card p-6 sm:p-8" data-testid="bill-empty">
-        <h2 className="text-[1.5rem] leading-tight">Enter your kWh</h2>
-        <p className="ui mt-2 text-[0.9375rem] leading-relaxed text-muted">
-          Use the kWh on your bill, or your meter’s previous and present readings. Add the current charges to see how your bill compares with {tariff.provider === 'meralco' ? `Meralco’s ${monthLabel(tariff.month)} rates` : 'your rate'}.
-        </p>
+        <h2 className="text-[1.5rem] leading-tight">{t("Enter your kWh")}</h2>
+        <p className="ui mt-2 text-[0.9375rem] leading-relaxed text-muted">{tx("Use the kWh on your bill, or your meter’s previous and present readings. Add the current charges to see how your bill compares with {v0}.", { v0: (tariff.provider === 'meralco' ? t("Meralco’s {month} rates", { month: monthLabel(tariff.month) }) : t("your rate")), })}</p>
       </div>
     )
   } else if (!priced) {
     result = (
-      <p role="status" className="ui rounded-[22px] bg-warn-soft p-5">
-        Enter your rate per kWh to estimate the bill.
-      </p>
+      <p role="status" className="ui rounded-[22px] bg-warn-soft p-5">{t("Enter your rate per kWh to estimate the bill.")}</p>
     )
   } else {
     const diff = billed > 0 ? new D(billed).minus(priced.total) : null
     result = (
       <div className="grid gap-4" data-testid="bill-result">
         <ResultHero
-          label={priced.estimate ? 'Estimated bill' : 'Expected bill'}
+          label={priced.estimate ? t("Estimated bill") : t("Expected bill")}
           value={priced.total.toNumber()}
           format={pesoExact}
           testId="expected-bill"
           caption={
-            <>
-              {kwh.toLocaleString('en-PH')} kWh at {priced.label}: ₱{priced.perKwh.toFixed(4)} per kWh.
-              {priced.estimate && ' An estimate: your rate times your kWh, without the line-by-line tariff.'}
-            </>
+            <>{tx("{v0} kWh at {label}: ₱{v2} per kWh.{v3}", { v0: (kwh.toLocaleString('en-PH')), label: (tv(priced.label)), v2: (priced.perKwh.toFixed(4)), v3: (priced.estimate && t(" An estimate: your rate times your kWh, without the line-by-line tariff.")), })}</>
           }
         />
 
         {check ? (
           <div className="card p-5 sm:p-6" data-testid="bill-check">
-            <p className={`ui inline-flex rounded-full px-3 py-1 text-[0.875rem] font-semibold ${BAND_TEXT[check.band].tone}`}>{BAND_TEXT[check.band].title}</p>
+            <p className={`ui inline-flex rounded-full px-3 py-1 text-[0.875rem] font-semibold ${BAND_TEXT[check.band].tone}`}>{tv(BAND_TEXT[check.band].title)}</p>
             <dl className="m-0 mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
-              <Fig label="Your bill" value={pesoExact(check.billed)} />
-              <Fig label="Difference" value={pesoSigned(check.difference, true)} testId="bill-difference" />
-              <Fig label="In percent" value={`${check.percent > 0 ? '+' : check.percent < 0 ? '−' : ''}${Math.abs(check.percent).toFixed(2)}%`} testId="bill-percent" />
+              <Fig label={t("Your bill")} value={pesoExact(check.billed)} />
+              <Fig label={t("Difference")} value={pesoSigned(check.difference, true)} testId="bill-difference" />
+              <Fig label={t("In percent")} value={`${check.percent > 0 ? '+' : check.percent < 0 ? '−' : ''}${Math.abs(check.percent).toFixed(2)}%`} testId="bill-percent" />
             </dl>
-            <p className="ui mt-4 text-[0.875rem] leading-relaxed text-muted">
-              Usual range for this kWh: {pesoExact(check.range.low)} to {pesoExact(check.range.high)}, depending on your city’s local franchise tax.
-            </p>
-            <h3 className="ui mt-5 text-[1rem] font-semibold">{check.band === 'match' ? 'What this means' : 'Possible reasons'}</h3>
+            <p className="ui mt-4 text-[0.875rem] leading-relaxed text-muted">{tx("Usual range for this kWh: {low} to {high}, depending on your city’s local franchise tax.", { low: (pesoExact(check.range.low)), high: (pesoExact(check.range.high)), })}</p>
+            <h3 className="ui mt-5 text-[1rem] font-semibold">{check.band === 'match' ? t("What this means") : t("Possible reasons")}</h3>
             <ul className="ui m-0 mt-2 grid gap-1.5 pl-5 text-[0.9375rem] leading-relaxed text-ink-2">
               {explanations(check, { days: days || undefined }).map((x) => (
                 <li key={x}>{x}</li>
@@ -153,10 +146,10 @@ export function CheckBill({ tariff, onKwh }: { tariff: Tariff; onKwh: (kwh: numb
         ) : diff ? (
           <div className="card p-5 sm:p-6" data-testid="bill-check">
             <dl className="m-0 grid grid-cols-2 gap-4">
-              <Fig label="Your bill" value={pesoExact(billed)} />
-              <Fig label="Difference from the estimate" value={pesoSigned(diff, true)} testId="bill-difference" />
+              <Fig label={t("Your bill")} value={pesoExact(billed)} />
+              <Fig label={t("Difference from the estimate")} value={pesoSigned(diff, true)} testId="bill-difference" />
             </dl>
-            <p className="ui mt-3 text-[0.875rem] text-muted">With a typed rate this is only a rough comparison: real bills add fixed charges, taxes and tiers.</p>
+            <p className="ui mt-3 text-[0.875rem] text-muted">{t("With a typed rate this is only a rough comparison: real bills add fixed charges, taxes and tiers.")}</p>
           </div>
         ) : null}
 
@@ -171,7 +164,7 @@ export function CheckBill({ tariff, onKwh }: { tariff: Tariff; onKwh: (kwh: numb
 function Fig({ label, value, testId }: { label: string; value: string; testId?: string }) {
   return (
     <div>
-      <dt className="ui text-[0.8125rem] font-medium text-muted">{label}</dt>
+      <dt className="ui text-[0.8125rem] font-medium text-muted">{tv(label)}</dt>
       <dd className="figure m-0 mt-1 text-[1.375rem] leading-tight" data-testid={testId}>
         {value}
       </dd>
@@ -184,10 +177,10 @@ function Breakdown({ bill, items }: { bill: BillResult; items: Partial<Record<Li
   const itemized = entered.length > 0
   return (
     // Remounts (open) as soon as the visitor enters a line from their bill.
-    <Disclosure key={itemized ? 'itemized' : 'expected'} title={itemized ? 'Line-by-line comparison' : 'Breakdown of the expected bill'} summary={peso(bill.total)} id="bill-breakdown" defaultOpen={itemized}>
+    <Disclosure key={itemized ? 'itemized' : 'expected'} title={itemized ? t("Line-by-line comparison") : t("Breakdown of the expected bill")} summary={peso(bill.total)} id="bill-breakdown" defaultOpen={itemized}>
       {itemized && (
         <p className="ui mb-3 text-[0.875rem] text-muted">
-          {entered.length === GROUP_ORDER.length ? 'Every group entered: an itemized check.' : `${entered.length} of ${GROUP_ORDER.length} groups entered; the others are not compared.`}
+          {entered.length === GROUP_ORDER.length ? t("Every group entered: an itemized check.") : t("{length} of {length2} groups entered; the others are not compared.", { length: entered.length, length2: GROUP_ORDER.length })}
         </p>
       )}
       <div className="grid gap-3" data-testid="bill-lines">
@@ -197,20 +190,18 @@ function Breakdown({ bill, items }: { bill: BillResult; items: Partial<Record<Li
           return (
             <div key={g.group} className="rounded-[16px] bg-ground px-4 py-3">
               <div className="ui flex items-baseline justify-between gap-3">
-                <span className="font-semibold">{g.label}</span>
+                <span className="font-semibold">{tv(g.label)}</span>
                 <span className="tabular font-semibold">{pesoExact(g.amount)}</span>
               </div>
               {d && (
-                <p className={`ui mt-1 text-[0.8125rem] ${d.abs().lte(1) ? 'text-gain' : 'text-loss'}`}>
-                  Your bill: {pesoExact(mine!)} ({d.abs().lte(0.01) ? 'same' : pesoSigned(d, true)})
-                </p>
+                <p className={`ui mt-1 text-[0.8125rem] ${d.abs().lte(1) ? 'text-gain' : 'text-loss'}`}>{tx("Your bill: {pesoExact} ({v1})", { pesoExact: (pesoExact(mine!)), v1: (d.abs().lte(0.01) ? 'same' : pesoSigned(d, true)), })}</p>
               )}
               <ul className="ui m-0 mt-1.5 grid list-none gap-0.5 p-0 text-[0.8125rem] text-muted">
                 {bill.lines
                   .filter((l) => l.group === g.group)
                   .map((l) => (
                     <li key={l.key} className="flex justify-between gap-3">
-                      <span>{l.label}</span>
+                      <span>{tv(l.label)}</span>
                       <span className="tabular">{pesoExact(l.amount)}</span>
                     </li>
                   ))}

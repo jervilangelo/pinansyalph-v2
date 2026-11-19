@@ -4,6 +4,8 @@ import { useState, type PointerEvent } from 'react'
 import { GROUPS, Link, TOOLS, type PageInfo } from '../../router'
 import { ToolMark } from '../brand/ToolMark'
 import { DUR, EASE, motion, useReducedMotion } from '../ui/motion'
+import { tx } from '../../i18n/react'
+import { t, tv } from '../../i18n'
 
 /**
  * The PinansyalPH sun, with every tool rising from it as a ray.
@@ -106,7 +108,7 @@ export function Constellation() {
                   style={{ animationDelay: `${-(p.index * 0.73) % 6}s` }}
                   data-testid="constellation-mark"
                 >
-                  <span className="sr-only">{`${p.tool.name}: ${p.tool.hint ?? p.tool.blurb}`}</span>
+                  <span className="sr-only">{`${tv(p.tool.name)}: ${tv(p.tool.hint ?? p.tool.blurb)}`}</span>
                   <span className="flex h-[62%] w-[62%] transition-transform duration-300 group-hover:scale-110">
                     <ToolMark path={p.tool.path} size={48} className="h-full w-full" />
                   </span>
@@ -122,21 +124,16 @@ export function Constellation() {
         {active ? (
           <motion.div key={active.path} initial={reduce ? false : { opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: DUR.fast, ease: EASE }}>
             <p className="ui text-[0.875rem] font-semibold text-accent">
-              {group?.label} · {group?.gloss}
+              {tv(group?.label)} · {tv(group?.gloss)}
             </p>
-            <p className="serif mt-1 text-[clamp(1.375rem,1.1rem+1vw,1.875rem)] leading-tight tracking-[-0.015em]">{active.name}</p>
-            <p className="ui mt-1 max-w-[52ch] text-[0.9375rem] leading-snug text-ink-2">{active.blurb}</p>
+            <p className="serif mt-1 text-[clamp(1.375rem,1.1rem+1vw,1.875rem)] leading-tight tracking-[-0.015em]">{tv(active.name)}</p>
+            <p className="ui mt-1 max-w-[52ch] text-[0.9375rem] leading-snug text-ink-2">{tv(active.blurb)}</p>
           </motion.div>
         ) : (
           <div>
-            <p className="serif text-[clamp(1.375rem,1.1rem+1vw,1.875rem)] leading-tight tracking-[-0.015em]">{TOOLS.length} tools, rising from one sun.</p>
-            <p className="ui mt-1 text-[0.9375rem] text-ink-2">
-              From left to right: {GROUPS.map((g) => g.label).join(', ')}. Point at one to read it, or{' '}
-              <a href="#tools" className="group inline-flex items-center gap-1 font-semibold text-accent">
-                see the full list
-                <ArrowRight aria-hidden="true" size={15} className="transition-transform duration-300 group-hover:translate-x-0.5" />
-              </a>
-            </p>
+            <p className="serif text-[clamp(1.375rem,1.1rem+1vw,1.875rem)] leading-tight tracking-[-0.015em]">{tx("{length} tools, rising from one sun.", { length: (TOOLS.length), })}</p>
+            <p className="ui mt-1 text-[0.9375rem] text-ink-2">{tx("From left to right: {v0}. Point at one to read it, or {link}", { v0: (GROUPS.map((g) => g.label).join(', ')), link: (<a href="#tools" className="group inline-flex items-center gap-1 font-semibold text-accent">{t("see the full list")}<ArrowRight aria-hidden="true" size={15} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+              </a>), })}</p>
           </div>
         )}
       </div>

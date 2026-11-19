@@ -76,13 +76,13 @@ test('Overpriced ba ’to? compares with the median and never declares a verdict
   await pick(page, 'Location', 'bacoor', /Bacoor/)
   await page.getByText('House', { exact: true }).click()
   await expect(page.getByTestId('overpriced-percent')).toHaveText('+12.0%')
-  await expect(page.getByTestId('overpriced-result')).toContainText('Ang asking price ay 12.0% above the median')
-  await expect(page.getByTestId('overpriced-result')).toContainText('Hindi ito hatol')
+  await expect(page.getByTestId('overpriced-result')).toContainText('The asking price is 12.0% above the median')
+  await expect(page.getByTestId('overpriced-result')).toContainText('This is not a verdict')
 })
 
 test('Kaya ko ba? computes the amortization and income share', async ({ page }) => {
   await ready(page)
-  await page.getByRole('tab', { name: /kaya/i }).click()
+  await page.getByRole('tab', { name: /afford/i }).click()
   await page.getByLabel('Property price').fill('1,250,000')
   await page.getByLabel('Interest rate a year').fill('6.5')
   await page.getByLabel('Gross monthly income').fill('30,000')
@@ -97,9 +97,9 @@ test('Kaya ko ba? computes the amortization and income share', async ({ page }) 
 
 test('sources and exclusions are listed with links', async ({ page }) => {
   await ready(page)
-  await page.getByRole('button', { name: 'Saan galing ang data?' }).click()
+  await page.getByRole('button', { name: 'Where does the data come from?' }).click()
   await expect(page.getByRole('link', { name: /Residential Property Price Index Report, 2nd Quarter 2026/ })).toHaveAttribute('href', /bsp\.gov\.ph/)
-  await page.getByRole('button', { name: /Ano ang hindi kasama/ }).click()
+  await page.getByRole('button', { name: /What is not included/ }).click()
   await expect(page.locator('#bahay-excluded')).toContainText('Lamudi')
 })
 
@@ -107,7 +107,7 @@ for (const width of [320, 390, 768, 1440]) {
   test(`no horizontal overflow at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 })
     await ready(page)
-    for (const t of [/trends/i, /compare/i, /kaya/i]) {
+    for (const t of [/trends/i, /compare/i, /afford/i]) {
       await page.getByRole('tab', { name: t }).click()
       expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0)
     }

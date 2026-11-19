@@ -1,14 +1,26 @@
 <!doctype html>
-<html lang="en-PH">
+<html lang="fil">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
-    <title>PinansyalPH: Mas malinaw ang pera mo</title>
+    <title>PinansyalPH: Tamang Pinansyal para sa mga Pilipino.</title>
     <meta
       name="description"
-      content="Free Philippine money calculators: sweldo and take-home pay, 13th month pay, Pag-IBIG MP2, digital bank savings and official PSA inflation."
+      content="Libreng financial tools para sa mga Pilipino: sweldo at take-home pay, 13th month pay, Pag-IBIG MP2, ipon sa digital bank, inflation at presyo ng gas. Walang signup, walang login."
     />
     <meta name="theme-color" content="#f6f4ef" />
+    <!-- Saved appearance, applied before first paint so dark mode never flashes light (see src/theme.tsx). -->
+    <script>
+      ;(function () {
+        var t = null
+        try { t = localStorage.getItem('pinansyalph-theme') } catch (e) {}
+        if (t !== 'dark') t = 'light'
+        var d = document.documentElement
+        d.setAttribute('data-theme', t)
+        d.style.colorScheme = t
+        if (t === 'dark') document.querySelector('meta[name=theme-color]').setAttribute('content', '#18191b')
+      })()
+    </script>
     <meta name="application-name" content="PinansyalPH" />
     <meta name="apple-mobile-web-app-title" content="PinansyalPH" />
     <meta name="author" content="Jervil Angelo De Leon" />
@@ -25,16 +37,17 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="PinansyalPH" />
     <meta property="og:url" content="%SITE_URL%" />
-    <meta property="og:title" content="PinansyalPH: Mas malinaw ang pera mo" />
-    <meta property="og:description" content="Free, open-source money calculators for Filipinos: take-home pay, 13th month pay, MP2 and digital bank savings, measured against official Philippine inflation." />
+    <meta property="og:title" content="PinansyalPH: Tamang Pinansyal para sa mga Pilipino." />
+    <meta property="og:description" content="Libreng financial tools para sa mga Pilipino: sweldo at take-home pay, 13th month pay, Pag-IBIG MP2, ipon sa digital bank, inflation at presyo ng gas. Walang signup, walang login." />
     <meta property="og:image" content="%SITE_URL%og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="The PinansyalPH logo: a gold sun rising under blue rays shaped like a growing bar chart." />
-    <meta property="og:locale" content="en_PH" />
+    <meta property="og:locale" content="fil_PH" />
+    <meta property="og:locale:alternate" content="en_PH" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="PinansyalPH: Mas malinaw ang pera mo" />
-    <meta name="twitter:description" content="Free, open-source money calculators for Filipinos: take-home pay, 13th month pay, MP2 and digital bank savings, measured against official Philippine inflation." />
+    <meta name="twitter:title" content="PinansyalPH: Tamang Pinansyal para sa mga Pilipino." />
+    <meta name="twitter:description" content="Libreng financial tools para sa mga Pilipino: sweldo at take-home pay, 13th month pay, Pag-IBIG MP2, ipon sa digital bank, inflation at presyo ng gas. Walang signup, walang login." />
     <meta name="twitter:image" content="%SITE_URL%og-image.png" />
     <meta name="twitter:image:alt" content="The PinansyalPH logo: a gold sun rising under blue rays shaped like a growing bar chart." />
     <script type="application/ld+json">
@@ -44,8 +57,9 @@
         "name": "PinansyalPH",
         "alternateName": "Pinansyal PH",
         "url": "%SITE_URL%",
-        "description": "Free, open-source Philippine money calculators using official PSA, DOE, BSP and Pag-IBIG data.",
-        "inLanguage": "en-PH",
+        "description": "Libreng financial tools para sa mga Pilipino, gamit ang opisyal na datos ng PSA, DOE, BSP at Pag-IBIG.",
+        "slogan": "Tamang Pinansyal para sa mga Pilipino.",
+        "inLanguage": ["fil", "en-PH", "ceb"],
         "author": { "@type": "Person", "name": "Jervil Angelo De Leon", "url": "https://jervilangelo.online/" }
       }
     </script>
@@ -66,6 +80,11 @@
     -->
     <style>
       html { background: #f6f4ef; }
+      html[data-theme='dark'], html[data-theme='dark'] #splash { background: #18191b; }
+      #splash .sp-blue { fill: #1d4e89; }
+      html[data-theme='dark'] #splash .sp-blue { fill: #8db4e2; }
+      #splash .sp-word-dark, html[data-theme='dark'] #splash .sp-word-light { display: none; }
+      html[data-theme='dark'] #splash .sp-word-dark { display: block; }
       #splash {
         position: fixed; inset: 0; z-index: 9999; display: grid; place-items: center;
         background: #f6f4ef; transition: opacity .35s .12s ease-out, visibility 0s .47s;
@@ -123,7 +142,7 @@
       <div class="sp-inner">
         <svg viewBox="0 0 256 256" width="104" height="104" aria-hidden="true" focusable="false">
           <defs><clipPath id="sp-horizon"><rect x="0" y="0" width="256" height="164.5" /></clipPath></defs>
-          <g fill="#1D4E89">
+          <g class="sp-blue">
             <path class="sp-ray" style="--i:0" d="M69.21 120.24L65.74 118.24A13 13 0 0 0 52.74 140.76L56.21 142.76A13 13 0 0 0 69.21 120.24Z" />
             <path class="sp-ray" style="--i:1" d="M97.76 101.21L88.76 85.62A13 13 0 0 0 66.24 98.62L75.24 114.21A13 13 0 0 0 97.76 101.21Z" />
             <path class="sp-ray" style="--i:2" d="M132 99L132 67A13 13 0 0 0 106 67L106 99A13 13 0 0 0 132 99Z" />
@@ -131,17 +150,17 @@
             <path class="sp-ray" style="--i:4" d="M181.79 142.76L233.75 112.76A13 13 0 0 0 220.75 90.24L168.79 120.24A13 13 0 0 0 181.79 142.76Z" />
           </g>
           <g clip-path="url(#sp-horizon)"><path class="sp-sun" fill="#EDA100" d="M81 164A38 38 0 0 1 157 164Z" /></g>
-          <path class="sp-base" fill="#1D4E89" d="M30 180H226A11 11 0 0 1 226 202H30A11 11 0 0 1 30 180Z" />
+          <path class="sp-base sp-blue" d="M30 180H226A11 11 0 0 1 226 202H30A11 11 0 0 1 30 180Z" />
         </svg>
-        <img class="sp-word" src="%BASE_URL%brand/pinansyalph-wordmark-color.svg" alt="" width="209" height="34" />
+        <img class="sp-word sp-word-light" src="%BASE_URL%brand/pinansyalph-wordmark-color.svg" alt="" width="209" height="34" />
+        <img class="sp-word sp-word-dark" src="%BASE_URL%brand/pinansyalph-wordmark-reversed.svg" alt="" width="209" height="34" />
         <span class="sp-sr">Loading PinansyalPH</span>
       </div>
     </div>
     <noscript>
       <style>#splash { display: none; }</style>
       <p style="padding: 24px; font-family: Georgia, serif">
-        PinansyalPH needs JavaScript for its calculators. The data sources are the Philippine Statistics Authority (inflation), the
-        Department of Energy Oil Monitor (fuel), Pag-IBIG Fund (MP2) and each bank's official rate page.
+        Kailangan ng PinansyalPH ang JavaScript para gumana ang mga calculator. PinansyalPH needs JavaScript for its calculators.
       </p>
     </noscript>
     <script type="module" src="/src/main.tsx"></script>

@@ -7,6 +7,8 @@ import { dateLabel, monthLabel, pct, perLiter } from '../../utils/format'
 import { motion } from '../ui/motion'
 import { ToolHeader } from '../layout/Page'
 import { StatusTag } from '../ui/Status'
+import { tx } from '../../i18n/react'
+import { t, tv } from '../../i18n'
 
 const BASE = import.meta.env.BASE_URL
 
@@ -31,18 +33,18 @@ export function FuelSection() {
       <ToolHeader
         path="/gas"
         id="gas-title"
-        title="Magkano na ang gas?"
-        lede={<>Weekly pump price adjustments for {latestFuel.effectiveDate.slice(0, 4)}, from the DOE Oil Monitor. Nationwide ranges; your station's price may differ.</>}
+        title={t("Magkano na ang gas?")}
+        lede={<>{tx("Weekly pump price adjustments for {v0}, from the DOE Oil Monitor. Nationwide ranges; your station's price may differ.", { v0: (latestFuel.effectiveDate.slice(0, 4)), })}</>}
         meta={
           <>
-            <StatusTag status={fuel.status} extra={`DOE Oil Monitor, latest ${dateLabel(latestFuel.effectiveDate)}`} />
-            <p className="ui mt-1 text-[0.8125rem] text-muted">Retrieved {dateLabel(fuel.retrievedAt)}.</p>
+            <StatusTag status={fuel.status} extra={t("DOE Oil Monitor, latest {effectiveDate}", { effectiveDate: dateLabel(latestFuel.effectiveDate) })} />
+            <p className="ui mt-1 text-[0.8125rem] text-muted">{tx("Retrieved {retrievedAt}.", { retrievedAt: (dateLabel(fuel.retrievedAt)), })}</p>
           </>
         }
       />
       <div className="wrap">
         <div className="grid gap-4 md:grid-cols-[200px_1fr] md:gap-6">
-          <div role="tablist" aria-label="Fuel type" aria-orientation="vertical" className="sticky top-[var(--header-h)] z-10 grid grid-cols-3 gap-1.5 self-start rounded-[22px] bg-ground py-2 md:static md:grid-cols-1 md:py-0">
+          <div role="tablist" aria-label={t("Fuel type")} aria-orientation="vertical" className="sticky top-[var(--header-h)] z-10 grid grid-cols-3 gap-1.5 self-start rounded-[22px] bg-ground py-2 md:static md:grid-cols-1 md:py-0">
             {FUELS.map((f, i) => {
               const on = f.key === active
               const ytd = latestFuel.ytdNet?.[f.key]
@@ -61,8 +63,8 @@ export function FuelSection() {
                   onKeyDown={(e) => onKey(e, i)}
                   className={`ui flex min-h-16 cursor-pointer flex-col justify-center rounded-[18px] border-0 px-4 py-2.5 text-left transition-colors ${on ? 'bg-ink text-ground' : 'bg-paper text-ink hover:bg-surface'}`}
                 >
-                  <span className="text-base font-semibold">{f.label}</span>
-                  {ytd != null && <span className="text-[0.8125rem] tabular opacity-90">{perLiter(ytd, ytd)} this year</span>}
+                  <span className="text-base font-semibold">{tv(f.label)}</span>
+                  {ytd != null && <span className="text-[0.8125rem] tabular opacity-90">{tx("{ytd} this year", { ytd: (perLiter(ytd, ytd)), })}</span>}
                 </button>
               )
             })}
@@ -71,7 +73,7 @@ export function FuelSection() {
           <div id="fuel-panel" role="tabpanel" aria-labelledby={`tab-${active}`} className="min-w-0">
             <AnimatePresence mode="wait">
               <motion.div key={active} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.3 }}>
-                <ol className="card m-0 grid list-none gap-1 p-2 sm:p-3" aria-label={`${label} weekly adjustments, newest first`}>
+                <ol className="card m-0 grid list-none gap-1 p-2 sm:p-3" aria-label={t("{label} weekly adjustments, newest first", { label })}>
                   {weeks.slice(0, 6).map((w) => {
                     const r = w[active]
                     const up = r.max > 0
@@ -80,17 +82,17 @@ export function FuelSection() {
                         <span className="ui tabular text-[1.125rem] font-medium">{dateLabel(w.effectiveDate)}</span>
                         <span>
                           <span className={`ui block text-[1.125rem] font-semibold tabular ${r.max === 0 && r.min === 0 ? '' : up ? 'text-loss' : 'text-gain'}`}>
-                            {r.max === 0 && r.min === 0 ? 'No change' : `${up ? 'Increase' : 'Rollback'} ${perLiter(r.min, r.max)}`}
+                            {r.max === 0 && r.min === 0 ? t("No change") : `${up ? t('Increase') : t('Rollback')} ${perLiter(r.min, r.max)}`}
                           </span>
-                          <span className="ui block text-[0.875rem] text-muted">{r.min === r.max ? 'Same across oil companies' : 'Range across oil companies'}</span>
+                          <span className="ui block text-[0.875rem] text-muted">{r.min === r.max ? t("Same across oil companies") : t("Range across oil companies")}</span>
                         </span>
-                        {w.ytdNet && <span className="ui text-[0.9375rem] tabular sm:text-right">{perLiter(w.ytdNet[active], w.ytdNet[active])} since January</span>}
+                        {w.ytdNet && <span className="ui text-[0.9375rem] tabular sm:text-right">{tx("{active} since January", { active: (perLiter(w.ytdNet[active], w.ytdNet[active])), })}</span>}
                       </li>
                     )
                   })}
                 </ol>
                 <div className="card mt-4 p-4 sm:p-6">
-                  <FuelChart adjustments={fuel.adjustments} fuel={active} label={label} />
+                  <FuelChart adjustments={fuel.adjustments} fuel={active} label={tv(label)} />
                 </div>
               </motion.div>
             </AnimatePresence>
@@ -106,31 +108,25 @@ export function FuelSection() {
               width={800}
               height={600}
               loading="lazy"
-              alt="A roadside price board at a fuel station listing diesel and gasoline prices"
+              alt={t("A roadside price board at a fuel station listing diesel and gasoline prices")}
               className="aspect-[4/3] w-full rounded-[28px] object-cover"
             />
-            <figcaption className="ui mt-3 px-1 text-[0.875rem] text-muted">A station price board in 2022. The prices shown are not current.</figcaption>
+            <figcaption className="ui mt-3 px-1 text-[0.875rem] text-muted">{t("A station price board in 2022. The prices shown are not current.")}</figcaption>
           </figure>
           <div className="md:col-span-6 md:col-start-7">
-            <h2 className="text-step-head">A fuel hike is not the inflation rate</h2>
+            <h2 className="text-step-head">{t("A fuel hike is not the inflation rate")}</h2>
             <dl className="mt-8 grid gap-6">
               <div>
-                <dt className="ui font-semibold">Peso-per-liter change</dt>
-                <dd className="m-0 mt-1 text-ink-2">What DOE reports each week: how many pesos a liter went up or down. Shown above.</dd>
+                <dt className="ui font-semibold">{t("Peso-per-liter change")}</dt>
+                <dd className="m-0 mt-1 text-ink-2">{t("What DOE reports each week: how many pesos a liter went up or down. Shown above.")}</dd>
               </div>
               <div>
-                <dt className="ui font-semibold">Percentage change and price level</dt>
-                <dd className="m-0 mt-1 text-ink-2">
-                  A percent change needs a pump price to divide by, and DOE publishes those per area, not as one national price. We
-                  do not invent a nationwide price, so no percentage is shown.
-                </dd>
+                <dt className="ui font-semibold">{t("Percentage change and price level")}</dt>
+                <dd className="m-0 mt-1 text-ink-2">{t("A percent change needs a pump price to divide by, and DOE publishes those per area, not as one national price. We do not invent a nationwide price, so no percentage is shown.")}</dd>
               </div>
               <div>
-                <dt className="ui font-semibold">Transport inflation</dt>
-                <dd className="m-0 mt-1 text-ink-2">
-                  PSA's transport CPI covers fuel, fares and vehicles together. It rose {pct(transport.value)} year on year in{' '}
-                  {monthLabel(transport.period)}.
-                </dd>
+                <dt className="ui font-semibold">{t("Transport inflation")}</dt>
+                <dd className="m-0 mt-1 text-ink-2">{tx("PSA's transport CPI covers fuel, fares and vehicles together. It rose {value} year on year in {period}.", { value: (pct(transport.value)), period: (monthLabel(transport.period)), })}</dd>
               </div>
             </dl>
           </div>

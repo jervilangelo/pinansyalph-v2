@@ -25,7 +25,7 @@ test.beforeEach(async ({ page }) => {
 
 test('heading, subtitle, source and an empty state before any input', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Underpaid ba ko?')
-  await expect(page.locator('main')).toContainText('Alamin kung competitive ang sweldo mo.')
+  await expect(page.locator('main')).toContainText('Find out if your salary is competitive.')
   await expect(page.getByTestId('underpaid-empty')).toContainText('Start with your job title.')
   await expect(page).toHaveTitle(/Underpaid ba ko\?.*· PinansyalPH$/)
 })
@@ -52,7 +52,7 @@ test('the national elementary-occupations figure matches PSA’s headline ₱13,
   await pickJob(page, 'janitor', /^Janitor or cleaner/)
   await page.getByLabel('Where you work').selectOption('ph')
   await page.getByLabel('Basic monthly pay', { exact: true }).fill('13,506')
-  await expect(page.getByTestId('underpaid-result')).toContainText('Malapit sa benchmark')
+  await expect(page.getByTestId('underpaid-result')).toContainText('Close to the benchmark')
   await expect(page.getByTestId('underpaid-difference')).toHaveText('₱0')
 })
 

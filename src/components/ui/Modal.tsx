@@ -3,6 +3,7 @@ import { X } from 'lucide-react'
 import { useEffect, useId, useRef, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { DUR, EASE, motion, useReducedMotion } from './motion'
+import { t, tv } from '../../i18n'
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
@@ -96,14 +97,14 @@ export function Modal({ open, onClose, title, description, children }: { open: b
               className="absolute top-4 right-4 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border-0 bg-surface text-ink transition-colors hover:bg-surface-2 sm:top-5 sm:right-5"
             >
               <X aria-hidden="true" size={20} />
-              <span className="sr-only">Close</span>
+              <span className="sr-only">{t("Close")}</span>
             </button>
             <h2 id={titleId} className="pr-12 text-[clamp(1.625rem,1.3rem+1.2vw,2.125rem)]">
-              {title}
+              {tv(title)}
             </h2>
             {description && (
               <div id={descId} className="mt-3 text-[1.0625rem] leading-relaxed text-ink-2">
-                {description}
+                {tv(description)}
               </div>
             )}
             {children}

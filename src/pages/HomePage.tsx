@@ -11,6 +11,8 @@ import { GROUPS, Link, TOOLS } from '../router'
 import { TAGLINE } from '../site'
 import { useSplashGone } from '../splash'
 import { dateLabel, monthLabel, perLiter } from '../utils/format'
+import { tx } from '../i18n/react'
+import { t, tv } from '../i18n'
 
 const BASE = import.meta.env.BASE_URL
 
@@ -23,21 +25,13 @@ function Hero({ ready }: { ready: boolean }) {
         <h1 className="max-w-[12ch] text-[clamp(2.75rem,1.6rem+3.4vw,4.5rem)] leading-[0.98] tracking-[-0.035em]">
           <SplitWords text={TAGLINE} delay={0.35} />
         </h1>
-        <motion.p {...enter(0.6)} className="mt-6 max-w-[36ch] text-step-lead leading-snug text-ink-2">
-          PinansyalPH is an open-source Filipino money toolkit: {TOOLS.length} free tools for your sweldo, ipon, the prices you pay and your monthly bills, built on official Philippine data.
-        </motion.p>
+        <motion.p {...enter(0.6)} className="mt-6 max-w-[36ch] text-step-lead leading-snug text-ink-2">{tx("PinansyalPH is a free Filipino money toolkit: {length} tools for your salary, savings, the prices you pay and your monthly bills, built on official Philippine data.", { length: (TOOLS.length), })}</motion.p>
         <motion.div {...enter(0.7)} className="mt-8 flex flex-wrap items-center gap-3">
-          <a href="#tools" className="btn btn-primary group">
-            Explore the tools
-            <ArrowRight aria-hidden="true" size={18} className="transition-transform duration-300 ease-[var(--ease-out-quint)] group-hover:translate-x-1" />
+          <a href="#tools" className="btn btn-primary group">{t("Explore the tools")}<ArrowRight aria-hidden="true" size={18} className="transition-transform duration-300 ease-[var(--ease-out-quint)] group-hover:translate-x-1" />
           </a>
-          <Link to="/about" className="btn btn-soft">
-            About the project
-          </Link>
+          <Link to="/about" className="btn btn-soft">{t("About the project")}</Link>
         </motion.div>
-        <motion.p {...enter(0.8)} className="ui mt-6 text-[0.875rem] text-muted">
-          Walang sign-up. Your numbers stay on your device.
-        </motion.p>
+        <motion.p {...enter(0.8)} className="ui mt-6 text-[0.875rem] text-muted">{t("No signup, no login. Your numbers stay on your device.")}</motion.p>
       </div>
       <motion.div {...enter(0.2)} key={ready ? 'c-shown' : 'c-covered'} className="lg:col-span-7">
         <Constellation />
@@ -56,7 +50,7 @@ function Hero({ ready }: { ready: boolean }) {
  */
 function toolFigure(path: string): { value: string; label: string } | null {
   if (path === '/inflation') return { value: `${latestHeadline.value.toFixed(1)}%`, label: monthLabel(latestHeadline.period, true) }
-  if (path === '/mp2') return { value: `${latestMp2.rate.toFixed(2)}%`, label: `${latestMp2.year} dividend` }
+  if (path === '/mp2') return { value: `${latestMp2.rate.toFixed(2)}%`, label: t('{year} dividend', { year: latestMp2.year }) }
   if (path === '/gas') return { value: perLiter(latestFuel.diesel.min, latestFuel.diesel.max), label: 'diesel change this week' }
   if (path === '/banks') return { value: `${savingsBaseRange.min}–${savingsBaseRange.max}%`, label: 'base rates' }
   return null
@@ -68,14 +62,10 @@ function Tools() {
     <section id="tools" aria-labelledby="tools-title" className="wrap mt-[clamp(96px,11vw,170px)] scroll-mt-24">
       <Reveal className="grid gap-6 lg:grid-cols-12 lg:items-end">
         <div className="lg:col-span-7">
-          <h2 id="tools-title" className="text-step-head max-w-[16ch]">
-            Ano ang gusto mong malaman?
-          </h2>
-          <p className="mt-4 max-w-[46ch] text-step-lead leading-snug text-ink-2">
-            {TOOLS.length} tools for your sahod, ipon, the prices you pay and where your money goes. Each opens with the answer, then shows its working.
-          </p>
+          <h2 id="tools-title" className="text-step-head max-w-[16ch]">{t("What do you want to know?")}</h2>
+          <p className="mt-4 max-w-[46ch] text-step-lead leading-snug text-ink-2">{tx("{length} tools for your pay, your savings, the prices you pay and where your money goes. Each opens with the answer, then shows its working.", { length: (TOOLS.length), })}</p>
         </div>
-        <nav aria-label="Tool categories" className="lg:col-span-5">
+        <nav aria-label={t("Tool categories")} className="lg:col-span-5">
           <ul className="ui m-0 flex list-none flex-wrap gap-x-1 gap-y-2 p-0 lg:justify-end">
             {GROUPS.map((g) => (
               <li key={g.id}>
@@ -83,7 +73,7 @@ function Tools() {
                   href={`#group-${g.id}`}
                   className="group flex items-baseline gap-1.5 rounded-full px-3 py-2 text-[0.9375rem] font-semibold text-ink-2 transition-colors hover:bg-paper hover:text-accent"
                 >
-                  {g.label}
+                  {tv(g.label)}
                   <span className="tabular text-[0.75rem] font-medium text-muted">{TOOLS.filter((t) => t.group === g.id).length}</span>
                 </a>
               </li>
@@ -99,9 +89,9 @@ function Tools() {
             <div key={g.id} id={`group-${g.id}`} className="scroll-mt-24 border-b border-line">
               <Reveal className="grid gap-x-10 py-8 sm:py-10 lg:grid-cols-12">
                 <div className="mb-4 lg:col-span-3 lg:mb-0">
-                  <h3 className="text-[clamp(2.25rem,1.6rem+2.2vw,3.5rem)] leading-[0.95] tracking-[-0.03em]">{g.label}</h3>
-                  <p className="ui mt-2 text-[0.875rem] font-semibold tracking-[0.08em] text-accent uppercase">{g.gloss}</p>
-                  <p className="ui mt-1 max-w-[24ch] text-[0.9375rem] text-muted">{g.question}</p>
+                  <h3 className="text-[clamp(2.25rem,1.6rem+2.2vw,3.5rem)] leading-[0.95] tracking-[-0.03em]">{tv(g.label)}</h3>
+                  <p className="ui mt-2 text-[0.875rem] font-semibold tracking-[0.08em] text-accent uppercase">{tv(g.gloss)}</p>
+                  <p className="ui mt-1 max-w-[24ch] text-[0.9375rem] text-muted">{tv(g.question)}</p>
                 </div>
                 <ol className="m-0 list-none p-0 lg:col-span-9">
                   {tools.map((t) => {
@@ -118,12 +108,12 @@ function Tools() {
                           </span>
                           <ToolMark path={t.path} size={44} className="transition-transform duration-500 ease-[var(--ease-out-quint)] group-hover:-translate-y-0.5 group-hover:scale-105" />
                           <span className="min-w-0">
-                            <span className="serif block text-[clamp(1.25rem,1.05rem+0.8vw,1.75rem)] leading-tight tracking-[-0.015em] transition-colors group-hover:text-accent">{t.name}</span>
-                            <span className="ui mt-1 block text-[0.9375rem] leading-snug text-muted">{t.blurb}</span>
+                            <span className="serif block text-[clamp(1.25rem,1.05rem+0.8vw,1.75rem)] leading-tight tracking-[-0.015em] transition-colors group-hover:text-accent">{tv(t.name)}</span>
+                            <span className="ui mt-1 block text-[0.9375rem] leading-snug text-muted">{tv(t.blurb)}</span>
                             {fig && (
                               <span className="ui mt-2 flex items-baseline gap-2 text-[0.875rem] md:hidden">
                                 <span className="tabular font-semibold text-ink">{fig.value}</span>
-                                <span className="text-muted">{fig.label}</span>
+                                <span className="text-muted">{tv(fig.label)}</span>
                               </span>
                             )}
                           </span>
@@ -131,7 +121,7 @@ function Tools() {
                             {fig && (
                               <span className="hidden text-right md:block">
                                 <span className="figure block text-[1.375rem] leading-none whitespace-nowrap">{fig.value}</span>
-                                <span className="ui mt-1 block text-[0.75rem] text-muted">{fig.label}</span>
+                                <span className="ui mt-1 block text-[0.75rem] text-muted">{tv(fig.label)}</span>
                               </span>
                             )}
                             <span className="flex h-10 w-10 items-center justify-center rounded-full text-muted transition-[background-color,color,transform] duration-300 ease-[var(--ease-out-quint)] group-hover:translate-x-1 group-hover:bg-accent group-hover:text-white">
@@ -195,12 +185,8 @@ function Numbers() {
     <section aria-labelledby="numbers-title" className="wrap mt-[clamp(96px,11vw,170px)]">
       <div className="grid gap-4 lg:grid-cols-12">
         <Reveal className="flex flex-col lg:col-span-5">
-          <h2 id="numbers-title" className="text-step-head">
-            Latest official numbers
-          </h2>
-          <p className="mt-4 max-w-[40ch] text-ink-2">
-            Published figures from PSA, DOE and Pag-IBIG, each with its date. They refresh automatically when the agencies release new data, and are never estimated.
-          </p>
+          <h2 id="numbers-title" className="text-step-head">{t("Latest official numbers")}</h2>
+          <p className="mt-4 max-w-[40ch] text-ink-2">{t("Published figures from PSA, DOE and Pag-IBIG, each with its date. They refresh automatically when the agencies release new data, and are never estimated.")}</p>
           <figure className="relative m-0 mt-8 min-h-[260px] flex-1 overflow-hidden rounded-[28px] bg-surface-2">
             <img
               src={`${BASE}images/jeepney-1400.webp`}
@@ -209,10 +195,10 @@ function Numbers() {
               width={1400}
               height={1050}
               loading="lazy"
-              alt="A jeepney turning at a sunny Manila street corner under tangled power lines"
+              alt={t("A jeepney turning at a sunny Manila street corner under tangled power lines")}
               className="absolute inset-0 h-full w-full object-cover object-[62%_60%] transition-transform duration-[1400ms] ease-[var(--ease-out-quint)] hover:scale-[1.03]"
             />
-            <figcaption className="ui absolute bottom-3 left-3 rounded-full bg-paper/95 px-3 py-1.5 text-[0.8125rem] font-medium">Pedro Gil, Manila</figcaption>
+            <figcaption className="ui absolute bottom-3 left-3 rounded-full bg-paper/95 px-3 py-1.5 text-[0.8125rem] font-medium">{t("Pedro Gil, Manila")}</figcaption>
           </figure>
         </Reveal>
         <ul className="m-0 grid list-none gap-4 p-0 sm:grid-cols-2 lg:col-span-7">
@@ -220,7 +206,7 @@ function Numbers() {
             <Reveal as="li" key={t.label} delay={0.06 * i} className="flex">
               <Link to={t.to} className="group flex w-full flex-col rounded-[28px] bg-paper p-6 transition-colors duration-300 hover:bg-accent-soft sm:p-7">
                 <span className="flex items-center justify-between gap-3">
-                  <span className="ui text-[0.9375rem] font-semibold">{t.label}</span>
+                  <span className="ui text-[0.9375rem] font-semibold">{tv(t.label)}</span>
                   <ArrowUpRight
                     aria-hidden="true"
                     size={20}
@@ -228,9 +214,9 @@ function Numbers() {
                   />
                 </span>
                 <span className="figure mt-5 block text-[clamp(2.25rem,1.8rem+1.6vw,3.25rem)] leading-none">{t.value}</span>
-                <span className="mt-3 block text-[0.9375rem] leading-relaxed text-ink-2">{t.body}</span>
+                <span className="mt-3 block text-[0.9375rem] leading-relaxed text-ink-2">{tv(t.body)}</span>
                 <span className="ui mt-auto block pt-5 text-[0.8125rem] leading-relaxed text-muted">
-                  {t.source}
+                  {tv(t.source)}
                   <span className="mt-1 block">{t.status}</span>
                 </span>
               </Link>
@@ -244,26 +230,20 @@ function Numbers() {
 
 /* ------------------------------------------------------------------ */
 
-function OpenSource() {
+function FreeForAll() {
   const { openSupport } = useSupport()
   return (
     <section aria-labelledby="open-title" className="wrap mt-[clamp(96px,11vw,170px)]">
       <Reveal className="grid gap-8 rounded-[32px] bg-accent-soft p-6 sm:p-10 lg:grid-cols-12 lg:items-end lg:p-14">
         <div className="lg:col-span-8">
           <AnimatedSymbol size={56} play={false} />
-          <h2 id="open-title" className="text-step-head mt-6 max-w-[18ch]">
-            Libre, open source, para sa lahat.
-          </h2>
-          <p className="mt-4 max-w-[54ch] text-step-lead leading-snug text-ink-2">No ads, no accounts, no tracking. Every formula and dataset is public, so anyone can check how a number is made.</p>
+          <h2 id="open-title" className="text-step-head mt-6 max-w-[18ch]">{t("Free, for everyone.")}</h2>
+          <p className="mt-4 max-w-[54ch] text-step-lead leading-snug text-ink-2">{t("No ads, no accounts, no login. Every number shows its official source and how it was computed.")}</p>
         </div>
         <div className="flex flex-wrap gap-3 lg:col-span-4 lg:justify-end">
           <button type="button" onClick={openSupport} className="btn btn-primary">
-            <Heart aria-hidden="true" size={18} />
-            Support the project
-          </button>
-          <Link to="/about" className="btn btn-paper">
-            About PinansyalPH
-          </Link>
+            <Heart aria-hidden="true" size={18} />{t("Support the project")}</button>
+          <Link to="/about" className="btn btn-paper">{t("About PinansyalPH")}</Link>
         </div>
       </Reveal>
     </section>
@@ -278,7 +258,7 @@ export function HomePage() {
       <Hero ready={ready} />
       <Tools />
       <Numbers />
-      <OpenSource />
+      <FreeForAll />
     </Page>
   )
 }

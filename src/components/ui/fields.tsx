@@ -1,5 +1,7 @@
 import { useId, useState, useEffect, type ReactNode } from 'react'
 import { SPRING, motion, useReducedMotion } from './motion'
+import { tx } from '../../i18n/react'
+import { t, tv } from '../../i18n'
 
 /** Peso amount input: accepts commas, shows them back, reports errors in words. */
 export function AmountField({
@@ -49,7 +51,7 @@ export function AmountField({
     <div className="ui">
       <label htmlFor={id} className="field-label">
         {context && <span className="sr-only">{context} </span>}
-        {label}
+        {tv(label)}
       </label>
       <div className="relative">
         <span aria-hidden="true" className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-muted">
@@ -69,7 +71,7 @@ export function AmountField({
       </div>
       {(error || hint) && (
         <p id={`${id}-desc`} className={`field-hint ${error ? 'field-error' : ''}`} role={error ? 'alert' : undefined}>
-          {error ?? hint}
+          {tv(error) ?? tv(hint)}
         </p>
       )}
     </div>
@@ -109,7 +111,7 @@ export function NumberField({
     <div className="ui">
       <label htmlFor={id} className="field-label">
         {context && <span className="sr-only">{context} </span>}
-        {label}
+        {tv(label)}
       </label>
       <div className="relative">
         <input
@@ -140,7 +142,7 @@ export function NumberField({
       </div>
       {(error || hint) && (
         <p id={`${id}-desc`} className={`field-hint ${error ? 'field-error' : ''}`} role={error ? 'alert' : undefined}>
-          {error ?? hint}
+          {tv(error) ?? tv(hint)}
         </p>
       )}
     </div>
@@ -164,18 +166,18 @@ export function SelectField<T extends string>({
   return (
     <div className="ui">
       <label htmlFor={id} className="field-label">
-        {label}
+        {tv(label)}
       </label>
       <select id={id} className="field-input" value={value} onChange={(e) => onChange(e.target.value as T)} aria-describedby={hint ? `${id}-desc` : undefined}>
         {options.map((o) => (
           <option key={o.value} value={o.value}>
-            {o.label}
+            {tv(o.label)}
           </option>
         ))}
       </select>
       {hint && (
         <p id={`${id}-desc`} className="field-hint">
-          {hint}
+          {tv(hint)}
         </p>
       )}
     </div>
@@ -212,7 +214,7 @@ export function Segmented<T extends string>({
     <fieldset className="ui m-0 min-w-0 border-0 p-0">
       <legend className={hideLabel ? 'sr-only' : 'field-label p-0'}>
         {context && <span className="sr-only">{context} </span>}
-        {label}
+        {tv(label)}
       </legend>
       <div className={`relative ${wrap ? 'grid grid-cols-2 sm:flex' : 'flex'} gap-0.5 rounded-[16px] bg-surface p-1`}>
         {options.map((o) => {
@@ -231,7 +233,7 @@ export function Segmented<T extends string>({
               <span
                 className={`relative flex min-h-11 items-center justify-center rounded-[12px] px-3 py-2 text-center text-[0.9375rem] leading-tight font-medium transition-colors duration-200 peer-focus-visible:outline-3 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent ${active ? 'text-ink' : 'text-ink-2 hover:text-ink'}`}
               >
-                {o.label}
+                {tv(o.label)}
               </span>
             </label>
           )
@@ -249,11 +251,11 @@ export function Toggle({ label, checked, onChange, description }: { label: strin
       <input id={id} type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="switch mt-0.5" aria-describedby={description ? `${id}-d` : undefined} />
       <div className="min-w-0">
         <label htmlFor={id} className="cursor-pointer text-[0.9375rem] leading-snug font-medium">
-          {label}
+          {tv(label)}
         </label>
         {description && (
           <p id={`${id}-d`} className="field-hint !mt-0.5">
-            {description}
+            {tv(description)}
           </p>
         )}
       </div>
@@ -309,7 +311,7 @@ export function OptionalAmountField({
   return (
     <div className="ui">
       <label htmlFor={id} className={`field-label ${compact ? '!text-[0.875rem]' : ''}`}>
-        {label}
+        {tv(label)}
       </label>
       <div className="relative">
         <span aria-hidden="true" className="pointer-events-none absolute top-1/2 left-4 -translate-y-1/2 text-muted">
@@ -330,7 +332,7 @@ export function OptionalAmountField({
       </div>
       {(error || hint) && (
         <p id={`${id}-desc`} className={`field-hint ${error ? 'field-error' : ''}`} role={error ? 'alert' : undefined}>
-          {error ?? hint}
+          {tv(error) ?? tv(hint)}
         </p>
       )}
     </div>
@@ -343,13 +345,13 @@ export function DateField({ label, value, onChange, hint, min, max, optional = f
   return (
     <div className="ui">
       <label htmlFor={id} className="field-label">
-        {label}
-        {optional && <span className="font-normal text-muted"> (optional)</span>}
+        {tv(label)}
+        {optional && <span className="font-normal text-muted">{' '}{t("(optional)")}</span>}
       </label>
       <input id={id} type="date" className="field-input" value={value} min={min} max={max} onChange={(e) => onChange(e.target.value)} aria-describedby={hint ? `${id}-desc` : undefined} />
       {hint && (
         <p id={`${id}-desc`} className="field-hint">
-          {hint}
+          {tv(hint)}
         </p>
       )}
     </div>
@@ -397,7 +399,7 @@ export function SliderField({
   return (
     <div className="ui">
       <label htmlFor={id} className="field-label flex items-baseline justify-between gap-3">
-        <span>{label}</span>
+        <span>{tv(label)}</span>
         <span className="figure text-[1.25rem] tracking-normal whitespace-nowrap" data-testid={testId}>
           {format(value)}
         </span>
@@ -419,9 +421,7 @@ export function SliderField({
       />
       {exact && (
         <div className="relative mt-1">
-          <label htmlFor={`${id}-exact`} className="sr-only">
-            {label}, exact value
-          </label>
+          <label htmlFor={`${id}-exact`} className="sr-only">{tx("{label}, exact value", { label: (tv(label)), })}</label>
           <input
             id={`${id}-exact`}
             type="number"
@@ -449,7 +449,7 @@ export function SliderField({
       )}
       {(hint || error) && (
         <p id={`${id}-desc`} className={`field-hint ${error ? 'field-error' : ''}`} role={error ? 'alert' : undefined}>
-          {error ?? hint}
+          {tv(error) ?? tv(hint)}
         </p>
       )}
     </div>

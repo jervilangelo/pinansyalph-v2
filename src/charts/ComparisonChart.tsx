@@ -1,6 +1,7 @@
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { peso } from '../utils/format'
 import { AXIS, GRID, Legend, NEUTRAL, TooltipCard, axisTick, pesoTick, useChartAnimation } from './common'
+import { t } from '../i18n'
 
 export interface ComparisonSeries {
   id: string
@@ -25,7 +26,7 @@ export default function ComparisonChart({ series, contributed, mode }: { series:
       <div className="mb-4">
         <Legend items={legend} />
       </div>
-      <div className="h-[clamp(300px,40vw,460px)]" role="img" aria-label={`Line chart comparing ${series.map((s) => s.label).join(', ')} over ${contributed.length - 1} years, ${mode === 'real' ? "in today's pesos" : 'in pesos'}.`}>
+      <div className="h-[clamp(300px,40vw,460px)]" role="img" aria-label={t("Line chart comparing {v0} over {v1} years, {v2}.", { v0: series.map((s) => s.label).join(', '), v1: contributed.length - 1, v2: mode === 'real' ? "in today's pesos" : 'in pesos' })}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 8, right: 12, bottom: 8, left: 0 }}>
             <CartesianGrid stroke={GRID} vertical={false} />
@@ -36,13 +37,13 @@ export default function ComparisonChart({ series, contributed, mode }: { series:
               content={({ active, payload, label }) =>
                 active && payload?.length ? (
                   <TooltipCard
-                    title={label === 0 ? 'Start' : `End of year ${label}`}
+                    title={label === 0 ? t("Start") : t("End of year {label}", { label: label ?? "" })}
                     rows={[
                       ...series
                         .map((s) => ({ color: s.color, label: s.label, value: Number(payload[0].payload[s.id]) }))
                         .sort((a, b) => b.value - a.value)
                         .map((r) => ({ ...r, value: peso(r.value) })),
-                      { color: NEUTRAL, dashed: true, label: 'Put in', value: peso(Number(payload[0].payload.contributed)) },
+                      { color: NEUTRAL, dashed: true, label: t("Put in"), value: peso(Number(payload[0].payload.contributed)) },
                     ]}
                   />
                 ) : null
@@ -50,7 +51,7 @@ export default function ComparisonChart({ series, contributed, mode }: { series:
             />
             <Line type="monotone" dataKey="contributed" stroke={NEUTRAL} strokeWidth={2} strokeDasharray="6 5" dot={false} {...anim} />
             {series.map((s) => (
-              <Line key={s.id} type="monotone" dataKey={s.id} name={s.label} stroke={s.color} strokeWidth={2.5} dot={false} activeDot={{ r: 5, strokeWidth: 2, stroke: '#fbfaf7' }} {...anim} />
+              <Line key={s.id} type="monotone" dataKey={s.id} name={s.label} stroke={s.color} strokeWidth={2.5} dot={false} activeDot={{ r: 5, strokeWidth: 2, stroke: 'var(--color-paper)' }} {...anim} />
             ))}
           </LineChart>
         </ResponsiveContainer>

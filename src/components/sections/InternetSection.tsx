@@ -11,6 +11,8 @@ import { Disclosure } from '../ui/Disclosure'
 import { AmountField, SelectField, SliderField, Toggle } from '../ui/fields'
 import { CalcGrid, Panel, ResultHero } from '../ui/Result'
 import { StatusTag } from '../ui/Status'
+import { tx } from '../../i18n/react'
+import { t, tv } from '../../i18n'
 
 const STORE = 'pp-internet-v1'
 const MAX_PINNED = 4
@@ -102,7 +104,7 @@ function ProviderTile({ providerId, size = 40 }: { providerId: string; size?: nu
       style={{ width: size, height: size, background: p?.color ?? 'var(--color-surface-2)', fontSize: size * 0.3 }}
       className="ui flex shrink-0 items-center justify-center rounded-[28%] leading-none font-bold tracking-tight text-white"
     >
-      {p ? p.short.slice(0, p.short.length > 5 ? 2 : 5) : <span className="text-ink-2">You</span>}
+      {p ? p.short.slice(0, p.short.length > 5 ? 2 : 5) : <span className="text-ink-2">{t("You")}</span>}
     </span>
   )
 }
@@ -135,16 +137,13 @@ export function InternetSection() {
         title={
           <span className="flex items-start gap-4">
             <ToolMark path="/sulit-internet" size={56} className="mt-1 hidden sm:block" />
-            <span>Sulit Ba Internet Ko?</span>
+            <span>{t("Sulit Ba Internet Ko?")}</span>
           </span>
         }
         lede={
-          <>
-            <span className="font-semibold text-ink">Sulit ba talaga ang internet mo, o baka may mas mura at mas mabilis?</span> See what you pay per Mbps and compare it with verified plans from PLDT,
-            Globe, Converge, Starlink, Smart and DITO.
-          </>
+          <>{tx("{span} See what you pay per Mbps and compare it with verified plans from PLDT, Globe, Converge, Starlink, Smart and DITO.", { span: (<span className="font-semibold text-ink">{t("Sulit ba talaga ang internet mo, o baka may mas mura at mas mabilis?")}</span>), })}</>
         }
-        meta={<StatusTag status="verified" extra={`Prices from each provider’s own page, checked ${dateLabel(CHECKED)}`} />}
+        meta={<StatusTag status="verified" extra={t("Prices from each provider’s own page, checked {CHECKED}", { CHECKED: dateLabel(CHECKED) })} />}
       />
       <div className="wrap grid gap-4">
         <YourPlan s={s} set={set} pinned={s.pinned} togglePin={togglePin} />
@@ -175,24 +174,24 @@ function YourPlan({ s, set, pinned, togglePin }: { s: Stored; set: (p: Partial<S
   return (
     <CalcGrid
       inputs={
-        <Panel title="Your current plan" intro="Pick your provider and plan, then adjust the bill to what you actually pay." as="section">
+        <Panel title={t("Your current plan")} intro={t("Pick your provider and plan, then adjust the bill to what you actually pay.")} as="section">
           <div className="grid gap-5">
             <div className="grid gap-4 sm:grid-cols-2">
               <SelectField
-                label="Provider"
+                label={t("Provider")}
                 value={s.providerId || 'none'}
                 onChange={(v) => set({ providerId: v === 'none' ? '' : v, planId: v === CUSTOM ? CUSTOM : '' })}
-                options={[{ value: 'none', label: 'Choose your provider' }, ...PROVIDERS.map((p) => ({ value: p.id, label: p.name })), { value: CUSTOM, label: 'Other provider' }]}
+                options={[{ value: 'none', label: t("Choose your provider") }, ...PROVIDERS.map((p) => ({ value: p.id, label: p.name })), { value: CUSTOM, label: t("Other provider") }]}
               />
               {s.providerId && s.providerId !== CUSTOM && (
                 <SelectField
-                  label="Plan"
+                  label={t("Plan")}
                   value={s.planId || 'none'}
                   onChange={(v) => (v === 'none' ? set({ planId: '' }) : pickPlan(v))}
                   options={[
-                    { value: 'none', label: 'Choose your plan' },
+                    { value: 'none', label: t("Choose your plan") },
                     ...plans.map((p) => ({ value: p.id, label: `${p.name} · ${peso(p.price)}` })),
-                    { value: CUSTOM, label: 'My plan is not listed' },
+                    { value: CUSTOM, label: t("My plan is not listed") },
                   ]}
                 />
               )}
@@ -200,20 +199,18 @@ function YourPlan({ s, set, pinned, togglePin }: { s: Stored; set: (p: Partial<S
             {chosen && (
               <p className="ui rounded-[14px] bg-ground px-4 py-3 text-[0.875rem] leading-relaxed text-ink-2" data-testid="plan-note">
                 {chosen.status === 'announced' ? (
-                  <strong className="font-semibold text-warn">Announced {dateLabel(chosen.source.published!)}, not re-confirmed. </strong>
+                  <strong className="font-semibold text-warn">{tx("Announced {dateLabel}, not re-confirmed.", { dateLabel: (dateLabel(chosen.source.published!)), })}</strong>
                 ) : (
-                  <strong className="font-semibold text-gain">Verified on {providerById(chosen.providerId)!.short}’s own page. </strong>
+                  <strong className="font-semibold text-gain">{tx("Verified on {short}’s own page.", { short: (tv(providerById(chosen.providerId)!.short)), })}</strong>
                 )}
-                {chosen.billing === 'prepaid' && chosen.periodDays ? `A ${chosen.periodDays}-day load of ${peso(chosen.price)} works out to ${pesoExact(planCosts(chosen).monthly)} a month. ` : ''}
-                {chosen.note}{' '}
-                <a href={chosen.source.url} target="_blank" rel="noreferrer" className="text-accent underline underline-offset-2">
-                  Source
-                </a>
+                {chosen.billing === 'prepaid' && chosen.periodDays ? t("A {periodDays}-day load of {price} works out to {monthly} a month. ", { periodDays: chosen.periodDays, price: peso(chosen.price), monthly: pesoExact(planCosts(chosen).monthly) }) : ''}
+                {tv(chosen.note)}{' '}
+                <a href={chosen.source.url} target="_blank" rel="noreferrer" className="text-accent underline underline-offset-2">{t("Source")}</a>
               </p>
             )}
-            <AmountField label="What you actually pay a month" value={s.bill} onChange={(v) => set({ bill: v })} hint="From your latest bill, including any add-ons you pay for every month." />
+            <AmountField label={t("What you actually pay a month")} value={s.bill} onChange={(v) => set({ bill: v })} hint={t("From your latest bill, including any add-ons you pay for every month.")} />
             <SliderField
-              label="Advertised download speed"
+              label={t("Advertised download speed")}
               value={s.advertised}
               onChange={(v) => set({ advertised: v })}
               min={5}
@@ -225,14 +222,14 @@ function YourPlan({ s, set, pinned, togglePin }: { s: Stored; set: (p: Partial<S
               format={(v) => mbps(v)}
             />
             <Toggle
-              label="I measured my actual speed"
+              label={t("I measured my actual speed")}
               checked={s.measured != null}
               onChange={(on) => set({ measured: on ? Math.max(1, Math.round(s.advertised / 2)) : null })}
-              description="Use a speed test on a wired connection for the fairest number."
+              description={t("Use a speed test on a wired connection for the fairest number.")}
             />
             {s.measured != null && (
               <SliderField
-                label="Measured download speed"
+                label={t("Measured download speed")}
                 value={s.measured}
                 onChange={(v) => set({ measured: v })}
                 min={1}
@@ -250,53 +247,39 @@ function YourPlan({ s, set, pinned, togglePin }: { s: Stored; set: (p: Partial<S
       result={
         <>
           <ResultHero
-            label="You pay per Mbps"
+            label={t("You pay per Mbps")}
             value={result?.perMbps ?? 0}
             format={(n) => `${pesoExact(n)}`}
             tone={result ? 'accent' : 'soft'}
             testId="your-per-mbps"
             caption={
               result ? (
-                <>
-                  {pesoExact(s.bill)} a month ÷ {mbps(s.advertised)} advertised. <span data-testid="your-annual">{pesoExact(result.annual)}</span> a year.
-                  {result.actualPerMbps != null && (
-                    <>
-                      {' '}
-                      At your measured {mbps(s.measured)}, it is{' '}
-                      <strong className="font-semibold text-white" data-testid="your-actual-per-mbps">
+                <>{tx("{bill} a month ÷ {advertised} advertised. {span} a year.{v2}", { bill: (pesoExact(s.bill)), advertised: (mbps(s.advertised)), span: (<span data-testid="your-annual">{pesoExact(result.annual)}</span>), v2: (result.actualPerMbps != null && (
+                    <>{tx("At your measured {measured}, it is {strong} per Mbps.", { measured: (mbps(s.measured)), strong: (<strong className="font-semibold text-white" data-testid="your-actual-per-mbps">
                         {pesoExact(result.actualPerMbps)}
-                      </strong>{' '}
-                      per Mbps.
-                    </>
-                  )}
-                </>
+                      </strong>), })}</>
+                  )), })}</>
               ) : (
                 (problem ?? 'Enter your bill and speed.')
               )
             }
           />
           {result && (
-            <Panel title="Am I overpaying?" as="section">
-              <p className="text-[1.0625rem] leading-relaxed" data-testid="overpay-message">
-                Your current plan costs <strong className="font-semibold">{pesoExact(result.perMbps)} per Mbps</strong>.{' '}
-                {result.cheaperPerMbps > 0
-                  ? `${result.cheaperPerMbps} of the ${result.compared} verified plans listed here offer a lower price per Mbps.`
-                  : `None of the ${result.compared} verified plans listed here offers a lower price per Mbps.`}
-              </p>
-              <p className="ui mt-2 text-[0.8125rem] text-muted">Compared only with the plans in this list, not the whole market, and only where those plans are available at your address.</p>
+            <Panel title={t("Am I overpaying?")} as="section">
+              <p className="text-[1.0625rem] leading-relaxed" data-testid="overpay-message">{tx("Your current plan costs {strong}. {v0}", { strong: (<strong className="font-semibold">{tx("{perMbps} per Mbps", { perMbps: (pesoExact(result.perMbps)), })}</strong>), v0: (result.cheaperPerMbps > 0
+                  ? t("{cheaperPerMbps} of the {compared} verified plans listed here offer a lower price per Mbps.", { cheaperPerMbps: result.cheaperPerMbps, compared: result.compared })
+                  : t("None of the {compared} verified plans listed here offers a lower price per Mbps.", { compared: result.compared })), })}</p>
+              <p className="ui mt-2 text-[0.8125rem] text-muted">{t("Compared only with the plans in this list, not the whole market, and only where those plans are available at your address.")}</p>
               {result.fasterForLess.length > 0 && (
                 <>
-                  <h3 className="ui mt-5 text-[0.9375rem] font-semibold">As fast or faster, for less a month</h3>
+                  <h3 className="ui mt-5 text-[0.9375rem] font-semibold">{t("As fast or faster, for less a month")}</h3>
                   <ul className="m-0 mt-2 grid list-none gap-2 p-0" data-testid="faster-for-less">
                     {result.fasterForLess.slice(0, 3).map((a) => (
                       <li key={a.plan.id} className="flex items-center gap-3 rounded-[16px] bg-ground p-3">
                         <ProviderTile providerId={a.plan.providerId} size={36} />
                         <span className="min-w-0 flex-1">
-                          <span className="block text-[0.9375rem] font-semibold">{a.plan.name}</span>
-                          <span className="ui block text-[0.8125rem] text-muted">
-                            {mbps(a.plan.downMbps)} · {pesoExact(a.costs.monthly)}/mo ·{' '}
-                            {a.firstYearSavings > 0 ? `${pesoExact(a.firstYearSavings)} less in year one, fees included` : 'one-time fees cancel out the first-year saving'}
-                          </span>
+                          <span className="block text-[0.9375rem] font-semibold">{tv(a.plan.name)}</span>
+                          <span className="ui block text-[0.8125rem] text-muted">{tx("{downMbps} · {monthly}/mo · {v2}", { downMbps: (mbps(a.plan.downMbps)), monthly: (pesoExact(a.costs.monthly)), v2: (a.firstYearSavings > 0 ? t("{firstYearSavings} less in year one, fees included", { firstYearSavings: pesoExact(a.firstYearSavings) }) : t("one-time fees cancel out the first-year saving")), })}</span>
                         </span>
                         <button
                           type="button"
@@ -304,14 +287,14 @@ function YourPlan({ s, set, pinned, togglePin }: { s: Stored; set: (p: Partial<S
                           aria-pressed={pinned.includes(a.plan.id)}
                           className="ui shrink-0 cursor-pointer rounded-full border-0 bg-paper px-3 py-2 text-[0.8125rem] font-semibold text-accent hover:bg-accent-soft"
                         >
-                          {pinned.includes(a.plan.id) ? 'Comparing' : 'Compare'}
+                          {pinned.includes(a.plan.id) ? t("Comparing") : t("Compare")}
                         </button>
                       </li>
                     ))}
                   </ul>
                 </>
               )}
-              <p className="ui mt-4 text-[0.8125rem] text-muted">Cheapest per Mbps is not automatically best: reliability, upload speed, support and coverage at your address matter too.</p>
+              <p className="ui mt-4 text-[0.8125rem] text-muted">{t("Cheapest per Mbps is not automatically best: reliability, upload speed, support and coverage at your address matter too.")}</p>
             </Panel>
           )}
         </>
@@ -341,30 +324,28 @@ function ComparePlans({ rows, s, set, togglePin }: { rows: { plan: InternetPlan;
       <div className="card p-5 sm:p-7">
         <div className="grid gap-5 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-5">
-            <h2 id="compare-title" className="text-[1.75rem] leading-tight">
-              Compare plans
-            </h2>
-            <p className="ui mt-2 text-[0.9375rem] text-muted">Tick up to {MAX_PINNED} plans to see them side by side. “Best value” means the lowest price per Mbps, nothing more.</p>
+            <h2 id="compare-title" className="text-[1.75rem] leading-tight">{t("Compare plans")}</h2>
+            <p className="ui mt-2 text-[0.9375rem] text-muted">{tx("Tick up to {mAX_PINNED} plans to see them side by side. “Best value” means the lowest price per Mbps, nothing more.", { mAX_PINNED: (MAX_PINNED), })}</p>
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:col-span-7">
-            <SelectField<SortKey> label="Sort by" value={sort} onChange={setSort} options={SORTS.map((x) => ({ value: x.id, label: x.label }))} />
+            <SelectField<SortKey> label={t("Sort by")} value={sort} onChange={setSort} options={SORTS.map((x) => ({ value: x.id, label: x.label }))} />
             <SelectField<ConnFilter>
-              label="Connection"
+              label={t("Connection")}
               value={conn}
               onChange={setConn}
               options={[
-                { value: 'all', label: 'All types' },
-                { value: 'fiber', label: 'Fiber' },
-                { value: 'fixed-wireless', label: 'Wireless (4G/5G)' },
-                { value: 'satellite', label: 'Satellite' },
+                { value: 'all', label: t("All types") },
+                { value: 'fiber', label: t("Fiber") },
+                { value: 'fixed-wireless', label: t("Wireless (4G/5G)") },
+                { value: 'satellite', label: t("Satellite") },
               ]}
             />
             <div className="sm:col-span-2">
               <Toggle
-                label="Include plans from older announcements"
+                label={t("Include plans from older announcements")}
                 checked={announced}
                 onChange={setAnnounced}
-                description="Prices from official announcements we could not re-confirm on a live page."
+                description={t("Prices from official announcements we could not re-confirm on a live page.")}
               />
             </div>
           </div>
@@ -373,11 +354,11 @@ function ComparePlans({ rows, s, set, togglePin }: { rows: { plan: InternetPlan;
         <div aria-hidden="true" className="ui mt-6 hidden grid-cols-[auto_auto_minmax(0,1.6fr)_repeat(4,minmax(0,1fr))] gap-x-3 pb-2 text-right text-[0.8125rem] font-medium text-muted md:grid">
           <span className="w-5" />
           <span className="w-9" />
-          <span className="text-left">Plan</span>
-          <span>Monthly</span>
-          <span>Speed</span>
-          <span>₱ per Mbps</span>
-          <span>First year</span>
+          <span className="text-left">{t("Plan")}</span>
+          <span>{t("Monthly")}</span>
+          <span>{t("Speed")}</span>
+          <span>{t("₱ per Mbps")}</span>
+          <span>{t("First year")}</span>
         </div>
         <ul className="m-0 mt-2 grid list-none grid-cols-[minmax(0,1fr)] p-0 md:mt-0" data-testid="plan-list">
           {shown.map(({ plan, costs }) => {
@@ -394,31 +375,31 @@ function ComparePlans({ rows, s, set, togglePin }: { rows: { plan: InternetPlan;
                     disabled={full}
                     onChange={() => togglePin(plan.id)}
                     className="h-5 w-5 accent-[var(--color-accent)]"
-                    aria-label={`Compare ${providerById(plan.providerId)?.short ?? 'your'} ${plan.name}`}
+                    aria-label={t("Compare {v0} {name}", { v0: providerById(plan.providerId)?.short ?? 'your', name: plan.name })}
                   />
                   <ProviderTile providerId={plan.providerId} size={36} />
                   <span className="min-w-0">
                     <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                      <span className="font-semibold">{plan.name}</span>
-                      {plan.id === best && <span className="ui rounded-full bg-gain-soft px-2 py-0.5 text-[0.6875rem] font-semibold text-gain">Best value per Mbps</span>}
+                      <span className="font-semibold">{tv(plan.name)}</span>
+                      {plan.id === best && <span className="ui rounded-full bg-gain-soft px-2 py-0.5 text-[0.6875rem] font-semibold text-gain">{t("Best value per Mbps")}</span>}
                       {plan.status === 'announced' && (
-                        <span className="ui rounded-full bg-warn-soft px-2 py-0.5 text-[0.6875rem] font-semibold text-warn">Announced {plan.source.published?.slice(0, 4)}</span>
+                        <span className="ui rounded-full bg-warn-soft px-2 py-0.5 text-[0.6875rem] font-semibold text-warn">{tx("Announced {v0}", { v0: (plan.source.published?.slice(0, 4)), })}</span>
                       )}
                     </span>
                     <span className="ui block text-[0.8125rem] text-muted">
-                      {providerById(plan.providerId)?.name ?? 'Your plan'} · {plan.billing === 'prepaid' ? `prepaid, ${peso(plan.price)} per ${plan.periodDays} days` : 'postpaid'}
+                      {tv(providerById(plan.providerId)?.name) ?? t("Your plan")} · {plan.billing === "prepaid" ? t("prepaid, {price} per {periodDays} days", { price: peso(plan.price), periodDays: plan.periodDays ?? 30 }) : t("postpaid")}
                     </span>
                   </span>
-                  <Cell label="Monthly" value={pesoExact(costs.monthly)} />
-                  <Cell label="Speed" value={mbps(plan.downMbps)} />
-                  <Cell label="₱ per Mbps" value={costs.perMbps == null ? '—' : pesoExact(costs.perMbps)} strong testId="row-per-mbps" />
-                  <Cell label="First year" value={`${pesoExact(costs.firstYear)}${costs.upfrontUnknown ? '*' : ''}`} />
+                  <Cell label={t("Monthly")} value={pesoExact(costs.monthly)} />
+                  <Cell label={t("Speed")} value={mbps(plan.downMbps)} />
+                  <Cell label={t("₱ per Mbps")} value={costs.perMbps == null ? '—' : pesoExact(costs.perMbps)} strong testId="row-per-mbps" />
+                  <Cell label={t("First year")} value={`${pesoExact(costs.firstYear)}${costs.upfrontUnknown ? '*' : ''}`} />
                 </label>
               </li>
             )
           })}
         </ul>
-        <p className="ui mt-3 text-[0.8125rem] text-muted">* One-time fees not stated by the provider, so not included.</p>
+        <p className="ui mt-3 text-[0.8125rem] text-muted">{t("* One-time fees not stated by the provider, so not included.")}</p>
 
         <div className="mt-5 border-t border-line pt-5">
           {showCustom ? (
@@ -431,21 +412,20 @@ function ComparePlans({ rows, s, set, togglePin }: { rows: { plan: InternetPlan;
             />
           ) : (
             <button type="button" className="btn btn-soft btn-sm" onClick={() => setShowCustom(true)}>
-              <Plus aria-hidden="true" size={16} /> Add a plan that is not listed
-            </button>
+              <Plus aria-hidden="true" size={16} />{' '}{t("Add a plan that is not listed")}</button>
           )}
           {s.custom.length > 0 && (
             <ul className="ui m-0 mt-3 flex list-none flex-wrap gap-2 p-0 text-[0.875rem]">
               {s.custom.map((c) => (
                 <li key={c.id} className="flex items-center gap-1 rounded-full bg-ground py-1 pr-1 pl-3">
-                  {c.name}
+                  {tv(c.name)}
                   <button
                     type="button"
                     className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-0 bg-transparent text-muted hover:bg-loss-soft hover:text-loss"
                     onClick={() => set({ custom: s.custom.filter((x) => x.id !== c.id), pinned: s.pinned.filter((p) => p !== c.id) })}
                   >
                     <X aria-hidden="true" size={14} />
-                    <span className="sr-only">Remove {c.name}</span>
+                    <span className="sr-only">{tx("Remove {name}", { name: (tv(c.name)), })}</span>
                   </button>
                 </li>
               ))}
@@ -462,7 +442,7 @@ function ComparePlans({ rows, s, set, togglePin }: { rows: { plan: InternetPlan;
 function Cell({ label, value, strong, testId }: { label: string; value: string; strong?: boolean; testId?: string }) {
   return (
     <span className="col-start-3 flex items-baseline justify-between gap-3 text-[0.9375rem] md:col-start-auto md:block md:text-right">
-      <span className="ui text-[0.8125rem] text-muted md:hidden">{label}</span>
+      <span className="ui text-[0.8125rem] text-muted md:hidden">{tv(label)}</span>
       <span className={`tabular ${strong ? 'font-semibold' : ''}`} data-testid={testId}>
         {value}
       </span>
@@ -486,17 +466,15 @@ function CustomPlanForm({ onAdd, onCancel }: { onAdd: (c: CustomPlan) => void; o
       }}
     >
       <div className="ui">
-        <label htmlFor="custom-name" className="field-label">
-          Provider and plan name
-        </label>
-        <input id="custom-name" className="field-input" value={c.name} maxLength={60} placeholder="e.g. Streamtech 200 Mbps" onChange={(e) => setC({ ...c, name: e.target.value })} />
+        <label htmlFor="custom-name" className="field-label">{t("Provider and plan name")}</label>
+        <input id="custom-name" className="field-input" value={c.name} maxLength={60} placeholder={t("e.g. Streamtech 200 Mbps")} onChange={(e) => setC({ ...c, name: e.target.value })} />
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
-        <AmountField label="Monthly price" value={c.price} onChange={(v) => setC({ ...c, price: v })} />
-        <SliderField label="Download speed" value={c.downMbps} onChange={(v) => setC({ ...c, downMbps: v })} min={5} max={2000} step={5} exact suffix="Mbps" format={mbps} />
-        <AmountField label="One-time fees (installation, modem)" value={c.upfront} onChange={(v) => setC({ ...c, upfront: v })} />
+        <AmountField label={t("Monthly price")} value={c.price} onChange={(v) => setC({ ...c, price: v })} />
+        <SliderField label={t("Download speed")} value={c.downMbps} onChange={(v) => setC({ ...c, downMbps: v })} min={5} max={2000} step={5} exact suffix="Mbps" format={mbps} />
+        <AmountField label={t("One-time fees (installation, modem)")} value={c.upfront} onChange={(v) => setC({ ...c, upfront: v })} />
         <SliderField
-          label="Lock-in"
+          label={t("Lock-in")}
           value={c.lockInMonths}
           onChange={(v) => setC({ ...c, lockInMonths: Math.round(v) })}
           min={0}
@@ -507,16 +485,12 @@ function CustomPlanForm({ onAdd, onCancel }: { onAdd: (c: CustomPlan) => void; o
       </div>
       {err && (
         <p role="alert" className="ui rounded-[14px] bg-loss-soft px-4 py-3 text-[0.9375rem] text-loss">
-          {err}
+          {tv(err)}
         </p>
       )}
       <div className="flex flex-wrap gap-2">
-        <button type="submit" className="btn btn-primary btn-sm">
-          Add to the comparison
-        </button>
-        <button type="button" className="btn btn-soft btn-sm" onClick={onCancel}>
-          Cancel
-        </button>
+        <button type="submit" className="btn btn-primary btn-sm">{t("Add to the comparison")}</button>
+        <button type="button" className="btn btn-soft btn-sm" onClick={onCancel}>{t("Cancel")}</button>
       </div>
     </form>
   )
@@ -559,12 +533,12 @@ function SideBySide({
   return (
     <div className="grid grid-cols-[minmax(0,1fr)] gap-4" data-testid="side-by-side">
       <div className="card overflow-x-auto p-5 sm:p-7">
-        <h3 className="text-[1.5rem] leading-tight">Side by side</h3>
+        <h3 className="text-[1.5rem] leading-tight">{t("Side by side")}</h3>
         <table className="ui mt-5 w-full min-w-[560px] border-collapse text-[0.9375rem]">
           <thead>
             <tr>
               <th scope="col" className="w-[150px]">
-                <span className="sr-only">Measure</span>
+                <span className="sr-only">{t("Measure")}</span>
               </th>
               {rows.map((r) => (
                 <th key={r.plan.id} scope="col" className="px-2 pb-4 text-left align-bottom font-normal">
@@ -576,12 +550,12 @@ function SideBySide({
                       className="ml-auto flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-0 bg-transparent text-muted hover:bg-surface"
                     >
                       <X aria-hidden="true" size={15} />
-                      <span className="sr-only">Stop comparing {r.plan.name}</span>
+                      <span className="sr-only">{tx("Stop comparing {name}", { name: (tv(r.plan.name)), })}</span>
                     </button>
                   </span>
-                  <span className="mt-2 block font-semibold">{r.plan.name}</span>
+                  <span className="mt-2 block font-semibold">{tv(r.plan.name)}</span>
                   {r.plan.id === best && rows.length > 1 && (
-                    <span className="mt-1 inline-block rounded-full bg-gain-soft px-2 py-0.5 text-[0.6875rem] font-semibold text-gain">Best value per Mbps</span>
+                    <span className="mt-1 inline-block rounded-full bg-gain-soft px-2 py-0.5 text-[0.6875rem] font-semibold text-gain">{t("Best value per Mbps")}</span>
                   )}
                 </th>
               ))}
@@ -591,7 +565,7 @@ function SideBySide({
             {metrics.map(([label, fn]) => (
               <tr key={label} className="border-t border-line">
                 <th scope="row" className="py-2.5 pr-3 text-left font-medium text-muted">
-                  {label}
+                  {tv(label)}
                 </th>
                 {rows.map((r) => (
                   <td key={r.plan.id} className="tabular px-2 py-2.5">
@@ -602,37 +576,35 @@ function SideBySide({
             ))}
           </tbody>
         </table>
-        <p className="ui mt-3 text-[0.8125rem] text-muted">* Advertised as a floor or range. † No lock-in, or none stated: 24 months is used as a reference period.</p>
+        <p className="ui mt-3 text-[0.8125rem] text-muted">{t("* Advertised as a floor or range. † No lock-in, or none stated: 24 months is used as a reference period.")}</p>
       </div>
 
-      <Panel title="Upfront versus long-term" intro="One-time fees against what you pay month after month, over each plan’s contract period." as="section">
+      <Panel title={t("Upfront versus long-term")} intro={t("One-time fees against what you pay month after month, over each plan’s contract period.")} as="section">
         <ul className="m-0 grid list-none gap-4 p-0" data-testid="upfront-vs-longterm">
           {rows.map((r) => {
             const recurring = r.costs.contractTotal - r.costs.upfront
             return (
               <li key={r.plan.id}>
                 <div className="ui flex items-baseline justify-between gap-3 text-[0.9375rem]">
-                  <span className="font-medium">{r.plan.name}</span>
+                  <span className="font-medium">{tv(r.plan.name)}</span>
                   <span className="tabular font-semibold">{pesoExact(r.costs.contractTotal)}</span>
                 </div>
                 <div
                   className="mt-1.5 flex h-3 overflow-hidden rounded-full bg-surface"
                   role="img"
-                  aria-label={`${pesoExact(r.costs.upfront)} upfront and ${pesoExact(recurring)} in monthly charges over ${r.costs.horizon} months`}
+                  aria-label={t("{upfront} upfront and {recurring} in monthly charges over {horizon} months", { upfront: pesoExact(r.costs.upfront), recurring: pesoExact(recurring), horizon: r.costs.horizon })}
                 >
                   <span className="h-full bg-sun" style={{ width: `${(r.costs.upfront / maxContract) * 100}%` }} />
                   <span className="h-full bg-accent" style={{ width: `${(recurring / maxContract) * 100}%` }} />
                 </div>
-                <p className="ui mt-1 text-[0.8125rem] text-muted">
-                  {r.costs.upfrontUnknown ? 'Upfront fees not stated' : `${pesoExact(r.costs.upfront)} upfront`} · {pesoExact(recurring)} over {r.costs.horizon} months
-                </p>
+                <p className="ui mt-1 text-[0.8125rem] text-muted">{tx("{v0} · {recurring} over {horizon} months", { v0: (r.costs.upfrontUnknown ? t("Upfront fees not stated") : `${pesoExact(r.costs.upfront)} upfront`), recurring: (pesoExact(recurring)), horizon: (r.costs.horizon), })}</p>
               </li>
             )
           })}
         </ul>
       </Panel>
 
-      <Panel title="Save this comparison" as="section">
+      <Panel title={t("Save this comparison")} as="section">
         <form
           className="flex flex-wrap items-end gap-3"
           onSubmit={(e) => {
@@ -643,41 +615,35 @@ function SideBySide({
           }}
         >
           <div className="ui min-w-[200px] flex-1">
-            <label htmlFor="cmp-name" className="field-label">
-              Name
-            </label>
-            <input id="cmp-name" className="field-input" value={name} maxLength={60} placeholder="e.g. Options for the new apartment" onChange={(e) => setName(e.target.value)} />
+            <label htmlFor="cmp-name" className="field-label">{t("Name")}</label>
+            <input id="cmp-name" className="field-input" value={name} maxLength={60} placeholder={t("e.g. Options for the new apartment")} onChange={(e) => setName(e.target.value)} />
           </div>
           <button type="submit" className="btn btn-primary">
-            <BookmarkPlus aria-hidden="true" size={18} /> Save
-          </button>
+            <BookmarkPlus aria-hidden="true" size={18} />{' '}{t("Save")}</button>
         </form>
         {s.saved.length > 0 && (
           <ul className="m-0 mt-5 grid list-none gap-0 p-0" data-testid="saved-comparisons">
             {s.saved.map((c) => (
               <li key={c.id} className="flex items-center gap-3 border-t border-line py-3">
                 <span className="min-w-0 flex-1">
-                  <span className="block font-semibold">{c.name}</span>
-                  <span className="ui block text-[0.8125rem] text-muted">
-                    {c.planIds.length} plans · saved {dateLabel(c.savedOn)}
-                  </span>
+                  <span className="block font-semibold">{tv(c.name)}</span>
+                  <span className="ui block text-[0.8125rem] text-muted">{tx("{length} plans · saved {savedOn}", { length: (c.planIds.length), savedOn: (dateLabel(c.savedOn)), })}</span>
                 </span>
                 <button type="button" className="btn btn-soft btn-sm" onClick={() => set({ pinned: c.planIds.filter((id) => planById(id) || s.custom.some((x) => x.id === id)).slice(0, MAX_PINNED) })}>
-                  <Check aria-hidden="true" size={16} /> Load
-                </button>
+                  <Check aria-hidden="true" size={16} />{' '}{t("Load")}</button>
                 <button
                   type="button"
                   onClick={() => set({ saved: s.saved.filter((x) => x.id !== c.id) })}
                   className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-0 bg-transparent text-muted hover:bg-loss-soft hover:text-loss"
                 >
                   <Trash2 aria-hidden="true" size={16} />
-                  <span className="sr-only">Delete {c.name}</span>
+                  <span className="sr-only">{tx("Delete {name}", { name: (tv(c.name)), })}</span>
                 </button>
               </li>
             ))}
           </ul>
         )}
-        <p className="ui mt-4 text-[0.8125rem] text-muted">Saved only in this browser, on this device.</p>
+        <p className="ui mt-4 text-[0.8125rem] text-muted">{t("Saved only in this browser, on this device.")}</p>
       </Panel>
     </div>
   )
@@ -690,31 +656,29 @@ function Location() {
   const place = loc ? HOUSING_LOCATIONS.find((l) => l.id === loc.id) : null
   return (
     <Panel
-      title="Available where you live?"
-      intro="Coverage is street by street, and providers do not publish data we can check. So the list above is not filtered by place: use each provider’s own address check."
+      title={t("Available where you live?")}
+      intro={t("Coverage is street by street, and providers do not publish data we can check. So the list above is not filtered by place: use each provider’s own address check.")}
       as="section"
     >
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)]">
         <Combobox
-          label="Your city or municipality"
+          label={t("Your city or municipality")}
           value={loc}
           onChange={(o) => setLoc(o ? { id: o.id, label: o.label } : null)}
           search={(q) => searchLocations(q).map((l) => ({ id: l.id, label: l.name, hint: l.within }))}
-          placeholder="e.g. Quezon City, Cebu City"
+          placeholder={t("e.g. Quezon City, Cebu City")}
         />
         <div data-testid="location-result">
           {place ? (
-            <p className="text-ink-2">
-              We could not verify which plans reach <strong className="font-semibold text-ink">{place.name}</strong>. Check your exact address with:
-            </p>
+            <p className="text-ink-2">{tx("We could not verify which plans reach {strong}. Check your exact address with:", { strong: (<strong className="font-semibold text-ink">{tv(place.name)}</strong>), })}</p>
           ) : (
-            <p className="text-ink-2">Pick a place to see where to check coverage.</p>
+            <p className="text-ink-2">{t("Pick a place to see where to check coverage.")}</p>
           )}
           <ul className="ui m-0 mt-3 flex list-none flex-wrap gap-2 p-0">
             {PROVIDERS.map((p) => (
               <li key={p.id}>
                 <a href={p.site} target="_blank" rel="noreferrer" className="flex items-center gap-2 rounded-full bg-ground py-1.5 pr-4 pl-1.5 text-[0.875rem] font-medium hover:bg-accent-soft">
-                  <ProviderTile providerId={p.id} size={28} /> {p.short}
+                  <ProviderTile providerId={p.id} size={28} /> {tv(p.short)}
                 </a>
               </li>
             ))}
@@ -727,35 +691,25 @@ function Location() {
 
 function Methodology() {
   return (
-    <Disclosure title="How the numbers work, sources and limits" id="methodology">
+    <Disclosure title={t("How the numbers work, sources and limits")} id="methodology">
       <div className="grid gap-4 text-[0.9375rem] leading-relaxed text-ink-2">
-        <p>
-          <strong className="font-semibold text-ink">₱ per Mbps</strong> = monthly price ÷ advertised download speed. ₱1,500 for 200 Mbps is ₱7.50 per Mbps. Prepaid loads are turned into a monthly
-          figure: load price × 365 ÷ load days ÷ 12, because a 30-day load is bought about 12.2 times a year.
-        </p>
-        <p>
-          <strong className="font-semibold text-ink">First-year cost</strong> = one-time fees + 12 months of charges, with any promo months and installation instalments.{' '}
-          <strong className="font-semibold text-ink">Contract cost</strong> = one-time fees + monthly charges × lock-in months; with no lock-in, 24 months is used as a reference.{' '}
-          <strong className="font-semibold text-ink">Effective monthly</strong> = contract cost ÷ its months.
-        </p>
-        <p>
-          <strong className="font-semibold text-ink">Sources.</strong> Every plan links to the provider page it was read from on {dateLabel(CHECKED)}. Promotions are shown apart from regular prices.
-          “Not stated” means the provider does not publish it; nothing is guessed. Advertised speeds are maximums, not guarantees.
-        </p>
+        <p>{tx("{strong} = monthly price ÷ advertised download speed. ₱1,500 for 200 Mbps is ₱7.50 per Mbps. Prepaid loads are turned into a monthly figure: load price × 365 ÷ load days ÷ 12, because a 30-day load is bought about 12.2 times a year.", { strong: (<strong className="font-semibold text-ink">{t("₱ per Mbps")}</strong>), })}</p>
+        <p>{tx("{strong} = one-time fees + 12 months of charges, with any promo months and installation instalments. {strong2} = one-time fees + monthly charges × lock-in months; with no lock-in, 24 months is used as a reference. {strong22} = contract cost ÷ its months.", { strong: (<strong className="font-semibold text-ink">{t("First-year cost")}</strong>), strong2: (<strong className="font-semibold text-ink">{t("Contract cost")}</strong>), strong22: (<strong className="font-semibold text-ink">{t("Effective monthly")}</strong>), })}</p>
+        <p>{tx("{strong} Every plan links to the provider page it was read from on {cHECKED}. Promotions are shown apart from regular prices. “Not stated” means the provider does not publish it; nothing is guessed. Advertised speeds are maximums, not guarantees.", { strong: (<strong className="font-semibold text-ink">{t("Sources.")}</strong>), cHECKED: (dateLabel(CHECKED)), })}</p>
         <div>
-          <p className="font-semibold text-ink">Providers we could not verify</p>
+          <p className="font-semibold text-ink">{t("Providers we could not verify")}</p>
           <ul className="m-0 mt-2 grid list-none gap-2 p-0">
             {NOT_VERIFIED.map((n) => (
               <li key={n.name}>
                 <a href={n.site} target="_blank" rel="noreferrer" className="text-accent underline underline-offset-2">
-                  {n.name}
+                  {tv(n.name)}
                 </a>
-                : {n.reason}
+                : {tv(n.reason)}
               </li>
             ))}
           </ul>
         </div>
-        <p className="text-[0.8125rem] text-muted">Prices are for estimation and comparison only, not quotations. Confirm the latest rates, terms and charges with the provider.</p>
+        <p className="text-[0.8125rem] text-muted">{t("Prices are for estimation and comparison only, not quotations. Confirm the latest rates, terms and charges with the provider.")}</p>
       </div>
     </Disclosure>
   )

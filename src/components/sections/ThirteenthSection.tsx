@@ -10,6 +10,8 @@ import { AnimatedNumber, EASE, Reveal, motion, useReducedMotion } from '../ui/mo
 import { ToolHeader } from '../layout/Page'
 import { Disclosure } from '../ui/Disclosure'
 import { CalcGrid, Panel, ResultHero } from '../ui/Result'
+import { tx } from '../../i18n/react'
+import { t, tv } from '../../i18n'
 
 const todayIso = () => {
   const d = new Date()
@@ -82,27 +84,25 @@ function QuickInputs({ h }: { h: ThirteenthHook }) {
   const thisYear = Number(h.today.slice(0, 4))
   const years = Array.from({ length: thisYear + 1 - FIRST_YEAR + 1 }, (_, i) => String(FIRST_YEAR + i)).reverse()
   return (
-    <Panel as="form" title="Your details" intro="Basic salary and dates are enough. Payslip details go in the advanced calculator below.">
+    <Panel as="form" title={t("Your details")} intro={t("Basic salary and dates are enough. Payslip details go in the advanced calculator below.")}>
       <div className="grid gap-6">
       <AmountField
-        label="Monthly basic salary"
+        label={t("Monthly basic salary")}
         value={h.state.monthlyBasic}
         onChange={(v) => h.patch({ monthlyBasic: v })}
-        hint="Basic pay only. Leave out allowances, overtime, night differential and holiday pay unless your company counts them as basic."
+        hint={t("Basic pay only. Leave out allowances, overtime, night differential and holiday pay unless your company counts them as basic.")}
       />
-      <SelectField label="Calculation year" value={String(h.state.year)} onChange={(v) => h.patch({ year: Number(v) })} options={years.map((y) => ({ value: y, label: y }))} />
+      <SelectField label={t("Calculation year")} value={String(h.state.year)} onChange={(v) => h.patch({ year: Number(v) })} options={years.map((y) => ({ value: y, label: y }))} />
       <div className="grid gap-6 sm:grid-cols-2">
-        <DateField label="Employment start date" value={h.state.startDate} onChange={(v) => h.patch({ startDate: v })} />
+        <DateField label={t("Employment start date")} value={h.state.startDate} onChange={(v) => h.patch({ startDate: v })} />
         <div>
-          <DateField label="Employment end date" optional value={h.state.endDate} onChange={(v) => h.patch({ endDate: v })} min={h.state.startDate || undefined} />
+          <DateField label={t("Employment end date")} optional value={h.state.endDate} onChange={(v) => h.patch({ endDate: v })} min={h.state.startDate || undefined} />
           {h.state.endDate && (
-            <button type="button" className="btn btn-quiet mt-1 text-[0.875rem]" onClick={() => h.patch({ endDate: '' })}>
-              Clear end date (still employed)
-            </button>
+            <button type="button" className="btn btn-quiet mt-1 text-[0.875rem]" onClick={() => h.patch({ endDate: '' })}>{t("Clear end date (still employed)")}</button>
           )}
         </div>
       </div>
-      <p className="ui text-[0.875rem] leading-relaxed text-muted">Fill in the end date only if you resigned or were separated. Everything stays in your browser.</p>
+      <p className="ui text-[0.875rem] leading-relaxed text-muted">{t("Fill in the end date only if you resigned or were separated. Everything stays in your browser.")}</p>
       </div>
     </Panel>
   )
@@ -111,11 +111,11 @@ function QuickInputs({ h }: { h: ThirteenthHook }) {
 function Stat({ label, value, note, emphasis = false }: { label: string; value: ReactNode; note?: ReactNode; emphasis?: boolean }) {
   return (
     <div className={`flex flex-col gap-1 rounded-[18px] p-4 sm:p-5 ${emphasis ? 'bg-accent-soft' : 'bg-ground'}`}>
-      <dt className="ui text-[0.875rem] leading-snug font-medium text-muted">{label}</dt>
+      <dt className="ui text-[0.875rem] leading-snug font-medium text-muted">{tv(label)}</dt>
       <dd className="figure m-0 text-[1.5rem] leading-tight">
         {value}
       </dd>
-      {note && <p className="ui text-[0.8125rem] leading-snug text-muted">{note}</p>}
+      {note && <p className="ui text-[0.8125rem] leading-snug text-muted">{tv(note)}</p>}
     </div>
   )
 }
@@ -126,24 +126,22 @@ function Results({ r, h }: { r: ThirteenthResult; h: ThirteenthHook }) {
   return (
     <>
       <ResultHero
-        label={`Estimated 13th month pay, ${year}`}
+        label={t("Estimated 13th month pay, {year}", { year })}
         value={r.fullYear.toNumber()}
         format={pesoExact}
         testId="thirteenth-total"
         caption={
-          <>
-            {peso(r.totalEligible)} eligible basic salary ÷ 12. Employers must pay it {deadline}.
-          </>
+          <>{tx("{totalEligible} eligible basic salary ÷ 12. Employers must pay it {deadline}.", { totalEligible: (peso(r.totalEligible)), deadline: (deadline), })}</>
         }
       >
         <div className="ui mt-5 flex flex-wrap gap-2 text-[0.8125rem] font-semibold">
           {r.hasProjection ? (
-            <span className="rounded-full bg-white/15 px-3 py-1">Includes projected months</span>
+            <span className="rounded-full bg-white/15 px-3 py-1">{t("Includes projected months")}</span>
           ) : (
-            <span className="rounded-full bg-white/15 px-3 py-1">Based on months already earned</span>
+            <span className="rounded-full bg-white/15 px-3 py-1">{t("Based on months already earned")}</span>
           )}
-          {r.separated && <span className="rounded-full bg-white/15 px-3 py-1">Separated: prorated</span>}
-          {r.hasPartialEstimate && <span className="rounded-full bg-white/15 px-3 py-1">Partial month estimated</span>}
+          {r.separated && <span className="rounded-full bg-white/15 px-3 py-1">{t("Separated: prorated")}</span>}
+          {r.hasPartialEstimate && <span className="rounded-full bg-white/15 px-3 py-1">{t("Partial month estimated")}</span>}
         </div>
       </ResultHero>
 
@@ -152,14 +150,10 @@ function Results({ r, h }: { r: ThirteenthResult; h: ThirteenthHook }) {
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.3, ease: EASE }} className="overflow-hidden">
             <div className="ui grid gap-2 text-[0.9375rem]">
               {r.belowOneMonth && (
-                <p role="status" className="rounded-[18px] bg-warn-soft p-4">
-                  You worked less than one month in {year}. PD 851 covers employees who worked at least one month during the calendar year, so your employer may not be required to pay it.
-                </p>
+                <p role="status" className="rounded-[18px] bg-warn-soft p-4">{tx("You worked less than one month in {year}. PD 851 covers employees who worked at least one month during the calendar year, so your employer may not be required to pay it.", { year: (year), })}</p>
               )}
               {r.overpaid.gt(0) && (
-                <p role="status" className="rounded-[18px] bg-warn-soft p-4">
-                  You were already paid {pesoExact(r.overpaid)} more than this estimate. Check with HR: the difference may be a bonus, not 13th month pay.
-                </p>
+                <p role="status" className="rounded-[18px] bg-warn-soft p-4">{tx("You were already paid {overpaid} more than this estimate. Check with HR: the difference may be a bonus, not 13th month pay.", { overpaid: (pesoExact(r.overpaid)), })}</p>
               )}
             </div>
           </motion.div>
@@ -168,16 +162,16 @@ function Results({ r, h }: { r: ThirteenthResult; h: ThirteenthHook }) {
 
       <div className="card p-3 sm:p-4">
         <dl className="m-0 grid gap-2 sm:grid-cols-2">
-          <Stat label="Earned so far" value={<AnimatedNumber value={r.earnedToDate.toNumber()} format={pesoExact} testId="earned-to-date" />} note={`Months completed by ${dateLabel(h.today)}`} />
-          <Stat emphasis label="Still to be paid" value={<AnimatedNumber value={r.remaining.toNumber()} format={pesoExact} testId="remaining-entitlement" />} note="Full-year amount minus what was already paid" />
-          <Stat label="Total eligible basic salary" value={<AnimatedNumber value={r.totalEligible.toNumber()} format={pesoExact} />} note={r.hasProjection ? `${pesoExact(r.totalProjected)} of this is projected` : 'All earned'} />
-          <Stat label="Already paid" value={<AnimatedNumber value={r.previouslyPaid.toNumber()} format={pesoExact} />} note="Advances or installments received" />
+          <Stat label={t("Earned so far")} value={<AnimatedNumber value={r.earnedToDate.toNumber()} format={pesoExact} testId="earned-to-date" />} note={t("Months completed by {today}", { today: dateLabel(h.today) })} />
+          <Stat emphasis label={t("Still to be paid")} value={<AnimatedNumber value={r.remaining.toNumber()} format={pesoExact} testId="remaining-entitlement" />} note={t("Full-year amount minus what was already paid")} />
+          <Stat label={t("Total eligible basic salary")} value={<AnimatedNumber value={r.totalEligible.toNumber()} format={pesoExact} />} note={r.hasProjection ? t("{totalProjected} of this is projected", { totalProjected: pesoExact(r.totalProjected) }) : t("All earned")} />
+          <Stat label={t("Already paid")} value={<AnimatedNumber value={r.previouslyPaid.toNumber()} format={pesoExact} />} note={t("Advances or installments received")} />
           <Stat
-            label="Potentially taxable benefits"
+            label={t("Potentially taxable benefits")}
             value={<AnimatedNumber value={r.tax.potentiallyTaxable.toNumber()} format={pesoExact} testId="potentially-taxable" />}
-            note={`Above the ${peso(r.tax.ceiling)} combined exemption`}
+            note={t("Above the {ceiling} combined exemption", { ceiling: peso(r.tax.ceiling) })}
           />
-          <Stat label="Projected full year" value={<AnimatedNumber value={r.fullYear.toNumber()} format={pesoExact} />} note={r.hasProjection ? 'Assumes your salary continues as entered' : 'Same as earned: nothing is projected'} />
+          <Stat label={t("Projected full year")} value={<AnimatedNumber value={r.fullYear.toNumber()} format={pesoExact} />} note={r.hasProjection ? t("Assumes your salary continues as entered") : t("Same as earned: nothing is projected")} />
         </dl>
       </div>
     </>
@@ -191,8 +185,8 @@ function SalaryChanges({ h }: { h: ThirteenthHook }) {
   const set = (next: SalaryChange[]) => h.patch({ salaryChanges: next })
   return (
     <div>
-      <h3 className="text-[1.375rem] leading-tight">Salary increases or decreases</h3>
-      <p className="ui mt-2 text-[0.9375rem] text-ink-2">The new monthly basic salary applies from the month you choose until the next change.</p>
+      <h3 className="text-[1.375rem] leading-tight">{t("Salary increases or decreases")}</h3>
+      <p className="ui mt-2 text-[0.9375rem] text-ink-2">{t("The new monthly basic salary applies from the month you choose until the next change.")}</p>
       <ul className="m-0 mt-5 grid list-none gap-3 p-0">
         <AnimatePresence initial={false}>
           {changes.map((c, i) => (
@@ -205,13 +199,13 @@ function SalaryChanges({ h }: { h: ThirteenthHook }) {
               className="tile grid items-end gap-3 p-4 sm:grid-cols-[1fr_1fr_auto]"
             >
               <SelectField
-                label="Starting"
+                label={t("Starting")}
                 value={String(c.month)}
                 onChange={(v) => set(changes.map((x, j) => (j === i ? { ...x, month: Number(v) } : x)))}
                 options={MONTH_NAMES.map((m, k) => ({ value: String(k + 1), label: m }))}
               />
-              <AmountField label="New monthly basic salary" value={c.monthly} onChange={(v) => set(changes.map((x, j) => (j === i ? { ...x, monthly: v } : x)))} />
-              <button type="button" className="btn btn-paper h-[52px]" onClick={() => set(changes.filter((_, j) => j !== i))} aria-label={`Remove the salary change starting ${MONTH_NAMES[c.month - 1]}`}>
+              <AmountField label={t("New monthly basic salary")} value={c.monthly} onChange={(v) => set(changes.map((x, j) => (j === i ? { ...x, monthly: v } : x)))} />
+              <button type="button" className="btn btn-paper h-[52px]" onClick={() => set(changes.filter((_, j) => j !== i))} aria-label={t("Remove the salary change starting {v0}", { v0: MONTH_NAMES[c.month - 1] })}>
                 <Trash2 aria-hidden="true" size={18} />
               </button>
             </motion.li>
@@ -219,8 +213,7 @@ function SalaryChanges({ h }: { h: ThirteenthHook }) {
         </AnimatePresence>
       </ul>
       <button type="button" className="btn btn-quiet mt-3 px-0" onClick={() => set([...changes, { month: Math.min(12, (changes.at(-1)?.month ?? 6) + 1), monthly: h.state.monthlyBasic }])}>
-        <Plus aria-hidden="true" size={18} /> Add a salary change
-      </button>
+        <Plus aria-hidden="true" size={18} />{' '}{t("Add a salary change")}</button>
     </div>
   )
 }
@@ -241,8 +234,8 @@ function MonthEditor({ row, entry, h }: { row: MonthRow; entry: MonthEntry; h: T
       >
         <span className="flex items-center gap-2">
           {name}
-          {edited && <span className="rounded-full bg-accent-soft px-2.5 py-0.5 text-[0.75rem] font-semibold text-accent">Edited</span>}
-          {row.partial && <span className="rounded-full bg-surface px-2.5 py-0.5 text-[0.75rem] font-semibold">Partial</span>}
+          {edited && <span className="rounded-full bg-accent-soft px-2.5 py-0.5 text-[0.75rem] font-semibold text-accent">{t("Edited")}</span>}
+          {row.partial && <span className="rounded-full bg-surface px-2.5 py-0.5 text-[0.75rem] font-semibold">{t("Partial")}</span>}
         </span>
         <span className="flex items-center gap-3">
           <span className="tabular text-ink-2">{pesoExact(row.total)}</span>
@@ -261,21 +254,21 @@ function MonthEditor({ row, entry, h }: { row: MonthRow; entry: MonthEntry; h: T
             <div className="grid gap-4 px-4 pt-1 pb-5 sm:grid-cols-2">
               <OptionalAmountField
                 compact
-                label={`${name}: actual eligible basic salary`}
+                label={t("{name}: actual eligible basic salary", { name })}
                 value={entry.actual ?? null}
                 onChange={(v) => h.setMonth(i, { actual: v })}
-                placeholder={`Computed: ${pesoExact(row.usesActual ? 0 : row.basic)}`}
-                hint={row.partial ? `Estimated from ${row.partial.days} of ${row.partial.daysInMonth} days. Enter the figure on your payslip if you have it.` : 'Leave empty to use your monthly salary.'}
+                placeholder={t("Computed: {v0}", { v0: pesoExact(row.usesActual ? 0 : row.basic) })}
+                hint={row.partial ? t("Estimated from {days} of {daysInMonth} days. Enter the figure on your payslip if you have it.", { days: row.partial.days, daysInMonth: row.partial.daysInMonth }) : t("Leave empty to use your monthly salary.")}
               />
-              <OptionalAmountField compact label={`${name}: unpaid absences deducted`} value={entry.unpaidAbsences || null} onChange={(v) => h.setMonth(i, { unpaidAbsences: v ?? 0 })} placeholder="₱0" hint="Leave without pay, tardiness or undertime. Paid leave is not deducted." />
-              <OptionalAmountField compact label={`${name}: eligible salary adjustments`} value={entry.adjustment || null} onChange={(v) => h.setMonth(i, { adjustment: v ?? 0 })} placeholder="₱0" hint="Retroactive basic pay or corrections credited for this month." />
+              <OptionalAmountField compact label={t("{name}: unpaid absences deducted", { name })} value={entry.unpaidAbsences || null} onChange={(v) => h.setMonth(i, { unpaidAbsences: v ?? 0 })} placeholder="₱0" hint={t("Leave without pay, tardiness or undertime. Paid leave is not deducted.")} />
+              <OptionalAmountField compact label={t("{name}: eligible salary adjustments", { name })} value={entry.adjustment || null} onChange={(v) => h.setMonth(i, { adjustment: v ?? 0 })} placeholder="₱0" hint={t("Retroactive basic pay or corrections credited for this month.")} />
               <OptionalAmountField
                 compact
-                label={`${name}: maternity salary differential`}
+                label={t("{name}: maternity salary differential", { name })}
                 value={entry.maternityDifferential || null}
                 onChange={(v) => h.setMonth(i, { maternityDifferential: v ?? 0 })}
                 placeholder="₱0"
-                hint="The employer-paid top-up under RA 11210 counts. The SSS maternity benefit itself does not."
+                hint={t("The employer-paid top-up under RA 11210 counts. The SSS maternity benefit itself does not.")}
               />
             </div>
           </motion.div>
@@ -295,11 +288,11 @@ function Advanced({ h, r }: { h: ThirteenthHook; r: ThirteenthResult | null }) {
         aria-expanded={open}
         aria-controls="thirteenth-advanced"
         onClick={() => setOpen((v) => !v)}
-        className="group flex w-full cursor-pointer items-center justify-between gap-4 rounded-[28px] border-0 bg-transparent px-5 py-6 text-left text-ink transition-colors hover:bg-black/[0.025] sm:px-8"
+        className="group flex w-full cursor-pointer items-center justify-between gap-4 rounded-[28px] border-0 bg-transparent px-5 py-6 text-left text-ink transition-colors hover:bg-ink/[0.035] sm:px-8"
       >
         <span>
-          <span className="serif block text-[1.5rem] leading-tight tracking-[-0.015em]">Advanced calculator</span>
-          <span className="ui mt-1 block text-[0.9375rem] text-muted">Salary changes, partial months, unpaid absences, adjustments, maternity differential, earlier payments and other benefits.</span>
+          <span className="serif block text-[1.5rem] leading-tight tracking-[-0.015em]">{t("Advanced calculator")}</span>
+          <span className="ui mt-1 block text-[0.9375rem] text-muted">{t("Salary changes, partial months, unpaid absences, adjustments, maternity differential, earlier payments and other benefits.")}</span>
         </span>
         <span aria-hidden="true" className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition-colors ${open ? 'bg-ink text-ground' : 'bg-surface group-hover:bg-surface-2'}`}>
           <ChevronDown size={20} className={`transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
@@ -319,26 +312,23 @@ function Advanced({ h, r }: { h: ThirteenthHook; r: ThirteenthResult | null }) {
               <div className="grid content-start gap-10 lg:col-span-5">
                 <SalaryChanges h={h} />
                 <div>
-                  <h3 className="text-[1.375rem] leading-tight">Payments and other benefits</h3>
+                  <h3 className="text-[1.375rem] leading-tight">{t("Payments and other benefits")}</h3>
                   <div className="mt-5 grid gap-6">
-                    <AmountField label="13th month pay already received this year" value={h.state.previouslyPaid} onChange={(v) => h.patch({ previouslyPaid: v })} hint="Midyear advances or earlier installments." />
+                    <AmountField label={t("13th month pay already received this year")} value={h.state.previouslyPaid} onChange={(v) => h.patch({ previouslyPaid: v })} hint={t("Midyear advances or earlier installments.")} />
                     <AmountField
-                      label="Other qualifying benefits this year"
+                      label={t("Other qualifying benefits this year")}
                       value={h.state.otherBenefits}
                       onChange={(v) => h.patch({ otherBenefits: v })}
-                      hint="Christmas or productivity bonuses, and de minimis benefits above their limits. Used only for the tax check."
+                      hint={t("Christmas or productivity bonuses, and de minimis benefits above their limits. Used only for the tax check.")}
                     />
                   </div>
                 </div>
                 <button type="button" className="btn btn-quiet self-start px-0" onClick={h.reset}>
-                  <RotateCcw aria-hidden="true" size={16} /> Reset everything
-                </button>
+                  <RotateCcw aria-hidden="true" size={16} />{' '}{t("Reset everything")}</button>
               </div>
               <div className="lg:col-span-7">
-                <h3 className="text-[1.375rem] leading-tight">Month by month</h3>
-                <p className="ui mt-2 text-[0.9375rem] text-muted">
-                  Open a month to enter what your payslip shows. Entering an actual amount replaces the estimate for that month.
-                </p>
+                <h3 className="text-[1.375rem] leading-tight">{t("Month by month")}</h3>
+                <p className="ui mt-2 text-[0.9375rem] text-muted">{t("Open a month to enter what your payslip shows. Entering an actual amount replaces the estimate for that month.")}</p>
                 {r ? (
                   <ul className="m-0 mt-5 grid list-none gap-1 p-0">
                     {r.months
@@ -348,7 +338,7 @@ function Advanced({ h, r }: { h: ThirteenthHook; r: ThirteenthResult | null }) {
                       ))}
                   </ul>
                 ) : (
-                  <p className="ui tile mt-5 p-4 text-ink-2">Fix the dates above to edit months.</p>
+                  <p className="ui tile mt-5 p-4 text-ink-2">{t("Fix the dates above to edit months.")}</p>
                 )}
               </div>
             </div>
@@ -367,7 +357,7 @@ function StatusBadge({ row }: { row: MonthRow }) {
   return (
     <span className={`ui inline-block rounded-full px-2.5 py-0.5 text-[0.8125rem] font-semibold whitespace-nowrap ${tone}`}>
       {STATUS_LABEL[row.status]}
-      {row.partial ? ' · partial est.' : ''}
+      {row.partial ? t(" · partial est.") : ''}
     </span>
   )
 }
@@ -375,20 +365,18 @@ const adj = (r: MonthRow) => r.adjustment.plus(r.maternityDifferential).minus(r.
 
 function Breakdown({ r }: { r: ThirteenthResult }) {
   return (
-    <Disclosure size="lg" headingLevel={2} title={<span id="breakdown-title">Monthly breakdown</span>} summary={`Total ÷ 12 = ${pesoExact(r.fullYear)}`}>
-        <p className="ui max-w-[60ch] text-[0.9375rem] text-muted">
-          Actual months have already ended. Projected months assume your salary continues and are not yet earned.
-        </p>
+    <Disclosure size="lg" headingLevel={2} title={<span id="breakdown-title">{t("Monthly breakdown")}</span>} summary={t("Total ÷ 12 = {fullYear}", { fullYear: pesoExact(r.fullYear) })}>
+        <p className="ui max-w-[60ch] text-[0.9375rem] text-muted">{t("Actual months have already ended. Projected months assume your salary continues and are not yet earned.")}</p>
       {/* Wide screens: a table */}
       <table className="data-table ui mt-6 hidden md:table">
-        <caption className="sr-only">Eligible earnings by month</caption>
+        <caption className="sr-only">{t("Eligible earnings by month")}</caption>
         <thead>
           <tr>
-            <th scope="col">Month</th>
-            <th scope="col" className="!text-right">Eligible basic salary</th>
-            <th scope="col" className="!text-right">Adjustments</th>
-            <th scope="col" className="!text-right">Total eligible earnings</th>
-            <th scope="col">Status</th>
+            <th scope="col">{t("Month")}</th>
+            <th scope="col" className="!text-right">{t("Eligible basic salary")}</th>
+            <th scope="col" className="!text-right">{t("Adjustments")}</th>
+            <th scope="col" className="!text-right">{t("Total eligible earnings")}</th>
+            <th scope="col">{t("Status")}</th>
           </tr>
         </thead>
         <tbody className="tabular">
@@ -404,7 +392,7 @@ function Breakdown({ r }: { r: ThirteenthResult }) {
         </tbody>
         <tfoot>
           <tr className="text-[1rem]">
-            <th scope="row" className="pt-4 text-left font-semibold">Total</th>
+            <th scope="row" className="pt-4 text-left font-semibold">{t("Total")}</th>
             <td colSpan={2} />
             <td className="tabular pt-4 pr-4 text-right font-semibold">{pesoExact(r.totalEligible)}</td>
             <td className="pt-4 text-ink-2">÷ 12 = {pesoExact(r.fullYear)}</td>
@@ -417,15 +405,12 @@ function Breakdown({ r }: { r: ThirteenthResult }) {
           <li key={m.month} className={`grid grid-cols-[1fr_auto] gap-x-4 gap-y-1 rounded-[16px] bg-ground px-4 py-3 ${m.status === 'not-employed' ? 'text-muted' : ''}`}>
             <span className="font-semibold">{MONTH_NAMES[m.month - 1]}</span>
             <span className="tabular text-right font-semibold">{pesoExact(m.total)}</span>
-            <span className="text-[0.8125rem] text-ink-2">
-              Basic {pesoExact(m.basic)}
-              {!adj(m).isZero() && ` · adj. ${pesoExact(adj(m))}`}
-            </span>
+            <span className="text-[0.8125rem] text-ink-2">{tx("Basic {basic}{v1}", { basic: (pesoExact(m.basic)), v1: (!adj(m).isZero() && t(" · adj. {v0}", { v0: pesoExact(adj(m)) })), })}</span>
             <span className="text-right"><StatusBadge row={m} /></span>
           </li>
         ))}
-        <li className="grid grid-cols-[1fr_auto] gap-x-4 rounded-[16px] bg-ink px-4 py-3 text-ground">
-          <span className="font-semibold">Total ÷ 12</span>
+        <li className="grid grid-cols-[1fr_auto] gap-x-4 rounded-[16px] bg-night px-4 py-3 text-night-ink">
+          <span className="font-semibold">{t("Total ÷ 12")}</span>
           <span className="tabular text-right font-semibold">{pesoExact(r.fullYear)}</span>
         </li>
       </ul>
@@ -436,70 +421,61 @@ function Breakdown({ r }: { r: ThirteenthResult }) {
 /* ------------------------------ Tax ------------------------------ */
 
 function TaxCheck({ r, h }: { r: ThirteenthResult; h: ThirteenthHook }) {
-  const t = r.tax
-  const combined = t.combined.toNumber()
-  const scale = Math.max(combined, t.ceiling) || 1
+  const tax = r.tax
+  const combined = tax.combined.toNumber()
+  const scale = Math.max(combined, tax.ceiling) || 1
   const reduce = useReducedMotion()
   return (
     <section aria-labelledby="tax-title" className="mt-[clamp(80px,9vw,140px)]">
       <div className="grid gap-10 lg:grid-cols-12">
         <Reveal className="lg:col-span-5">
-          <h2 id="tax-title" className="text-[clamp(2rem,1.5rem+1.6vw,3rem)] leading-[1.05]">
-            Taxable Ba Ang 13th Month Pay Ko?
-          </h2>
-          <p className="mt-4 max-w-[46ch]">
-            Your 13th month pay and other benefits are tax-free up to <strong className="font-semibold">{peso(t.ceiling)} combined</strong> for {h.state.year}
-            {' '}(NIRC Sec. 32(B)(7)(e), as amended by the TRAIN Law). Anything above that is added to your taxable compensation and taxed at your
-            regular graduated rate, not a separate flat tax.
-          </p>
+          <h2 id="tax-title" className="text-[clamp(2rem,1.5rem+1.6vw,3rem)] leading-[1.05]">{t("Taxable Ba Ang 13th Month Pay Ko?")}</h2>
+          <p className="mt-4 max-w-[46ch]">{tx("Your 13th month pay and other benefits are tax-free up to {strong} for {year} (NIRC Sec. 32(B)(7)(e), as amended by the TRAIN Law). Anything above that is added to your taxable compensation and taxed at your regular graduated rate, not a separate flat tax.", { strong: (<strong className="font-semibold">{tx("{ceiling} combined", { ceiling: (peso(tax.ceiling)), })}</strong>), year: (h.state.year), })}</p>
           <div className="mt-8 grid gap-6">
             <OptionalAmountField
-              label="Your other taxable compensation this year (optional)"
+              label={t("Your other taxable compensation this year (optional)")}
               value={h.state.annualTaxable}
               onChange={(v) => h.patch({ annualTaxable: v })}
-              placeholder="Not entered"
-              hint="Annual basic pay and taxable allowances after SSS, PhilHealth and Pag-IBIG. Only used to estimate the extra tax."
+              placeholder={t("Not entered")}
+              hint={t("Annual basic pay and taxable allowances after SSS, PhilHealth and Pag-IBIG. Only used to estimate the extra tax.")}
             />
             <Toggle
-              label="I am a statutory minimum wage earner"
+              label={t("I am a statutory minimum wage earner")}
               checked={h.state.minimumWageEarner}
               onChange={(v) => h.patch({ minimumWageEarner: v })}
-              description="Your minimum wage is tax-exempt, but benefits above the ceiling are still taxable."
+              description={t("Your minimum wage is tax-exempt, but benefits above the ceiling are still taxable.")}
             />
           </div>
         </Reveal>
         <Reveal delay={0.08} className="lg:col-span-7">
           <div className="card p-5 sm:p-8">
-            <p className="ui text-[0.9375rem] font-semibold">13th month pay + other benefits</p>
-            <p className="figure mt-2 text-[2.5rem] leading-tight">{pesoExact(t.combined)}</p>
-            <div className="relative mt-6 h-4 rounded-full bg-surface" role="img" aria-label={`${pesoExact(t.exempt)} exempt and ${pesoExact(t.potentiallyTaxable)} potentially taxable, against a ${peso(t.ceiling)} ceiling`}>
-              <motion.div className="absolute inset-y-0 left-0 rounded-l-full bg-gain" initial={false} animate={{ width: `${(t.exempt.toNumber() / scale) * 100}%` }} transition={reduce ? { duration: 0 } : { duration: 0.6, ease: EASE }} />
+            <p className="ui text-[0.9375rem] font-semibold">{t("13th month pay + other benefits")}</p>
+            <p className="figure mt-2 text-[2.5rem] leading-tight">{pesoExact(tax.combined)}</p>
+            <div className="relative mt-6 h-4 rounded-full bg-surface" role="img" aria-label={t("{exempt} exempt and {potentiallyTaxable} potentially taxable, against a {ceiling} ceiling", { exempt: pesoExact(tax.exempt), potentiallyTaxable: pesoExact(tax.potentiallyTaxable), ceiling: peso(tax.ceiling) })}>
+              <motion.div className="absolute inset-y-0 left-0 rounded-l-full bg-gain" initial={false} animate={{ width: `${(tax.exempt.toNumber() / scale) * 100}%` }} transition={reduce ? { duration: 0 } : { duration: 0.6, ease: EASE }} />
               <motion.div
                 className="absolute inset-y-0 bg-loss"
                 initial={false}
-                animate={{ left: `${(t.exempt.toNumber() / scale) * 100}%`, width: `${(t.potentiallyTaxable.toNumber() / scale) * 100}%` }}
+                animate={{ left: `${(tax.exempt.toNumber() / scale) * 100}%`, width: `${(tax.potentiallyTaxable.toNumber() / scale) * 100}%` }}
                 transition={reduce ? { duration: 0 } : { duration: 0.6, ease: EASE }}
               />
-              <span className="absolute -top-1 -bottom-1 w-[2px] bg-ink" style={{ left: `calc(${(t.ceiling / scale) * 100}% - 1px)` }} aria-hidden="true" />
+              <span className="absolute -top-1 -bottom-1 w-[2px] bg-ink" style={{ left: `calc(${(tax.ceiling / scale) * 100}% - 1px)` }} aria-hidden="true" />
             </div>
-            <p className="ui mt-2 text-right text-[0.8125rem] text-ink-2">Ceiling {peso(t.ceiling)}</p>
+            <p className="ui mt-2 text-right text-[0.8125rem] text-ink-2">{tx("Ceiling {ceiling}", { ceiling: (peso(tax.ceiling)), })}</p>
             <dl className="ui m-0 mt-6 grid gap-x-6 gap-y-3 text-[0.9375rem] sm:grid-cols-2">
-              <div className="flex justify-between gap-3 border-b border-surface pb-2"><dt>13th month pay</dt><dd className="tabular m-0">{pesoExact(t.thirteenth)}</dd></div>
-              <div className="flex justify-between gap-3 border-b border-surface pb-2"><dt>Other benefits</dt><dd className="tabular m-0">{pesoExact(t.otherBenefits)}</dd></div>
-              <div className="flex justify-between gap-3 border-b border-surface pb-2"><dt className="text-gain">Tax-exempt</dt><dd className="tabular m-0">{pesoExact(t.exempt)}</dd></div>
-              <div className="flex justify-between gap-3 border-b border-surface pb-2"><dt className="text-loss">Potentially taxable</dt><dd className="tabular m-0">{pesoExact(t.potentiallyTaxable)}</dd></div>
+              <div className="flex justify-between gap-3 border-b border-surface pb-2"><dt>{t("13th month pay")}</dt><dd className="tabular m-0">{pesoExact(tax.thirteenth)}</dd></div>
+              <div className="flex justify-between gap-3 border-b border-surface pb-2"><dt>{t("Other benefits")}</dt><dd className="tabular m-0">{pesoExact(tax.otherBenefits)}</dd></div>
+              <div className="flex justify-between gap-3 border-b border-surface pb-2"><dt className="text-gain">{t("Tax-exempt")}</dt><dd className="tabular m-0">{pesoExact(tax.exempt)}</dd></div>
+              <div className="flex justify-between gap-3 border-b border-surface pb-2"><dt className="text-loss">{t("Potentially taxable")}</dt><dd className="tabular m-0">{pesoExact(tax.potentiallyTaxable)}</dd></div>
             </dl>
             <p className="mt-6 text-[1.0625rem] leading-relaxed" data-testid="tax-verdict">
-              {t.potentiallyTaxable.isZero()
-                ? `Hindi taxable. Your total is within the ${peso(t.ceiling)} exemption, so no tax should be withheld from it.`
-                : t.estimatedAdditionalTax
-                  ? `About ${pesoExact(t.estimatedAdditionalTax)} in additional income tax for the year on the ${pesoExact(t.potentiallyTaxable)} above the ceiling, using the BIR graduated table.`
-                  : `${pesoExact(t.potentiallyTaxable)} is above the ceiling and becomes part of your taxable compensation. The actual tax depends on your total income for the year; enter it to estimate.`}
+              {tax.potentiallyTaxable.isZero()
+                ? t("Hindi taxable. Your total is within the {ceiling} exemption, so no tax should be withheld from it.", { ceiling: peso(tax.ceiling) })
+                : tax.estimatedAdditionalTax
+                  ? t("About {estimatedAdditionalTax} in additional income tax for the year on the {potentiallyTaxable} above the ceiling, using the BIR graduated table.", { estimatedAdditionalTax: pesoExact(tax.estimatedAdditionalTax), potentiallyTaxable: pesoExact(tax.potentiallyTaxable) })
+                  : t("{potentiallyTaxable} is above the ceiling and becomes part of your taxable compensation. The actual tax depends on your total income for the year; enter it to estimate.", { potentiallyTaxable: pesoExact(tax.potentiallyTaxable) })}
             </p>
-            <p className="ui mt-4 text-[0.8125rem] leading-relaxed text-muted">
-              An estimate, not your net payout. Employers settle the final tax through year-end adjustment, and some may withhold part of it from
-              the 13th month pay itself.
-            </p>
+            <p className="ui mt-4 text-[0.8125rem] leading-relaxed text-muted">{t("An estimate, not your net payout. Employers settle the final tax through year-end adjustment, and some may withhold part of it from the 13th month pay itself.")}</p>
           </div>
         </Reveal>
       </div>
@@ -525,9 +501,9 @@ function MobileResultBar({ r, target, area }: { r: ThirteenthResult | null; targ
           exit={{ y: 80, opacity: 0 }}
           transition={{ duration: 0.35, ease: EASE }}
           onClick={() => target.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-          className="ui fixed inset-x-3 bottom-[max(12px,env(safe-area-inset-bottom))] z-30 flex cursor-pointer items-center justify-between gap-3 rounded-[20px] border-0 bg-ink px-5 py-3.5 text-left text-ground shadow-[0_12px_32px_-12px_rgba(0,0,0,0.5)] lg:hidden"
+          className="ui fixed inset-x-3 bottom-[max(12px,env(safe-area-inset-bottom))] z-30 flex cursor-pointer items-center justify-between gap-3 rounded-[20px] border-0 bg-night px-5 py-3.5 text-left text-night-ink shadow-[0_12px_32px_-12px_rgba(0,0,0,0.5)] lg:hidden"
         >
-          <span className="text-[0.875rem]">Estimated 13th month pay</span>
+          <span className="text-[0.875rem]">{t("Estimated 13th month pay")}</span>
           <span className="figure text-[1.25rem]">{pesoExact(r!.fullYear)}</span>
         </motion.button>
       )}
@@ -544,9 +520,9 @@ export function ThirteenthSection({ h }: { h: ThirteenthHook }) {
       <ToolHeader
         path="/13th-month"
         id="thirteenth-title"
-        title="Magkano Ang 13th Month Pay Mo?"
-        lede="Calculate your estimated 13th-month pay based on Philippine labor laws."
-        meta={<p className="ui text-[0.875rem] text-muted">Under PD 851, prorated for new hires and resignations, with the ₱90,000 tax check.</p>}
+        title={t("Magkano Ang 13th Month Pay Mo?")}
+        lede={t("Calculate your estimated 13th-month pay based on Philippine labor laws.")}
+        meta={<p className="ui text-[0.875rem] text-muted">{t("Under PD 851, prorated for new hires and resignations, with the ₱90,000 tax check.")}</p>}
       />
       <div className="wrap">
         <div ref={areaRef} className="grid gap-4">

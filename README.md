@@ -1,19 +1,19 @@
 <div align="center">
 
-<img src="docs/pinansyalph-readme-hero.svg" alt="PinansyalPH — Mas malinaw ang pera mo. Free financial literacy tools for Filipinos." width="100%" />
+<img src="docs/pinansyalph-readme-hero.svg" alt="PinansyalPH — Tamang Pinansyal para sa mga Pilipino. Free financial tools for Filipinos." width="100%" />
 
 <br />
 
-**Mas malinaw ang pera mo.** Understand your money with numbers you can check.
+**Tamang Pinansyal para sa mga Pilipino.** Understand your money with numbers you can check.
 
-Free, open-source tools to explore your salary, 13th month pay, savings, and the impact of inflation — designed for everyday financial decisions in the Philippines.
+Free tools to explore your salary, 13th month pay, savings, and the impact of inflation — designed for everyday financial decisions in the Philippines. Available in Filipino, English and Bisaya, in light and dark mode. No signup, no login, no ads.
 
 **[Explore PinansyalPH](https://pinansyalph.site/)** · [See the calculators](#tools) · [How the numbers work](#how-the-numbers-are-calculated) · [Run locally](#run-it-locally)
 
 <br />
 
 ![Free](https://img.shields.io/badge/Free-no%20sign--up-151514?style=flat-square)
-![Open source](https://img.shields.io/badge/Open%20source-transparency-1D4E89?style=flat-square)
+![Languages](https://img.shields.io/badge/Filipino%20·%20English%20·%20Bisaya-1D4E89?style=flat-square)
 ![React](https://img.shields.io/badge/React%2019-TypeScript-151514?style=flat-square)
 ![Data](https://img.shields.io/badge/Data-sourced%20%26%20dated-2E6A46?style=flat-square)
 ![Version](https://img.shields.io/badge/Version-3.0-EDA100?style=flat-square)
@@ -31,8 +31,7 @@ deductions we cannot explain, savings that look bigger every year but buy less, 
 and an end date. Instead of telling you what to do with your money, PinansyalPH shows the arithmetic, using the same
 numbers the PSA, DOE, Pag-IBIG, BIR and the banks publish, so you can see the trade-offs and decide for yourself.
 
-It is open source because a tool about trust should be open to inspection. Anyone can check how a number is computed,
-point out a mistake, or build on it.
+It is free to use, with no signup and no ads. Every result shows how it was computed and where its numbers come from.
 
 ## What's new in Version 3
 
@@ -68,7 +67,7 @@ Every tool has its own focused page, uses sourced figures, and explains its calc
 | [**Konsumo**](https://pinansyalph.site/magkano-konsumo) · *Magkano Konsumo Ko?* | Appliance electricity costs a day, a month and a year, from typical ratings or an energy label, with indicative Meralco and Visayan Electric residential rates or your own. A household list with the biggest users, and a "what if I use it less" simulator. Saved only in your browser. |
 | [**Internet**](https://pinansyalph.site/sulit-internet) · *Sulit Ba Internet Ko?* | Your internet plan's ₱ per Mbps against verified plans from PLDT Fiber Prepaid, Globe GFiber, Converge, Starlink, Smart and DITO, with first-year and contract costs, installation and promos, side-by-side comparison, custom plans and saved comparisons. |
 | [**Mga Dapat Iwasan**](https://pinansyalph.site/mga-dapat-iwasan) · *Money traps that quietly drain your wallet.* | A short page, linked from the phone menu, the tool dock and the footer: six things to avoid (betting sites, online loan apps, borrowing to pay loans, credit card minimums, stacked installments, impulse buys), each with a worked example and what to do instead, plus simple calculators and where to get help. Rules cited from BSP, NPC and PAGCOR documents. |
-| [**About**](https://pinansyalph.site/about) | Why the project exists, its principles, how to contribute, and the FAQ. |
+| [**About**](https://pinansyalph.site/about) | Why the project exists, its principles, how to send feedback, and the FAQ. |
 
 Amounts you enter in MP2 carry over to Digital banks and Compare, so every comparison uses the same inputs. Every
 figure shows its source, reference period and retrieval date; nothing is labelled "live".
@@ -247,9 +246,9 @@ domain builds with `BASE_PATH=/<repo>/`.
   Nintendo Switch Online are not officially sold in the Philippines. Renewal reminders show on the page only.
 - MariBank, UNO and OwnBank rates could not be confirmed on their official pages and are listed as excluded.
 
-## Contributing
+## Feedback
 
-Issues and pull requests are welcome:
+Corrections and ideas are welcome:
 
 - Data corrections, such as a changed bank rate or a new MP2 declaration (please link the official source)
 - Bug reports and fixes
@@ -257,16 +256,18 @@ Issues and pull requests are welcome:
 - Accessibility improvements
 - Ideas for new financial literacy tools
 
-[Open an issue](https://github.com/jervilangelo/pinansyalph-v2/issues) to start.
+Send them to [deleonangelojervil@gmail.com](mailto:deleonangelojervil@gmail.com).
 
 ## Credits
 
 Built by **[Jervil Angelo De Leon](https://github.com/jervilangelo)** to make financial literacy easier to explore, verify and understand in the Philippines.
 
-If you find these tools useful, consider [starring PinansyalPH on GitHub](https://github.com/jervilangelo/pinansyalph-v2). More of my work: [jervilangelo.online](https://jervilangelo.online/).
+More of my work: [jervilangelo.online](https://jervilangelo.online/).
 
 Salary statistics: Philippine Statistics Authority, Occupational Wages Survey, via PSA OpenSTAT.
 
 Photographs from Wikimedia Commons, credited on the site and listed in
 [docs/image-credits.json](docs/image-credits.json). Not affiliated with PSA, DOE, Pag-IBIG Fund, BIR, SSS, PhilHealth
 or any bank.
+
+© 2026 PinansyalPH. All rights reserved. The PinansyalPH name, logo, design and original content belong to the developer. Third-party libraries, fonts, photographs and public data remain under their own licenses and terms.

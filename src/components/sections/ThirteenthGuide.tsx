@@ -9,6 +9,8 @@ import { useRouter } from '../../router'
 import { peso, pesoExact } from '../../utils/format'
 import { NumberField } from '../ui/fields'
 import { EASE, Reveal, motion, useReducedMotion } from '../ui/motion'
+import { tx } from '../../i18n/react'
+import { t, tv } from '../../i18n'
 
 export const SOURCES = [
   { label: 'Presidential Decree No. 851 (13th Month Pay Law)', href: 'https://lawphil.net/statutes/presdecs/pd1975/pd_851_1975.html' },
@@ -60,10 +62,7 @@ const QA: { q: string; a: ReactNode }[] = [
   {
     q: 'Saan ako puwedeng humingi ng tulong?',
     a: (
-      <>
-        Kausapin muna ang HR o payroll. Kung hindi naayos, lumapit sa pinakamalapit na DOLE Regional o Field Office, o tumawag sa DOLE Hotline 1349.
-        Puwede ring mag-file ng Request for Assistance sa Single Entry Approach (SEnA).
-      </>
+      <>{t("Kausapin muna ang HR o payroll. Kung hindi naayos, lumapit sa pinakamalapit na DOLE Regional o Field Office, o tumawag sa DOLE Hotline 1349. Puwede ring mag-file ng Request for Assistance sa Single Entry Approach (SEnA).")}</>
     ),
   },
 ]
@@ -80,7 +79,7 @@ function Faq({ item, i }: { item: (typeof QA)[number]; i: number }) {
           onClick={() => setOpen((v) => !v)}
           className="flex w-full cursor-pointer items-center justify-between gap-4 rounded-[22px] border-0 bg-transparent px-5 py-5 text-left font-[inherit] text-[inherit] text-ink transition-colors hover:text-accent sm:px-6"
         >
-          {item.q}
+          {tv(item.q)}
           <ChevronDown aria-hidden="true" size={22} className={`shrink-0 transition-transform duration-300 ${open ? 'rotate-180' : ''}`} />
         </button>
       </h3>
@@ -93,7 +92,7 @@ function Faq({ item, i }: { item: (typeof QA)[number]; i: number }) {
             transition={{ duration: 0.3, ease: EASE }}
             className="overflow-hidden"
           >
-            <p className="max-w-[62ch] px-5 pb-6 text-[1.0625rem] leading-[1.65] text-ink-2 sm:px-6">{item.a}</p>
+            <p className="max-w-[62ch] px-5 pb-6 text-[1.0625rem] leading-[1.65] text-ink-2 sm:px-6">{tv(item.a)}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -107,18 +106,16 @@ export function ThirteenthLiteracy() {
       <div className="wrap grid gap-10 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <Reveal>
-            <h2 id="literacy-title" className="text-[clamp(2rem,1.5rem+1.6vw,3rem)] leading-[1.05]">
-              Mga Dapat Mong Malaman
-            </h2>
-            <p className="mt-4 text-ink-2">Ang basics ng 13th month pay, sa simpleng salita.</p>
+            <h2 id="literacy-title" className="text-[clamp(2rem,1.5rem+1.6vw,3rem)] leading-[1.05]">{t("Mga Dapat Mong Malaman")}</h2>
+            <p className="mt-4 text-ink-2">{t("Ang basics ng 13th month pay, sa simpleng salita.")}</p>
           </Reveal>
           <Reveal delay={0.08} className="ui mt-10">
-            <h3 className="text-[0.9375rem] font-semibold">Official sources</h3>
+            <h3 className="text-[0.9375rem] font-semibold">{t("Official sources")}</h3>
             <ul className="m-0 mt-3 grid list-none gap-2 p-0 text-[0.9375rem]">
               {SOURCES.map((s) => (
                 <li key={s.href}>
                   <a className="link" href={s.href} target="_blank" rel="noopener noreferrer">
-                    {s.label}
+                    {tv(s.label)}
                   </a>
                 </li>
               ))}
@@ -180,24 +177,20 @@ export function ThirteenthAllocation({ amount, s }: { amount: number; s: Scenari
       <div className="card-soft p-5 sm:p-8 lg:p-12">
         <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
           <Reveal className="lg:col-span-6">
-            <h2 id="allocation-title" className="text-[clamp(1.875rem,1.3rem+2vw,3rem)] leading-[1.05]">
-              Anong Gagawin Mo Sa 13th Month Pay Mo?
-            </h2>
+            <h2 id="allocation-title" className="text-[clamp(1.875rem,1.3rem+2vw,3rem)] leading-[1.05]">{t("Anong Gagawin Mo Sa 13th Month Pay Mo?")}</h2>
           </Reveal>
           <Reveal delay={0.08} className="lg:col-span-6">
-            <p className="text-ink-2">
-              Hatiin ang {peso(amount)} bago pa ito dumating. Change the percentages; MP2 and bank figures use the same calculators as their pages.
-            </p>
+            <p className="text-ink-2">{tx("Hatiin ang {amount} bago pa ito dumating. Change the percentages; MP2 and bank figures use the same calculators as their pages.", { amount: (peso(amount)), })}</p>
           </Reveal>
         </div>
 
-        <div className="mt-10 flex h-4 overflow-hidden rounded-full bg-surface-2" role="img" aria-label={split.map((b) => `${b.label} ${b.pct}%`).join(', ')}>
+        <div className="mt-10 flex h-4 overflow-hidden rounded-full bg-surface-2" role="img" aria-label={split.map((b) => `${tv(b.label)} ${b.pct}%`).join(', ')}>
           {split.map((b) => (
             <motion.div key={b.key} className="h-full" style={{ background: b.color }} initial={false} animate={{ width: `${(b.pct / Math.max(total, 100)) * 100}%` }} transition={reduce ? { duration: 0 } : { duration: 0.5, ease: EASE }} />
           ))}
         </div>
         <p className={`ui mt-2 text-[0.875rem] ${total === 100 ? 'text-ink-2' : 'font-semibold text-warn'}`} role="status">
-          {total === 100 ? 'All 100% allocated.' : total < 100 ? `${100 - total}% not yet allocated.` : `Over by ${total - 100}%. Lower one of the shares.`}
+          {total === 100 ? t("All 100% allocated.") : total < 100 ? t("{v0}% not yet allocated.", { v0: 100 - total }) : t("Over by {v0}%. Lower one of the shares.", { v0: total - 100 })}
         </p>
 
         <ul className="m-0 mt-8 grid list-none gap-2 p-0 sm:grid-cols-2 lg:grid-cols-3">
@@ -206,37 +199,31 @@ export function ThirteenthAllocation({ amount, s }: { amount: number; s: Scenari
               <div className="flex items-start justify-between gap-3">
                 <span className="ui flex items-center gap-2 font-semibold">
                   <span aria-hidden="true" className="h-3 w-3 shrink-0 rounded-full" style={{ background: b.color }} />
-                  {b.label}
+                  {tv(b.label)}
                 </span>
                 <span className="figure text-[1.25rem]">{pesoExact(amt(b.key))}</span>
               </div>
-              <NumberField label={`Share for ${b.label.toLowerCase()}`} value={b.pct} min={0} max={100} step={1} suffix="%" onChange={(v) => setSplit(split.map((x, j) => (j === i ? { ...x, pct: v } : x)))} />
+              <NumberField label={t("Share for {v0}", { v0: b.label.toLowerCase() })} value={b.pct} min={0} max={100} step={1} suffix="%" onChange={(v) => setSplit(split.map((x, j) => (j === i ? { ...x, pct: v } : x)))} />
               {b.key === 'mp2' && projections.mp2 != null && (
                 <div className="ui text-[0.875rem] text-ink-2">
-                  <p>
-                    About <strong className="text-ink">{peso(projections.mp2)}</strong> after {YEARS} years at {latestMp2.rate}% ({latestMp2.year} rate, not guaranteed).
-                  </p>
-                  <button type="button" className="btn btn-quiet group mt-1 min-h-0 px-0 py-1 text-[0.875rem]" onClick={() => open('/mp2', mp2Amount)}>
-                    Open in the MP2 calculator <ArrowRight aria-hidden="true" size={16} className="transition-transform group-hover:translate-x-1" />
+                  <p>{tx("About {strong} after {yEARS} years at {rate}% ({year} rate, not guaranteed).", { strong: (<strong className="text-ink">{peso(projections.mp2)}</strong>), yEARS: (YEARS), rate: (latestMp2.rate), year: (latestMp2.year), })}</p>
+                  <button type="button" className="btn btn-quiet group mt-1 min-h-0 px-0 py-1 text-[0.875rem]" onClick={() => open('/mp2', mp2Amount)}>{t("Open in the MP2 calculator")}{' '}<ArrowRight aria-hidden="true" size={16} className="transition-transform group-hover:translate-x-1" />
                   </button>
                 </div>
               )}
               {b.key === 'bank' && projections.bank != null && (
                 <div className="ui text-[0.875rem] text-ink-2">
-                  <p>
-                    About <strong className="text-ink">{peso(projections.bank)}</strong> after {YEARS} years in {product.bank} {product.product}, after {banks.tax.ratePct}% tax.
-                  </p>
-                  <button type="button" className="btn btn-quiet group mt-1 min-h-0 px-0 py-1 text-[0.875rem]" onClick={() => open('/banks', bankAmount)}>
-                    Compare digital banks <ArrowRight aria-hidden="true" size={16} className="transition-transform group-hover:translate-x-1" />
+                  <p>{tx("About {strong} after {yEARS} years in {bank} {product}, after {ratePct}% tax.", { strong: (<strong className="text-ink">{peso(projections.bank)}</strong>), yEARS: (YEARS), bank: (product.bank), product: (product.product), ratePct: (banks.tax.ratePct), })}</p>
+                  <button type="button" className="btn btn-quiet group mt-1 min-h-0 px-0 py-1 text-[0.875rem]" onClick={() => open('/banks', bankAmount)}>{t("Compare digital banks")}{' '}<ArrowRight aria-hidden="true" size={16} className="transition-transform group-hover:translate-x-1" />
                   </button>
                 </div>
               )}
-              {b.key === 'emergency' && <p className="ui text-[0.875rem] text-ink-2">A common target is three to six months of expenses, kept somewhere you can withdraw quickly.</p>}
-              {b.key === 'debt' && <p className="ui text-[0.875rem] text-ink-2">Paying down high-interest debt, like credit cards, often beats any savings rate.</p>}
+              {b.key === 'emergency' && <p className="ui text-[0.875rem] text-ink-2">{t("A common target is three to six months of expenses, kept somewhere you can withdraw quickly.")}</p>}
+              {b.key === 'debt' && <p className="ui text-[0.875rem] text-ink-2">{t("Paying down high-interest debt, like credit cards, often beats any savings rate.")}</p>}
             </li>
           ))}
         </ul>
-        <p className="ui mt-6 text-[0.8125rem] text-muted">Illustration only, not financial advice. Projections assume {recentAverageInflation.value}% inflation and today’s published rates.</p>
+        <p className="ui mt-6 text-[0.8125rem] text-muted">{tx("Illustration only, not financial advice. Projections assume {value}% inflation and today’s published rates.", { value: (recentAverageInflation.value), })}</p>
       </div>
     </section>
   )

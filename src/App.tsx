@@ -4,11 +4,14 @@ import { BrandSpinner } from './components/brand/Logo'
 import { Footer } from './components/layout/Footer'
 import { ToolDock } from './components/layout/ToolDock'
 import { SiteHeader } from './components/layout/SiteHeader'
+import { SettingsProvider } from './components/settings/Settings'
 import { SupportProvider } from './components/support/Support'
 import { EASE, useReducedMotion } from './components/ui/motion'
 import { useScenario } from './hooks/useScenario'
 import { HomePage } from './pages/HomePage'
+import { I18nProvider, useT } from './i18n/react'
 import { Router, useRouter, type Route } from './router'
+import { ThemeProvider } from './theme'
 
 // Tool pages load on demand, then prefetch while the browser is idle so moving between pages is instant.
 const loadTools = () => import('./pages/ToolPages')
@@ -52,6 +55,7 @@ function usePrefetch() {
  * appearing so fast loads never flash a loader.
  */
 function PageFallback() {
+  const { t } = useT()
   const [show, setShow] = useState(false)
   useEffect(() => {
     const t = setTimeout(() => setShow(true), 200)
@@ -61,7 +65,7 @@ function PageFallback() {
     <div aria-busy="true" className="flex min-h-[70svh] items-center justify-center">
       {show && (
         <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, ease: EASE }}>
-          <BrandSpinner size={48} label="Loading page" />
+          <BrandSpinner size={48} label={t('Loading page')} />
         </motion.div>
       )}
     </div>
@@ -112,13 +116,18 @@ function Pages() {
   )
 }
 
-export default function App() {
+/**
+ * Everything under the providers. It subscribes to the language, so a language
+ * change re-renders the whole site in place: calculator inputs and results stay.
+ */
+function Shell() {
+  const { t } = useT()
   return (
-    <MotionConfig reducedMotion="user">
-      <Router>
+    <Router>
+      <SettingsProvider>
         <SupportProvider>
           <a href="#main" className="skip-link">
-            Skip to content
+            {t('Skip to content')}
           </a>
           <SiteHeader />
           <Pages />
@@ -127,7 +136,19 @@ export default function App() {
           <div aria-hidden="true" className="h-24 lg:h-24" />
           <ToolDock />
         </SupportProvider>
-      </Router>
+      </SettingsProvider>
+    </Router>
+  )
+}
+
+export default function App() {
+  return (
+    <MotionConfig reducedMotion="user">
+      <ThemeProvider>
+        <I18nProvider>
+          <Shell />
+        </I18nProvider>
+      </ThemeProvider>
     </MotionConfig>
   )
 }

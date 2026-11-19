@@ -1,5 +1,6 @@
 import type { FormEvent, ReactNode } from 'react'
 import { AnimatedNumber } from './motion'
+import { tv } from '../../i18n'
 
 /**
  * The answer block every tool leads with: one label, one large peso figure,
@@ -33,14 +34,14 @@ export function ResultHero({
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className={`ui flex items-center gap-2.5 text-[0.9375rem] font-semibold ${soft ? 'text-ink-2' : 'text-white/90'}`}>
           <SunMark />
-          {label}
+          {tv(label)}
         </p>
         {aside}
       </div>
       <p className="figure mt-4 text-[clamp(2.75rem,2rem+3.4vw,4.5rem)] leading-[0.95]">
         <AnimatedNumber value={value} format={format} testId={testId} />
       </p>
-      {caption && <div className={`ui mt-4 max-w-[46ch] text-[0.9375rem] leading-relaxed ${sub}`}>{caption}</div>}
+      {caption && <div className={`ui mt-4 max-w-[46ch] text-[0.9375rem] leading-relaxed ${sub}`}>{tv(caption)}</div>}
       {children}
     </div>
   )
@@ -60,11 +61,11 @@ export function Stat({ label, value, note, tone, testId }: { label: ReactNode; v
   const color = tone === 'gain' ? 'text-gain' : tone === 'loss' ? 'text-loss' : ''
   return (
     <div className="flex flex-col gap-1">
-      <dt className="ui text-[0.875rem] leading-snug font-medium text-muted">{label}</dt>
+      <dt className="ui text-[0.875rem] leading-snug font-medium text-muted">{tv(label)}</dt>
       <dd className={`figure m-0 text-[1.625rem] leading-tight ${color}`} data-testid={testId}>
         {value}
       </dd>
-      {note && <p className="ui text-[0.8125rem] leading-snug text-muted">{note}</p>}
+      {note && <p className="ui text-[0.8125rem] leading-snug text-muted">{tv(note)}</p>}
     </div>
   )
 }
@@ -83,7 +84,7 @@ export function CalcGrid({ inputs, result, className = '' }: { inputs: ReactNode
 export function Panel({ title, intro, children, className = '', id, as: Tag = 'div' }: { title?: ReactNode; intro?: ReactNode; children: ReactNode; className?: string; id?: string; as?: 'div' | 'section' | 'form' }) {
   return (
     <Tag className={`card p-5 sm:p-7 ${className}`} id={id} {...(Tag === 'form' ? { onSubmit: (e: FormEvent) => e.preventDefault() } : {})}>
-      {title && <h2 className="text-[1.5rem] leading-tight">{title}</h2>}
+      {title && <h2 className="text-[1.5rem] leading-tight">{tv(title)}</h2>}
       {intro && <p className="ui mt-2 text-[0.9375rem] leading-relaxed text-muted">{intro}</p>}
       <div className={title || intro ? 'mt-6' : ''}>{children}</div>
     </Tag>

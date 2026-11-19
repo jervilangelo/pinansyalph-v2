@@ -21,7 +21,7 @@ test.beforeEach(async ({ page }) => {
 
 test('heading, subtitle, empty state and source status', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Magkano ba Subscription Ko?')
-  await expect(page.locator('main')).toContainText('Akala mo maliit lang? Tingnan natin kung magkano lahat.')
+  await expect(page.locator('main')).toContainText('Think it is small? Let us see how much it all adds up to.')
   await expect(page.getByTestId('subs-empty')).toBeVisible()
   await expect(monthly(page)).toHaveText('₱0.00')
   await expect(page).toHaveTitle(/Magkano ba Subscription Ko\?.*· PinansyalPH$/)
@@ -188,7 +188,7 @@ for (const width of [320, 390, 768, 1440]) {
     await search(page).fill('microsoft')
     await page.getByRole('option', { name: /^Microsoft 365/ }).click()
     for (const tab of ['Breakdown', 'Cancel', 'Budget', 'Renewals']) {
-      await page.getByRole('tab', { name: new RegExp(tab === 'Breakdown' ? 'napupunta|Breakdown' : tab, 'i') }).click()
+      await page.getByRole('tab', { name: new RegExp(tab === 'Breakdown' ? 'Where it goes|Breakdown' : tab, 'i') }).click()
       const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)
       expect(overflow, tab).toBeLessThanOrEqual(0)
     }

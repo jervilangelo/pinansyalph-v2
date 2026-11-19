@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { IWASAN_SOURCES } from '../../data/iwasanSources'
+import { t, tv } from '../../i18n'
 
 /** A numbered citation that jumps to the source list and names the source on hover. */
 export function Cite({ id }: { id: string }) {
@@ -8,7 +9,7 @@ export function Cite({ id }: { id: string }) {
   const s = IWASAN_SOURCES[i]
   return (
     <sup className="ui ml-0.5 text-[0.75em] font-semibold">
-      <a href={`#src-${id}`} title={`${s.org}: ${s.title}`} className="text-accent no-underline hover:underline" aria-label={`Source ${i + 1}: ${s.title}`}>
+      <a href={`#src-${id}`} title={`${s.org}: ${s.title}`} className="text-accent no-underline hover:underline" aria-label={t("Source {v0}: {title}", { v0: i + 1, title: s.title })}>
         [{i + 1}]
       </a>
     </sup>
@@ -36,7 +37,7 @@ export function Bar({
   return (
     <div className="ui">
       <div className="flex items-baseline justify-between gap-3 text-[0.9375rem]">
-        <span className="text-ink-2">{label}</span>
+        <span className="text-ink-2">{tv(label)}</span>
         <span className="tabular font-semibold" data-testid={testId}>
           {display}
         </span>

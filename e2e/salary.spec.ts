@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test'
 
-/** Salary & expenses calculator ("Saan napupunta ang sweldo ko?"). */
+/** Salary & expenses calculator ("Where does my salary go?"). */
 
 const section = (page: Page) => page.locator('#sweldo')
 const remaining = (page: Page) => page.getByTestId('remaining')
@@ -33,13 +33,13 @@ test('per-payday view splits the result', async ({ page }) => {
 test('expenses, savings and status messages respond immediately', async ({ page }) => {
   const s = section(page)
   await s.getByRole('button', { name: 'Fill a sample budget' }).click()
-  await expect(s).toContainText('May natitira ka pang budget this month!')
+  await expect(s).toContainText('You still have budget left this month!')
   await expect(remaining(page)).toHaveText('₱1,844')
   const rent = s.getByLabel('Rent or housing payment')
   await rent.fill('7,800')
-  await expect(s).toContainText('Halos ubos na ang budget mo')
+  await expect(s).toContainText('Your budget is almost used up')
   await rent.fill('20,000')
-  await expect(s).toContainText('Mas mataas ang expenses mo kaysa sa available salary mo.')
+  await expect(s).toContainText('Your expenses are higher than your available salary.')
   await expect(remaining(page)).toHaveText(/^−₱/)
 })
 
@@ -106,7 +106,7 @@ test('remember on this device is opt-in and can be cleared', async ({ page }) =>
 test('remaining money can be projected and sent to the MP2 calculator', async ({ page }) => {
   const s = section(page)
   await s.getByRole('button', { name: 'Fill a sample budget' }).click()
-  await expect(s).toContainText('Paano kung i-invest mo ang natitira?')
+  await expect(s).toContainText('What if you invest what is left?')
   await expect(s.getByLabel('Amount to invest each month')).toHaveValue('1,800')
   await s.getByRole('button', { name: 'Use in the MP2 calculator' }).click()
   await expect(page).toHaveURL(/\/mp2$/)

@@ -1,7 +1,10 @@
 /** Project-wide constants. */
 export const SITE_NAME = 'PinansyalPH'
-export const TAGLINE = 'Mas malinaw ang pera mo.'
-export const VERSION = '3.6.1'
+/** The official tagline. Never translated or reworded. */
+export const TAGLINE = 'Tamang Pinansyal para sa mga Pilipino.'
+export const SITE_URL = 'https://pinansyalph.site/'
+export const COPYRIGHT = '© 2026 PinansyalPH. All rights reserved.'
+export const VERSION = '3.7.0'
 export const REPO = 'https://github.com/jervilangelo/pinansyalph-v2'
 export const PORTFOLIO = 'https://jervilangelo.online/'
 export const AUTHOR = 'Jervil Angelo De Leon'
