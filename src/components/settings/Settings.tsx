@@ -1,3 +1,13 @@
+/*
+ * PinansyalPH (https://pinansyalph.site/)
+ * Copyright (c) 2026 Jervil Angelo De Leon. All rights reserved.
+ *
+ * This source code is proprietary to its author. Copying,
+ * reproducing, modifying, distributing, publishing or reusing it, in whole or
+ * in part, without the author's prior written permission is not allowed.
+ * See the LICENSE file at the root of this repository.
+ */
+
 import { ArrowUpRight, Check, Globe, Info, Languages, Mail, Moon, ShieldCheck, Sun, type LucideIcon } from 'lucide-react'
 import { createContext, useCallback, useContext, useId, useMemo, useState, type ReactNode } from 'react'
 import { LANGS, type Lang } from '../../i18n'

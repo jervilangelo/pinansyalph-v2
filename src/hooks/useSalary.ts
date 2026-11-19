@@ -1,3 +1,13 @@
+/*
+ * PinansyalPH (https://pinansyalph.site/)
+ * Copyright (c) 2026 Jervil Angelo De Leon. All rights reserved.
+ *
+ * This source code is proprietary to its author. Copying,
+ * reproducing, modifying, distributing, publishing or reusing it, in whole or
+ * in part, without the author's prior written permission is not allowed.
+ * See the LICENSE file at the root of this repository.
+ */
+
 import { useEffect, useMemo, useState } from 'react'
 import { calculateBudget, fuelMonthly, type BudgetItem, type GroupKey, type ItemKind } from '../calculators/budget'
 import { calculatePayroll, type PayFrequency, type SalaryInput } from '../calculators/payroll'

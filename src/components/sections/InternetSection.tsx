@@ -1,3 +1,13 @@
+/*
+ * PinansyalPH (https://pinansyalph.site/)
+ * Copyright (c) 2026 Jervil Angelo De Leon. All rights reserved.
+ *
+ * This source code is proprietary to its author. Copying,
+ * reproducing, modifying, distributing, publishing or reusing it, in whole or
+ * in part, without the author's prior written permission is not allowed.
+ * See the LICENSE file at the root of this repository.
+ */
+
 import { BookmarkPlus, Check, Plus, Trash2, X } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { bestValueId, overpayCheck, planCosts, planProblem, sortPlans, SORTS, type PlanCosts, type SortKey } from '../../calculators/internet'

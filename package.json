@@ -1,6 +1,8 @@
 {
   "name": "pinansyalph",
   "private": true,
+  "license": "SEE LICENSE IN LICENSE",
+  "author": "Jervil Angelo De Leon",
   "version": "3.7.0",
   "type": "module",
   "scripts": {

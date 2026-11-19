@@ -1,54 +1,52 @@
 <div align="center">
 
-<img src="docs/pinansyalph-readme-hero.svg" alt="PinansyalPH — Tamang Pinansyal para sa mga Pilipino. Free financial tools for Filipinos." width="100%" />
+<a href="https://pinansyalph.site/"><img src="docs/pinansyalph-readme-hero.svg" alt="PinansyalPH: Tamang Pinansyal para sa mga Pilipino. Free financial tools for Filipinos." width="100%" /></a>
 
 <br />
 
-**Tamang Pinansyal para sa mga Pilipino.** Understand your money with numbers you can check.
+### Understand your money with numbers you can check.
 
-Free tools to explore your salary, 13th month pay, savings, and the impact of inflation — designed for everyday financial decisions in the Philippines. Available in English, Filipino and Bisaya, in light and dark mode. No signup, no login, no ads.
+Free tools to explore your salary, 13th month pay, savings, everyday prices and the impact of inflation, made for
+everyday financial decisions in the Philippines.
 
-**[Explore PinansyalPH](https://pinansyalph.site/)** · [See the calculators](#tools) · [How the numbers work](#how-the-numbers-are-calculated) · [Run locally](#run-it-locally)
+**[Open PinansyalPH →](https://pinansyalph.site/)**
 
 <br />
 
 ![Free](https://img.shields.io/badge/Free-no%20sign--up-151514?style=flat-square)
 ![Languages](https://img.shields.io/badge/English%20·%20Filipino%20·%20Bisaya-1D4E89?style=flat-square)
-![React](https://img.shields.io/badge/React%2019-TypeScript-151514?style=flat-square)
+![Dark mode](https://img.shields.io/badge/Light%20%26%20dark-mode-3B3A36?style=flat-square)
 ![Data](https://img.shields.io/badge/Data-sourced%20%26%20dated-2E6A46?style=flat-square)
-![Version](https://img.shields.io/badge/Version-3.0-EDA100?style=flat-square)
+![Version](https://img.shields.io/badge/Version-3.7-EDA100?style=flat-square)
+![License](https://img.shields.io/badge/License-All%20rights%20reserved-8B1E1E?style=flat-square)
+
+[Tools](#tools) · [Screenshots](#screenshots) · [How the numbers work](#how-the-numbers-are-calculated) · [Data sources](#data-sources) · [Privacy](#privacy) · [Copyright](#copyright-and-license)
 
 </div>
 
-> **Educational use only.** This is not financial advice. Results are estimates based on published data and the assumptions you enter, not guaranteed returns or official payroll computations.
+> [!NOTE]
+> **Educational use only.** PinansyalPH is not financial advice. Results are estimates based on published data and the
+> assumptions you enter, not guaranteed returns or official payroll computations.
 
----
+## Why PinansyalPH
 
-## Why this exists
+Many of us learn about money the hard way: a payslip with deductions we cannot explain, savings that look bigger every
+year but buy less, or a "high interest" promo with a cap and an end date. PinansyalPH was built to promote
+**financial literacy**. Instead of telling you what to do with your money, it shows the arithmetic, using the same
+numbers the PSA, DOE, BSP, Pag-IBIG, BIR and the banks publish, so you can see the trade-offs and decide for yourself.
 
-I built PinansyalPH to promote **financial literacy**. Many of us learn about money the hard way: a payslip with
-deductions we cannot explain, savings that look bigger every year but buy less, or a "high interest" promo with a cap
-and an end date. Instead of telling you what to do with your money, PinansyalPH shows the arithmetic, using the same
-numbers the PSA, DOE, Pag-IBIG, BIR and the banks publish, so you can see the trade-offs and decide for yourself.
-
-It is free to use, with no signup and no ads. Every result shows how it was computed and where its numbers come from.
-
-## What's new in Version 3
-
-PinansyalPH v3 is a complete redesign of the interface. The calculations, datasets and data workflows are unchanged.
-
-- **A calmer, lighter design** built on the new brand kit in [`src/kit`](src/kit): warm off-white ground, white panels separated by tone, the brand blue for actions and answers, Literata for headlines and peso figures.
-- **The answer first.** Every tool opens with one input panel and one large result. Breakdowns, year-by-year tables, methodology and secondary charts open on request.
-- **Easier to find your way.** Tools are grouped into three plain questions: *Sahod* (pay), *Ipon* (savings) and *Presyo* (prices), with one Tools menu on desktop and a full-screen menu on phones.
-- **A live estimator on the homepage.** Type your salary to see your take-home pay, then carry it into the full Sweldo calculator.
-- **An animated logo and branded loading screen.** The rays of the logo rise over the sun like a growing bar chart. The splash paints before the app loads, leaves as soon as the page is ready, skips the long intro on reloads, and respects reduced-motion settings.
-- **Support PinansyalPH.** A new About page with a support dialog that links to the repository to star it, and to the developer's portfolio.
-
-Version 2 stays recoverable: tag [`v2-final`](https://github.com/jervilangelo/pinansyalph-v2/tree/v2-final) and branch `v2-archive`. Full notes: [docs/RELEASE-v3.md](docs/RELEASE-v3.md).
+| | |
+| --- | --- |
+| 🧮 **The answer first** | One input panel and one clear result. Breakdowns, tables and methodology open on request. |
+| 📊 **Sourced and dated** | Every figure shows its source, reference period and retrieval date. Nothing is labelled "live". |
+| 🔒 **Private by design** | Every calculation runs in your browser. No account, no signup, no login, no ads. |
+| 🌏 **Three languages** | English, Filipino and Bisaya, switched instantly from Settings without losing your inputs. |
+| 🌙 **Light and dark mode** | A polished dark theme for every page, chart and input, remembered on your device. |
+| 📱 **Works everywhere** | Phones, tablets and desktops, tested at widths from 320px to 1920px. |
 
 ## Tools
 
-Every tool has its own focused page, uses sourced figures, and explains its calculations. Start with the question that matters to you.
+Every tool has its own focused page, uses sourced figures, and explains its calculations.
 
 | Page | What it does |
 | --- | --- |
@@ -69,12 +67,9 @@ Every tool has its own focused page, uses sourced figures, and explains its calc
 | [**Mga Dapat Iwasan**](https://pinansyalph.site/mga-dapat-iwasan) · *Money traps that quietly drain your wallet.* | A short page, linked from the phone menu, the tool dock and the footer: six things to avoid (betting sites, online loan apps, borrowing to pay loans, credit card minimums, stacked installments, impulse buys), each with a worked example and what to do instead, plus simple calculators and where to get help. Rules cited from BSP, NPC and PAGCOR documents. |
 | [**About**](https://pinansyalph.site/about) | Why the project exists, its principles, how to send feedback, and the FAQ. |
 
-Amounts you enter in MP2 carry over to Digital banks and Compare, so every comparison uses the same inputs. Every
-figure shows its source, reference period and retrieval date; nothing is labelled "live".
+Amounts you enter in MP2 carry over to Digital banks and Compare, so every comparison uses the same inputs.
 
-## See it in action
-
-Explore the actual application screens — from payroll to purchasing power.
+## Screenshots
 
 | Home | Sweldo |
 | --- | --- |
@@ -86,9 +81,7 @@ Explore the actual application screens — from payroll to purchasing power.
 | **Inflation** | **Gas** |
 | ![Inflation tracker](docs/screenshots/inflation.jpg) | ![Fuel price adjustments](docs/screenshots/gas.jpg) |
 
-Works on phones, tablets and desktops; tested at widths from 320px to 1920px.
-
-<img src="docs/screenshots/mobile.jpg" alt="The PinansyalPH homepage on a phone" width="260" />
+<p align="center"><img src="docs/screenshots/mobile.jpg" alt="The PinansyalPH homepage on a phone" width="260" /></p>
 
 ## How the numbers are calculated
 
@@ -110,7 +103,7 @@ Full detail with formulas and legal references: **[docs/METHODOLOGY.md](docs/MET
 
 Money is computed with decimal.js and rounded to centavos only where a real institution would round.
 
-## Data sources and updates
+## Data sources
 
 | Data | Source | Latest in this repo | Refresh |
 | --- | --- | --- | --- |
@@ -126,6 +119,11 @@ Money is computed with decimal.js and rounded to centavos only where a real inst
 | Internet plans (Sulit Ba Internet Ko?) | Each provider's own plan page or press release | Checked 18 November 2026 | By hand; see docs/METHODOLOGY.md §15 |
 | Indicative electricity rates (Magkano Konsumo Ko?) | Meralco rate schedule; Visayan Electric newsroom | Meralco November 2026; Visayan Electric September 2026 | Monthly (Meralco); by hand (Visayan Electric) |
 | Payroll and tax rules (SSS, PhilHealth, Pag-IBIG, BIR, ₱90,000 benefits ceiling) | SSS Circular 2024-006, PhilHealth Circular 2020-0005, HDMF Circular 460, BIR RR 11-2018, RA 10963 | In force since 2025-01-01 / 2024-01-01 / 2024-02-01 / 2023-01-01 | Versioned by hand in `src/data/payroll.json` |
+
+<details>
+<summary><b>How the data is kept up to date</b></summary>
+
+<br />
 
 The [`Update economic data`](.github/workflows/update-economic-data.yml) workflow runs daily. It retrieves each source,
 validates it against the schemas in [`src/types/data.ts`](src/types/data.ts), keeps the previous file if anything
@@ -154,64 +152,21 @@ fails, and commits only real changes; the deploy workflow then rebuilds the site
 - **MP2**: when a new year's rate is due (from April onward), the job flags it. Add it to
   [`src/data/mp2.json`](src/data/mp2.json).
 
-## Run it locally
+</details>
 
-Requires Node.js 22 or newer.
+## Privacy
 
-```bash
-npm install
-npm run dev            # http://localhost:5173
-```
-
-Other commands:
-
-```bash
-npm test               # unit tests: calculators and data parsers
-npm run test:e2e       # browser tests against the production build
-PW_CHANNEL=chrome npm run test:e2e   # use an installed Chrome instead of Playwright's Chromium
-npm run validate:data  # schema-check every dataset
-npm run data:salary    # fetch PSA Occupational Wages Survey benchmarks
-npm run data:update    # fetch PSA, DOE, MP2, bank checks and salary benchmarks, then validate
-npm run build          # production build in dist/
-npm run lint
-```
-
-## Technology
-
-| Layer | Choice |
-| --- | --- |
-| App | React 19, TypeScript, Vite; one page per tool with a small built-in router |
-| Styling and motion | Tailwind CSS v4 design tokens, Motion with shared timing and easing (respects reduced-motion settings) |
-| Brand | Logo kit in `src/kit`; favicons, app icons, manifest and social image in `public/` |
-| Charts | Recharts, lazy-loaded |
-| Money | decimal.js |
-| Data contracts | zod schemas shared by the site and the data scripts |
-| Data ingestion | Node scripts run by GitHub Actions; pdf.js for DOE PDFs |
-| Tests | Vitest (296 unit tests), Playwright (209 browser tests) |
-| Hosting | GitHub Pages via GitHub Actions |
-
-Architecture and the reasons for it: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
-
-## Deploy
-
-Pushing to `main` runs [`deploy.yml`](.github/workflows/deploy.yml): data validation, lint, unit tests, browser tests,
-build, then deployment to GitHub Pages at [pinansyalph.site](https://pinansyalph.site/). The build writes a static HTML
-file for every route with its own title, description and canonical URL, so clean links like `/mp2` open directly
-(no `.html`, no trailing slash). It also writes `sitemap.xml`, `robots.txt` and a `404.html` fallback; `public/CNAME`
-holds the custom domain. Old `jervilangelo.github.io/pinansyalph-v2/...` links are redirected by GitHub to the same
-path on the new domain.
-
-One-time setup for a fork or a new copy:
-
-1. **Settings → Pages → Source**: choose **GitHub Actions**.
-2. **Settings → Actions → General → Workflow permissions**: choose **Read and write permissions**, so the daily data
-   job can commit updates.
-
-The site builds for the root of its custom domain. The production origin is `SITE_ORIGIN` in
-[`src/routes.ts`](src/routes.ts); a fork on its own domain changes it there and in `public/CNAME`. A fork without a custom
-domain builds with `BASE_PATH=/<repo>/`.
+Your financial information stays private. No personal or financial data is stored on PinansyalPH's servers: every
+calculation is performed directly in your browser, and no account, signup or login is required. The only things kept
+on your device are your language and appearance settings and the data you choose to save in a tool (such as saved
+toll routes or a subscription list), in your browser's local storage.
 
 ## Limitations
+
+<details>
+<summary><b>Read the known limitations of each tool</b></summary>
+
+<br />
 
 - 13th month pay results are estimates for private-sector rank-and-file employees. Managerial and government employees
   follow different rules. Employers may compute partial months differently; enter your payslip figures for those
@@ -246,13 +201,31 @@ domain builds with `BASE_PATH=/<repo>/`.
   Nintendo Switch Online are not officially sold in the Philippines. Renewal reminders show on the page only.
 - MariBank, UNO and OwnBank rates could not be confirmed on their official pages and are listed as excluded.
 
+</details>
+
+## Built with
+
+| Layer | Choice |
+| --- | --- |
+| App | React 19, TypeScript, Vite; one page per tool with a small built-in router |
+| Languages | English, Filipino and Bisaya catalogues, loaded before the first paint |
+| Styling and motion | Tailwind CSS v4 design tokens, light and dark themes, Motion (respects reduced-motion settings) |
+| Charts | Recharts, lazy-loaded and theme-aware |
+| Money | decimal.js, rounded to centavos only where a real institution would round |
+| Data contracts | zod schemas shared by the site and the data scripts |
+| Data ingestion | Node scripts run daily by GitHub Actions |
+| Tests | Vitest (310 unit tests), Playwright (229 browser tests) |
+| Hosting | GitHub Pages at [pinansyalph.site](https://pinansyalph.site/) |
+
+Architecture notes: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
 ## Feedback
 
-Corrections and ideas are welcome:
+Corrections and ideas are welcome, especially:
 
 - Data corrections, such as a changed bank rate or a new MP2 declaration (please link the official source)
-- Bug reports and fixes
-- Copy fixes in Filipino or English
+- Bug reports
+- Copy fixes in English, Filipino or Bisaya
 - Accessibility improvements
 - Ideas for new financial literacy tools
 
@@ -260,14 +233,21 @@ Send them to [deleonangelojervil@gmail.com](mailto:deleonangelojervil@gmail.com)
 
 ## Credits
 
-Built by **[Jervil Angelo De Leon](https://github.com/jervilangelo)** to make financial literacy easier to explore, verify and understand in the Philippines.
+Built by **[Jervil Angelo De Leon](https://github.com/jervilangelo)** to make financial literacy easier to explore,
+verify and understand in the Philippines. More of my work: [jervilangelo.online](https://jervilangelo.online/).
 
-More of my work: [jervilangelo.online](https://jervilangelo.online/).
+Salary statistics: Philippine Statistics Authority, Occupational Wages Survey, via PSA OpenSTAT. Photographs from
+Wikimedia Commons, credited on the site and listed in [docs/image-credits.json](docs/image-credits.json).
+PinansyalPH is not affiliated with PSA, DOE, BSP, Pag-IBIG Fund, BIR, SSS, PhilHealth or any bank.
 
-Salary statistics: Philippine Statistics Authority, Occupational Wages Survey, via PSA OpenSTAT.
+## Copyright and license
 
-Photographs from Wikimedia Commons, credited on the site and listed in
-[docs/image-credits.json](docs/image-credits.json). Not affiliated with PSA, DOE, Pag-IBIG Fund, BIR, SSS, PhilHealth
-or any bank.
+**© 2026 Jervil Angelo De Leon. All rights reserved.**
 
-© 2026 PinansyalPH. All rights reserved. The PinansyalPH name, logo, design and original content belong to the developer. Third-party libraries, fonts, photographs and public data remain under their own licenses and terms.
+This repository is **not open source**. The source code, design, text, translations, logo and original content are
+published so they can be read and reviewed, not reused. Without the author's prior written permission you may **not**
+copy, reproduce, modify, redistribute, re-host or deploy this code or any part of it, or use the PinansyalPH name,
+logo or tagline. See [LICENSE](LICENSE) for the full terms.
+
+Third-party libraries, fonts, photographs and public data remain under their own licences and terms. To ask for
+permission, email [deleonangelojervil@gmail.com](mailto:deleonangelojervil@gmail.com).

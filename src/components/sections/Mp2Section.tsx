@@ -1,3 +1,13 @@
+/*
+ * PinansyalPH (https://pinansyalph.site/)
+ * Copyright (c) 2026 Jervil Angelo De Leon. All rights reserved.
+ *
+ * This source code is proprietary to its author. Copying,
+ * reproducing, modifying, distributing, publishing or reusing it, in whole or
+ * in part, without the author's prior written permission is not allowed.
+ * See the LICENSE file at the root of this repository.
+ */
+
 import { MP2_TERM_YEARS } from '../../calculators/mp2'
 import { latestMp2, mp2 } from '../../data'
 import { MP2_AVERAGE_YEARS, inflationChoices, resolveMp2Rate, type InflationMode, type ScenarioState } from '../../hooks/useScenario'

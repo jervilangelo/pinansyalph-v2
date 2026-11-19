@@ -1,3 +1,13 @@
+/*
+ * PinansyalPH (https://pinansyalph.site/)
+ * Copyright (c) 2026 Jervil Angelo De Leon. All rights reserved.
+ *
+ * This source code is proprietary to its author. Copying,
+ * reproducing, modifying, distributing, publishing or reusing it, in whole or
+ * in part, without the author's prior written permission is not allowed.
+ * See the LICENSE file at the root of this repository.
+ */
+
 import { AnimatePresence } from 'motion/react'
 import { LayoutGrid, ShieldAlert, X } from 'lucide-react'
 import { Fragment, useEffect, useRef, useState } from 'react'

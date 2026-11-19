@@ -1,3 +1,13 @@
+/*
+ * PinansyalPH (https://pinansyalph.site/)
+ * Copyright (c) 2026 Jervil Angelo De Leon. All rights reserved.
+ *
+ * This source code is proprietary to its author. Copying,
+ * reproducing, modifying, distributing, publishing or reusing it, in whole or
+ * in part, without the author's prior written permission is not allowed.
+ * See the LICENSE file at the root of this repository.
+ */
+
 import { useEffect, useMemo, useState } from 'react'
 import { GROUP_LABELS, GROUP_ORDER, checkBill, explanations, kwhFromReadings, type BillResult, type LineGroup } from '../../../calculators/electricity'
 import { D, InputError } from '../../../calculators/money'
