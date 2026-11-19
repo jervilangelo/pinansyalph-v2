@@ -8,7 +8,7 @@
 
 Free, open-source tools to explore your salary, 13th month pay, savings, and the impact of inflation — designed for everyday financial decisions in the Philippines.
 
-**[Explore PinansyalPH](https://jervilangelo.github.io/pinansyalph-v2/)** · [See the calculators](#tools) · [How the numbers work](#how-the-numbers-are-calculated) · [Run locally](#run-it-locally)
+**[Explore PinansyalPH](https://pinansyalph.site/)** · [See the calculators](#tools) · [How the numbers work](#how-the-numbers-are-calculated) · [Run locally](#run-it-locally)
 
 <br />
 
@@ -53,22 +53,22 @@ Every tool has its own focused page, uses sourced figures, and explains its calc
 
 | Page | What it does |
 | --- | --- |
-| [**Sweldo**](https://jervilangelo.github.io/pinansyalph-v2/sweldo) · *Saan napupunta ang sweldo ko?* | Take-home pay after SSS, PhilHealth, Pag-IBIG and BIR withholding, then your bills, savings and what is left, monthly or per payday. Includes a fuel estimator and charts. Inputs stay in your browser. |
-| [**Underpaid ba ko?**](https://jervilangelo.github.io/pinansyalph-v2/underpaid-ba-ko) · *Alamin kung competitive ang sweldo mo.* | Compares your basic pay and regular allowances with PSA's Occupational Wages Survey for your job, region and industry, in pesos and percent, with the survey period, coverage and definitions shown. Says plainly when PSA has no benchmark for your job. Includes **Sulit ba ang job offer?**, which compares take-home pay and commute costs of your current job and an offer. |
-| [**13th Month Pay**](https://jervilangelo.github.io/pinansyalph-v2/13th-month) · *Magkano Ang 13th Month Pay Mo?* | 13th month pay under PD 851: prorated for midyear hires and resignations, with salary changes, unpaid absences, the maternity salary differential and earlier installments. Separates earned from projected months, checks the ₱90,000 tax exemption, and explains the rules in plain Taglish. |
-| [**MP2**](https://jervilangelo.github.io/pinansyalph-v2/mp2) · *Lumago nga ba talaga?* | Pag-IBIG MP2 projections with the latest declared rate, the five-year average or your own, then what the result is worth in today's pesos. |
-| [**Digital banks**](https://jervilangelo.github.io/pinansyalph-v2/banks) · *Saan mas sulit mag-ipon?* | Digital bank savings with verified base rates, promos with caps and end dates, and the 20% final withholding tax. |
-| [**Compare**](https://jervilangelo.github.io/pinansyalph-v2/compare) | MP2 and bank products side by side on the same plan, in pesos or in today's pesos. Nothing is ranked by headline rate. |
-| [**Inflation**](https://jervilangelo.github.io/pinansyalph-v2/inflation) | Headline, core, food and transport inflation from PSA since 2019, with the BSP target band. |
-| [**Gas**](https://jervilangelo.github.io/pinansyalph-v2/gas) · *Magkano na ang gas?* | Weekly DOE pump price adjustments for gasoline, diesel and kerosene, and the year-to-date net change. |
-| [**Toll**](https://jervilangelo.github.io/pinansyalph-v2/magkano-ang-toll) · *Magkano ang Toll Ko? Alamin ang toll fee bago bumiyahe.* | Toll from any entry plaza to any exit on NLEX–SCTEX, TPLEX, Skyway Stage 3, Skyway–SLEX, STAR, CALAX, CAVITEX and the NLEX Connector, by vehicle class, one way or balikan. Trips across expressways are split per road, the RFID load is shown per account (Easytrip, Autosweep), routes can be saved in your browser, and fuel can be added for a total travel cost. |
-| [**Kuryente**](https://jervilangelo.github.io/pinansyalph-v2/magkano-kuryente) · *Magkano Kuryente Ko? Tama ba ang singil sa bill mo?* | Checks a Meralco residential bill against Meralco's published rates for the billing month, line by line (generation, transmission, system loss, distribution tiers, refunds, subsidies, taxes, universal charges), from kWh or meter readings. Shows the difference in pesos and percent with ordinary reasons, never a verdict. Also: an appliance calculator, a two-bill comparison that splits a change into usage and rate, and a savings simulator priced with the real tariff. Other providers use a typed rate, labelled an estimate. |
-| [**Bahay**](https://jervilangelo.github.io/pinansyalph-v2/magkano-bahay) · *Magkano Bahay Ngayon?* | Official BSP median prices of houses and condominium units by area (Q2 2026), with the number of bank loans behind each figure; a location comparison; BSP price-index trends; “Overpriced ba ’to?”, which compares an asking price with the area median without passing judgment; and “Kaya ko ba?”, a home loan amortization and affordability calculator. Says “Insufficient verified market data” where no official figure exists (city-level, per square meter, lots). |
-| [**Subscriptions**](https://jervilangelo.github.io/pinansyalph-v2/magkano-subscription) · *Magkano ba Subscription Ko? Akala mo maliit lang?* | A subscription tracker with a directory of 42 services and their official Philippine prices. Monthly, quarterly and yearly plans are normalised to a monthly cost, shared plans count only your share, and you can always type what you actually pay. Shows monthly, yearly and weekly totals, a category breakdown, what cancelling would save, a budget and upcoming renewals. Saved only in your browser. |
-| [**Konsumo**](https://jervilangelo.github.io/pinansyalph-v2/magkano-konsumo) · *Magkano Konsumo Ko?* | Appliance electricity costs a day, a month and a year, from typical ratings or an energy label, with indicative Meralco and Visayan Electric residential rates or your own. A household list with the biggest users, and a "what if I use it less" simulator. Saved only in your browser. |
-| [**Internet**](https://jervilangelo.github.io/pinansyalph-v2/sulit-internet) · *Sulit Ba Internet Ko?* | Your internet plan's ₱ per Mbps against verified plans from PLDT Fiber Prepaid, Globe GFiber, Converge, Starlink, Smart and DITO, with first-year and contract costs, installation and promos, side-by-side comparison, custom plans and saved comparisons. |
-| [**Mga Dapat Iwasan**](https://jervilangelo.github.io/pinansyalph-v2/mga-dapat-iwasan) · *Money traps that quietly drain your wallet.* | A short page, linked from the phone menu, the tool dock and the footer: six things to avoid (betting sites, online loan apps, borrowing to pay loans, credit card minimums, stacked installments, impulse buys), each with a worked example and what to do instead, plus simple calculators and where to get help. Rules cited from BSP, NPC and PAGCOR documents. |
-| [**About**](https://jervilangelo.github.io/pinansyalph-v2/about) | Why the project exists, its principles, how to contribute, and the FAQ. |
+| [**Sweldo**](https://pinansyalph.site/sweldo) · *Saan napupunta ang sweldo ko?* | Take-home pay after SSS, PhilHealth, Pag-IBIG and BIR withholding, then your bills, savings and what is left, monthly or per payday. Includes a fuel estimator and charts. Inputs stay in your browser. |
+| [**Underpaid ba ko?**](https://pinansyalph.site/underpaid-ba-ko) · *Alamin kung competitive ang sweldo mo.* | Compares your basic pay and regular allowances with PSA's Occupational Wages Survey for your job, region and industry, in pesos and percent, with the survey period, coverage and definitions shown. Says plainly when PSA has no benchmark for your job. Includes **Sulit ba ang job offer?**, which compares take-home pay and commute costs of your current job and an offer. |
+| [**13th Month Pay**](https://pinansyalph.site/13th-month) · *Magkano Ang 13th Month Pay Mo?* | 13th month pay under PD 851: prorated for midyear hires and resignations, with salary changes, unpaid absences, the maternity salary differential and earlier installments. Separates earned from projected months, checks the ₱90,000 tax exemption, and explains the rules in plain Taglish. |
+| [**MP2**](https://pinansyalph.site/mp2) · *Lumago nga ba talaga?* | Pag-IBIG MP2 projections with the latest declared rate, the five-year average or your own, then what the result is worth in today's pesos. |
+| [**Digital banks**](https://pinansyalph.site/banks) · *Saan mas sulit mag-ipon?* | Digital bank savings with verified base rates, promos with caps and end dates, and the 20% final withholding tax. |
+| [**Compare**](https://pinansyalph.site/compare) | MP2 and bank products side by side on the same plan, in pesos or in today's pesos. Nothing is ranked by headline rate. |
+| [**Inflation**](https://pinansyalph.site/inflation) | Headline, core, food and transport inflation from PSA since 2019, with the BSP target band. |
+| [**Gas**](https://pinansyalph.site/gas) · *Magkano na ang gas?* | Weekly DOE pump price adjustments for gasoline, diesel and kerosene, and the year-to-date net change. |
+| [**Toll**](https://pinansyalph.site/magkano-ang-toll) · *Magkano ang Toll Ko? Alamin ang toll fee bago bumiyahe.* | Toll from any entry plaza to any exit on NLEX–SCTEX, TPLEX, Skyway Stage 3, Skyway–SLEX, STAR, CALAX, CAVITEX and the NLEX Connector, by vehicle class, one way or balikan. Trips across expressways are split per road, the RFID load is shown per account (Easytrip, Autosweep), routes can be saved in your browser, and fuel can be added for a total travel cost. |
+| [**Kuryente**](https://pinansyalph.site/magkano-kuryente) · *Magkano Kuryente Ko? Tama ba ang singil sa bill mo?* | Checks a Meralco residential bill against Meralco's published rates for the billing month, line by line (generation, transmission, system loss, distribution tiers, refunds, subsidies, taxes, universal charges), from kWh or meter readings. Shows the difference in pesos and percent with ordinary reasons, never a verdict. Also: an appliance calculator, a two-bill comparison that splits a change into usage and rate, and a savings simulator priced with the real tariff. Other providers use a typed rate, labelled an estimate. |
+| [**Bahay**](https://pinansyalph.site/magkano-bahay) · *Magkano Bahay Ngayon?* | Official BSP median prices of houses and condominium units by area (Q2 2026), with the number of bank loans behind each figure; a location comparison; BSP price-index trends; “Overpriced ba ’to?”, which compares an asking price with the area median without passing judgment; and “Kaya ko ba?”, a home loan amortization and affordability calculator. Says “Insufficient verified market data” where no official figure exists (city-level, per square meter, lots). |
+| [**Subscriptions**](https://pinansyalph.site/magkano-subscription) · *Magkano ba Subscription Ko? Akala mo maliit lang?* | A subscription tracker with a directory of 42 services and their official Philippine prices. Monthly, quarterly and yearly plans are normalised to a monthly cost, shared plans count only your share, and you can always type what you actually pay. Shows monthly, yearly and weekly totals, a category breakdown, what cancelling would save, a budget and upcoming renewals. Saved only in your browser. |
+| [**Konsumo**](https://pinansyalph.site/magkano-konsumo) · *Magkano Konsumo Ko?* | Appliance electricity costs a day, a month and a year, from typical ratings or an energy label, with indicative Meralco and Visayan Electric residential rates or your own. A household list with the biggest users, and a "what if I use it less" simulator. Saved only in your browser. |
+| [**Internet**](https://pinansyalph.site/sulit-internet) · *Sulit Ba Internet Ko?* | Your internet plan's ₱ per Mbps against verified plans from PLDT Fiber Prepaid, Globe GFiber, Converge, Starlink, Smart and DITO, with first-year and contract costs, installation and promos, side-by-side comparison, custom plans and saved comparisons. |
+| [**Mga Dapat Iwasan**](https://pinansyalph.site/mga-dapat-iwasan) · *Money traps that quietly drain your wallet.* | A short page, linked from the phone menu, the tool dock and the footer: six things to avoid (betting sites, online loan apps, borrowing to pay loans, credit card minimums, stacked installments, impulse buys), each with a worked example and what to do instead, plus simple calculators and where to get help. Rules cited from BSP, NPC and PAGCOR documents. |
+| [**About**](https://pinansyalph.site/about) | Why the project exists, its principles, how to contribute, and the FAQ. |
 
 Amounts you enter in MP2 carry over to Digital banks and Compare, so every comparison uses the same inputs. Every
 figure shows its source, reference period and retrieval date; nothing is labelled "live".
@@ -188,7 +188,7 @@ npm run lint
 | Money | decimal.js |
 | Data contracts | zod schemas shared by the site and the data scripts |
 | Data ingestion | Node scripts run by GitHub Actions; pdf.js for DOE PDFs |
-| Tests | Vitest (280 unit tests), Playwright (180 browser tests) |
+| Tests | Vitest (296 unit tests), Playwright (209 browser tests) |
 | Hosting | GitHub Pages via GitHub Actions |
 
 Architecture and the reasons for it: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
@@ -196,8 +196,11 @@ Architecture and the reasons for it: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md
 ## Deploy
 
 Pushing to `main` runs [`deploy.yml`](.github/workflows/deploy.yml): data validation, lint, unit tests, browser tests,
-build, then deployment to GitHub Pages. The build writes a copy of the page for every route, so links like
-`/pinansyalph-v2/mp2` open directly.
+build, then deployment to GitHub Pages at [pinansyalph.site](https://pinansyalph.site/). The build writes a static HTML
+file for every route with its own title, description and canonical URL, so clean links like `/mp2` open directly
+(no `.html`, no trailing slash). It also writes `sitemap.xml`, `robots.txt` and a `404.html` fallback; `public/CNAME`
+holds the custom domain. Old `jervilangelo.github.io/pinansyalph-v2/...` links are redirected by GitHub to the same
+path on the new domain.
 
 One-time setup for a fork or a new copy:
 
@@ -205,7 +208,9 @@ One-time setup for a fork or a new copy:
 2. **Settings → Actions → General → Workflow permissions**: choose **Read and write permissions**, so the daily data
    job can commit updates.
 
-The base path comes from GitHub Pages, so the site works under any repository name and at `/` with a custom domain.
+The site builds for the root of its custom domain. The production origin is `SITE_ORIGIN` in
+[`src/routes.ts`](src/routes.ts); a fork on its own domain changes it there and in `public/CNAME`. A fork without a custom
+domain builds with `BASE_PATH=/<repo>/`.
 
 ## Limitations
 

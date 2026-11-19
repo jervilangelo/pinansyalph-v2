@@ -1,19 +1,31 @@
 import { ArrowRight, ChevronRight } from 'lucide-react'
 import { useEffect, type ReactNode } from 'react'
-import { GROUPS, Link, TOOLS, pageInfo, useScrollOnEnter, type Route } from '../../router'
+import { GROUPS, Link, TOOLS, canonicalUrl, pageInfo, useScrollOnEnter, type Route } from '../../router'
 import { SITE_NAME } from '../../site'
 import { markAppReady } from '../../splash'
 import { Reveal, motion, useEnter } from '../ui/motion'
 
 const DEFAULT_DESCRIPTION = 'Free Philippine money calculators: sweldo and take-home pay, 13th month pay, Pag-IBIG MP2, digital bank savings and official PSA inflation.'
 
+const setHead = (selector: string, attr: string, value: string) => document.head.querySelector(selector)?.setAttribute(attr, value)
+
 /** Sets the document title and description, scrolls to the hash, signals the splash, and suggests the next tool. */
 export function Page({ path, title, description, children, next = true }: { path: Route; title?: string; description?: string; children: ReactNode; next?: boolean }) {
   useScrollOnEnter()
   useEffect(() => {
-    document.title = title ? `${title} · ${SITE_NAME}` : `${SITE_NAME}: Mas malinaw ang pera mo`
-    document.querySelector('meta[name="description"]')?.setAttribute('content', description ?? DEFAULT_DESCRIPTION)
-  }, [title, description])
+    const fullTitle = title ? `${title} · ${SITE_NAME}` : `${SITE_NAME}: Mas malinaw ang pera mo`
+    const desc = description ?? pageInfo(path)?.blurb ?? DEFAULT_DESCRIPTION
+    const url = canonicalUrl(path)
+    document.title = fullTitle
+    // Keep the head that the build prerendered for this route in step with in-app navigation.
+    setHead('meta[name="description"]', 'content', desc)
+    setHead('link[rel="canonical"]', 'href', url)
+    setHead('meta[property="og:url"]', 'content', url)
+    setHead('meta[property="og:title"]', 'content', fullTitle)
+    setHead('meta[property="og:description"]', 'content', desc)
+    setHead('meta[name="twitter:title"]', 'content', fullTitle)
+    setHead('meta[name="twitter:description"]', 'content', desc)
+  }, [path, title, description])
   // The real page is on screen: the splash can go.
   useEffect(() => markAppReady(), [])
 

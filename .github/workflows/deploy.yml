@@ -66,14 +66,20 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - id: pages
-        uses: actions/configure-pages@v5
-      - name: Build for GitHub Pages
+      - uses: actions/configure-pages@v5
+      - name: Build for https://pinansyalph.site
         env:
-          # Project pages live under /<repo>/; a custom domain would serve from /.
-          BASE_PATH: ${{ steps.pages.outputs.base_path }}/
-          VITE_SITE_URL: ${{ steps.pages.outputs.base_url }}/
+          # The custom domain serves the site from the root. Set explicitly so a
+          # build never picks up the old /pinansyalph-v2/ project-page path.
+          BASE_PATH: /
         run: npm run build
+      - name: Check the build targets the custom domain
+        run: |
+          test "$(cat dist/CNAME)" = "pinansyalph.site"
+          test -f dist/mp2.html && test -f dist/sitemap.xml && test -f dist/robots.txt && test -f dist/404.html
+          if grep -rl 'pinansyalph-v2/assets\|jervilangelo.github.io/pinansyalph-v2' dist --include='*.html'; then
+            echo "::error::The build still references the old GitHub Pages path"; exit 1
+          fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

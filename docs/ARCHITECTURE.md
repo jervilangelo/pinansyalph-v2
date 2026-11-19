@@ -48,8 +48,10 @@ A static site with versioned data. No server, no database, no accounts.
 
 - React 19 + TypeScript, Vite, Tailwind CSS v4, Motion, Recharts (lazy-loaded), Lucide icons.
 - One page per tool (`/sweldo`, `/13th-month`, `/mp2`, `/banks`, `/compare`, `/inflation`, `/gas`, `/about`) with a small
-  History-API router in `src/router.tsx` (no dependency). The build copies `index.html` into a folder per route so
-  GitHub Pages serves deep links with a 200, plus a `404.html` fallback.
+  History-API router in `src/router.tsx` (no dependency); routes and page metadata live in `src/routes.ts`. The build
+  writes `<route>.html` (GitHub Pages serves it at the clean URL `/<route>` with a 200), a `<route>/index.html` copy for old
+  trailing-slash links, a noindex `404.html` fallback, `sitemap.xml` and `robots.txt`, each page with its own canonical
+  URL on https://pinansyalph.site. The router rewrites `/mp2/`, `/mp2.html` and `/pinansyalph-v2/mp2` to `/mp2`.
 - One shared scenario (amounts, duration, inflation assumption) lives above the router and drives the MP2, bank and
   comparison pages, so they are always compared on the same inputs as you move between them.
 - Charts load after first paint; reduced-motion preferences remove all travel and count-ups.
