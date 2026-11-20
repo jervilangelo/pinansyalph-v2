@@ -247,9 +247,14 @@ test.describe('privacy, about and branding', () => {
     await page.keyboard.press('Enter')
     const dialog = page.getByRole('dialog')
     await expect(dialog.getByTestId('settings')).toBeVisible()
+    // The dialog moves focus to its first control once it has mounted; wait for that before moving focus.
+    await expect(dialog.getByRole('button', { name: 'Close' })).toBeFocused()
     await page.getByTestId('language-en').focus()
+    await expect(page.getByTestId('language-en')).toBeFocused()
     await page.keyboard.press('ArrowRight')
-    await expect(page.locator('html')).toHaveAttribute('lang', 'fil')
+    // Filipino is downloaded on demand, which can be slow while other tests run in parallel.
+    await expect(page.locator('html')).toHaveAttribute('lang', 'fil', { timeout: 15_000 })
+    await expect(dialog.getByRole('heading', { name: 'Mga Setting' })).toBeVisible()
     await page.keyboard.press('Escape')
     await expect(dialog).toHaveCount(0)
     await expect(page.getByTestId('settings-button')).toBeFocused()
