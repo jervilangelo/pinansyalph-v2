@@ -266,3 +266,35 @@ test.describe('privacy, about and branding', () => {
     await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
   })
 })
+
+test.describe('footer verses', () => {
+  test('one verse shows at a time, rotates with a fade, and can be paused', async ({ page }) => {
+    await page.clock.install()
+    await page.goto('/about')
+    await ready(page)
+    const verse = page.getByTestId('footer-verse')
+    await verse.scrollIntoViewIfNeeded()
+    const active = verse.locator('[data-active]')
+    await expect(active).toHaveCount(1)
+    await expect(active).toContainText('Proverbs 21:5')
+    await expect(active).toContainText('The plans of the diligent lead surely to abundance')
+    const height = (await verse.boundingBox())!.height
+
+    await page.mouse.move(0, 0) // pointer off the verse, so it is not held
+    await page.clock.runFor(9_500)
+    await expect(active).toContainText('Colossians 3:23')
+    await page.clock.runFor(9_500)
+    await expect(active).toContainText('Hebrews 13:5')
+    expect((await verse.boundingBox())!.height).toBe(height) // no layout jump between verses
+
+    await page.getByTestId('verse-toggle').click()
+    await expect(page.getByTestId('verse-toggle')).toHaveAttribute('aria-pressed', 'true')
+    await page.mouse.move(0, 0)
+    await page.getByTestId('verse-toggle').blur()
+    await page.clock.runFor(30_000)
+    await expect(active).toContainText('Hebrews 13:5')
+
+    await verse.getByRole('button', { name: 'Proverbs 21:5' }).click()
+    await expect(active).toContainText('Proverbs 21:5')
+  })
+})

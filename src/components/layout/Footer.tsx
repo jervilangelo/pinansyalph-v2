@@ -14,6 +14,7 @@ import { GROUPS, Link, TOOLS } from '../../router'
 import { AUTHOR, COPYRIGHT, EMAIL, PORTFOLIO, REPO, TAGLINE, VERSION } from '../../site'
 import { Wordmark } from '../brand/Logo'
 import { SunMark } from '../ui/Result'
+import { FooterVerse } from './FooterVerse'
 import { useSettings } from '../settings/Settings'
 import { useSupport } from '../support/Support'
 import { tx } from '../../i18n/react'
@@ -111,7 +112,9 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="ui mt-16 grid gap-6 rounded-[22px] bg-ground p-5 text-[0.875rem] leading-relaxed text-ink-2 sm:p-6 lg:grid-cols-[1fr_auto] lg:items-center">
+        <FooterVerse />
+
+        <div className="ui mt-10 grid gap-6 rounded-[22px] bg-ground p-5 text-[0.875rem] leading-relaxed text-ink-2 sm:p-6 lg:grid-cols-[1fr_auto] lg:items-center">
           <p className="max-w-[78ch]">{t("Educational tool, not financial advice. Projections use published data and your assumptions, and are not actual earnings. Not affiliated with PSA, DOE, BIR, SSS, PhilHealth, Pag-IBIG Fund or any bank. No sign-up, no ads, no tracking.")}</p>
           <button type="button" className="btn btn-paper btn-sm justify-self-start" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <ArrowUp aria-hidden="true" size={16} />{' '}{t("Back to top")}</button>
