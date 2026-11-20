@@ -218,6 +218,7 @@ test.describe('privacy, about and branding', () => {
     await expect(dialog.getByRole('link', { name: /jervilangelo\.online/ })).toHaveAttribute('href', 'https://jervilangelo.online/')
     await expect(dialog.getByRole('link', { name: /deleonangelojervil@gmail\.com/ })).toHaveAttribute('href', 'mailto:deleonangelojervil@gmail.com')
     await expect(dialog.getByRole('link', { name: /pinansyalph\.site/ })).toHaveAttribute('href', 'https://pinansyalph.site/')
+    await expect(dialog.getByTestId('settings-github')).toHaveAttribute('href', 'https://github.com/jervilangelo/pinansyalph-v2')
 
     await dialog.getByText('English', { exact: true }).click()
     await expect(dialog.getByTestId('privacy-text')).toHaveText(

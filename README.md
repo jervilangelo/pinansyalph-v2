@@ -9,10 +9,11 @@
 Free tools to explore your salary, 13th month pay, savings, everyday prices and the impact of inflation, made for
 everyday financial decisions in the Philippines.
 
-**[Open PinansyalPH →](https://pinansyalph.site/)**
+**[Open PinansyalPH →](https://pinansyalph.site/)** · **[⭐ Star on GitHub](https://github.com/jervilangelo/pinansyalph-v2)**
 
 <br />
 
+[![GitHub stars](https://img.shields.io/github/stars/jervilangelo/pinansyalph-v2?style=flat-square&logo=github&label=Stars&color=1D4E89)](https://github.com/jervilangelo/pinansyalph-v2/stargazers)
 ![Free](https://img.shields.io/badge/Free-no%20sign--up-151514?style=flat-square)
 ![Languages](https://img.shields.io/badge/English%20·%20Filipino%20·%20Bisaya-1D4E89?style=flat-square)
 ![Dark mode](https://img.shields.io/badge/Light%20%26%20dark-mode-3B3A36?style=flat-square)
@@ -219,6 +220,13 @@ toll routes or a subscription list), in your browser's local storage.
 
 Architecture notes: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
+## Support the project
+
+If PinansyalPH helped you, the simplest ways to support it:
+
+- ⭐ **[Star this repository on GitHub](https://github.com/jervilangelo/pinansyalph-v2)** so more people can find it.
+- 🔗 **Share [pinansyalph.site](https://pinansyalph.site/)** with family and friends.
+
 ## Feedback
 
 Corrections and ideas are welcome, especially:
@@ -234,7 +242,8 @@ Send them to [deleonangelojervil@gmail.com](mailto:deleonangelojervil@gmail.com)
 ## Credits
 
 Built by **[Jervil Angelo De Leon](https://github.com/jervilangelo)** to make financial literacy easier to explore,
-verify and understand in the Philippines. More of my work: [jervilangelo.online](https://jervilangelo.online/).
+verify and understand in the Philippines. More of my work: [jervilangelo.online](https://jervilangelo.online/) ·
+GitHub: [@jervilangelo](https://github.com/jervilangelo).
 
 Salary statistics: Philippine Statistics Authority, Occupational Wages Survey, via PSA OpenSTAT. Photographs from
 Wikimedia Commons, credited on the site and listed in [docs/image-credits.json](docs/image-credits.json).

@@ -315,7 +315,8 @@ test.describe('v3 brand and support', () => {
     const copy = dialog.getByRole('button', { name: /Copy the link to PinansyalPH/ })
     await expect(copy).toBeFocused()
     await expect(dialog.getByRole('link', { name: /Send feedback/ })).toHaveAttribute('href', 'mailto:deleonangelojervil@gmail.com')
-    await expect(dialog).not.toContainText(/open[- ]?source|GitHub/i)
+    await expect(dialog).not.toContainText(/open[- ]?source/i)
+    await expect(dialog.getByRole('link', { name: /Star PinansyalPH on GitHub/ })).toHaveAttribute('href', 'https://github.com/jervilangelo/pinansyalph-v2')
     await expect(dialog.getByRole('link', { name: /View Developer Portfolio/ })).toHaveAttribute('href', 'https://jervilangelo.online/')
     // Focus stays inside the dialog.
     for (let i = 0; i < 6; i++) await page.keyboard.press('Tab')

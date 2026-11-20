@@ -8,11 +8,11 @@
  * See the LICENSE file at the root of this repository.
  */
 
-import { ArrowUpRight, Check, Link2, Mail } from 'lucide-react'
+import { ArrowUpRight, Check, Link2, Mail, Star } from 'lucide-react'
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react'
 import { t } from '../../i18n'
 import { tx } from '../../i18n/react'
-import { AUTHOR, EMAIL, PORTFOLIO, SITE_URL } from '../../site'
+import { AUTHOR, EMAIL, PORTFOLIO, REPO, SITE_URL } from '../../site'
 import { Modal } from '../ui/Modal'
 
 type Ctx = { openSupport: () => void }
@@ -65,6 +65,11 @@ export function SupportProvider({ children }: { children: ReactNode }) {
           <a href={`mailto:${EMAIL}`} className="btn btn-soft w-full">
             <Mail aria-hidden="true" size={18} />
             {t('Send feedback')}
+          </a>
+          <a href={REPO} target="_blank" rel="noopener noreferrer" className="btn btn-soft w-full" data-testid="support-github">
+            <Star aria-hidden="true" size={18} />
+            {t('Star PinansyalPH on GitHub')}
+            <span className="sr-only">{t('(opens in a new tab)')}</span>
           </a>
           <a href={PORTFOLIO} target="_blank" rel="noopener noreferrer" className="btn btn-soft group w-full">
             {t('View Developer Portfolio')}

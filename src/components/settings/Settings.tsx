@@ -8,11 +8,11 @@
  * See the LICENSE file at the root of this repository.
  */
 
-import { ArrowUpRight, Check, Globe, Info, Languages, Mail, Moon, ShieldCheck, Sun, type LucideIcon } from 'lucide-react'
+import { ArrowUpRight, Check, Globe, Info, Languages, Mail, Moon, ShieldCheck, Star, Sun, type LucideIcon } from 'lucide-react'
 import { createContext, useCallback, useContext, useId, useMemo, useState, type ReactNode } from 'react'
 import { LANGS, type Lang } from '../../i18n'
 import { useT } from '../../i18n/react'
-import { AUTHOR, EMAIL, PORTFOLIO, SITE_URL, TAGLINE } from '../../site'
+import { AUTHOR, EMAIL, PORTFOLIO, REPO, SITE_URL, TAGLINE } from '../../site'
 import { useTheme, type Theme } from '../../theme'
 import { Modal } from '../ui/Modal'
 
@@ -147,6 +147,16 @@ function SettingsDialog({ open, onClose }: { open: boolean; onClose: () => void 
                   <span className="min-w-0">
                     <span className="block text-[0.8125rem] text-muted">{t('Developer portfolio')}</span>
                     jervilangelo.online
+                  </span>
+                  <span className="sr-only">{t('(opens in a new tab)')}</span>
+                </a>
+              </li>
+              <li>
+                <a className="flex min-h-11 items-center gap-2.5 rounded-[12px] px-2 font-medium text-ink-2 transition-colors hover:bg-surface hover:text-ink" href={REPO} target="_blank" rel="noopener noreferrer" data-testid="settings-github">
+                  <Star aria-hidden="true" size={17} className="shrink-0 text-muted" />
+                  <span className="min-w-0">
+                    <span className="block text-[0.8125rem] text-muted">{t('Star on GitHub')}</span>
+                    <span className="break-all">github.com/jervilangelo/pinansyalph-v2</span>
                   </span>
                   <span className="sr-only">{t('(opens in a new tab)')}</span>
                 </a>
